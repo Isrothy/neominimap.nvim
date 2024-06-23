@@ -1,6 +1,8 @@
 local M = {}
 
 local api = vim.api
+local config = require("neominimap.config").get()
+local log = require("neominimap.log")
 
 ---@type table<integer, integer>
 local winid_to_mwinid = {}
@@ -19,10 +21,10 @@ M.set_minimap_winid = function(winid, mwinid)
     winid_to_mwinid[winid] = mwinid
 end
 
---- Return the list of minimap windows
+--- Return the list of windows that one minimap attached to
 --- @return integer[]
-M.list_minimap_windows = function()
-    return vim.tbl_values(winid_to_mwinid)
+M.list_windows = function()
+    return vim.tbl_keys(winid_to_mwinid)
 end
 
 ---@param winid integer
@@ -35,7 +37,7 @@ local function should_show_minimap(winid)
         return false
     end
 
-    if util.get_winheight(winid) == 0 or api.nvim_win_get_width(winid) == 0 then
+    if util.win_get_height(winid) == 0 or api.nvim_win_get_width(winid) == 0 then
         return false
     end
 
@@ -45,7 +47,6 @@ end
 ---@param winid integer
 local function get_window_config(winid)
     local minimap_height = vim.fn.winheight(winid)
-    local config = require("neominimap.config").get()
     if config.max_minimap_height then
         minimap_height = math.min(minimap_height, config.max_minimap_height)
     end
@@ -98,15 +99,18 @@ M.create_minimap_window = function(winid)
     local bufnr = api.nvim_win_get_buf(winid)
     local mbufnr = buffer.get_minimap_bufnr(bufnr)
 
+    log.notify("Showing minimap for window " .. tostring(winid), vim.log.levels.INFO)
     if not mbufnr then
+        log.notify("Minimap buffer not available for window " .. tostring(winid), vim.log.levels.INFO)
         return nil
     end
     local util = require("neominimap.util")
     local ret = util.noautocmd(function()
-        local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
         if M.get_minimap_winid(winid) then
+            log.notify("A minimap window is already displayed for window " .. tostring(winid), vim.log.levels.INFO)
             M.close_minimap_window(winid)
         end
+        local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
         M.set_minimap_winid(winid, mwinid)
 
         vim.wo[mwinid].winhl = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder"
@@ -125,7 +129,7 @@ end
 --- and scroll the window to right position
 ---@param winid integer
 ---@return boolean
-M.refresh_code_minimap = function(winid)
+M.refresh_minimap_window = function(winid)
     if not api.nvim_win_is_valid(winid) then
         return false
     end
@@ -143,6 +147,7 @@ M.refresh_code_minimap = function(winid)
 
     local util = require("neominimap.util")
 
+    log.notify("Refresing minimap for window " .. tostring(winid), vim.log.levels.INFO)
     if api.nvim_win_get_buf(mwinid) ~= mbufnr then
         util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
     end
@@ -180,7 +185,7 @@ end
 M.refresh_minimaps_in_tab = function(tabid)
     local win_list = api.nvim_tabpage_list_wins(tabid)
     for _, winid in ipairs(win_list) do
-        M.refresh_code_minimap(winid)
+        M.refresh_minimap_window(winid)
     end
 end
 
@@ -203,14 +208,14 @@ end
 
 --- Refresh all minimaps across tabs
 M.refresh_all_minimaps = function()
-    for _, winid in ipairs(M.list_minimap_windows()) do
-        M.refresh_code_minimap(winid)
+    for _, winid in ipairs(M.list_windows()) do
+        M.refresh_minimap_window(winid)
     end
 end
 
 --- Create all minimaps across tabs
 M.close_all_minimaps = function()
-    for _, winid in ipairs(M.list_minimap_windows()) do
+    for _, winid in ipairs(M.list_windows()) do
         M.close_minimap_window(winid)
     end
 end

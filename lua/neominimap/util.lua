@@ -9,6 +9,19 @@ function M.is_terminal(winid)
     return fn.getwininfo(winid)[1].terminal ~= 0
 end
 
+--- Returns the height of a window excluding the winbar
+--- @param winid integer
+--- @return integer
+function M.win_get_height(winid)
+    local winheight = api.nvim_win_get_height(winid)
+
+    if vim.wo[winid].winbar ~= "" then
+        winheight = winheight - 1
+    end
+
+    return winheight
+end
+
 --- @param winid integer?
 --- @return boolean
 function M.is_cmdline(winid)
