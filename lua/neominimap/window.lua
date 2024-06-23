@@ -3,26 +3,26 @@ local M = {}
 local api = vim.api
 
 ---@type table<integer, integer>
-local minimaps = {}
+local winid_to_mwinid = {}
 
 --- The winid of the minimap attached to the given window
 ---@param winid integer
 ---@return integer?
 M.get_minimap_winid = function(winid)
-	return minimaps[winid]
+	return winid_to_mwinid[winid]
 end
 
 --- Set the winid of the minimap attached to the given window
 ---@param winid integer
 ---@param mwinid integer?
 M.set_minimap_winid = function(winid, mwinid)
-	minimaps[winid] = mwinid
+	winid_to_mwinid[winid] = mwinid
 end
 
 --- Return the list of minimap windows
 --- @return integer[]
 M.list_minimap_windows = function()
-	return vim.tbl_values(minimaps)
+	return vim.tbl_values(winid_to_mwinid)
 end
 
 ---@param winid integer
@@ -86,7 +86,7 @@ end
 
 --- Create the minimap attached to the given window
 ---@param winid integer
----@return integer?
+---@return integer? mwinid winid of the minimap window if created, nil otherwise
 M.create_minimap_window = function(winid)
 	if not api.nvim_win_is_valid(winid) or not should_show_minimap(winid) then
 		return nil
@@ -147,15 +147,15 @@ end
 
 --- Close the minimap attached to the given window
 ---@param winid integer
----@return boolean
+---@return integer? mwinid winid of the minimap window if successfully removed, nil otherwise
 M.close_minimap_window = function(winid)
 	local mwinid = M.get_minimap_winid(winid)
 	M.set_minimap_winid(winid, nil)
 	if mwinid and api.nvim_win_is_valid(mwinid) then
 		api.nvim_win_close(mwinid, true)
-		return true
+		return mwinid
 	end
-	return false
+	return nil
 end
 
 --- Create all minimaps in the given tab if they should be shown

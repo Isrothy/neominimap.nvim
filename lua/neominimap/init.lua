@@ -47,9 +47,7 @@ M.setup = function()
 			if M.enabled then
 				local buffer = require("neominimap.buffer")
 				local bufnr = api.nvim_get_current_buf()
-				if buffer.should_generate_minimap(bufnr) then
-					buffer.create_minimap_buffer(bufnr)
-				end
+				buffer.create_minimap_buffer(bufnr)
 			end
 		end),
 	})
@@ -67,10 +65,8 @@ M.setup = function()
 			if M.enabled then
 				local window = require("neominimap.window")
 				local winid = api.nvim_get_current_win()
-				if window.should_show_minimap(winid) then
-					window.create_minimap_window(winid)
-					window.refresh_code_minimap(winid)
-				end
+				window.create_minimap_window(winid)
+				window.refresh_code_minimap(winid)
 			end
 		end),
 	})
