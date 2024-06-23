@@ -120,6 +120,7 @@ M.create_minimap_window = function(winid)
         vim.wo[mwinid].scrolloff = 0
         vim.wo[mwinid].sidescrolloff = 0
         vim.wo[mwinid].winblend = 0
+        log.notify("Window " .. tostring(mwinid) .. "is created for window " .. tostring(winid), vim.log.levels.INFO)
         return mwinid
     end)()
     return ret
@@ -163,10 +164,12 @@ end
 ---@return integer? mwinid winid of the minimap window if successfully removed, nil otherwise
 M.close_minimap_window = function(winid)
     local mwinid = M.get_minimap_winid(winid)
+    -- local mwinid = winid_to_mwinid[winid]
     M.set_minimap_winid(winid, nil)
+    log.notify("Closing minimap for window " .. tostring(winid), vim.log.levels.INFO)
     if mwinid and api.nvim_win_is_valid(mwinid) then
-        log.notify("Closing minimap for window " .. tostring(winid), vim.log.levels.INFO)
         local util = require("neominimap.util")
+        log.notify("Window " .. tostring(mwinid) .. " is to be deleted", vim.log.levels.INFO)
         util.noautocmd(api.nvim_win_close)(mwinid, true)
         return mwinid
     end

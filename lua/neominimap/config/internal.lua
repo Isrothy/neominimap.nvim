@@ -3,6 +3,7 @@ local M = {}
 ---@class Neominimap.InternalConfig
 ---@field auto_enable boolean
 ---@field debug boolean
+---@field log_path string?
 ---@field exclude_filetypes (string[])
 ---@field exclude_buftypes (string[])
 ---@field max_lines number?

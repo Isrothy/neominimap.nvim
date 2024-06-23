@@ -84,16 +84,18 @@ M.setup = function()
     --         end)
     --     end,
     -- })
-    -- api.nvim_create_autocmd("WinClosed", {
-    --     group = gid,
-    --     callback = function(args)
-    --         local winid = args.match
-    --         vim.schedule_wrap(function()
-    --             local window = require("neominimap.window")
-    --             window.close_minimap_window(winid)
-    --         end)()
-    --     end,
-    -- })
+    api.nvim_create_autocmd("WinClosed", {
+        group = gid,
+        callback = function(args)
+            local winid = tonumber(args.match) -- FUCK LUA API
+            vim.schedule(function()
+                log.notify(tostring(winid) .. " is to be removed", vim.log.levels.INFO)
+                local window = require("neominimap.window")
+                ---@cast winid integer
+                window.close_minimap_window(winid)
+            end)
+        end,
+    })
     -- api.nvim_create_autocmd("TabEnter", {
     --     group = gid,
     --     callback = vim.schedule_wrap(function()
@@ -105,31 +107,38 @@ M.setup = function()
     -- })
     api.nvim_create_autocmd("WinResized", {
         group = gid,
-        callback = vim.schedule_wrap(function()
-            if M.enabled then
-                local window = require("neominimap.window")
-                window.create_all_minimap_windows()
-                window.refresh_all_minimap_windows()
-            end
-        end),
+        callback = function()
+            log.notify("WinResized is triggered", vim.log.levels.INFO)
+            local win_list = vim.deepcopy(vim.v.event.windows)
+            vim.schedule(function()
+                if M.enabled then
+                    local window = require("neominimap.window")
+                    for _, winid in ipairs(win_list) do
+                        window.create_minimap_window(winid)
+                        window.refresh_minimap_window(winid)
+                    end
+                end
+            end)
+        end,
     })
     api.nvim_create_autocmd("WinScrolled", {
         group = gid,
         callback = function()
+            log.notify("WinScrolled is triggered", vim.log.levels.INFO)
             local win_list = {}
             for winid, _ in pairs(vim.v.event) do
                 if winid ~= "all" then
                     win_list[#win_list + 1] = tonumber(winid)
                 end
             end
-            vim.schedule_wrap(function()
+            vim.schedule(function()
                 if M.enabled then
                     local window = require("neominimap.window")
                     for _, winid in ipairs(win_list) do
                         window.refresh_minimap_window(winid)
                     end
                 end
-            end)()
+            end)
         end,
     })
 end
