@@ -34,4 +34,17 @@ function M.is_ordinary_window(winid)
 	return not_external and not_floating
 end
 
+--- @generic F: function
+--- @param f F
+--- @return F
+function M.noautocmd(f)
+	return function(...)
+		local eventignore = vim.o.eventignore
+		vim.o.eventignore = "all"
+		local r = { f(...) }
+		vim.o.eventignore = eventignore
+		return unpack(r)
+	end
+end
+
 return M

@@ -81,6 +81,7 @@ local function get_window_config(winid)
 		zindex = config.z_index,
 		style = "minimal",
 		border = config.window_border,
+		noautocmd = true,
 	}
 end
 
@@ -100,19 +101,23 @@ M.create_minimap_window = function(winid)
 	if not mbufnr then
 		return nil
 	end
-	local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
-	if M.get_minimap_winid(winid) then
-		M.close_minimap_window(winid)
-	end
-	M.set_minimap_winid(winid, mwinid)
+	local util = require("neominimap.util")
+	local ret = util.noautocmd(function()
+		local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
+		if M.get_minimap_winid(winid) then
+			M.close_minimap_window(winid)
+		end
+		M.set_minimap_winid(winid, mwinid)
 
-	vim.wo[mwinid].winhl = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder"
-	vim.wo[mwinid].wrap = false
-	vim.wo[mwinid].foldcolumn = "0"
-	vim.wo[mwinid].scrolloff = 0
-	vim.wo[mwinid].sidescrolloff = 0
-	vim.wo[mwinid].winblend = 0
-	return mwinid
+		vim.wo[mwinid].winhl = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder"
+		vim.wo[mwinid].wrap = false
+		vim.wo[mwinid].foldcolumn = "0"
+		vim.wo[mwinid].scrolloff = 0
+		vim.wo[mwinid].sidescrolloff = 0
+		vim.wo[mwinid].winblend = 0
+		return mwinid
+	end)()
+	return ret
 end
 
 --- Refresh the minimap attached to the given window
@@ -136,8 +141,10 @@ M.refresh_code_minimap = function(winid)
 		return false
 	end
 
+	local util = require("neominimap.util")
+
 	if api.nvim_win_get_buf(mwinid) ~= mbufnr then
-		api.nvim_win_set_buf(mwinid, mbufnr)
+		util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
 	end
 
 	-- TODO: Scroll the window
@@ -152,7 +159,8 @@ M.close_minimap_window = function(winid)
 	local mwinid = M.get_minimap_winid(winid)
 	M.set_minimap_winid(winid, nil)
 	if mwinid and api.nvim_win_is_valid(mwinid) then
-		api.nvim_win_close(mwinid, true)
+		local util = require("neominimap.util")
+		util.noautocmd(api.nvim_win_close)(mwinid, true)
 		return mwinid
 	end
 	return nil
