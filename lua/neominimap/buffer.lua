@@ -70,7 +70,7 @@ M.create_minimap_buffer = function(bufnr)
 
         vim.bo[mbufnr].buftype = "nofile"
         vim.bo[mbufnr].swapfile = false
-        vim.bo[mbufnr].bufhidden = "wipe"
+        vim.bo[mbufnr].bufhidden = "hide"
 
         vim.bo[mbufnr].modifiable = true
         local text = api.nvim_buf_get_lines(bufnr, 0, -1, true)

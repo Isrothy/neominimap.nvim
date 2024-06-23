@@ -46,13 +46,14 @@ end
 
 ---@param winid integer
 local function get_window_config(winid)
-    local minimap_height = vim.fn.winheight(winid)
+    local util = require("neominimap.util")
+    local minimap_height = util.win_get_height(winid)
     if config.max_minimap_height then
         minimap_height = math.min(minimap_height, config.max_minimap_height)
     end
 
     local col = api.nvim_win_get_width(winid)
-    local row = vim.o.showtabline > 0 and 1 or 0
+    local row = 0
 
     local height = (function()
         local border = config.window_border
@@ -164,6 +165,7 @@ M.close_minimap_window = function(winid)
     local mwinid = M.get_minimap_winid(winid)
     M.set_minimap_winid(winid, nil)
     if mwinid and api.nvim_win_is_valid(mwinid) then
+        log.notify("Closing minimap for window " .. tostring(winid), vim.log.levels.INFO)
         local util = require("neominimap.util")
         util.noautocmd(api.nvim_win_close)(mwinid, true)
         return mwinid
@@ -199,7 +201,7 @@ M.close_minimap_in_tab = function(tabid)
 end
 
 --- Create all minimaps across tabs
-M.create_all_minimaps = function()
+M.create_all_minimap_windows = function()
     local windows = api.nvim_list_wins()
     for _, winid in ipairs(windows) do
         M.create_minimap_window(winid)
@@ -207,14 +209,14 @@ M.create_all_minimaps = function()
 end
 
 --- Refresh all minimaps across tabs
-M.refresh_all_minimaps = function()
+M.refresh_all_minimap_windows = function()
     for _, winid in ipairs(M.list_windows()) do
         M.refresh_minimap_window(winid)
     end
 end
 
 --- Create all minimaps across tabs
-M.close_all_minimaps = function()
+M.close_all_minimap_windows = function()
     for _, winid in ipairs(M.list_windows()) do
         M.close_minimap_window(winid)
     end

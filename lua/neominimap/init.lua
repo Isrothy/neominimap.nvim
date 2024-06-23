@@ -2,6 +2,7 @@ local M = {}
 
 local api = vim.api
 local log = require("neominimap.log")
+local config = require("neominimap.config").get()
 
 M.enabled = false
 
@@ -14,8 +15,8 @@ function M.open_minimap()
     local buffer = require("neominimap.buffer")
     log.notify("opening minimap", vim.log.levels.INFO)
     buffer.create_all_minimap_buffers()
-    window.create_all_minimaps()
-    window.refresh_all_minimaps()
+    window.create_all_minimap_windows()
+    window.refresh_all_minimap_windows()
     log.notify("opened minimap", vim.log.levels.INFO)
 end
 
@@ -27,7 +28,7 @@ function M.close_minimap()
     local window = require("neominimap.window")
     local buffer = require("neominimap.buffer")
     log.notify("closing minimap", vim.log.levels.INFO)
-    window.close_all_minimaps()
+    window.close_all_minimap_windows()
     buffer.remove_all_minimap_buffers()
     log.notify("closed minimap", vim.log.levels.INFO)
 end
@@ -46,6 +47,9 @@ M.setup = function()
     api.nvim_set_hl(ns, "NeominimapBorder", { link = "FloatBorder", default = true })
 
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
+    -- if config.auto_enable then
+    --     M.open_minimap()
+    -- end
     -- api.nvim_create_autocmd({ "BufRead", "BufNew" }, {
     --     group = gid,
     --     callback = vim.schedule_wrap(function()
@@ -68,24 +72,27 @@ M.setup = function()
     -- })
     -- api.nvim_create_autocmd("WinNew", {
     --     group = gid,
-    --     callback = vim.schedule_wrap(function()
-    --         -- log.notify("WinNew triggered", vim.log.levels.INFO)
-    --         if M.enabled then
-    --             local window = require("neominimap.window")
-    --             local winid = api.nvim_get_current_win()
-    --             window.create_minimap_window(winid)
-    --             window.refresh_code_minimap(winid)
-    --         end
-    --     end),
+    --     callback = function(args)
+    --         vim.schedule_wrap(function()
+    --             -- log.notify("WinNew triggered", vim.log.levels.INFO)
+    --             local winid = args.match
+    --             if M.enabled then
+    --                 local window = require("neominimap.window")
+    --                 window.create_minimap_window(winid)
+    --                 window.refresh_code_minimap(winid)
+    --             end
+    --         end)
+    --     end,
     -- })
     -- api.nvim_create_autocmd("WinClosed", {
     --     group = gid,
-    --     callback = vim.schedule_wrap(function()
-    --         -- log.notify("WinClosed triggered", vim.log.levels.INFO)
-    --         local window = require("neominimap.window")
-    --         local winid = api.nvim_get_current_win()
-    --         window.close_minimap_window(winid)
-    --     end),
+    --     callback = function(args)
+    --         local winid = args.match
+    --         vim.schedule_wrap(function()
+    --             local window = require("neominimap.window")
+    --             window.close_minimap_window(winid)
+    --         end)()
+    --     end,
     -- })
     -- api.nvim_create_autocmd("TabEnter", {
     --     group = gid,
@@ -98,18 +105,13 @@ M.setup = function()
     -- })
     api.nvim_create_autocmd("WinResized", {
         group = gid,
-        callback = function()
-            local win_list = vim.deepcopy(vim.v.event.windows)
-            vim.schedule_wrap(function()
-                if M.enabled then
-                    local window = require("neominimap.window")
-                    for _, winid in ipairs(win_list) do
-                        window.close_minimap_window(winid)
-                        window.create_minimap_window(winid)
-                    end
-                end
-            end)()
-        end,
+        callback = vim.schedule_wrap(function()
+            if M.enabled then
+                local window = require("neominimap.window")
+                window.create_all_minimap_windows()
+                window.refresh_all_minimap_windows()
+            end
+        end),
     })
     api.nvim_create_autocmd("WinScrolled", {
         group = gid,
