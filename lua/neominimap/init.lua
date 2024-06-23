@@ -4,6 +4,7 @@ local api = vim.api
 local log = require("neominimap.log")
 local config = require("neominimap.config").get()
 
+---@type boolean
 M.enabled = false
 
 function M.open_minimap()
@@ -47,9 +48,6 @@ M.setup = function()
     api.nvim_set_hl(ns, "NeominimapBorder", { link = "FloatBorder", default = true })
 
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
-    -- if config.auto_enable then
-    --     M.open_minimap()
-    -- end
     -- api.nvim_create_autocmd({ "BufRead", "BufNew" }, {
     --     group = gid,
     --     callback = vim.schedule_wrap(function()
@@ -84,6 +82,14 @@ M.setup = function()
     --         end)
     --     end,
     -- })
+    api.nvim_create_autocmd("VimEnter", {
+        group = gid,
+        callback = vim.schedule_wrap(function()
+            if config.auto_enable then
+                M.open_minimap()
+            end
+        end),
+    })
     api.nvim_create_autocmd("WinClosed", {
         group = gid,
         callback = function(args)
