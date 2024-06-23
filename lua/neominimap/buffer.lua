@@ -65,6 +65,10 @@ M.create_minimap_buffer = function(bufnr)
         vim.bo[bufnr].buftype = "nofile"
         vim.bo[bufnr].swapfile = false
         vim.bo[bufnr].bufhidden = "wipe"
+
+        local text = api.nvim_buf_get_lines(bufnr, 0, -1, true)
+        local minimap = require("neominimap.text").gen(text)
+        api.nvim_buf_set_lines(bufnr, 0, -1, true, minimap)
         return bufnr
     end)()
     return ret
