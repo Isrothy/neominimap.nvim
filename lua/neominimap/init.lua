@@ -102,15 +102,14 @@ M.setup = function()
             end)
         end,
     })
-    -- api.nvim_create_autocmd("TabEnter", {
-    --     group = gid,
-    --     callback = vim.schedule_wrap(function()
-    --         -- log.notify("TabEnter triggered", vim.log.levels.INFO)
-    --         local window = require("neominimap.window")
-    --         local tid = api.nvim_get_current_tabpage()
-    --         window.refresh_minimaps_in_tab(tid)
-    --     end),
-    -- })
+    api.nvim_create_autocmd("TabEnter", {
+        group = gid,
+        callback = vim.schedule_wrap(function()
+            local window = require("neominimap.window")
+            local tid = api.nvim_get_current_tabpage()
+            window.refresh_minimaps_in_tab(tid)
+        end),
+    })
     api.nvim_create_autocmd("WinResized", {
         group = gid,
         callback = function()
