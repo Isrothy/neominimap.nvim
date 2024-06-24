@@ -133,6 +133,7 @@ end
 ---@return boolean
 M.refresh_minimap_window = function(winid)
     if not api.nvim_win_is_valid(winid) then
+        log.notify("Window " .. tostring(winid) .. "is not valid", vim.log.levels.INFO)
         return false
     end
     local buffer = require("neominimap.buffer")
