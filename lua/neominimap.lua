@@ -97,7 +97,7 @@ M.setup = function()
     })
     api.nvim_create_autocmd("WinNew", {
         group = gid,
-        callback = function(args)
+        callback = function()
             log.notify("WinNew is triggered", vim.log.levels.INFO)
             vim.schedule(function()
                 local winid = api.nvim_get_current_win()

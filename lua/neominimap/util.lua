@@ -1,30 +1,15 @@
-local M = {}
-
 local fn = vim.fn
 local api = vim.api
 
 --- @param winid integer
 --- @return boolean
-function M.is_terminal(winid)
+local is_terminal = function(winid)
     return fn.getwininfo(winid)[1].terminal ~= 0
-end
-
---- Returns the height of a window excluding the winbar
---- @param winid integer
---- @return integer
-function M.win_get_height(winid)
-    local winheight = api.nvim_win_get_height(winid)
-
-    if vim.wo[winid].winbar ~= "" then
-        winheight = winheight - 1
-    end
-
-    return winheight
 end
 
 --- @param winid integer?
 --- @return boolean
-function M.is_cmdline(winid)
+local is_cmdline = function(winid)
     winid = winid or api.nvim_get_current_win()
     if not api.nvim_win_is_valid(winid) then
         return false
@@ -40,17 +25,29 @@ end
 --- otherwise.
 --- @param winid integer
 --- @return boolean
-function M.is_ordinary_window(winid)
+local is_ordinary_window = function(winid)
     local cfg = api.nvim_win_get_config(winid)
     local not_external = not cfg["external"]
     local not_floating = cfg["relative"] == ""
     return not_external and not_floating
 end
 
+--- Returns the height of a window excluding the winbar
+--- @param winid integer
+--- @return integer
+local win_get_height = function(winid)
+    local winheight = api.nvim_win_get_height(winid)
+
+    if vim.wo[winid].winbar ~= "" then
+        winheight = winheight - 1
+    end
+
+    return winheight
+end
 --- @generic F: function
 --- @param f F
 --- @return F
-function M.noautocmd(f)
+local noautocmd = function(f)
     return function(...)
         local eventignore = vim.o.eventignore
         vim.o.eventignore = "all"
@@ -60,4 +57,10 @@ function M.noautocmd(f)
     end
 end
 
-return M
+return {
+    is_cmdline = is_cmdline,
+    is_terminal = is_terminal,
+    is_ordinary_window = is_ordinary_window,
+    win_get_height = win_get_height,
+    noautocmd = noautocmd,
+}
