@@ -16,7 +16,6 @@ function M.open_minimap()
     local buffer = require("neominimap.buffer")
     log.notify("opening minimap", vim.log.levels.INFO)
     buffer.create_all_minimap_buffers()
-    window.create_all_minimap_windows()
     window.refresh_all_minimap_windows()
     log.notify("opened minimap", vim.log.levels.INFO)
 end
@@ -30,7 +29,7 @@ function M.close_minimap()
     local buffer = require("neominimap.buffer")
     log.notify("closing minimap", vim.log.levels.INFO)
     window.close_all_minimap_windows()
-    buffer.remove_all_minimap_buffers()
+    buffer.wipe_out_all_minimap_buffers()
     log.notify("closed minimap", vim.log.levels.INFO)
 end
 
@@ -80,7 +79,7 @@ M.setup = function()
                 local buffer = require("neominimap.buffer")
                 local bufnr = tonumber(args.buf)
                 ---@cast bufnr integer
-                buffer.remove_minimap_buffer(bufnr)
+                buffer.wipe_out_minimap_buffer(bufnr)
             end)
         end,
     })
@@ -105,7 +104,6 @@ M.setup = function()
                 log.notify("Window " .. tostring(winid) .. " is created", vim.log.levels.INFO)
                 if M.enabled then
                     local window = require("neominimap.window")
-                    window.create_minimap_window(winid)
                     window.refresh_minimap_window(winid)
                 end
             end)
@@ -143,7 +141,6 @@ M.setup = function()
                 if M.enabled then
                     local window = require("neominimap.window")
                     for _, winid in ipairs(win_list) do
-                        window.create_minimap_window(winid)
                         window.refresh_minimap_window(winid)
                     end
                 end
@@ -165,7 +162,6 @@ M.setup = function()
                 if M.enabled then
                     local window = require("neominimap.window")
                     for _, winid in ipairs(win_list) do
-                        window.create_minimap_window(winid)
                         window.refresh_minimap_window(winid)
                     end
                 end

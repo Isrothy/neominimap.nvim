@@ -30,6 +30,9 @@ end
 ---@param winid integer
 ---@return boolean
 local function should_show_minimap(winid)
+    if not api.nvim_win_is_valid(winid) then
+        return false
+    end
     local util = require("neominimap.util")
     local bufnr = api.nvim_win_get_buf(winid)
     local buffer = require("neominimap.buffer")
@@ -87,13 +90,11 @@ local function get_window_config(winid)
     }
 end
 
+--- WARN: This function do not check whether a minimap should be created for this window nor this window is valid.
 --- Create the minimap attached to the given window
 ---@param winid integer
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
-M.create_minimap_window = function(winid)
-    if not api.nvim_win_is_valid(winid) or not should_show_minimap(winid) then
-        return nil
-    end
+local create_minimap_window = function(winid)
     local buffer = require("neominimap.buffer")
     local win_cfg = get_window_config(winid)
 
@@ -107,10 +108,6 @@ M.create_minimap_window = function(winid)
     end
     local util = require("neominimap.util")
     local ret = util.noautocmd(function()
-        if M.get_minimap_winid(winid) then
-            log.notify("A minimap window is already displayed for window " .. tostring(winid), vim.log.levels.INFO)
-            M.close_minimap_window(winid)
-        end
         local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
         M.set_minimap_winid(winid, mwinid)
 
@@ -127,37 +124,28 @@ M.create_minimap_window = function(winid)
 end
 
 --- Refresh the minimap attached to the given window
---- Specifically, attach the minimap buffer to the minimap window
---- and scroll the window to right position
+--- First, closing the existing minimap window
+--- Next, if a minimap shoud be shown for this window, create it and attach buffer to it.
+--- Finally, scroll the window to the right position.
 ---@param winid integer
----@return boolean
+---@return integer?
 M.refresh_minimap_window = function(winid)
-    if not api.nvim_win_is_valid(winid) then
-        log.notify("Window " .. tostring(winid) .. "is not valid", vim.log.levels.INFO)
-        return false
-    end
-    local buffer = require("neominimap.buffer")
-    local mwinid = M.get_minimap_winid(winid)
-    local bufnr = api.nvim_win_get_buf(winid)
-    local mbufnr = buffer.get_minimap_bufnr(bufnr)
-
-    if not mwinid or not mbufnr then
-        return false
-    end
-    if not api.nvim_win_is_valid(mwinid) or not api.nvim_buf_is_valid(mbufnr) then
-        return false
-    end
-
-    local util = require("neominimap.util")
-
     log.notify("Refresing minimap for window " .. tostring(winid), vim.log.levels.INFO)
-    if api.nvim_win_get_buf(mwinid) ~= mbufnr then
-        util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
+    if M.get_minimap_winid(winid) then
+        M.close_minimap_window(winid)
+    end
+    if not should_show_minimap(winid) then
+        log.notify("Minimap Shouldn't be shown for window " .. tostring(winid), vim.log.levels.INFO)
+        return nil
+    end
+    local mwinid = create_minimap_window(winid)
+    if not mwinid then
+        return nil
     end
 
     -- TODO: Scroll the window
     --
-    return true
+    return mwinid
 end
 
 --- Close the minimap attached to the given window
@@ -177,14 +165,14 @@ M.close_minimap_window = function(winid)
     return nil
 end
 
---- Create all minimaps in the given tab if they should be shown
----@param tabid integer
-M.create_minimaps_in_tab = function(tabid)
-    local win_list = api.nvim_tabpage_list_wins(tabid)
-    for _, winid in ipairs(win_list) do
-        M.create_minimap_window(winid)
-    end
-end
+-- --- Create all minimaps in the given tab if they should be shown
+-- ---@param tabid integer
+-- M.create_minimaps_in_tab = function(tabid)
+--     local win_list = api.nvim_tabpage_list_wins(tabid)
+--     for _, winid in ipairs(win_list) do
+--         M.create_minimap_window(winid)
+--     end
+-- end
 
 --- Refresh all minimaps in the given tab
 ---@param tabid integer
@@ -204,13 +192,13 @@ M.close_minimap_in_tab = function(tabid)
     end
 end
 
---- Create all minimaps across tabs
-M.create_all_minimap_windows = function()
-    local windows = api.nvim_list_wins()
-    for _, winid in ipairs(windows) do
-        M.create_minimap_window(winid)
-    end
-end
+-- --- Create all minimaps across tabs
+-- M.create_all_minimap_windows = function()
+--     local windows = api.nvim_list_wins()
+--     for _, winid in ipairs(windows) do
+--         M.create_minimap_window(winid)
+--     end
+-- end
 
 --- Refresh all minimaps across tabs
 M.refresh_all_minimap_windows = function()
