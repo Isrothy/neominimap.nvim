@@ -15,7 +15,7 @@ function M.open_minimap()
     local window = require("neominimap.window")
     local buffer = require("neominimap.buffer")
     log.notify("opening minimap", vim.log.levels.INFO)
-    buffer.create_all_minimap_buffers()
+    buffer.refresh_all_minimap_buffers()
     window.refresh_all_minimap_windows()
     log.notify("opened minimap", vim.log.levels.INFO)
 end
@@ -65,7 +65,7 @@ M.setup = function()
                     local buffer = require("neominimap.buffer")
                     local bufnr = tonumber(args.buf)
                     ---@cast bufnr integer
-                    buffer.create_minimap_buffer(bufnr)
+                    buffer.refresh_minimap_buffer(bufnr)
                 end
             end)
         end,

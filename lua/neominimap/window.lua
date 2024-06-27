@@ -182,7 +182,8 @@ end
 
 --- Refresh all minimaps across tabs
 local refresh_all_minimap_windows = function()
-    for _, winid in ipairs(list_windows()) do
+    local win_list = api.nvim_list_wins()
+    for _, winid in ipairs(win_list) do
         refresh_minimap_window(winid)
     end
 end

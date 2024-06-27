@@ -49,17 +49,10 @@ end
 --- Create the minimap attached to the given buffer if possible
 --- Remove minimap buffer if there is already one
 --- @param bufnr integer
---- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
+--- @return integer mbufnr bufnr of the minimap buffer if created, nil otherwise
 M.create_minimap_buffer = function(bufnr)
     local util = require("neominimap.util")
-    if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
-        return nil
-    end
     local ret = util.noautocmd(function()
-        if M.get_minimap_bufnr(bufnr) then
-            log.notify("A minimap is already generated for buffer " .. tostring(bufnr), vim.log.levels.INFO)
-            M.wipe_out_minimap_buffer(bufnr)
-        end
         log.notify("Generating minimap for buffer " .. tostring(bufnr), vim.log.levels.INFO)
         local mbufnr = api.nvim_create_buf(false, true)
         log.notify(
@@ -72,15 +65,37 @@ M.create_minimap_buffer = function(bufnr)
         vim.bo[mbufnr].swapfile = false
         vim.bo[mbufnr].bufhidden = "hide"
 
-        vim.bo[mbufnr].modifiable = true
-        local text = api.nvim_buf_get_lines(bufnr, 0, -1, true)
-        local minimap = require("neominimap.text").gen(text)
-        api.nvim_buf_set_lines(mbufnr, 0, -1, true, minimap)
-        vim.bo[mbufnr].modifiable = false
         log.notify("Minimap for buffer " .. tostring(bufnr) .. " is generated", vim.log.levels.INFO)
         return mbufnr
     end)()
     return ret
+end
+
+--- Refresh the minimap attached to the given buffer if possible
+--- Remove a buffer that is attached to it
+--- @param bufnr integer
+--- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
+M.refresh_minimap_buffer = function(bufnr)
+    local util = require("neominimap.util")
+    if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
+        if M.get_minimap_bufnr(bufnr) then
+            log.notify("Deleting minimap for buffer " .. tostring(bufnr), vim.log.levels.INFO)
+            M.wipe_out_minimap_buffer(bufnr)
+        end
+        return nil
+    end
+    local mbufnr = M.get_minimap_bufnr(bufnr)
+    if not mbufnr then
+        mbufnr = M.create_minimap_buffer(bufnr)
+    end
+
+    local minimap = require("neominimap.text").gen(bufnr)
+    vim.bo[mbufnr].modifiable = true
+    util.noautocmd(api.nvim_buf_set_lines)(mbufnr, 0, -1, true, minimap)
+    vim.bo[mbufnr].modifiable = false
+
+    log.notify("Minimap for buffer " .. tostring(bufnr) .. " is refreshed", vim.log.levels.INFO)
+    return mbufnr
 end
 
 --- Remove the minimap attached to the given buffer
@@ -102,10 +117,10 @@ M.wipe_out_minimap_buffer = function(bufnr)
     return bufnr
 end
 
-M.create_all_minimap_buffers = function()
+M.refresh_all_minimap_buffers = function()
     local buffer_list = api.nvim_list_bufs()
     for _, bufnr in ipairs(buffer_list) do
-        M.create_minimap_buffer(bufnr)
+        M.refresh_minimap_buffer(bufnr)
     end
 end
 
