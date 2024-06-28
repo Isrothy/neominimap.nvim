@@ -1,6 +1,8 @@
 local api = vim.api
 local config = require("neominimap.config").get()
+local util = require("neominimap.util")
 local logger = require("neominimap.logger")
+local buffer = require("neominimap.buffer")
 
 ---@type table<integer, integer>
 local winid_to_mwinid = {}
@@ -32,9 +34,7 @@ local should_show_minimap = function(winid)
         logger.log(string.format("Window %d is not valid", winid), vim.log.levels.WARN)
         return false
     end
-    local util = require("neominimap.util")
     local bufnr = api.nvim_win_get_buf(winid)
-    local buffer = require("neominimap.buffer")
     if not buffer.get_minimap_bufnr(bufnr) then
         logger.log(
             string.format("No minimap buffer available for buffer %d in window %d", bufnr, winid),
@@ -55,7 +55,6 @@ end
 ---@param winid integer
 local get_window_config = function(winid)
     logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
-    local util = require("neominimap.util")
     local minimap_height = util.win_get_height(winid)
     if config.max_minimap_height then
         minimap_height = math.min(minimap_height, config.max_minimap_height)
@@ -92,7 +91,6 @@ local get_window_config = function(winid)
         zindex = config.z_index,
         style = "minimal",
         border = config.window_border,
-        noautocmd = true,
     }
 end
 
@@ -102,8 +100,6 @@ end
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
 local create_minimap_window = function(winid)
     logger.log(string.format("Attempting to create minimap for window %d", winid), vim.log.levels.TRACE)
-    local buffer = require("neominimap.buffer")
-    local win_cfg = get_window_config(winid)
 
     local bufnr = api.nvim_win_get_buf(winid)
     local mbufnr = buffer.get_minimap_bufnr(bufnr)
@@ -112,9 +108,10 @@ local create_minimap_window = function(winid)
         logger.log(string.format("Minimap buffer not available for window %d", winid), vim.log.levels.TRACE)
         return nil
     end
-    local util = require("neominimap.util")
     local ret = util.noautocmd(function()
         logger.log(string.format("Creating minimap window for window %d", winid), vim.log.levels.TRACE)
+        local win_cfg = get_window_config(winid)
+        win_cfg.noautocmd = true --Set noautocmd here for noautocmd can only set for none existing window
         local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
         set_minimap_winid(winid, mwinid)
 
@@ -138,7 +135,6 @@ local close_minimap_window = function(winid)
     set_minimap_winid(winid, nil)
     logger.log(string.format("Attempting to close minimap for window %d", winid), vim.log.levels.TRACE)
     if mwinid and api.nvim_win_is_valid(mwinid) then
-        local util = require("neominimap.util")
         logger.log(string.format("Deleting minimap window %d", mwinid), vim.log.levels.TRACE)
         util.noautocmd(api.nvim_win_close)(mwinid, true)
         return mwinid
@@ -149,23 +145,43 @@ local close_minimap_window = function(winid)
 end
 
 --- Refresh the minimap attached to the given window
---- First, close the existing minimap window
---- Next, if a minimap should be shown for this window, create it and attach buffer to it.
---- Finally, scroll the window to the right position.
+--- Close window if minimap should not be shown or if the minimap buffer is not available
+--- Otherwise, create the minimap if it does not exist
+--- Otherwise, reset the window config
+--- Reset the buffer if the it does not match the current window
 ---@param winid integer
----@return integer?
+---@return integer? mwinid winid of the minimap window if created, nil otherwise
 local refresh_minimap_window = function(winid)
     logger.log(string.format("Refreshing minimap for window %d", winid), vim.log.levels.TRACE)
-    if get_minimap_winid(winid) then
-        close_minimap_window(winid)
-    end
     if not should_show_minimap(winid) then
         logger.log(string.format("Minimap should not be shown for window %d", winid), vim.log.levels.TRACE)
+        if get_minimap_winid(winid) then
+            close_minimap_window(winid)
+        end
         return nil
     end
-    local mwinid = create_minimap_window(winid)
-    if not mwinid then
+
+    local bufnr = api.nvim_win_get_buf(winid)
+    local mbufnr = buffer.get_minimap_bufnr(bufnr)
+    if not mbufnr then
+        logger.log(string.format("Minimap buffer not available for window %d", winid), vim.log.levels.TRACE)
+        if get_minimap_winid(winid) then
+            close_minimap_window(winid)
+        end
         return nil
+    end
+
+    local mwinid = get_minimap_winid(winid) or create_minimap_window(winid)
+    if not mwinid then
+        logger.log(string.format("Failed to create minimap for window %d", winid), vim.log.levels.TRACE)
+        return nil
+    end
+
+    local cfg = get_window_config(winid)
+    util.noautocmd(api.nvim_win_set_config)(mwinid, cfg)
+
+    if api.nvim_win_get_buf(mwinid) ~= mbufnr then
+        api.nvim_win_set_buf(mwinid, mbufnr)
     end
 
     -- TODO: Scroll the window

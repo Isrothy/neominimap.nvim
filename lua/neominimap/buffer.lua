@@ -2,6 +2,7 @@ local M = {}
 
 local api = vim.api
 local config = require("neominimap.config").get()
+local util = require("neominimap.util")
 local logger = require("neominimap.logger")
 
 ---@type table<integer, integer>
@@ -64,7 +65,6 @@ end
 --- @param bufnr integer
 --- @return integer mbufnr bufnr of the minimap buffer if created, nil otherwise
 M.create_minimap_buffer = function(bufnr)
-    local util = require("neominimap.util")
     local ret = util.noautocmd(function()
         logger.log(string.format("Starting to generate minimap for buffer %d", bufnr), vim.log.levels.TRACE)
         local mbufnr = api.nvim_create_buf(false, true)
@@ -90,7 +90,6 @@ end
 --- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
 M.refresh_minimap_buffer = function(bufnr)
     logger.log(string.format("Attempting to refresh minimap for buffer %d", bufnr), vim.log.levels.TRACE)
-    local util = require("neominimap.util")
     if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
         if M.get_minimap_bufnr(bufnr) then
             logger.log(
@@ -134,7 +133,6 @@ M.wipe_out_minimap_buffer = function(bufnr)
         )
         return nil
     end
-    local util = require("neominimap.util")
     logger.log(string.format("Deleting minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     util.noautocmd(api.nvim_buf_delete)(mbufnr, { force = true })
     logger.log(
