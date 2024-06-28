@@ -1,6 +1,6 @@
 local api = vim.api
 local config = require("neominimap.config").get()
-local log = require("neominimap.log")
+local logger = require("neominimap.logger")
 
 ---@type table<integer, integer>
 local winid_to_mwinid = {}
@@ -19,7 +19,7 @@ local set_minimap_winid = function(winid, mwinid)
     winid_to_mwinid[winid] = mwinid
 end
 
---- Return the list of windows that one minimap attached to
+--- Return the list of windows that one minimap is attached to
 --- @return integer[]
 local list_windows = function()
     return vim.tbl_keys(winid_to_mwinid)
@@ -29,24 +29,32 @@ end
 ---@return boolean
 local should_show_minimap = function(winid)
     if not api.nvim_win_is_valid(winid) then
+        logger.log(string.format("Window %d is not valid", winid), vim.log.levels.WARN)
         return false
     end
     local util = require("neominimap.util")
     local bufnr = api.nvim_win_get_buf(winid)
     local buffer = require("neominimap.buffer")
     if not buffer.get_minimap_bufnr(bufnr) then
+        logger.log(
+            string.format("No minimap buffer available for buffer %d in window %d", bufnr, winid),
+            vim.log.levels.TRACE
+        )
         return false
     end
 
     if util.win_get_height(winid) == 0 or api.nvim_win_get_width(winid) == 0 then
+        logger.log(string.format("Window %d has zero height or width", winid), vim.log.levels.TRACE)
         return false
     end
 
+    logger.log(string.format("Minimap can be shown for window %d", winid), vim.log.levels.TRACE)
     return true
 end
 
 ---@param winid integer
 local get_window_config = function(winid)
+    logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
     local util = require("neominimap.util")
     local minimap_height = util.win_get_height(winid)
     if config.max_minimap_height then
@@ -88,24 +96,25 @@ local get_window_config = function(winid)
     }
 end
 
---- WARN: This function do not check whether a minimap should be created for this window nor this window is valid.
+--- WARN: This function does not check whether a minimap should be created for this window nor if this window is valid.
 --- Create the minimap attached to the given window
 ---@param winid integer
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
 local create_minimap_window = function(winid)
+    logger.log(string.format("Attempting to create minimap for window %d", winid), vim.log.levels.TRACE)
     local buffer = require("neominimap.buffer")
     local win_cfg = get_window_config(winid)
 
     local bufnr = api.nvim_win_get_buf(winid)
     local mbufnr = buffer.get_minimap_bufnr(bufnr)
 
-    log.notify("Showing minimap for window " .. tostring(winid), vim.log.levels.INFO)
     if not mbufnr then
-        log.notify("Minimap buffer not available for window " .. tostring(winid), vim.log.levels.INFO)
+        logger.log(string.format("Minimap buffer not available for window %d", winid), vim.log.levels.TRACE)
         return nil
     end
     local util = require("neominimap.util")
     local ret = util.noautocmd(function()
+        logger.log(string.format("Creating minimap window for window %d", winid), vim.log.levels.TRACE)
         local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
         set_minimap_winid(winid, mwinid)
 
@@ -115,7 +124,7 @@ local create_minimap_window = function(winid)
         vim.wo[mwinid].scrolloff = 0
         vim.wo[mwinid].sidescrolloff = 0
         vim.wo[mwinid].winblend = 0
-        log.notify("Window " .. tostring(mwinid) .. "is created for window " .. tostring(winid), vim.log.levels.INFO)
+        logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
         return mwinid
     end)()
     return ret
@@ -127,29 +136,31 @@ end
 local close_minimap_window = function(winid)
     local mwinid = get_minimap_winid(winid)
     set_minimap_winid(winid, nil)
-    log.notify("Closing minimap for window " .. tostring(winid), vim.log.levels.INFO)
+    logger.log(string.format("Attempting to close minimap for window %d", winid), vim.log.levels.TRACE)
     if mwinid and api.nvim_win_is_valid(mwinid) then
         local util = require("neominimap.util")
-        log.notify("Window " .. tostring(mwinid) .. " is to be deleted", vim.log.levels.INFO)
+        logger.log(string.format("Deleting minimap window %d", mwinid), vim.log.levels.TRACE)
         util.noautocmd(api.nvim_win_close)(mwinid, true)
         return mwinid
+    else
+        logger.log(string.format("Minimap window %d is not valid or already closed", winid), vim.log.levels.TRACE)
     end
     return nil
 end
 
 --- Refresh the minimap attached to the given window
---- First, closing the existing minimap window
---- Next, if a minimap shoud be shown for this window, create it and attach buffer to it.
+--- First, close the existing minimap window
+--- Next, if a minimap should be shown for this window, create it and attach buffer to it.
 --- Finally, scroll the window to the right position.
 ---@param winid integer
 ---@return integer?
 local refresh_minimap_window = function(winid)
-    log.notify("Refresing minimap for window " .. tostring(winid), vim.log.levels.INFO)
+    logger.log(string.format("Refreshing minimap for window %d", winid), vim.log.levels.TRACE)
     if get_minimap_winid(winid) then
         close_minimap_window(winid)
     end
     if not should_show_minimap(winid) then
-        log.notify("Minimap Shouldn't be shown for window " .. tostring(winid), vim.log.levels.INFO)
+        logger.log(string.format("Minimap should not be shown for window %d", winid), vim.log.levels.TRACE)
         return nil
     end
     local mwinid = create_minimap_window(winid)
@@ -158,38 +169,45 @@ local refresh_minimap_window = function(winid)
     end
 
     -- TODO: Scroll the window
-    --
+    logger.log(string.format("Minimap for window %d refreshed", winid), vim.log.levels.TRACE)
     return mwinid
 end
 
 --- Refresh all minimaps in the given tab
 ---@param tabid integer
 local refresh_minimaps_in_tab = function(tabid)
+    logger.log(string.format("Refreshing all minimaps in tab %d", tabid), vim.log.levels.TRACE)
     local win_list = api.nvim_tabpage_list_wins(tabid)
     for _, winid in ipairs(win_list) do
         refresh_minimap_window(winid)
     end
+    logger.log(string.format("All minimaps in tab %d refreshed", tabid), vim.log.levels.TRACE)
 end
 
 --- Close all minimaps in the given tab
 ---@param tabid integer
 local close_minimap_in_tab = function(tabid)
+    logger.log(string.format("Closing all minimaps in tab %d", tabid), vim.log.levels.TRACE)
     local win_list = api.nvim_tabpage_list_wins(tabid)
     for _, winid in ipairs(win_list) do
         close_minimap_window(winid)
     end
+    logger.log(string.format("All minimaps in tab %d closed", tabid), vim.log.levels.TRACE)
 end
 
 --- Refresh all minimaps across tabs
 local refresh_all_minimap_windows = function()
+    logger.log("Refreshing all minimap windows", vim.log.levels.TRACE)
     local win_list = api.nvim_list_wins()
     for _, winid in ipairs(win_list) do
         refresh_minimap_window(winid)
     end
+    logger.log("All minimap windows refreshed", vim.log.levels.TRACE)
 end
 
---- Create all minimaps across tabs
+--- Close all minimaps across tabs
 local close_all_minimap_windows = function()
+    logger.log("Closing all minimap windows", vim.log.levels.TRACE)
     for _, winid in ipairs(list_windows()) do
         close_minimap_window(winid)
     end

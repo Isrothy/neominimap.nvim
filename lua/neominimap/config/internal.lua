@@ -2,8 +2,9 @@ local M = {}
 
 ---@class Neominimap.InternalConfig
 ---@field auto_enable boolean
----@field debug boolean
----@field log_path string?
+---@field log_level integer
+---@field notification_level integer
+---@field log_path string
 ---@field exclude_filetypes (string[])
 ---@field exclude_buftypes (string[])
 ---@field max_lines number?
@@ -26,8 +27,10 @@ M.RELATIVE = {
 ---@type Neominimap.InternalConfig
 M.default_config = {
     auto_enable = true,
-    debug = false,
     exclude_filetypes = { "help" },
+    log_level = vim.log.levels.OFF,
+    notification_level = vim.log.levels.INFO,
+    log_path = vim.fn.stdpath("data") .. "/neominimap.log",
     exclude_buftypes = {
         "nofile",
         "nowrite",
