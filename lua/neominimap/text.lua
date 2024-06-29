@@ -1,74 +1,75 @@
 local M = {}
 
+-- Code Point: The position of a character in the Neovim buffer, relative to the buffer, 1-indexed.
+-- Map Point: The position of a dot in the minimap, 0-indexed.
+-- Map Code Point: The position of a character in the minimap buffer, 1-indexed.
+
 local api = vim.api
 
-local logger = require("neominimap.logger")
+local char = require("neominimap.char")
+local bit = require("bit")
+local config = require("neominimap.config").get()
 
-local whitespace = {
-    0x9,
-    0xA,
-    0xB,
-    0xC,
-    0xD,
-    0x20,
-    0x85,
-    0xA0,
-    0x1680,
-    0x2000,
-    0x2001,
-}
+local braille_chars = "⠀⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄⡅⡆⡇⠈⠉⠊⠋⠌⠍⠎⠏⡈⡉⡊⡋⡌⡍⡎⡏"
+    .. "⠐⠑⠒⠓⠔⠕⠖⠗⡐⡑⡒⡓⡔⡕⡖⡗⠘⠙⠚⠛⠜⠝⠞⠟⡘⡙⡚⡛⡜⡝⡞⡟"
+    .. "⠠⠡⠢⠣⠤⠥⠦⠧⡠⡡⡢⡣⡤⡥⡦⡧⠨⠩⠪⠫⠬⠭⠮⠯⡨⡩⡪⡫⡬⡭⡮⡯"
+    .. "⠰⠱⠲⠳⠴⠵⠶⠷⡰⡱⡲⡳⡴⡵⡶⡷⠸⠹⠺⠻⠼⠽⠾⠿⡸⡹⡺⡻⡼⡽⡾⡿"
+    .. "⢀⢁⢂⢃⢄⢅⢆⢇⣀⣁⣂⣃⣄⣅⣆⣇⢈⢉⢊⢋⢌⢍⢎⢏⣈⣉⣊⣋⣌⣍⣎⣏"
+    .. "⢐⢑⢒⢓⢔⢕⢖⢗⣐⣑⣒⣓⣔⣕⣖⣗⢘⢙⢚⢛⢜⢝⢞⢟⣘⣙⣚⣛⣜⣝⣞⣟"
+    .. "⢠⢡⢢⢣⢤⢥⢦⢧⣠⣡⣢⣣⣤⣥⣦⣧⢨⢩⢪⢫⢬⢭⢮⢯⣨⣩⣪⣫⣬⣭⣮⣯"
+    .. "⢰⢱⢲⢳⢴⢵⢶⢷⣰⣱⣲⣳⣴⣵⣶⣷⢸⢹⢺⢻⢼⢽⢾⢿⣸⣹⣺⣻⣼⣽⣾⣿"
 
----@param code integer
----@return boolean
-local is_white_space = function(code)
-    return vim.tbl_contains(whitespace, code)
+local braille_codes = vim.fn.str2list(braille_chars)
+
+---@param bitmap integer
+---@return integer
+local bitmap_to_code = function(bitmap)
+    return braille_codes[bitmap + 1]
 end
 
----@param code integer
----@return boolean
-local is_tab = function(code)
-    return code == 0x09
+--- @param y integer
+--- @param x integer
+--- @return integer
+local map_point_to_flag = function(y, x)
+    local relRow = bit.band(y, 3)
+    local relCol = bit.band(x, 1)
+    return bit.lshift(1, bit.bor(relRow, relCol * 4))
 end
 
----@param code integer
----@return boolean
-local is_fullwidth = function(code)
-    return (code >= 0x4E00 and code <= 0x9FFF)
-        or (code >= 0x3400 and code <= 0x4DBF)
-        or (code >= 0xF900 and code <= 0xFAFF)
-        or (code >= 0xFF00 and code <= 0xFFEF)
-        or (code >= 0xAC00 and code <= 0xD7AF)
+--- @param y integer
+--- @param x integer
+--- @return integer ...
+local map_point_to_mcode_point = function(y, x)
+    return bit.rshift(y, 2) + 1, bit.rshift(x, 1) + 1
 end
 
----@param code integer
----@return boolean
-local function is_combining_character(code)
-    return (code >= 0x0300 and code <= 0x036F)
-        or (code >= 0x1DC0 and code <= 0x1DFF)
-        or (code >= 0x20D0 and code <= 0x20FF)
-        or (code >= 0xFE20 and code <= 0xFE2F)
+--- @param row integer
+--- @param col integer
+--- @return integer ...
+local code_point_to_map_point = function(row, col)
+    return (row - 1) / config.y_multiplier, (col - 1) / config.x_multiplier
 end
 
 --- Convert string to a list of view points of visible characters
 ---@param str string
 ---@param tabwidth integer
 ---@return integer[]
-M.to_view_points = function(str, tabwidth)
+M.str_to_code_points = function(str, tabwidth)
     local view_points = {}
     local col = 0
     local char_list = vim.fn.str2list(str)
     for _, code in ipairs(char_list) do
-        if is_tab(code) then
+        if char.is_tab(code) then
             local spaces_to_add = tabwidth - (col % tabwidth)
             col = col + spaces_to_add
-        elseif is_white_space(code) then
+        elseif char.is_white_space(code) then
             col = col + 1
-        elseif is_fullwidth(code) then
-            table.insert(view_points, col + 1)
-            table.insert(view_points, col + 2)
+        elseif char.is_fullwidth(code) then
+            view_points[#view_points + 1] = col + 1
+            view_points[#view_points + 1] = col + 2
             col = col + 2
-        elseif not is_combining_character(code) then
-            table.insert(view_points, col + 1)
+        elseif not char.is_combining_character(code) then
+            view_points[#view_points + 1] = col + 1
             col = col + 1
         end
     end
@@ -81,15 +82,40 @@ end
 M.gen = function(bufnr)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, true)
     local tabwidth = vim.bo[bufnr].tabstop
-    -- TODO: replace this dummy function
-    return lines
-end
 
-if vim.g.testing then
-    M.is_white_space = is_white_space
-    M.is_tab = is_tab
-    M.is_fullwidth = is_fullwidth
-    M.is_combining_character = is_combining_character
+    local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
+    local width = config.minimap_width
+
+    local map = {}
+
+    for i = 1, height, 1 do
+        map[#map + 1] = {}
+        for j = 1, width, 1 do
+            map[i][j] = 0
+        end
+    end
+
+    for row, line in ipairs(lines) do
+        local view_points = M.str_to_code_points(line, tabwidth)
+        for _, col in ipairs(view_points) do
+            local y, x = code_point_to_map_point(row, col)
+            local mrow, mcol = map_point_to_mcode_point(y, x)
+            if mcol > width then
+                break
+            end
+            local flag = map_point_to_flag(y, x)
+            map[mrow][mcol] = bit.bor(map[mrow][mcol], flag)
+        end
+    end
+
+    for i, line in ipairs(map) do
+        for j, _ in ipairs(line) do
+            line[j] = bitmap_to_code(line[j])
+        end
+        map[i] = vim.fn.list2str(map[i])
+    end
+
+    return map
 end
 
 return M

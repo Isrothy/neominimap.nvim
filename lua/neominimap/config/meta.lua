@@ -9,6 +9,8 @@ local M = {}
 ---@field max_lines number?
 ---@field max_minimap_height number?
 ---@field minimap_width number?
+---@field x_multiplier integer?
+---@field y_multiplier integer?
 ---@field use_lsp boolean?
 ---@field use_highlight boolean?
 ---@field use_treesitter boolean?

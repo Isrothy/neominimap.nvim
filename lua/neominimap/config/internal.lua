@@ -10,6 +10,8 @@ local M = {}
 ---@field max_lines number?
 ---@field max_minimap_height number?
 ---@field minimap_width number
+---@field x_multiplier integer
+---@field y_multiplier integer
 ---@field use_lsp boolean
 ---@field use_highlight boolean
 ---@field use_treesitter boolean
@@ -41,6 +43,8 @@ M.default_config = {
     max_minimap_height = nil,
     max_lines = nil, -- If auto_enable is true, don't open the minimap for buffers which have more than this many lines.
     minimap_width = 20,
+    x_multiplier = 4,
+    y_multiplier = 1,
     use_lsp = true,
     use_highlight = true,
     use_treesitter = true,
