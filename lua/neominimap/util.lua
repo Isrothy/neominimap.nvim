@@ -1,53 +1,10 @@
-local fn = vim.fn
-local api = vim.api
+local M = {}
 
---- @param winid integer
---- @return boolean
-local is_terminal = function(winid)
-    return fn.getwininfo(winid)[1].terminal ~= 0
-end
 
---- @param winid integer?
---- @return boolean
-local is_cmdline = function(winid)
-    winid = winid or api.nvim_get_current_win()
-    if not api.nvim_win_is_valid(winid) then
-        return false
-    end
-    if fn.win_gettype(winid) == "command" then
-        return true
-    end
-    local bufnr = api.nvim_win_get_buf(winid)
-    return api.nvim_buf_get_name(bufnr) == "[Command Line]"
-end
-
---- Returns true for ordinary windows (not floating and not external), and false
---- otherwise.
---- @param winid integer
---- @return boolean
-local is_ordinary_window = function(winid)
-    local cfg = api.nvim_win_get_config(winid)
-    local not_external = not cfg["external"]
-    local not_floating = cfg["relative"] == ""
-    return not_external and not_floating
-end
-
---- Returns the height of a window excluding the winbar
---- @param winid integer
---- @return integer
-local win_get_height = function(winid)
-    local winheight = api.nvim_win_get_height(winid)
-
-    if vim.wo[winid].winbar ~= "" then
-        winheight = winheight - 1
-    end
-
-    return winheight
-end
 --- @generic F: function
 --- @param f F
 --- @return F
-local noautocmd = function(f)
+M.noautocmd = function(f)
     return function(...)
         local eventignore = vim.o.eventignore
         vim.o.eventignore = "all"
@@ -57,10 +14,21 @@ local noautocmd = function(f)
     end
 end
 
-return {
-    is_cmdline = is_cmdline,
-    is_terminal = is_terminal,
-    is_ordinary_window = is_ordinary_window,
-    win_get_height = win_get_height,
-    noautocmd = noautocmd,
-}
+--- @generic F: function
+--- @param f F
+--- @param delay number
+--- @return F
+M.debounce = function(f, delay)
+    local timer = nil
+    return function(...)
+        local args = { ... }
+        if timer then
+            vim.fn.timer_stop(timer)
+        end
+        timer = vim.fn.timer_start(delay, function()
+            f(unpack(args))
+        end)
+    end
+end
+
+return M

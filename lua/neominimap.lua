@@ -105,6 +105,26 @@ M.setup = function()
             end
         end),
     })
+    local refresh_minimap_buffer_debounced = require("neominimap.util").debounce(function(bufnr)
+        require("neominimap.buffer").refresh_minimap_buffer(bufnr)
+    end, config.delay)
+    api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+        group = gid,
+        callback = function(args)
+            local bufnr = tonumber(args.buf)
+            logger.log(string.format("TextChanged event triggered for buffer %d.", bufnr), vim.log.levels.TRACE)
+            vim.schedule(function()
+                if M.enabled then
+                    logger.log(
+                        string.format("Debounced refreshing minimap for buffer %d.", bufnr),
+                        vim.log.levels.TRACE
+                    )
+                    refresh_minimap_buffer_debounced(bufnr)
+                    logger.log(string.format("Minimap buffer refreshed for buffer %d.", bufnr), vim.log.levels.TRACE)
+                end
+            end)
+        end,
+    })
     api.nvim_create_autocmd("WinNew", {
         group = gid,
         callback = function()

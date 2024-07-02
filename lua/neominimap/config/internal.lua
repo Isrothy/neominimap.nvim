@@ -2,9 +2,9 @@ local M = {}
 
 ---@class Neominimap.InternalConfig
 ---@field auto_enable boolean
+---@field log_path string
 ---@field log_level integer
 ---@field notification_level integer
----@field log_path string
 ---@field exclude_filetypes (string[])
 ---@field exclude_buftypes (string[])
 ---@field max_lines number?
@@ -12,6 +12,7 @@ local M = {}
 ---@field minimap_width number
 ---@field x_multiplier integer
 ---@field y_multiplier integer
+---@field delay integer
 ---@field use_lsp boolean
 ---@field use_highlight boolean
 ---@field use_treesitter boolean
@@ -45,6 +46,7 @@ M.default_config = {
     minimap_width = 20,
     x_multiplier = 4,
     y_multiplier = 1,
+    delay = 200,
     use_lsp = true,
     use_highlight = true,
     use_treesitter = true,

@@ -1,10 +1,54 @@
 local api = vim.api
-local config = require("neominimap.config").get()
+local fn = vim.fn
 local util = require("neominimap.util")
+local config = require("neominimap.config").get()
 local logger = require("neominimap.logger")
 local buffer = require("neominimap.buffer")
 local coord = require("neominimap.map.coord")
 
+--- @param winid integer
+--- @return boolean
+local is_terminal = function(winid)
+    return fn.getwininfo(winid)[1].terminal ~= 0
+end
+
+--- @param winid integer?
+--- @return boolean
+local is_cmdline = function(winid)
+    winid = winid or api.nvim_get_current_win()
+    if not api.nvim_win_is_valid(winid) then
+        return false
+    end
+    if fn.win_gettype(winid) == "command" then
+        return true
+    end
+    local bufnr = api.nvim_win_get_buf(winid)
+    return api.nvim_buf_get_name(bufnr) == "[Command Line]"
+end
+
+--- Returns true for ordinary windows (not floating and not external), and false
+--- otherwise.
+--- @param winid integer
+--- @return boolean
+local is_ordinary_window = function(winid)
+    local cfg = api.nvim_win_get_config(winid)
+    local not_external = not cfg["external"]
+    local not_floating = cfg["relative"] == ""
+    return not_external and not_floating
+end
+
+--- Returns the height of a window excluding the winbar
+--- @param winid integer
+--- @return integer
+local win_get_true_height = function(winid)
+    local winheight = api.nvim_win_get_height(winid)
+
+    if vim.wo[winid].winbar ~= "" then
+        winheight = winheight - 1
+    end
+
+    return winheight
+end
 ---@type table<integer, integer>
 local winid_to_mwinid = {}
 
@@ -44,7 +88,22 @@ local should_show_minimap = function(winid)
         return false
     end
 
-    if util.win_get_height(winid) == 0 or api.nvim_win_get_width(winid) == 0 then
+    if is_cmdline(winid) then
+        logger.log(string.format("Window %d is in cmdline", winid), vim.log.levels.TRACE)
+        return false
+    end
+
+    if is_terminal(winid) then
+        logger.log(string.format("Window %d is in terminal", winid), vim.log.levels.TRACE)
+        return false
+    end
+
+    if not is_ordinary_window(winid) then
+        logger.log(string.format("Window %d is not an ordinary window", winid), vim.log.levels.TRACE)
+        return false
+    end
+
+    if win_get_true_height(winid) == 0 or api.nvim_win_get_width(winid) == 0 then
         logger.log(string.format("Window %d has zero height or width", winid), vim.log.levels.TRACE)
         return false
     end
@@ -56,7 +115,7 @@ end
 ---@param winid integer
 local get_window_config = function(winid)
     logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
-    local minimap_height = util.win_get_height(winid)
+    local minimap_height = win_get_true_height(winid)
     if config.max_minimap_height then
         minimap_height = math.min(minimap_height, config.max_minimap_height)
     end
@@ -108,7 +167,7 @@ local create_minimap_window = function(winid)
         logger.log(string.format("Minimap buffer not available for window %d", winid), vim.log.levels.TRACE)
         return nil
     end
-    local ret = util.noautocmd(function()
+    return util.noautocmd(function()
         logger.log(string.format("Creating minimap window for window %d", winid), vim.log.levels.TRACE)
         local win_cfg = get_window_config(winid)
         win_cfg.noautocmd = true --Set noautocmd here for noautocmd can only set for none existing window
@@ -128,7 +187,6 @@ local create_minimap_window = function(winid)
         logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
         return mwinid
     end)()
-    return ret
 end
 
 --- Close the minimap attached to the given window
