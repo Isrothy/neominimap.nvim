@@ -46,6 +46,8 @@ M.setup = function()
     local logger = require("neominimap.logger")
     api.nvim_set_hl(0, "NeominimapBackground", { link = "Normal", default = true })
     api.nvim_set_hl(0, "NeominimapBorder", { link = "FloatBorder", default = true })
+    api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true })
+    api.nvim_set_hl(0, "NeominimapNormal", { link = "Normal", default = true })
 
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
     api.nvim_create_autocmd("VimEnter", {
@@ -186,6 +188,22 @@ M.setup = function()
                         window.refresh_minimap_window(winid)
                         logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
                     end
+                end
+            end)
+        end,
+    })
+    api.nvim_create_autocmd("CursorMoved", {
+        group = gid,
+        callback = function()
+            logger.log("CursorMoved event triggered.", vim.log.levels.TRACE)
+            local winid = api.nvim_get_current_win()
+            logger.log(string.format("Window ID: %d", winid), vim.log.levels.TRACE)
+            vim.schedule(function()
+                if M.enabled then
+                    local window = require("neominimap.window")
+                    logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
+                    window.reset_cursor_line(winid)
+                    logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
                 end
             end)
         end,

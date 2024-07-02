@@ -3,6 +3,7 @@ local config = require("neominimap.config").get()
 local util = require("neominimap.util")
 local logger = require("neominimap.logger")
 local buffer = require("neominimap.buffer")
+local coord = require("neominimap.map.coord")
 
 ---@type table<integer, integer>
 local winid_to_mwinid = {}
@@ -89,7 +90,6 @@ local get_window_config = function(winid)
         col = col,
         focusable = false,
         zindex = config.z_index,
-        style = "minimal",
         border = config.window_border,
     }
 end
@@ -115,10 +115,14 @@ local create_minimap_window = function(winid)
         local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
         set_minimap_winid(winid, mwinid)
 
-        vim.wo[mwinid].winhl = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder"
+        vim.wo[mwinid].winhighlight =
+            "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine"
         vim.wo[mwinid].wrap = false
         vim.wo[mwinid].foldcolumn = "0"
-        vim.wo[mwinid].scrolloff = 0
+        vim.wo[mwinid].signcolumn = "no"
+        vim.wo[mwinid].number = false
+        vim.wo[mwinid].relativenumber = false
+        vim.wo[mwinid].scrolloff = 99999 -- To center minimap
         vim.wo[mwinid].sidescrolloff = 0
         vim.wo[mwinid].winblend = 0
         logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
@@ -142,6 +146,24 @@ local close_minimap_window = function(winid)
         logger.log(string.format("Minimap window %d is not valid or already closed", winid), vim.log.levels.TRACE)
     end
     return nil
+end
+
+---@param winid integer
+---@return boolean
+local reset_cursor_line = function(winid)
+    logger.log(string.format("Resetting cursor line for window %d", winid), vim.log.levels.TRACE)
+    local mwinid = get_minimap_winid(winid)
+    if not mwinid then
+        logger.log(string.format("Minimap window %d is not valid", winid), vim.log.levels.TRACE)
+        return false
+    end
+    local rowCol = vim.api.nvim_win_get_cursor(winid)
+    local row = rowCol[1]
+    local col = rowCol[2]
+    row, col = coord.map_point_to_mcode_point(row, col)
+    util.noautocmd(vim.api.nvim_win_set_cursor)(mwinid, { row, col })
+    logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
+    return false
 end
 
 --- Refresh the minimap attached to the given window
@@ -184,7 +206,8 @@ local refresh_minimap_window = function(winid)
         api.nvim_win_set_buf(mwinid, mbufnr)
     end
 
-    -- TODO: Scroll the window
+    reset_cursor_line(winid)
+
     logger.log(string.format("Minimap for window %d refreshed", winid), vim.log.levels.TRACE)
     return mwinid
 end
@@ -235,6 +258,7 @@ return {
     refresh_minimap_window = refresh_minimap_window,
     refresh_minimaps_in_tab = refresh_minimaps_in_tab,
     refresh_all_minimap_windows = refresh_all_minimap_windows,
+    reset_cursor_line = reset_cursor_line,
     close_minimap_window = close_minimap_window,
     close_minimap_in_tab = close_minimap_in_tab,
     close_all_minimap_windows = close_all_minimap_windows,

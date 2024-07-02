@@ -1,7 +1,7 @@
 vim.g.testing = true
 local assert = require("luassert")
 local plenary = require("plenary")
-local text = require("neominimap.text")
+local text = require("neominimap.map.text")
 
 describe("text", function()
     describe("to_view_points", function()

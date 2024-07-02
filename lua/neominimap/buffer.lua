@@ -108,7 +108,7 @@ M.refresh_minimap_buffer = function(bufnr)
         mbufnr = M.create_minimap_buffer(bufnr)
     end
 
-    local minimap = require("neominimap.text").gen(bufnr)
+    local minimap = require("neominimap.map.text").gen(bufnr)
     vim.bo[mbufnr].modifiable = true
     util.noautocmd(api.nvim_buf_set_lines)(mbufnr, 0, -1, true, minimap)
     vim.bo[mbufnr].modifiable = false
