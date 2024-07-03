@@ -5,6 +5,19 @@ local config = require("neominimap.config").get()
 local util = require("neominimap.util")
 local logger = require("neominimap.logger")
 
+---@type integer?
+M.updated_bufnr = nil
+
+---@param bufnr integer?
+M.set_event_bufnr = function(bufnr)
+    M.updated_bufnr = bufnr
+end
+
+---@return integer?
+M.get_event_bufnr = function()
+    return M.updated_bufnr
+end
+
 ---@type table<integer, integer>
 local bufnr_to_mbufnr = {}
 
@@ -65,30 +78,60 @@ end
 --- @param bufnr integer
 --- @return integer mbufnr bufnr of the minimap buffer if created, nil otherwise
 M.create_minimap_buffer = function(bufnr)
-    local ret = util.noautocmd(function()
-        logger.log(string.format("Starting to generate minimap for buffer %d", bufnr), vim.log.levels.TRACE)
-        local mbufnr = api.nvim_create_buf(false, true)
-        logger.log(
-            string.format("Created a new buffer %d for minimap of buffer %d", mbufnr, bufnr),
-            vim.log.levels.TRACE
-        )
-        M.set_minimap_bufnr(bufnr, mbufnr)
-
-        vim.bo[mbufnr].buftype = "nofile"
-        vim.bo[mbufnr].swapfile = false
-        vim.bo[mbufnr].bufhidden = "hide"
-
-        logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
-        return mbufnr
+    logger.log(string.format("Starting to generate minimap for buffer %d", bufnr), vim.log.levels.TRACE)
+    local mbufnr = util.noautocmd(function()
+        return api.nvim_create_buf(false, true)
     end)()
-    return ret
+    logger.log(string.format("Created a new buffer %d for minimap of buffer %d", mbufnr, bufnr), vim.log.levels.TRACE)
+    M.set_minimap_bufnr(bufnr, mbufnr)
+
+    vim.bo[mbufnr].buftype = "nofile"
+    vim.bo[mbufnr].swapfile = false
+    vim.bo[mbufnr].bufhidden = "hide"
+    vim.b[bufnr].update_minimap_text = util.debounce(
+        vim.schedule_wrap(function()
+            logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
+
+            logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
+            local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+            local tabwidth = vim.bo[bufnr].tabstop
+
+            logger.log(string.format("Generating minimap text for buffer %d", bufnr), vim.log.levels.TRACE)
+            local minimap = require("neominimap.map.text").gen(lines, tabwidth)
+
+            vim.bo[mbufnr].modifiable = true
+
+            logger.log(string.format("Setting lines for buffer %d", mbufnr), vim.log.levels.TRACE)
+            util.noautocmd(api.nvim_buf_set_lines)(mbufnr, 0, -1, true, minimap)
+
+            vim.bo[mbufnr].modifiable = false
+            logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
+
+            M.set_event_bufnr(bufnr)
+            vim.api.nvim_exec_autocmds("User", {
+                group = "Neominimap",
+                pattern = "BufferTextUpdated",
+            })
+        end),
+        config.delay
+    )
+
+    logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
+    return mbufnr
 end
+
+--- @class RefreshOptions
+
+--- @class RefreshOptions.Create
+--- @field callback function?
 
 --- Refresh the minimap attached to the given buffer if possible
 --- Remove a buffer that is attached to it
 --- @param bufnr integer
+--- @param opt RefreshOptions?
 --- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
-M.refresh_minimap_buffer = function(bufnr)
+M.refresh_minimap_buffer = function(bufnr, opt)
     logger.log(string.format("Attempting to refresh minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
         if M.get_minimap_bufnr(bufnr) then
@@ -108,10 +151,7 @@ M.refresh_minimap_buffer = function(bufnr)
         mbufnr = M.create_minimap_buffer(bufnr)
     end
 
-    local minimap = require("neominimap.map.text").gen(bufnr)
-    vim.bo[mbufnr].modifiable = true
-    util.noautocmd(api.nvim_buf_set_lines)(mbufnr, 0, -1, true, minimap)
-    vim.bo[mbufnr].modifiable = false
+    vim.b[bufnr].update_minimap_text()
 
     logger.log(string.format("Minimap for buffer %d refreshed successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr

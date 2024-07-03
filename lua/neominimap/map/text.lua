@@ -34,17 +34,14 @@ M.str_to_code_points = function(str, tabwidth)
 end
 
 --- Generate minimap text for the buffer
---- @param bufnr integer
+--- @param lines string[]
+--- @param tabwidth integer
 --- @return string[]
-M.gen = function(bufnr)
-    local lines = api.nvim_buf_get_lines(bufnr, 0, -1, true)
-    local tabwidth = vim.bo[bufnr].tabstop
-
+M.gen = function(lines, tabwidth)
     local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
     local width = config.minimap_width
 
     local map = {}
-
     for i = 1, height, 1 do
         map[#map + 1] = {}
         for j = 1, width, 1 do

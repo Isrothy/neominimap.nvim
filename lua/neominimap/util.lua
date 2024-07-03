@@ -1,6 +1,5 @@
 local M = {}
 
-
 --- @generic F: function
 --- @param f F
 --- @return F
@@ -23,9 +22,10 @@ M.debounce = function(f, delay)
     return function(...)
         local args = { ... }
         if timer then
-            vim.fn.timer_stop(timer)
+            vim.uv.timer_stop(timer)
         end
-        timer = vim.fn.timer_start(delay, function()
+        timer = vim.uv.new_timer()
+        vim.uv.timer_start(timer, delay, 0, function()
             f(unpack(args))
         end)
     end

@@ -219,7 +219,11 @@ local reset_cursor_line = function(winid)
     local row = rowCol[1]
     local col = rowCol[2]
     row, col = coord.map_point_to_mcode_point(row, col)
-    util.noautocmd(vim.api.nvim_win_set_cursor)(mwinid, { row, 0 })
+    local mbufnr = api.nvim_win_get_buf(mwinid)
+    local line_cnt = api.nvim_buf_line_count(mbufnr)
+    if row <= line_cnt then
+        vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(mwinid, { row, 0 })
+    end
     logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
     return false
 end
