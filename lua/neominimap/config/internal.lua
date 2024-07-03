@@ -7,7 +7,8 @@ local M = {}
 ---@field notification_level integer
 ---@field exclude_filetypes (string[])
 ---@field exclude_buftypes (string[])
----@field max_lines number?
+---@field buf_filter (fun(bufnr: integer): boolean)?
+---@field win_filter (fun(winid: integer): boolean)?
 ---@field max_minimap_height number?
 ---@field minimap_width number
 ---@field x_multiplier integer
@@ -18,7 +19,6 @@ local M = {}
 ---@field use_treesitter boolean
 ---@field use_git boolean
 ---@field z_index number
----@field show_cursor boolean
 ---@field window_border string | string[]
 
 ---@enum Neominimap.Relative
@@ -30,10 +30,10 @@ M.RELATIVE = {
 ---@type Neominimap.InternalConfig
 M.default_config = {
     auto_enable = true,
-    exclude_filetypes = { "help" },
     log_level = vim.log.levels.OFF,
     notification_level = vim.log.levels.INFO,
     log_path = vim.fn.stdpath("data") .. "/neominimap.log",
+    exclude_filetypes = { "help" },
     exclude_buftypes = {
         "nofile",
         "nowrite",
@@ -52,7 +52,6 @@ M.default_config = {
     use_treesitter = true,
     use_git = true,
     z_index = 1, -- The z-index the floating window will be on
-    show_cursor = true,
     window_border = "single", -- The border style of the floating window (accepts all usual options)
     relative = M.RELATIVE.lines, -- What will be the minimap be placed relative to, "win": the current window, "editor": the entire editor
 }

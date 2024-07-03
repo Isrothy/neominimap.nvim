@@ -61,9 +61,9 @@ M.should_generate_minimap = function(bufnr)
         )
         return false
     end
-    if config.max_lines and api.nvim_buf_line_count(bufnr) > config.max_lines then
+    if config.buf_filter and not config.buf_filter(bufnr) then
         logger.log(
-            string.format("Buffer %d should not generate minimap due to its line count", bufnr),
+            string.format("Buffer %d should not generate minimap due to buf_filter", bufnr),
             vim.log.levels.TRACE
         )
         return false
@@ -121,17 +121,11 @@ M.create_minimap_buffer = function(bufnr)
     return mbufnr
 end
 
---- @class RefreshOptions
-
---- @class RefreshOptions.Create
---- @field callback function?
-
 --- Refresh the minimap attached to the given buffer if possible
 --- Remove a buffer that is attached to it
 --- @param bufnr integer
---- @param opt RefreshOptions?
 --- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
-M.refresh_minimap_buffer = function(bufnr, opt)
+M.refresh_minimap_buffer = function(bufnr)
     logger.log(string.format("Attempting to refresh minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
         if M.get_minimap_bufnr(bufnr) then

@@ -108,6 +108,11 @@ local should_show_minimap = function(winid)
         return false
     end
 
+    if config.win_filter and not config.win_filter(winid) then
+        logger.log(string.format("Window %d should not be shown due to win_filter", winid), vim.log.levels.TRACE)
+        return false
+    end
+
     logger.log(string.format("Minimap can be shown for window %d", winid), vim.log.levels.TRACE)
     return true
 end
@@ -179,6 +184,7 @@ local create_minimap_window = function(winid)
         vim.wo[mwinid].wrap = false
         vim.wo[mwinid].foldcolumn = "0"
         vim.wo[mwinid].signcolumn = "no"
+        vim.wo[mwinid].statuscolumn = ""
         vim.wo[mwinid].number = false
         vim.wo[mwinid].relativenumber = false
         vim.wo[mwinid].scrolloff = 99999 -- To center minimap

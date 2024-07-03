@@ -7,8 +7,8 @@ local M = {}
 ---@field notification_level (string | integer)?
 ---@field exclude_filetypes (string[])?
 ---@field exclude_buftypes (string[])?
----@field max_lines number?
----@field max_minimap_height number?
+---@field buf_filter (fun(bufnr: integer): boolean)?
+---@field win_filter (fun(winid: integer): boolean)?
 ---@field minimap_width number?
 ---@field x_multiplier integer?
 ---@field y_multiplier integer?
@@ -18,7 +18,6 @@ local M = {}
 ---@field use_treesitter boolean?
 ---@field use_git boolean?
 ---@field z_index number?
----@field show_cursor boolean?
 ---@field window_border (string | string[])?
 
 ---@type Neominimap.UserConfig | fun():Neominimap.UserConfig | nil
