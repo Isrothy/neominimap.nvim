@@ -13,7 +13,7 @@ With Lazy:
 
 ```lua
 {
-  dir = "~/neominimap.nvim",
+  "Isrothy/neominimap.nvim",
   enabled = true,
   lazy = false, -- WARN: NO NEED to Lazy load
   init = function()
@@ -36,14 +36,16 @@ vim.g.neominimap = {
     -- Enable the plugin by default
     auto_enable = true,
 
+    -- Log level
     log_level = vim.log.levels.OFF,
 
+    -- Notification level
     notification_level = vim.log.levels.INFO,
 
-    -- PATH to the log file
+    -- Path to the log file
     log_path = vim.fn.stdpath("data") .. "/neominimap.log",
 
-    --- Minimap will not be created for files of these types
+    -- Minimap will not be created for buffers of these types
     exclude_filetypes = { "help" },
 
     -- Minimap will not be created for buffers of these types
@@ -131,7 +133,7 @@ end,
 ## Non-Goals
 
 - Scrollbar.
-  Use [Satellite](https://github.com/lewis6991/satellite.nvim),
+  Use [satellite.nvim](https://github.com/lewis6991/satellite.nvim),
       [nvim-scrollview](https://github.com/dstein64/nvim-scrollview)
   or other plugins.
 - Display screen bounds like
