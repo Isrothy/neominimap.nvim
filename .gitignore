@@ -1,0 +1,7 @@
+.null-ls_*_README.md
+
+.idea/
+.vscode/
+
+.DS_Store
+Thumbs.db
