@@ -110,7 +110,7 @@ M.setup = function()
                                 string.format("Debounced refreshing minimap for buffer %d.", bufnr),
                                 vim.log.levels.TRACE
                             )
-                            if vim.b[bufnr].update_minimap_window then
+                            if vim.b[bufnr].update_minimap_text then
                                 vim.b[bufnr].update_minimap_text()
                             end
                             logger.log(

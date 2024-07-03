@@ -108,7 +108,7 @@ local should_show_minimap = function(winid)
         return false
     end
 
-    if config.win_filter and not config.win_filter(winid) then
+    if not config.win_filter(winid) then
         logger.log(string.format("Window %d should not be shown due to win_filter", winid), vim.log.levels.TRACE)
         return false
     end

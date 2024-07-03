@@ -61,7 +61,7 @@ M.should_generate_minimap = function(bufnr)
         )
         return false
     end
-    if config.buf_filter and not config.buf_filter(bufnr) then
+    if not config.buf_filter(bufnr) then
         logger.log(
             string.format("Buffer %d should not generate minimap due to buf_filter", bufnr),
             vim.log.levels.TRACE
