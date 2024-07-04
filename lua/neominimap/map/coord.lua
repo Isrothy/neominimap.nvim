@@ -15,6 +15,9 @@ local braille_chars = "⠀⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄⡅⡆⡇⠈⠉⠊
     .. "⢰⢱⢲⢳⢴⢵⢶⢷⣰⣱⣲⣳⣴⣵⣶⣷⢸⢹⢺⢻⢼⢽⢾⢿⣸⣹⣺⣻⣼⣽⣾⣿"
 
 local braille_codes = vim.fn.str2list(braille_chars)
+
+--- @param bitmap integer
+--- @return string
 M.bitmap_to_code = function(bitmap)
     return braille_codes[bitmap + 1]
 end

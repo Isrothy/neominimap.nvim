@@ -6,6 +6,8 @@ local logger = require("neominimap.logger")
 local buffer = require("neominimap.buffer")
 local coord = require("neominimap.map.coord")
 
+local diagnostic = require("neominimap.map.extensions.diagnostic")
+
 --- @param winid integer
 --- @return boolean
 local is_terminal = function(winid)
@@ -190,6 +192,7 @@ local create_minimap_window = function(winid)
         vim.wo[mwinid].scrolloff = 99999 -- To center minimap
         vim.wo[mwinid].sidescrolloff = 0
         vim.wo[mwinid].winblend = 0
+        api.nvim_win_set_hl_ns(mwinid, diagnostic.namespace)
         logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
         return mwinid
     end)()

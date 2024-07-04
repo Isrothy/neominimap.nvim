@@ -14,18 +14,43 @@ local M = {}
 ---@field x_multiplier integer
 ---@field y_multiplier integer
 ---@field delay integer
----@field use_lsp boolean
+---@field diagnostic Neominimap.InternalDiagnosticConfig
 ---@field use_highlight boolean
 ---@field use_treesitter boolean
 ---@field use_git boolean
 ---@field z_index number
 ---@field window_border string | string[]
 
+---@class Neominimap.InternalDiagnosticConfig
+---@field enable boolean
+---@field severity integer
+---@field priority Neominimap.InternalDiagnosticPriority
+---@field colors Neominimap.InternalDiagnosticColors
+
+---@class Neominimap.InternalDiagnosticPriority
+---@field ERROR integer
+---@field WARN integer
+---@field INFO integer
+---@field HINT integer
+---
+---@class Neominimap.InternalDiagnosticColors
+---@field ERROR string
+---@field WARN string
+---@field INFO string
+---@field HINT string
+
 ---@enum Neominimap.Relative
 M.RELATIVE = {
     win = "win",
     editor = "editor",
 }
+
+---@param name string
+---@return string
+local get_hl_fg = function(name)
+    local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+    return string.format("#%06x", hl.fg)
+end
 
 ---@type Neominimap.InternalConfig
 M.default_config = {
@@ -52,7 +77,22 @@ M.default_config = {
     x_multiplier = 4,
     y_multiplier = 1,
     delay = 200,
-    use_lsp = true,
+    diagnostic = {
+        enable = true,
+        severity = vim.diagnostic.severity.WARN,
+        colors = {
+            ERROR = get_hl_fg("DiagnosticError"),
+            WARN = get_hl_fg("DiagnosticWarn"),
+            INFO = get_hl_fg("DiagnosticInfo"),
+            HINT = get_hl_fg("DiagnosticHint"),
+        },
+        priority = {
+            ERROR = 100,
+            WARN = 90,
+            INFO = 80,
+            HINT = 70,
+        },
+    },
     use_highlight = true,
     use_treesitter = true,
     use_git = true,
