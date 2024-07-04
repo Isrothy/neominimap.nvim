@@ -13,7 +13,6 @@ api.nvim_set_hl(0, "NeominimapBorder", { link = "FloatBorder", default = true })
 api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true })
 api.nvim_set_hl(0, "NeominimapNormal", { link = "Normal", default = true })
 
-
 --- @param winid integer
 --- @return boolean
 local is_terminal = function(winid)
@@ -156,7 +155,7 @@ local get_window_config = function(winid)
         relative = "win",
         win = winid,
         anchor = "NE",
-        width = config.minimap_width + 4,
+        width = config.minimap_width,
         height = height,
         row = row,
         col = col,
