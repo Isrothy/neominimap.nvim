@@ -72,15 +72,15 @@ M.setup = function()
             )
             local bufnr = tonumber(args.buf)
             local buffer = require("neominimap.buffer")
-            vim.schedule(function()
-                if M.enabled then
+            if M.enabled then
+                vim.schedule(function()
                     ---@cast bufnr integer
                     logger.log(string.format("Refreshing minimap for buffer %d.", bufnr), vim.log.levels.TRACE)
                     buffer.refresh_minimap_buffer(bufnr)
                     logger.log(string.format("Minimap buffer refreshed for buffer %d.", bufnr), vim.log.levels.TRACE)
-                end
-            end)
-            api.nvim_create_autocmd("BufWipeout", {
+                end)
+            end
+            api.nvim_create_autocmd("BufUnload", {
                 group = gid,
                 buffer = bufnr,
                 callback = function()

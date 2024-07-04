@@ -140,10 +140,7 @@ M.refresh_minimap_buffer = function(bufnr)
         end
         return nil
     end
-    local mbufnr = M.get_minimap_bufnr(bufnr)
-    if not mbufnr then
-        mbufnr = M.create_minimap_buffer(bufnr)
-    end
+    local mbufnr = M.get_minimap_bufnr(bufnr) or M.create_minimap_buffer(bufnr)
 
     vim.b[bufnr].update_minimap_text()
 
