@@ -135,14 +135,14 @@ end
 
 ---@param bufnr integer
 M.update_text = function(bufnr)
-    if vim.b[bufnr].update_text then
+    if api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].update_text then
         vim.b[bufnr].update_minimap_text()
     end
 end
 
 ---@param bufnr integer
 M.update_diagnostics = function(bufnr)
-    if vim.b[bufnr].update_diagnostic then
+    if api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].update_diagnostic then
         vim.b[bufnr].update_diagnostic()
     end
 end

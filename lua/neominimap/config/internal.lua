@@ -25,32 +25,18 @@ local M = {}
 ---@field enabled boolean
 ---@field severity integer
 ---@field priority Neominimap.InternalDiagnosticPriority
----@field colors Neominimap.InternalDiagnosticColors
 
 ---@class Neominimap.InternalDiagnosticPriority
 ---@field ERROR integer
 ---@field WARN integer
 ---@field INFO integer
 ---@field HINT integer
----
----@class Neominimap.InternalDiagnosticColors
----@field ERROR string
----@field WARN string
----@field INFO string
----@field HINT string
 
 ---@enum Neominimap.Relative
 M.RELATIVE = {
     win = "win",
     editor = "editor",
 }
-
----@param name string
----@return string
-local get_hl_fg = function(name)
-    local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
-    return string.format("#%06x", hl.fg)
-end
 
 ---@type Neominimap.InternalConfig
 M.default_config = {
@@ -80,12 +66,6 @@ M.default_config = {
     diagnostic = {
         enabled = true,
         severity = vim.diagnostic.severity.WARN,
-        colors = {
-            ERROR = get_hl_fg("DiagnosticError"),
-            WARN = get_hl_fg("DiagnosticWarn"),
-            INFO = get_hl_fg("DiagnosticInfo"),
-            HINT = get_hl_fg("DiagnosticHint"),
-        },
         priority = {
             ERROR = 100,
             WARN = 90,

@@ -24,14 +24,7 @@ local M = {}
 ---@field enabled boolean?
 ---@field severity integer?
 ---@field priority Neominimap.InternalDiagnosticPriority?
----@field colors Neominimap.InternalDiagnosticColors?
 
----@class Neominimap.DiagnosticColors
----@field ERROR string?
----@field WARN string?
----@field INFO string?
----@field HINT string?
----
 ---@class Neominimap.DiagnosticPriority
 ---@field ERROR integer?
 ---@field WARN integer?

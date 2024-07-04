@@ -3,9 +3,22 @@ local M = {}
 local api = vim.api
 local diagnostic = vim.diagnostic
 local config = require("neominimap.config").get()
-local colors = config.diagnostic.colors
 
 M.namespace = api.nvim_create_namespace("neominimap_diagnostic")
+
+---@param name string
+---@return string
+local get_hl_fg = function(name)
+    local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+    return string.format("#%06x", hl.fg)
+end
+
+local colors = {
+    ERROR = get_hl_fg("DiagnosticError"),
+    WARN = get_hl_fg("DiagnosticWarn"),
+    INFO = get_hl_fg("DiagnosticInfo"),
+    HINT = get_hl_fg("DiagnosticHint"),
+}
 
 api.nvim_set_hl(0, "NeominimapErrorFg", { fg = colors.ERROR, default = true })
 api.nvim_set_hl(0, "NeominimapWarnFg", { fg = colors.WARN, default = true })
