@@ -293,7 +293,7 @@ M.setup = function()
                         window.reset_cursor_line(winid)
                         logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
 
-                        if config.diagnostic.enable then
+                        if config.diagnostic.enabled then
                             logger.log(
                                 string.format("Refreshing diagnostics for window %d.", winid),
                                 vim.log.levels.TRACE
