@@ -48,10 +48,6 @@ end
 
 M.setup = function()
     local logger = require("neominimap.logger")
-    api.nvim_set_hl(0, "NeominimapBackground", { link = "Normal", default = true })
-    api.nvim_set_hl(0, "NeominimapBorder", { link = "FloatBorder", default = true })
-    api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true })
-    api.nvim_set_hl(0, "NeominimapNormal", { link = "Normal", default = true })
 
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
     api.nvim_create_autocmd("VimEnter", {
@@ -85,7 +81,7 @@ M.setup = function()
                 buffer = bufnr,
                 callback = function()
                     logger.log(
-                        string.format("BufWipeout event triggered for buffer %d.", args.buf),
+                        string.format("BufUnload event triggered for buffer %d.", args.buf),
                         vim.log.levels.TRACE
                     )
                     vim.schedule(function()
@@ -121,20 +117,23 @@ M.setup = function()
             })
         end,
     })
+
+    local last_diag_buffers = {}
     vim.api.nvim_create_autocmd("DiagnosticChanged", {
         group = gid,
         callback = function(args)
             logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
-            if M.enabled and config.diagnostic.enable then
+            if M.enabled and config.diagnostic.enabled then
                 local diagnostics = args.data.diagnostics
                 logger.log(string.format("Diagnostics: %s", vim.inspect(diagnostics)), vim.log.levels.DEBUG)
-                local bufnrs = {}
+                local diag_buffers = {}
                 for _, diagnostic in ipairs(diagnostics) do
-                    bufnrs[diagnostic.bufnr] = true
+                    diag_buffers[diagnostic.bufnr] = true
                 end
                 local buffer = require("neominimap.buffer")
+                local buffers_to_refresh = vim.tbl_extend("force", last_diag_buffers, diag_buffers)
                 vim.schedule(function()
-                    for bufnr in pairs(bufnrs) do
+                    for bufnr in pairs(buffers_to_refresh) do
                         logger.log(
                             string.format("Debounced updating diagnostics for buffer %d", bufnr),
                             vim.log.levels.TRACE
@@ -146,6 +145,7 @@ M.setup = function()
                         )
                     end
                 end)
+                last_diag_buffers = diag_buffers
             end
         end,
     })
@@ -292,6 +292,18 @@ M.setup = function()
                         logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
                         window.reset_cursor_line(winid)
                         logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
+
+                        if config.diagnostic.enable then
+                            logger.log(
+                                string.format("Refreshing diagnostics for window %d.", winid),
+                                vim.log.levels.TRACE
+                            )
+                            buffer.update_diagnostics(winid)
+                            logger.log(
+                                string.format("Diagnostics refreshed for window %d.", winid),
+                                vim.log.levels.TRACE
+                            )
+                        end
                     end
                 end)
             end

@@ -7,21 +7,21 @@ local colors = config.diagnostic.colors
 
 M.namespace = api.nvim_create_namespace("neominimap_diagnostic")
 
-api.nvim_set_hl(M.namespace, "NeominimapErrorFg", { fg = colors.ERROR })
-api.nvim_set_hl(M.namespace, "NeominimapWarnFg", { fg = colors.WARN })
-api.nvim_set_hl(M.namespace, "NeominimapInfoFg", { fg = colors.INFO })
-api.nvim_set_hl(M.namespace, "NeominimapHintFg", { fg = colors.HINT })
+api.nvim_set_hl(0, "NeominimapErrorFg", { fg = colors.ERROR, default = true })
+api.nvim_set_hl(0, "NeominimapWarnFg", { fg = colors.WARN, default = true })
+api.nvim_set_hl(0, "NeominimapInfoFg", { fg = colors.INFO, default = true })
+api.nvim_set_hl(0, "NeominimapHintFg", { fg = colors.HINT, default = true })
 
-api.nvim_set_hl(M.namespace, "NeominimapErrorBg", { bg = colors.ERROR })
-api.nvim_set_hl(M.namespace, "NeominimapWarnBg", { bg = colors.WARN })
-api.nvim_set_hl(M.namespace, "NeominimapInfoBg", { bg = colors.INFO })
-api.nvim_set_hl(M.namespace, "NeominimapHintBg", { bg = colors.HINT })
+api.nvim_set_hl(0, "NeominimapErrorBg", { bg = colors.ERROR, default = true })
+api.nvim_set_hl(0, "NeominimapWarnBg", { bg = colors.WARN, default = true })
+api.nvim_set_hl(0, "NeominimapInfoBg", { bg = colors.INFO, default = true })
+api.nvim_set_hl(0, "NeominimapHintBg", { bg = colors.HINT, default = true })
 
 local colors_name = {
     "NeominimapError",
     "NeominimapWarn",
     "NeominimapInfo",
-    "NeominimapHintFg",
+    "NeominimapHint",
 }
 
 local priority_list = {

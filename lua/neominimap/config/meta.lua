@@ -21,7 +21,7 @@ local M = {}
 ---@field window_border (string | string[])?
 
 ---@class Neominimap.DiagnosticConfig
----@field enable boolean?
+---@field enabled boolean?
 ---@field severity integer?
 ---@field priority Neominimap.InternalDiagnosticPriority?
 ---@field colors Neominimap.InternalDiagnosticColors?

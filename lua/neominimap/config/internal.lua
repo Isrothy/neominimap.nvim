@@ -22,7 +22,7 @@ local M = {}
 ---@field window_border string | string[]
 
 ---@class Neominimap.InternalDiagnosticConfig
----@field enable boolean
+---@field enabled boolean
 ---@field severity integer
 ---@field priority Neominimap.InternalDiagnosticPriority
 ---@field colors Neominimap.InternalDiagnosticColors
@@ -78,7 +78,7 @@ M.default_config = {
     y_multiplier = 1,
     delay = 200,
     diagnostic = {
-        enable = true,
+        enabled = true,
         severity = vim.diagnostic.severity.WARN,
         colors = {
             ERROR = get_hl_fg("DiagnosticError"),

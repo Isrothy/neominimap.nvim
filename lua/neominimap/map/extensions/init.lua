@@ -43,14 +43,18 @@ M.apply_bg = function(mbufnr, namespace, decorations)
         end
     end
     logger.log(string.format("Applying lines: %s", vim.inspect(lines)), vim.log.levels.DEBUG)
+    local line_count = api.nvim_buf_line_count(mbufnr)
     for lineNr, decoration in pairs(lines) do
-        api.nvim_buf_set_extmark(mbufnr, namespace, lineNr - 1, 0, {
-            end_col = 0,
-            end_row = lineNr,
-            hl_group = decoration.color .. "Bg",
-            hl_mode = "combine",
-            priority = decoration.priority,
-        })
+        if lineNr <= line_count then
+            api.nvim_buf_set_extmark(mbufnr, namespace, lineNr - 1, 0, {
+                end_col = 0,
+                end_row = lineNr,
+                hl_group = decoration.color .. "Bg",
+                -- hl_group = "Function",
+                hl_mode = "combine",
+                priority = decoration.priority,
+            })
+        end
     end
 end
 

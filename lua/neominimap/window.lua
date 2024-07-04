@@ -8,6 +8,12 @@ local coord = require("neominimap.map.coord")
 
 local diagnostic = require("neominimap.map.extensions.diagnostic")
 
+api.nvim_set_hl(0, "NeominimapBackground", { link = "Normal", default = true })
+api.nvim_set_hl(0, "NeominimapBorder", { link = "FloatBorder", default = true })
+api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true })
+api.nvim_set_hl(0, "NeominimapNormal", { link = "Normal", default = true })
+
+
 --- @param winid integer
 --- @return boolean
 local is_terminal = function(winid)
@@ -174,28 +180,29 @@ local create_minimap_window = function(winid)
         logger.log(string.format("Minimap buffer not available for window %d", winid), vim.log.levels.TRACE)
         return nil
     end
-    return util.noautocmd(function()
-        logger.log(string.format("Creating minimap window for window %d", winid), vim.log.levels.TRACE)
-        local win_cfg = get_window_config(winid)
-        win_cfg.noautocmd = true --Set noautocmd here for noautocmd can only set for none existing window
-        local mwinid = api.nvim_open_win(mbufnr, false, win_cfg)
-        set_minimap_winid(winid, mwinid)
 
-        vim.wo[mwinid].winhighlight =
-            "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine"
-        vim.wo[mwinid].wrap = false
-        vim.wo[mwinid].foldcolumn = "0"
-        vim.wo[mwinid].signcolumn = "no"
-        vim.wo[mwinid].statuscolumn = ""
-        vim.wo[mwinid].number = false
-        vim.wo[mwinid].relativenumber = false
-        vim.wo[mwinid].scrolloff = 99999 -- To center minimap
-        vim.wo[mwinid].sidescrolloff = 0
-        vim.wo[mwinid].winblend = 0
-        api.nvim_win_set_hl_ns(mwinid, diagnostic.namespace)
-        logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
-        return mwinid
-    end)()
+    logger.log(string.format("Creating minimap window for window %d", winid), vim.log.levels.TRACE)
+    local win_cfg = get_window_config(winid)
+    win_cfg.noautocmd = true --Set noautocmd here for noautocmd can only set for none existing window
+    local mwinid = util.noautocmd(api.nvim_open_win)(mbufnr, false, win_cfg)
+    set_minimap_winid(winid, mwinid)
+
+    vim.wo[mwinid].winhighlight =
+        "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine"
+    vim.wo[mwinid].wrap = false
+    vim.wo[mwinid].foldcolumn = "0"
+    vim.wo[mwinid].signcolumn = "no"
+    vim.wo[mwinid].statuscolumn = ""
+    vim.wo[mwinid].number = false
+    vim.wo[mwinid].relativenumber = false
+    vim.wo[mwinid].scrolloff = 99999 -- To center minimap
+    vim.wo[mwinid].sidescrolloff = 0
+    vim.wo[mwinid].winblend = 0
+
+    logger.log(string.format("Setting namespace %d for window %d", diagnostic.namespace, winid), vim.log.levels.DEBUG)
+    api.nvim_win_set_hl_ns(mwinid, diagnostic.namespace)
+
+    logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
 end
 
 --- Close the minimap attached to the given window
