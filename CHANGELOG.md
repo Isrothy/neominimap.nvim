@@ -2,8 +2,15 @@
 
 ## 1.0.0 (2024-07-04)
 
+The first stable release of `neominimap.nvim`
 
-### Bug Fixes
+### Features:
 
-* event to delete minimap buffer ([3879bc8](https://github.com/Isrothy/neominimap.nvim/commit/3879bc83f3dea6f1d3538aa1a41285449a72de3c))
-* undesired side scroll in minimap ([2917e4d](https://github.com/Isrothy/neominimap.nvim/commit/2917e4de7f76c92abacffeef2c1a524b6b989739))
+- **Code Minimap**: Displays a miniature version of your code on the right side of the windows.
+- **Commands**:
+  - `:NeominimapOpel`: Enable the minimap.
+  - `:NeominimapClose`: Disable the minimap.
+  - `:NeominimapToggle`: Toggle the minimap on or off.
+ 
+### Known Issues
+- Performance issues may occur with very large files.
