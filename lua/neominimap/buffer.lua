@@ -135,7 +135,7 @@ end
 
 ---@param bufnr integer
 M.update_text = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].update_text then
+    if api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].update_minimap_text then
         vim.b[bufnr].update_minimap_text()
     end
 end
