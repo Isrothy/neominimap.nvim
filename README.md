@@ -138,7 +138,7 @@ end,
 
 ## TODO
 
-- [*] LSP integration
+- [x] LSP integration
 - [ ] Git integration
 - [ ] Search integration
 - [ ] TreeSitter integration
