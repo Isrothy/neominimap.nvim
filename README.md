@@ -7,6 +7,10 @@ of your windows, similar to the minimap found in many modern editors.
 
 ## Screenshots
 
+## Features
+
+- LSP Integration
+
 ## Installation
 
 With Lazy:
@@ -86,6 +90,18 @@ vim.g.neominimap = {
     -- Z-index for the floating window
     z_index = 1,
 
+    -- Diagnostic integration
+    diagnostic = {
+        enabled = true,
+        severity = vim.diagnostic.severity.WARN,
+        priority = {
+            ERROR = 100,
+            WARN = 90,
+            INFO = 80,
+            HINT = 70,
+        },
+    },
+
     -- Border style of the floating window
     -- Accepts all usual border style options (e.g., "single", "double")
     window_border = "single",
@@ -122,7 +138,7 @@ end,
 
 ## TODO
 
-- [ ] LSP integration
+- [*] LSP integration
 - [ ] Git integration
 - [ ] Search integration
 - [ ] TreeSitter integration
