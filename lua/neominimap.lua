@@ -33,7 +33,7 @@ function M.close_minimap()
     vim.schedule(function()
         logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
         window.close_all_minimap_windows()
-        buffer.wipe_out_all_minimap_buffers()
+        buffer.delete_all_minimap_buffers()
         logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
     end)
 end
@@ -48,10 +48,6 @@ end
 
 M.setup = function()
     local logger = require("neominimap.logger")
-    api.nvim_set_hl(0, "NeominimapBackground", { link = "Normal", default = true })
-    api.nvim_set_hl(0, "NeominimapBorder", { link = "FloatBorder", default = true })
-    api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true })
-    api.nvim_set_hl(0, "NeominimapNormal", { link = "Normal", default = true })
 
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
     api.nvim_create_autocmd("VimEnter", {
@@ -85,13 +81,13 @@ M.setup = function()
                 buffer = bufnr,
                 callback = function()
                     logger.log(
-                        string.format("BufWipeout event triggered for buffer %d.", args.buf),
+                        string.format("BufUnload event triggered for buffer %d.", args.buf),
                         vim.log.levels.TRACE
                     )
                     vim.schedule(function()
                         logger.log(string.format("Wiping out minimap for buffer %d.", bufnr), vim.log.levels.TRACE)
                         ---@cast bufnr integer
-                        buffer.wipe_out_minimap_buffer(bufnr)
+                        buffer.delete_minimap_buffer(bufnr)
                         logger.log(
                             string.format("Minimap buffer wiped out for buffer %d.", bufnr),
                             vim.log.levels.TRACE
@@ -107,20 +103,50 @@ M.setup = function()
                     if M.enabled then
                         vim.schedule(function()
                             logger.log(
-                                string.format("Debounced refreshing minimap for buffer %d.", bufnr),
+                                string.format("Debounced updating text for buffer %d.", bufnr),
                                 vim.log.levels.TRACE
                             )
-                            if vim.b[bufnr].update_minimap_text then
-                                vim.b[bufnr].update_minimap_text()
-                            end
+                            buffer.update_text(bufnr)
                             logger.log(
-                                string.format("Minimap buffer refreshed for buffer %d.", bufnr),
+                                string.format("Debounced text updating for buffer %d is called", bufnr),
                                 vim.log.levels.TRACE
                             )
                         end)
                     end
                 end,
             })
+        end,
+    })
+
+    local last_diag_buffers = {}
+    vim.api.nvim_create_autocmd("DiagnosticChanged", {
+        group = gid,
+        callback = function(args)
+            logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
+            if M.enabled and config.diagnostic.enabled then
+                local diagnostics = args.data.diagnostics
+                logger.log(string.format("Diagnostics: %s", vim.inspect(diagnostics)), vim.log.levels.DEBUG)
+                local diag_buffers = {}
+                for _, diagnostic in ipairs(diagnostics) do
+                    diag_buffers[diagnostic.bufnr] = true
+                end
+                local buffer = require("neominimap.buffer")
+                local buffers_to_refresh = vim.tbl_extend("force", last_diag_buffers, diag_buffers)
+                vim.schedule(function()
+                    for bufnr in pairs(buffers_to_refresh) do
+                        logger.log(
+                            string.format("Debounced updating diagnostics for buffer %d", bufnr),
+                            vim.log.levels.TRACE
+                        )
+                        buffer.update_diagnostics(bufnr)
+                        logger.log(
+                            string.format("Debounced diagnostics updating for buffer %d is called", bufnr),
+                            vim.log.levels.TRACE
+                        )
+                    end
+                end)
+                last_diag_buffers = diag_buffers
+            end
         end,
     })
     api.nvim_create_autocmd("BufWinEnter", {
@@ -266,6 +292,18 @@ M.setup = function()
                         logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
                         window.reset_cursor_line(winid)
                         logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
+
+                        if config.diagnostic.enabled then
+                            logger.log(
+                                string.format("Refreshing diagnostics for window %d.", winid),
+                                vim.log.levels.TRACE
+                            )
+                            buffer.update_diagnostics(winid)
+                            logger.log(
+                                string.format("Diagnostics refreshed for window %d.", winid),
+                                vim.log.levels.TRACE
+                            )
+                        end
                     end
                 end)
             end

@@ -14,12 +14,23 @@ local M = {}
 ---@field x_multiplier integer
 ---@field y_multiplier integer
 ---@field delay integer
----@field use_lsp boolean
+---@field diagnostic Neominimap.InternalDiagnosticConfig
 ---@field use_highlight boolean
 ---@field use_treesitter boolean
 ---@field use_git boolean
 ---@field z_index number
 ---@field window_border string | string[]
+
+---@class Neominimap.InternalDiagnosticConfig
+---@field enabled boolean
+---@field severity integer
+---@field priority Neominimap.InternalDiagnosticPriority
+
+---@class Neominimap.InternalDiagnosticPriority
+---@field ERROR integer
+---@field WARN integer
+---@field INFO integer
+---@field HINT integer
 
 ---@enum Neominimap.Relative
 M.RELATIVE = {
@@ -52,7 +63,16 @@ M.default_config = {
     x_multiplier = 4,
     y_multiplier = 1,
     delay = 200,
-    use_lsp = true,
+    diagnostic = {
+        enabled = true,
+        severity = vim.diagnostic.severity.WARN,
+        priority = {
+            ERROR = 100,
+            WARN = 90,
+            INFO = 80,
+            HINT = 70,
+        },
+    },
     use_highlight = true,
     use_treesitter = true,
     use_git = true,

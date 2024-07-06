@@ -43,7 +43,7 @@ M.gen = function(lines, tabwidth)
 
     local map = {}
     for i = 1, height, 1 do
-        map[#map + 1] = {}
+        map[i] = {}
         for j = 1, width, 1 do
             map[i][j] = 0
         end
