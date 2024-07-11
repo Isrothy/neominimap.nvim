@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/Isrothy/neominimap.nvim/compare/v1.2.0...v1.2.1) (2024-07-11)
+
+
+### Bug Fixes
+
+* Display only foreground color in minimap Treesitter highlights ([eaba632](https://github.com/Isrothy/neominimap.nvim/commit/eaba632b396c552f1b204e3abb258ebdc06d1378))
+
 ## [1.2.0](https://github.com/Isrothy/neominimap.nvim/compare/v1.1.1...v1.2.0) (2024-07-11)
 
 
