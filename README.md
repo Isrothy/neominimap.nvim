@@ -130,6 +130,25 @@ This approach minimizes unnecessary rendering when
 - Multiple windows are open for same file
 - Switching between buffers within a window
 
+### TreeSitter integration
+
+First, the plugin retrieves all Treesitter nodes in the buffer.
+
+For each codepoint in the minimap,
+the plugin calculates which highlight occurs most frequently
+and displays it.
+If multiple highlights occur the same number of times,
+all of them are displayed.
+
+Note that the plugin considers which highlights are *applied*,
+rather than which highlights are *shown*.
+Specifically, when many highlights are applied to a codepoint,
+it is possible that only some of them are visible.
+However, all applied highlights are considered in the calculation.
+As a result, unshown highlights may be displayed in the minimap,
+leading to potential inconsistencies
+between the highlights in the minimap and those in the buffer.
+
 ## Tips
 
 ### Disable minimap for large file
@@ -146,7 +165,7 @@ end,
 - [x] LSP integration
 - [ ] Git integration
 - [ ] Search integration
-- [ ] TreeSitter integration
+- [x] TreeSitter integration
 - [ ] Performance improvements
 - [ ] Documentation
 - [ ] More test cases
