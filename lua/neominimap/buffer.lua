@@ -107,9 +107,9 @@ M.create_minimap_buffer = function(bufnr)
 
             logger.log(string.format("Setting lines for buffer %d", mbufnr), vim.log.levels.TRACE)
             util.noautocmd(api.nvim_buf_set_lines)(mbufnr, 0, -1, true, minimap)
+            logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
             vim.bo[mbufnr].modifiable = false
-            logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
             M.set_event_bufnr(bufnr)
             vim.api.nvim_exec_autocmds("User", {

@@ -5,7 +5,8 @@ local M = {}
 
 local config = require("neominimap.config").get()
 
-local braille_chars = "⠀⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄⡅⡆⡇⠈⠉⠊⠋⠌⠍⠎⠏⡈⡉⡊⡋⡌⡍⡎⡏"
+local braille_chars = ""
+    .. "⠀⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄⡅⡆⡇⠈⠉⠊⠋⠌⠍⠎⠏⡈⡉⡊⡋⡌⡍⡎⡏"
     .. "⠐⠑⠒⠓⠔⠕⠖⠗⡐⡑⡒⡓⡔⡕⡖⡗⠘⠙⠚⠛⠜⠝⠞⠟⡘⡙⡚⡛⡜⡝⡞⡟"
     .. "⠠⠡⠢⠣⠤⠥⠦⠧⡠⡡⡢⡣⡤⡥⡦⡧⠨⠩⠪⠫⠬⠭⠮⠯⡨⡩⡪⡫⡬⡭⡮⡯"
     .. "⠰⠱⠲⠳⠴⠵⠶⠷⡰⡱⡲⡳⡴⡵⡶⡷⠸⠹⠺⠻⠼⠽⠾⠿⡸⡹⡺⡻⡼⡽⡾⡿"
@@ -42,7 +43,7 @@ end
 --- @param col integer
 --- @return integer ...
 M.code_point_to_map_point = function(row, col)
-    return (row - 1) / config.y_multiplier, (col - 1) / config.x_multiplier
+    return math.floor((row - 1) / config.y_multiplier), math.floor((col - 1) / config.x_multiplier)
 end
 
 M.code_point_to_mcode_point = function(row, col)
