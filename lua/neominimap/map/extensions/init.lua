@@ -33,7 +33,7 @@ M.apply_bg = function(mbufnr, namespace, decorations)
     for _, decoration in ipairs(decorations) do
         for i = decoration.lnum, decoration.end_lnum, 1 do
             local row, col = i, 1
-            local mrow, _ = coord.map_point_to_mcode_point(row, col)
+            local mrow, _ = coord.map_point_to_mcodepoint(row, col)
             if not lines[mrow] or lines[mrow].priority < decoration.priority then
                 lines[mrow] = {
                     color = decoration.color,

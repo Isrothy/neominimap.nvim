@@ -9,15 +9,15 @@ local M = {}
 ---@field exclude_buftypes (string[])
 ---@field buf_filter fun(bufnr: integer): boolean
 ---@field win_filter fun(winid: integer): boolean
----@field max_minimap_height number?
----@field minimap_width number
+---@field max_minimap_height integer?
+---@field minimap_width integer
 ---@field x_multiplier integer
 ---@field y_multiplier integer
 ---@field delay integer
 ---@field diagnostic Neominimap.InternalDiagnosticConfig
 ---@field treesitter Neominimap.InternalTreesitterConfig
 ---@field use_git boolean
----@field z_index number
+---@field z_index integer
 ---@field window_border string | string[]
 
 ---@class Neominimap.InternalDiagnosticConfig

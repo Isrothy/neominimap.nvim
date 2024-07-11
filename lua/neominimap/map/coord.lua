@@ -35,23 +35,23 @@ end
 --- @param y integer
 --- @param x integer
 --- @return integer ...
-M.map_point_to_mcode_point = function(y, x)
+M.map_point_to_mcodepoint = function(y, x)
     return bit.rshift(y, 2) + 1, bit.rshift(x, 1) + 1
 end
 
 --- @param row integer
 --- @param col integer
 --- @return integer ...
-M.code_point_to_map_point = function(row, col)
+M.codepoint_to_map_point = function(row, col)
     return math.floor((row - 1) / config.y_multiplier), math.floor((col - 1) / config.x_multiplier)
 end
 
 --- @param row integer
 --- @param col integer
 --- @return integer ...
-M.code_point_to_mcode_point = function(row, col)
-    local y, x = M.code_point_to_map_point(row, col)
-    return M.map_point_to_mcode_point(y, x)
+M.codepoint_to_mcodepoint = function(row, col)
+    local y, x = M.codepoint_to_map_point(row, col)
+    return M.map_point_to_mcodepoint(y, x)
 end
 
 return M
