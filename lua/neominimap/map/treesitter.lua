@@ -4,6 +4,7 @@ local config = require("neominimap.config").get()
 local ts_utils = require("nvim-treesitter.ts_utils")
 local coord = require("neominimap.map.coord")
 local text = require("neominimap.map.text")
+local logger = require("neominimap.logger")
 local api = vim.api
 local treesitter = vim.treesitter
 
@@ -45,6 +46,7 @@ M.extract_ts_highlights = function(bufnr)
     local line_count = #lines
     local minimap_width = config.minimap_width
     local minimap_height = math.ceil(line_count / 4 / config.y_multiplier)
+    logger.log("Minimap height: " .. minimap_height .. ", minimap width: " .. minimap_width, vim.log.levels.DEBUG)
 
     ---@type integer[][]
     local utf8_pos_list = vim.tbl_map(vim.str_utf_pos, lines)
@@ -53,6 +55,7 @@ M.extract_ts_highlights = function(bufnr)
         return text.codepoints_pos(str, tabwidth)
     end, lines)
 
+    ---@type fun(row:integer, char_idx:integer):integer
     local char_idx_to_codepoint_idx = function(row, char_idx)
         local utf8_idx = text.byte_index_to_utf8_index(char_idx, utf8_pos_list[row])
         local code_point_idx = code_point_list[row][utf8_idx]
@@ -87,18 +90,31 @@ M.extract_ts_highlights = function(bufnr)
             local start_row, start_col, end_row, end_col =
                 ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
 
+            logger.log(
+                string.format(
+                    "Extracted highlight %s, range: (%d,%d), (%d,%d)",
+                    hl_group,
+                    start_row,
+                    start_col,
+                    end_row,
+                    end_col
+                ),
+                vim.log.levels.DEBUG
+            )
             for row = start_row, end_row do
                 local from = row == start_row and start_col or 1
-                local to = row == end_row and end_col or minimap_width
+                local to = row == end_row and end_col or string.len(lines[row])
+                if to ~= 0 then
+                    logger.log(string.format("from: %d, to: %d", from, to), vim.log.levels.DEBUG)
+                    from = char_idx_to_codepoint_idx(row, from)
+                    to = char_idx_to_codepoint_idx(row, to)
 
-                from = char_idx_to_codepoint_idx(row, from)
-                to = char_idx_to_codepoint_idx(row, to)
-
-                for col = from, to do
-                    local minimap_row, minimap_col = coord.codepoint_to_mcodepoint(row, col)
-                    highlights[minimap_row][minimap_col][hl_group] = (
-                        highlights[minimap_row][minimap_col][hl_group] or 0
-                    ) + 1
+                    for col = from, to do
+                        local minimap_row, minimap_col = coord.codepoint_to_mcodepoint(row, col)
+                        highlights[minimap_row][minimap_col][hl_group] = (
+                            highlights[minimap_row][minimap_col][hl_group] or 0
+                        ) + 1
+                    end
                 end
             end
         end
