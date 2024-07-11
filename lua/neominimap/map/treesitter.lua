@@ -8,6 +8,8 @@ local logger = require("neominimap.logger")
 local api = vim.api
 local treesitter = vim.treesitter
 
+local namespace = api.nvim_create_namespace("neominimap_treesitter")
+
 ---The most common elements in the given table
 ---@generic T
 ---@param tbl table<T,integer>
@@ -28,6 +30,31 @@ local function most_commons(tbl)
     end
 
     return result
+end
+
+---@param group string
+local function resolve_hl_link(group)
+    local hl = vim.api.nvim_get_hl(0, { name = group })
+    while hl.link do
+        group = hl.link
+        hl = vim.api.nvim_get_hl(0, { name = group })
+    end
+    return hl
+end
+
+local hl_cache = {}
+
+---@param hl_group string
+---@return string
+local get_or_create_hl_info = function(hl_group)
+    if hl_cache[hl_group] then
+        return hl_cache[hl_group]
+    end
+    local hl_info = resolve_hl_link(hl_group)
+    local new_group = "Neominimap." .. hl_group
+    api.nvim_set_hl(0, new_group, { fg = hl_info.fg and string.format("#%06x", hl_info.fg), default = true })
+    hl_cache[hl_group] = new_group
+    return new_group
 end
 
 ---Extracts the highlighting from the given buffer using treesitter.
@@ -101,6 +128,10 @@ M.extract_ts_highlights = function(bufnr)
                 ),
                 vim.log.levels.DEBUG
             )
+
+            local minimap_hl = get_or_create_hl_info("@" .. hl_group)
+
+            logger.log(string.format("Minimap highlight: %s", minimap_hl), vim.log.levels.DEBUG)
             for row = start_row, end_row do
                 local from = row == start_row and start_col or 1
                 local to = row == end_row and end_col or string.len(lines[row])
@@ -114,9 +145,7 @@ M.extract_ts_highlights = function(bufnr)
                         if mcol > minimap_width then
                             break
                         end
-                        highlights[mrow][mcol][hl_group] = (
-                            highlights[mrow][mcol][hl_group] or 0
-                        ) + 1
+                        highlights[mrow][mcol][minimap_hl] = (highlights[mrow][mcol][minimap_hl] or 0) + 1
                     end
                 end
             end
@@ -131,8 +160,6 @@ M.extract_ts_highlights = function(bufnr)
 
     return highlights
 end
-
-local namespace = api.nvim_create_namespace("neominimap_treesitter")
 
 --- Applies the given highlights to the given buffer.
 --- If there are multiple highlights for the same position, all of them will be applied.
@@ -152,7 +179,7 @@ M.apply = function(mbufnr, highlights)
                     end_x = end_x + 1
                 end
                 api.nvim_buf_set_extmark(mbufnr, namespace, y - 1, (x - 1) * 3, {
-                    hl_group = "@" .. group,
+                    hl_group = group,
                     end_col = end_x * 3,
                     priority = config.treesitter.priority,
                 })
