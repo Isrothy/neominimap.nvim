@@ -110,9 +110,12 @@ M.extract_ts_highlights = function(bufnr)
                     to = char_idx_to_codepoint_idx(row, to)
 
                     for col = from, to do
-                        local minimap_row, minimap_col = coord.codepoint_to_mcodepoint(row, col)
-                        highlights[minimap_row][minimap_col][hl_group] = (
-                            highlights[minimap_row][minimap_col][hl_group] or 0
+                        local mrow, mcol = coord.codepoint_to_mcodepoint(row, col)
+                        if mcol > minimap_width then
+                            break
+                        end
+                        highlights[mrow][mcol][hl_group] = (
+                            highlights[mrow][mcol][hl_group] or 0
                         ) + 1
                     end
                 end
