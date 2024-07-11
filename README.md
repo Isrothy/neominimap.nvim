@@ -102,6 +102,11 @@ vim.g.neominimap = {
         },
     },
 
+    treesitter = {
+        enabled = true,
+        priority = 200,
+    },
+
     -- Border style of the floating window
     -- Accepts all usual border style options (e.g., "single", "double")
     window_border = "single",
