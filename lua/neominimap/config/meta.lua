@@ -14,8 +14,7 @@ local M = {}
 ---@field y_multiplier integer?
 ---@field delay integer?
 ---@field diagnostic Neominimap.DiagnosticConfig?
----@field use_highlight boolean?
----@field use_treesitter boolean?
+---@field treesitter Neominimap.TreesitterConfig?
 ---@field use_git boolean?
 ---@field z_index number?
 ---@field window_border (string | string[])?
@@ -30,7 +29,11 @@ local M = {}
 ---@field WARN integer?
 ---@field INFO integer?
 ---@field HINT integer?
----
+
+---@class Neominimap.TreesitterConfig
+---@field enabled boolean?
+---@field priority integer?
+
 ---@type Neominimap.UserConfig | fun():Neominimap.UserConfig | nil
 vim.g.neominimap = vim.g.neominimap
 

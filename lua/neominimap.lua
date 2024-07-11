@@ -107,6 +107,9 @@ M.setup = function()
                                 vim.log.levels.TRACE
                             )
                             buffer.update_text(bufnr)
+                            if config.treesitter.enabled then
+                                buffer.update_treesitter_highlights(bufnr)
+                            end
                             logger.log(
                                 string.format("Debounced text updating for buffer %d is called", bufnr),
                                 vim.log.levels.TRACE
