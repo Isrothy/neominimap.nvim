@@ -6,6 +6,8 @@ local util = require("neominimap.util")
 local logger = require("neominimap.logger")
 local extensions = require("neominimap.map.extensions")
 local diagnostic = require("neominimap.map.extensions.diagnostic")
+local treesitter = require("neominimap.map.treesitter")
+local text = require("neominimap.map.text")
 
 ---@type integer?
 M.updated_bufnr = nil
@@ -101,7 +103,7 @@ M.create_minimap_buffer = function(bufnr)
             local tabwidth = vim.bo[bufnr].tabstop
 
             logger.log(string.format("Generating minimap text for buffer %d", bufnr), vim.log.levels.TRACE)
-            local minimap = require("neominimap.map.text").gen(lines, tabwidth)
+            local minimap = text.gen(lines, tabwidth)
 
             vim.bo[mbufnr].modifiable = true
 
@@ -116,6 +118,21 @@ M.create_minimap_buffer = function(bufnr)
                 group = "Neominimap",
                 pattern = "BufferTextUpdated",
             })
+
+            if config.treesitter.enabled then
+                logger.log(
+                    string.format("Generating treesitter diagnostics for buffer %d", bufnr),
+                    vim.log.levels.TRACE
+                )
+                local highlights = treesitter.extract_ts_highlights(bufnr)
+                if highlights then
+                    treesitter.apply(mbufnr, highlights)
+                end
+                logger.log(
+                    string.format("Treesitter diagnostics for buffer %d generated successfully", bufnr),
+                    vim.log.levels.TRACE
+                )
+            end
         end),
         config.delay
     )
@@ -168,7 +185,7 @@ M.refresh_minimap_buffer = function(bufnr)
     end
     local mbufnr = M.get_minimap_bufnr(bufnr) or M.create_minimap_buffer(bufnr)
 
-    vim.b[bufnr].update_minimap_text()
+    M.update_text(bufnr)
 
     logger.log(string.format("Minimap for buffer %d refreshed successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr

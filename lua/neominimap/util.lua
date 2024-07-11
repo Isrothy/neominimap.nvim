@@ -1,3 +1,5 @@
+local bit = require("bit")
+
 local M = {}
 
 --- @generic F: function
@@ -29,6 +31,46 @@ M.debounce = function(f, delay)
             f(unpack(args))
         end)
     end
+end
+
+--- Returns the first index of a value that is greater than or equal to the given value
+--- @generic T
+--- @param arr T[]
+--- @param value T
+--- @return integer
+M.lower_bound = function(arr, value)
+    local low, high = 1, #arr + 1
+
+    while low < high do
+        local mid = bit.rshift(low + high, 1)
+        if arr[mid] < value then
+            low = mid + 1
+        else
+            high = mid
+        end
+    end
+
+    return low
+end
+
+--- Returns the first index of a value that is greater than the given value
+--- @generic T
+--- @param arr T[]
+--- @param value T
+--- @return integer
+M.upper_bound = function(arr, value)
+    local low, high = 1, #arr + 1
+
+    while low < high do
+        local mid = bit.rshift(low + high, 1)
+        if arr[mid] <= value then
+            low = mid + 1
+        else
+            high = mid
+        end
+    end
+
+    return low
 end
 
 return M

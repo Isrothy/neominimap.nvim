@@ -9,16 +9,15 @@ local M = {}
 ---@field exclude_buftypes (string[])
 ---@field buf_filter fun(bufnr: integer): boolean
 ---@field win_filter fun(winid: integer): boolean
----@field max_minimap_height number?
----@field minimap_width number
+---@field max_minimap_height integer?
+---@field minimap_width integer
 ---@field x_multiplier integer
 ---@field y_multiplier integer
 ---@field delay integer
 ---@field diagnostic Neominimap.InternalDiagnosticConfig
----@field use_highlight boolean
----@field use_treesitter boolean
+---@field treesitter Neominimap.InternalTreesitterConfig
 ---@field use_git boolean
----@field z_index number
+---@field z_index integer
 ---@field window_border string | string[]
 
 ---@class Neominimap.InternalDiagnosticConfig
@@ -31,6 +30,10 @@ local M = {}
 ---@field WARN integer
 ---@field INFO integer
 ---@field HINT integer
+
+---@class Neominimap.InternalTreesitterConfig
+---@field enabled boolean
+---@field priority integer
 
 ---@enum Neominimap.Relative
 M.RELATIVE = {
@@ -73,8 +76,10 @@ M.default_config = {
             HINT = 70,
         },
     },
-    use_highlight = true,
-    use_treesitter = true,
+    treesitter = {
+        enabled = true,
+        priority = 200,
+    },
     use_git = true,
     z_index = 1, -- The z-index the floating window will be on
     window_border = "single", -- The border style of the floating window (accepts all usual options)
