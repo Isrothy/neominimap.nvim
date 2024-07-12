@@ -271,22 +271,15 @@ M.setup = function()
             logger.log(string.format("Windows to be refreshed: %s", vim.inspect(updated_windows)), vim.log.levels.TRACE)
             if M.enabled then
                 vim.schedule(function()
+                    if config.diagnostic.enabled then
+                        logger.log(string.format("Refreshing diagnostics for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        buffer.update_diagnostics(bufnr)
+                        logger.log(string.format("Diagnostics refreshed for bufnr %d.", bufnr), vim.log.levels.TRACE)
+                    end
                     for _, winid in ipairs(updated_windows) do
                         logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
                         window.reset_cursor_line(winid)
                         logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
-
-                        if config.diagnostic.enabled then
-                            logger.log(
-                                string.format("Refreshing diagnostics for window %d.", winid),
-                                vim.log.levels.TRACE
-                            )
-                            buffer.update_diagnostics(winid)
-                            logger.log(
-                                string.format("Diagnostics refreshed for window %d.", winid),
-                                vim.log.levels.TRACE
-                            )
-                        end
                     end
                 end)
             end
