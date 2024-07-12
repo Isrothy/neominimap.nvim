@@ -175,7 +175,7 @@ end,
 - [ ] Search integration
 - [ ] Support for window relative to editor
 - [ ] Validate user configuration
-- [ ] Documentation
+- [x] Documentation
 - [ ] Performance improvements
 - [ ] More test cases
 
