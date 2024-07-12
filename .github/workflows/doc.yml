@@ -24,7 +24,7 @@ jobs:
       run: sudo apt-get install -y luarocks
 
     - name: Install LDoc
-      run: luarocks install ldoc
+      run: sudo luarocks install ldoc
 
     - name: Build docs
       run: |
