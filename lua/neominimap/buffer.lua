@@ -217,6 +217,16 @@ M.delete_minimap_buffer = function(bufnr)
     return bufnr
 end
 
+M.update_all_diagnostics = function()
+    logger.log("Updating all diagnostics", vim.log.levels.TRACE)
+    local buffer_list = api.nvim_list_bufs()
+    for _, bufnr in ipairs(buffer_list) do
+        logger.log(string.format("Updating diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
+        M.update_diagnostics(bufnr)
+    end
+    logger.log("All diagnostics updated", vim.log.levels.TRACE)
+end
+
 M.refresh_all_minimap_buffers = function()
     logger.log("Refreshing all minimap buffers", vim.log.levels.TRACE)
     local buffer_list = api.nvim_list_bufs()

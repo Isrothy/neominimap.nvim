@@ -118,34 +118,17 @@ M.setup = function()
         end,
     })
 
-    local last_diag_buffers = {}
     vim.api.nvim_create_autocmd("DiagnosticChanged", {
         group = gid,
-        callback = function(args)
+        callback = function()
             logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
             if M.enabled and config.diagnostic.enabled then
-                local diagnostics = args.data.diagnostics
-                logger.log(string.format("Diagnostics: %s", vim.inspect(diagnostics)), vim.log.levels.DEBUG)
-                local diag_buffers = {}
-                for _, diagnostic in ipairs(diagnostics) do
-                    diag_buffers[diagnostic.bufnr] = true
-                end
-                local buffer = require("neominimap.buffer")
-                local buffers_to_refresh = vim.tbl_extend("force", last_diag_buffers, diag_buffers)
                 vim.schedule(function()
-                    for bufnr in pairs(buffers_to_refresh) do
-                        logger.log(
-                            string.format("Debounced updating diagnostics for buffer %d", bufnr),
-                            vim.log.levels.TRACE
-                        )
-                        buffer.update_diagnostics(bufnr)
-                        logger.log(
-                            string.format("Debounced diagnostics updating for buffer %d is called", bufnr),
-                            vim.log.levels.TRACE
-                        )
-                    end
+                    local buffer = require("neominimap.buffer")
+                    logger.log("Updating diagnostics.", vim.log.levels.TRACE)
+                    buffer.update_all_diagnostics()
+                    logger.log("Diagnostics updated.", vim.log.levels.TRACE)
                 end)
-                last_diag_buffers = diag_buffers
             end
         end,
     })
