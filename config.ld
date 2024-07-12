@@ -9,9 +9,7 @@ readme = "README.md"
 style = "!new"
 kind_names = {
     topic = "Guide",
-    script = "Scripts",
     module = "Modules",
-    class = "Classes",
 }
 examples = {
 }
