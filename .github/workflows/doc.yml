@@ -14,18 +14,27 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
     - name: Setup Lua
       uses: leafo/gh-actions-lua@v8
       with:
         luaVersion: 5.4
+
     - name: Setup Lua Rocks
-      uses: leafo/gh-actions-luarocks@v4
-    - name: Setup dependencies
-      run: luarocks install --only-deps ldoc-dev-1.rockspec
+      run: sudo apt-get install -y luarocks
+
+    - name: Install LDoc
+      run: luarocks install ldoc
+
     - name: Build docs
-      run: make doc-site
+      run: |
+        mkdir -p doc
+        ldoc . --ext readme.md
+        mv ./doc/*.txt ./doc/neominimap.txt
+
     - name: Deploy
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.PAT_TOKEN }}
+        publish_dir: ./doc
