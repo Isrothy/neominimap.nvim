@@ -200,7 +200,7 @@ TODO                                         *neominimap.nvim-neominimap-todo*
 - ☐ Search integration
 - ☐ Support for window relative to editor
 - ☐ Validate user configuration
-- ☐ Documentation
+- ☒ Documentation
 - ☐ Performance improvements
 - ☐ More test cases
 
