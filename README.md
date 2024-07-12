@@ -5,11 +5,14 @@
 This plugin provides a visual representation of your code structure on the side
 of your windows, similar to the minimap found in many modern editors.
 
+Criticisms are welcome.
+
 ## Screenshots
 
 ## Features
 
 - LSP Integration
+- TreeSitter Integration
 
 ## Installation
 
@@ -84,7 +87,9 @@ vim.g.neominimap = {
     -- How many rows a dot should span
     y_multiplier = 1,
 
-    -- Sets the delay before the minimap is refreshed
+    -- For performance issue, when text changed,
+    -- minimap is refreshed after a certain delay
+    -- Set the delay in milliseconds
     delay = 200,
 
     -- Z-index for the floating window
@@ -163,11 +168,13 @@ end,
 ## TODO
 
 - [x] LSP integration
+- [x] TreeSitter integration
 - [ ] Git integration
 - [ ] Search integration
-- [x] TreeSitter integration
-- [ ] Performance improvements
+- [ ] Support for window relative to editor
+- [ ] Validate user configuration
 - [ ] Documentation
+- [ ] Performance improvements
 - [ ] More test cases
 
 ## Non-Goals
@@ -181,8 +188,6 @@ end,
   For performance, this plugin creates a minimap buffer for each buffer.
   Since a screen bound is a windowwise thing,
   it's not impossible to display them by highlights.
-- Focus on minimap.
-  Future updates may break this.
 
 ## Similar projects
 
@@ -195,6 +200,7 @@ end,
 Thanks to [gorbit99](https://github.com/gorbit99) for
 [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim),
 by which this plugin was inspired.
-The map generation algorithm is also learned from that project.
+The map generation algorithm and TreeSitter integration algorithm are also
+learned from that project.
 
 
