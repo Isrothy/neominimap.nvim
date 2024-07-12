@@ -9,6 +9,8 @@ Criticisms are welcome.
 
 ## Screenshots
 
+<img width="2559" alt="image" src="https://github.com/user-attachments/assets/029d61c7-94ac-4e68-9308-3c82a3c07fef">
+
 ## Features
 
 - LSP Integration
