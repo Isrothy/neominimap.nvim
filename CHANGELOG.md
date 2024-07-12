@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/Isrothy/neominimap.nvim/compare/v1.2.1...v1.2.2) (2024-07-12)
+
+
+### Bug Fixes
+
+* call update_diagnostic on the correct buffers ([a3b53e6](https://github.com/Isrothy/neominimap.nvim/commit/a3b53e64573503197fc6106f06a6b59e2e7da0d4))
+
 ## [1.2.1](https://github.com/Isrothy/neominimap.nvim/compare/v1.2.0...v1.2.1) (2024-07-11)
 
 
