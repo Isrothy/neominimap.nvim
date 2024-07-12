@@ -32,6 +32,8 @@ Criticisms are welcome.
 SCREENSHOTS                           *neominimap.nvim-neominimap-screenshots*
 
 
+
+
 FEATURES                                 *neominimap.nvim-neominimap-features*
 
 - LSP Integration
