@@ -191,11 +191,35 @@ end,
   Since a screen bound is a windowwise thing,
   it's not impossible to display them by highlights.
 
-## Similar projects
+## Similar projects and comparasions
 
 - [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim)
-- [minimap.vim](https://github.com/wfxr/minimap.vim)
+  - Codewindow.nvim renders the minimap whenever focus is switched to a
+    different window or the buffer is switched. In contrast, this plugin caches
+    the minimap, so it only renders the minimap when the text is changed. Thus,
+    this plugin should have better performance when you frequently switch
+    windows or buffers.
+  - Codewindow.nvim renders the minimap based on bytes, while this plugin
+    renders based on codepoints. Specifically, it respects UTF-8 encoding and
+    tab width.
+  - Codewindow.nvim currently has more features like git integration and focus
+    on the minimap, which this plugin does not.
+
 - [mini.map](https://github.com/echasnovski/mini.map)
+  - Mini.map allows for encode symbol customization, while this plugin does not.
+  - Mini.map includes a scrollbar, which this plugin does not.
+  - Mini.map does not have Treesitter integration, which this plugin does.
+  - Mini.map rescales the minimap so that the height is equal to the window
+    height, while this plugin generates the minimap by a fixed compression
+    rate.
+  - Mini.map does not cache the minimap neither, but it is still performant.
+
+- [minimap.vim](https://github.com/wfxr/minimap.vim)
+  - Just like Mini.map, Minimap.vim scales minimap.
+  - Minimap.vim uses a Rust program to generate minimaps efficiently, while
+    this plugin is written in Lua.
+  - Minimap.vim does not have Treesitter or LSP integration, which this plugin
+    does.
 
 ## Acknowledgements
 
