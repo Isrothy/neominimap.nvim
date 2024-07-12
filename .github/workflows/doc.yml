@@ -18,7 +18,7 @@ jobs:
     - name: Setup Lua
       uses: leafo/gh-actions-lua@v8
       with:
-        luaVersion: 5.4
+        luaVersion: 5.1
 
     - name: Setup Lua Rocks
       run: sudo apt-get install -y luarocks
