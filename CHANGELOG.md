@@ -5,7 +5,6 @@
 
 ### Features
 
-* **workflow:** Add GitHub Actions workflow for generating vimdoc ([70b7bcd](https://github.com/Isrothy/neominimap.nvim/commit/70b7bcd7a51edb589ef438b08a3beb9dd6e94d27))
 * **workflow:** Add panvimdoc workflow for generating vimdoc ([8204143](https://github.com/Isrothy/neominimap.nvim/commit/820414301e625219ef3ff1644fb1d65c30f69da0))
 
 ## [1.2.2](https://github.com/Isrothy/neominimap.nvim/compare/v1.2.1...v1.2.2) (2024-07-12)
