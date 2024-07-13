@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/Isrothy/neominimap.nvim/compare/v1.3.1...v1.3.2) (2024-07-13)
+
+
+### Bug Fixes
+
+* enable cursorline even if not enabled ([b1147c9](https://github.com/Isrothy/neominimap.nvim/commit/b1147c9dd4b6edae0bb61a3312d899db765c059c))
+
 ## [1.3.1](https://github.com/Isrothy/neominimap.nvim/compare/v1.3.0...v1.3.1) (2024-07-12)
 
 
