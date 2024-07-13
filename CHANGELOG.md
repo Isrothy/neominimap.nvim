@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v1.3.2...v1.4.0) (2024-07-13)
+
+
+### Features
+
+* Add user configuration validation ([10cc88f](https://github.com/Isrothy/neominimap.nvim/commit/10cc88fe5ea071361bc442950bd990674d367246))
+
 ## [1.3.2](https://github.com/Isrothy/neominimap.nvim/compare/v1.3.1...v1.3.2) (2024-07-13)
 
 
