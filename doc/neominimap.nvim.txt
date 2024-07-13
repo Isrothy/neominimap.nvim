@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*         For NVIM v0.8.0        Last change: 2024 July 12
+*neominimap.nvim.txt*         For NVIM v0.8.0        Last change: 2024 July 13
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -199,7 +199,7 @@ TODO                                         *neominimap.nvim-neominimap-todo*
 - ☐ Git integration
 - ☐ Search integration
 - ☐ Support for window relative to editor
-- ☐ Validate user configuration
+- ☒ Validate user configuration
 - ☒ Documentation
 - ☐ Performance improvements
 - ☐ More test cases
