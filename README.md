@@ -174,7 +174,7 @@ end,
 - [ ] Git integration
 - [ ] Search integration
 - [ ] Support for window relative to editor
-- [ ] Validate user configuration
+- [x] Validate user configuration
 - [x] Documentation
 - [ ] Performance improvements
 - [ ] More test cases
