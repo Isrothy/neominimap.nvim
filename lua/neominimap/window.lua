@@ -197,6 +197,7 @@ local create_minimap_window = function(winid)
     vim.wo[mwinid].scrolloff = 99999 -- To center minimap
     vim.wo[mwinid].sidescrolloff = 0
     vim.wo[mwinid].winblend = 0
+    vim.wo[mwinid].cursorline = true
 
     logger.log(string.format("Setting namespace %d for window %d", diagnostic.namespace, winid), vim.log.levels.DEBUG)
     api.nvim_win_set_hl_ns(mwinid, diagnostic.namespace)
