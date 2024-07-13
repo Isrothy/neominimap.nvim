@@ -1,6 +1,10 @@
+local validator = require("neominimap.config.validator")
+
 local M = {}
 
 local user_config = type(vim.g.neominimap) == "function" and vim.g.neominimap() or vim.g.neominimap or {}
+
+validator.validate_user_config(user_config)
 
 if type(user_config.log_level) == "string" then
     user_config.log_level = vim.log.levels[user_config.log_level]

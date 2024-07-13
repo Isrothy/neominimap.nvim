@@ -15,7 +15,6 @@ local M = {}
 ---@field delay integer?
 ---@field diagnostic Neominimap.DiagnosticConfig?
 ---@field treesitter Neominimap.TreesitterConfig?
----@field use_git boolean?
 ---@field z_index integer?
 ---@field window_border (string | string[])?
 
