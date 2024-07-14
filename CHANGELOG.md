@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/Isrothy/neominimap.nvim/compare/v1.4.1...v1.5.0) (2024-07-14)
+
+
+### Features
+
+* Add lua API ([714e138](https://github.com/Isrothy/neominimap.nvim/commit/714e1382a38fa9bfdbb034a12b28b099bd6e87da))
+
 ## [1.4.1](https://github.com/Isrothy/neominimap.nvim/compare/v1.4.0...v1.4.1) (2024-07-14)
 
 
