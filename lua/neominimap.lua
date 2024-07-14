@@ -2,6 +2,78 @@ local M = {}
 
 local api = vim.api
 
+---@param args string[]
+---@param opts table
+M.refresh = function(args, opts)
+    require("neominimap.command.global").subcommand_tbl.refresh.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.on = function(args, opts)
+    require("neominimap.command.global").subcommand_tbl.on.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.off = function(args, opts)
+    require("neominimap.command.global").subcommand_tbl.off.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.toggle = function(args, opts)
+    require("neominimap.command.global").subcommand_tbl.toggle.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.bufOn = function(args, opts)
+    require("neominimap.command.buffer").subcommand_tbl.bufOn.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.bufOff = function(args, opts)
+    require("neominimap.command.buffer").subcommand_tbl.bufOff.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.bufToggle = function(args, opts)
+    require("neominimap.command.buffer").subcommand_tbl.bufToggle.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.bufRefresh = function(args, opts)
+    require("neominimap.command.buffer").subcommand_tbl.bufRefresh.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.winOn = function(args, opts)
+    require("neominimap.command.window").subcommand_tbl.winOn.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.winOff = function(args, opts)
+    require("neominimap.command.window").subcommand_tbl.winOff.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.winToggle = function(args, opts)
+    require("neominimap.command.window").subcommand_tbl.winToggle.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.winRefresh = function(args, opts)
+    require("neominimap.command.window").subcommand_tbl.winRefresh.impl(args, opts)
+end
+
 M.setup = function()
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
 
