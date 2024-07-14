@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*         For NVIM v0.8.0        Last change: 2024 July 13
+*neominimap.nvim.txt*         For NVIM v0.8.0        Last change: 2024 July 14
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -14,7 +14,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Tips                                     |neominimap.nvim-neominimap-tips|
   - TODO                                     |neominimap.nvim-neominimap-todo|
   - Non-Goals                           |neominimap.nvim-neominimap-non-goals|
-  - Similar projects and comparasions|neominimap.nvim-neominimap-similar-projects-and-comparasions|
+  - Similar projects             |neominimap.nvim-neominimap-similar-projects|
   - Acknowledgements             |neominimap.nvim-neominimap-acknowledgements|
 
 ==============================================================================
@@ -218,7 +218,7 @@ NON-GOALS                               *neominimap.nvim-neominimap-non-goals*
     it’s not impossible to display them by highlights.
 
 
-SIMILAR PROJECTS AND COMPARASIONS*neominimap.nvim-neominimap-similar-projects-and-comparasions*
+SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
 
 - codewindow.nvim <https://github.com/gorbit99/codewindow.nvim>
     - Codewindow.nvim renders the minimap whenever focus is switched to a
