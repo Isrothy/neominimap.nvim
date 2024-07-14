@@ -6,8 +6,6 @@ local logger = require("neominimap.logger")
 local buffer = require("neominimap.buffer")
 local coord = require("neominimap.map.coord")
 
-local diagnostic = require("neominimap.map.extensions.diagnostic")
-
 api.nvim_set_hl(0, "NeominimapBackground", { link = "Normal", default = true })
 api.nvim_set_hl(0, "NeominimapBorder", { link = "FloatBorder", default = true })
 api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true })
@@ -198,9 +196,6 @@ local create_minimap_window = function(winid)
     vim.wo[mwinid].sidescrolloff = 0
     vim.wo[mwinid].winblend = 0
     vim.wo[mwinid].cursorline = true
-
-    logger.log(string.format("Setting namespace %d for window %d", diagnostic.namespace, winid), vim.log.levels.DEBUG)
-    api.nvim_win_set_hl_ns(mwinid, diagnostic.namespace)
 
     logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
 end
