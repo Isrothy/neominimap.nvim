@@ -42,7 +42,13 @@ end
 M.should_generate_minimap = function(bufnr)
     local filetype = vim.bo[bufnr].filetype
     local buftype = vim.bo[bufnr].buftype
-
+    if vim.b[bufnr].neominimap_disabled then
+        logger.log(
+            string.format("Buffer %d is not enabled. Skipping generation of minimap", bufnr),
+            vim.log.levels.TRACE
+        )
+        return false
+    end
     if vim.tbl_contains(config.exclude_buftypes, buftype) then
         logger.log(
             string.format("Buffer %d should not generate minimap due to its type %s", bufnr, buftype),
@@ -146,14 +152,14 @@ end
 
 ---@param bufnr integer
 M.update_text = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].update_minimap_text then
+    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_minimap_text then
         vim.b[bufnr].update_minimap_text()
     end
 end
 
 ---@param bufnr integer
 M.update_diagnostics = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].update_diagnostic then
+    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_diagnostic then
         vim.b[bufnr].update_diagnostic()
     end
 end

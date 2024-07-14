@@ -89,6 +89,15 @@ local should_show_minimap = function(winid)
         logger.log(string.format("Window %d is not valid", winid), vim.log.levels.WARN)
         return false
     end
+
+    if vim.w[winid].neominimap_disabled then
+        logger.log(
+            string.format("Window %d is not enabled. Skipping generation of minimap", winid),
+            vim.log.levels.TRACE
+        )
+        return false
+    end
+
     local bufnr = api.nvim_win_get_buf(winid)
     if not buffer.get_minimap_bufnr(bufnr) then
         logger.log(
