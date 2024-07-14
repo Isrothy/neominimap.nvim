@@ -191,7 +191,7 @@ end,
   Since a screen bound is a windowwise thing,
   it's not impossible to display them by highlights.
 
-## Similar projects and comparasions
+## Similar projects
 
 - [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim)
   - Codewindow.nvim renders the minimap whenever focus is switched to a
