@@ -61,7 +61,12 @@ local winid_to_mwinid = {}
 ---@param winid integer
 ---@return integer?
 local get_minimap_winid = function(winid)
-    return winid_to_mwinid[winid]
+    local mwinid = winid_to_mwinid[winid]
+    if mwinid ~= nil and not api.nvim_win_is_valid(mwinid) then
+        winid_to_mwinid[winid] = nil
+        return nil
+    end
+    return mwinid
 end
 
 --- Set the winid of the minimap attached to the given window
@@ -198,6 +203,7 @@ local create_minimap_window = function(winid)
     vim.wo[mwinid].cursorline = true
 
     logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
+    return mwinid
 end
 
 --- Close the minimap attached to the given window
@@ -248,8 +254,8 @@ end
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
 local refresh_minimap_window = function(winid)
     logger.log(string.format("Refreshing minimap for window %d", winid), vim.log.levels.TRACE)
-    if not should_show_minimap(winid) then
-        logger.log(string.format("Minimap should not be shown for window %d", winid), vim.log.levels.TRACE)
+    if not api.nvim_win_is_valid(winid) or not should_show_minimap(winid) then
+        logger.log(string.format("Window %d is not valid or should not be shown", winid), vim.log.levels.TRACE)
         if get_minimap_winid(winid) then
             close_minimap_window(winid)
         end

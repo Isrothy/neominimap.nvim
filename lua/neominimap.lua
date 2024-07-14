@@ -59,13 +59,10 @@ M.setup = function()
             end
         end),
     })
-    api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+    api.nvim_create_autocmd({ "BufNew", "BufRead" }, {
         group = gid,
         callback = function(args)
-            logger.log(
-                string.format("BufReadPost or BufNewFile event triggered for buffer %d.", args.buf),
-                vim.log.levels.TRACE
-            )
+            logger.log(string.format("BufNew or BufRead event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
             local bufnr = tonumber(args.buf)
             local buffer = require("neominimap.buffer")
             if M.enabled then
@@ -76,45 +73,39 @@ M.setup = function()
                     logger.log(string.format("Minimap buffer refreshed for buffer %d.", bufnr), vim.log.levels.TRACE)
                 end)
             end
-            api.nvim_create_autocmd("BufUnload", {
-                group = gid,
-                buffer = bufnr,
-                callback = function()
+        end,
+    })
+    api.nvim_create_autocmd("BufUnload", {
+        group = gid,
+        callback = function(args)
+            logger.log(string.format("BufUnload event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
+            local bufnr = tonumber(args.buf)
+            local buffer = require("neominimap.buffer")
+            vim.schedule(function()
+                logger.log(string.format("Wiping out minimap for buffer %d.", bufnr), vim.log.levels.TRACE)
+                ---@cast bufnr integer
+                buffer.delete_minimap_buffer(bufnr)
+                logger.log(string.format("Minimap buffer wiped out for buffer %d.", bufnr), vim.log.levels.TRACE)
+            end)
+        end,
+    })
+    api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+        group = gid,
+        callback = function(args)
+            logger.log(string.format("TextChanged event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
+            local bufnr = tonumber(args.buf)
+            local buffer = require("neominimap.buffer")
+            if M.enabled then
+                vim.schedule(function()
+                    logger.log(string.format("Debounced updating text for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    ---@cast bufnr integer
+                    buffer.update_text(bufnr)
                     logger.log(
-                        string.format("BufUnload event triggered for buffer %d.", args.buf),
+                        string.format("Debounced text updating for buffer %d is called", bufnr),
                         vim.log.levels.TRACE
                     )
-                    vim.schedule(function()
-                        logger.log(string.format("Wiping out minimap for buffer %d.", bufnr), vim.log.levels.TRACE)
-                        ---@cast bufnr integer
-                        buffer.delete_minimap_buffer(bufnr)
-                        logger.log(
-                            string.format("Minimap buffer wiped out for buffer %d.", bufnr),
-                            vim.log.levels.TRACE
-                        )
-                    end)
-                end,
-            })
-            api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
-                group = gid,
-                buffer = bufnr,
-                callback = function()
-                    logger.log(string.format("TextChanged event triggered for buffer %d.", bufnr), vim.log.levels.TRACE)
-                    if M.enabled then
-                        vim.schedule(function()
-                            logger.log(
-                                string.format("Debounced updating text for buffer %d.", bufnr),
-                                vim.log.levels.TRACE
-                            )
-                            buffer.update_text(bufnr)
-                            logger.log(
-                                string.format("Debounced text updating for buffer %d is called", bufnr),
-                                vim.log.levels.TRACE
-                            )
-                        end)
-                    end
-                end,
-            })
+                end)
+            end
         end,
     })
 
@@ -136,7 +127,7 @@ M.setup = function()
         group = gid,
         callback = function()
             local winid = api.nvim_get_current_win()
-            logger.log(string.format("BufWindoEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
+            logger.log(string.format("BufWinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
             if M.enabled then
                 vim.schedule(function()
                     local window = require("neominimap.window")
