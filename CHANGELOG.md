@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/Isrothy/neominimap.nvim/compare/v1.4.0...v1.4.1) (2024-07-14)
+
+
+### Bug Fixes
+
+* neominimap cannot show minimap for the 1st buffer ([5863669](https://github.com/Isrothy/neominimap.nvim/commit/58636692a779e021f70c6e056b7b6d3bf2010765))
+* winhighlight ignored ([76386e3](https://github.com/Isrothy/neominimap.nvim/commit/76386e3ca9be5d7ed95a0b16fc43cdab2d555d7a))
+* Wrong event to create minimap buffer ([9d2bf16](https://github.com/Isrothy/neominimap.nvim/commit/9d2bf166535356232d1b93b0e2fc0f8c017722be))
+
 ## [1.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v1.3.2...v1.4.0) (2024-07-13)
 
 
