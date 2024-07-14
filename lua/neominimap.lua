@@ -59,10 +59,10 @@ M.setup = function()
             end
         end),
     })
-    api.nvim_create_autocmd("BufNew", {
+    api.nvim_create_autocmd({ "BufNew", "BufRead" }, {
         group = gid,
         callback = function(args)
-            logger.log(string.format("BufNew event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
+            logger.log(string.format("BufNew or BufRead event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
             local bufnr = tonumber(args.buf)
             local buffer = require("neominimap.buffer")
             if M.enabled then
