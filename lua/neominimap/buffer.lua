@@ -29,7 +29,12 @@ local bufnr_to_mbufnr = {}
 ---@param bufnr integer
 ---@return integer?
 M.get_minimap_bufnr = function(bufnr)
-    return bufnr_to_mbufnr[bufnr]
+    local mbufnr = bufnr_to_mbufnr[bufnr]
+    if mbufnr ~= nil and not api.nvim_buf_is_valid(mbufnr) then
+        bufnr_to_mbufnr[bufnr] = nil
+        return nil
+    end
+    return mbufnr
 end
 
 --- Set the winid of the minimap attached to the given window
