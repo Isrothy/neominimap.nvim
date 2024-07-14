@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*         For NVIM v0.8.0        Last change: 2024 July 14
+*neominimap.nvim.txt*        For NVIM v0.10.*        Last change: 2024 July 14
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
