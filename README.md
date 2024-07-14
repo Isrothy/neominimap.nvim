@@ -122,9 +122,61 @@ vim.g.neominimap = {
 
 ## Commands
 
-- MinimapToggle - Toggle the minimap on and off.
-- MinimapOpen - Open the minimap.
-- MinimapClose - Close the minimap.
+Notice that a minimap is shown if and only if
+- Neominimap is enabled globally,
+- Neominimap is enabled for the current buffer, and
+- Neominimap is enabled for the current window.
+
+| Command                              | Description                                                                                             | Arguments                    |
+|--------------------------------------|---------------------------------------------------------------------------------------------------------|------------------------------|
+| `Neominimap on`                      | Turn on minimaps globally.                                                                              | None                         |
+| `Neominimap off`                     | Turn off minimaps globally.                                                                             | None                         |
+| `Neominimap toggle`                  | Toggle minimaps globally.                                                                               | None                         |
+| `Neominimap refresh`                 | Refresh minimaps globally.                                                                              | None                         |
+| `Neominimap bufOn [buffer_list]`     | Enable the minimap for specified buffers. If no buffers are specified, enable for the current buffer.   | Optional: List of buffers    |
+| `Neominimap bufOff [buffer_list]`    | Disable the minimap for specified buffers. If no buffers are specified, disable for the current buffer. | Optional: List of buffers    |
+| `Neominimap bufToggle [buffer_list] `| Toggle the minimap for specified buffers. If no buffers are specified, toggle for the current buffer.   | Optional: List of buffers    |
+| `Neominimap bufRefresh [buffer_list]`| Refresh the minimap for specified buffers. If no buffers are specified, refresh for the current buffer. | Optional: List of buffers    |
+| `Neominimap winOn [window_list]`     | Enable the minimap for specified windows. If no windows are specified, enable for the current window.   | Optional: List of windows    |
+| `Neominimap winOff [window_list]`    | Disable the minimap for specified windows. If no windows are specified, disable for the current window. | Optional: List of windows    |
+| `Neominimap winToggle [window_list]` | Toggle the minimap for specified windows. If no windows are specified, toggle for the current window.   | Optional: List of windows    |
+| `Neominimap winRefresh [window_list]`| Refresh the minimap for specified windows. If no windows are specified, refresh for the current window. | Optional: List of windows    |
+
+### Usage Examples
+
+To turn on the minimap globally:
+```vim
+:Neominimap on
+```
+
+To disable the minimap for the current buffer:
+```vim
+:Neominimap bufOff
+```
+
+To refresh the minimap for windows 3 and 4:
+```vim
+:Neominimap winRefresh 3 4
+```
+
+### Lua API
+
+These are the corresponding commands in the Lua API.
+
+Command                       | Description                                                         | Usage
+------------------------------|---------------------------------------------------------------------|-------------------------------------------------
+`Neominimap on`               | Turns on the minimap globally.                                      | `require('neominimap').on()`
+`Neominimap off`              | Turns off the minimap globally.                                     | `require('neominimap').off()`
+`Neominimap toggle`           | Toggles the minimap globally.                                       | `require('neominimap').toggle()`
+`Neominimap refresh`          | Refreshes the minimap globally.                                     | `require('neominimap').refresh()`
+`Neominimap bufOn [args]`     | Turns on the minimap for specified buffers.                         | `require('neominimap').bufOn({"1", "2"})`
+`Neominimap bufOff [args]`    | Turns off the minimap for specified buffers.                        | `require('neominimap').bufOff({"1", "2"})`
+`Neominimap bufToggle [args ]`| Toggles the minimap for specified buffers.                          | `require('neominimap').bufToggle({"1", "2"})`
+`Neominimap bufRefresh [args]`| Refreshes the minimap for specified buffers.                        | `require('neominimap').bufRefresh({"1", "2"})`
+`Neominimap winOn [args]`     | Turns on the minimap for specified windows.                         | `require('neominimap').winOn({"3", "4"})`
+`Neominimap winOff [args]`    | Turns off the minimap for specified windows.                        | `require('neominimap').winOff({"3", "4"})`
+`Neominimap winToggle [args]` | Toggles the minimap for specified windows.                          | `require('neominimap').winToggle({"3", "4"})`
+`Neominimap winRefresh [args]`| Refreshes the minimap for specified windows.                        | `require('neominimap').winRefresh({"3", "4"})`
 
 ## How it works
 
