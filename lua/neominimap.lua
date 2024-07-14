@@ -256,12 +256,12 @@ M.setup = function()
     api.nvim_create_autocmd("User", {
         group = gid,
         pattern = "BufferTextUpdated",
-        callback = function()
+        callback = function(args)
             logger.log("User Neominimap event triggered.", vim.log.levels.TRACE)
             local window = require("neominimap.window")
             local buffer = require("neominimap.buffer")
             local win_list = window.list_windows()
-            local bufnr = buffer.get_event_bufnr()
+            local bufnr = args.data.buf
             local updated_windows = {}
             for _, w in ipairs(win_list) do
                 if api.nvim_win_get_buf(w) == bufnr then
@@ -269,6 +269,7 @@ M.setup = function()
                 end
             end
             logger.log(string.format("Windows to be refreshed: %s", vim.inspect(updated_windows)), vim.log.levels.TRACE)
+			logger.log(string.format("Buffer ID: %d", bufnr), vim.log.levels.TRACE)
             if M.enabled then
                 vim.schedule(function()
                     if config.diagnostic.enabled then

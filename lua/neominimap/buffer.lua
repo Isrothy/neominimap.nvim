@@ -9,19 +9,6 @@ local diagnostic = require("neominimap.map.extensions.diagnostic")
 local treesitter = require("neominimap.map.treesitter")
 local text = require("neominimap.map.text")
 
----@type integer?
-M.updated_bufnr = nil
-
----@param bufnr integer?
-M.set_event_bufnr = function(bufnr)
-    M.updated_bufnr = bufnr
-end
-
----@return integer?
-M.get_event_bufnr = function()
-    return M.updated_bufnr
-end
-
 ---@type table<integer, integer>
 local bufnr_to_mbufnr = {}
 
@@ -113,10 +100,12 @@ M.create_minimap_buffer = function(bufnr)
 
             vim.bo[mbufnr].modifiable = false
 
-            M.set_event_bufnr(bufnr)
             vim.api.nvim_exec_autocmds("User", {
                 group = "Neominimap",
                 pattern = "BufferTextUpdated",
+                data = {
+                    buf = bufnr,
+                },
             })
 
             if config.treesitter.enabled then
