@@ -131,15 +131,13 @@ M.extract_ts_highlights = function(bufnr)
 
             local minimap_hl = get_or_create_hl_info("@" .. hl_group)
 
-            logger.log(string.format("Minimap highlight: %s", minimap_hl), vim.log.levels.DEBUG)
             for row = start_row, end_row do
                 local from = row == start_row and start_col or 1
                 local to = row == end_row and end_col or string.len(lines[row])
-                if to ~= 0 then
-                    logger.log(string.format("from: %d, to: %d", from, to), vim.log.levels.DEBUG)
-                    from = char_idx_to_codepoint_idx(row, from)
-                    to = char_idx_to_codepoint_idx(row, to)
-
+                logger.log(string.format("from: %d, to: %d", from, to), vim.log.levels.DEBUG)
+                from = char_idx_to_codepoint_idx(row, from)
+                to = char_idx_to_codepoint_idx(row, to)
+                if from ~= nil and to ~= nil then
                     for col = from, to do
                         local mrow, mcol = coord.codepoint_to_mcodepoint(row, col)
                         if mcol > minimap_width then
