@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.0.0...v2.0.1) (2024-07-16)
+
+
+### Bug Fixes
+
+* handle potential nil index in for-loop ([b88371c](https://github.com/Isrothy/neominimap.nvim/commit/b88371c40d2891bb366e65d1e9bed75445e90794))
+
 ## [2.0.0](https://github.com/Isrothy/neominimap.nvim/compare/v1.4.1...v1.5.0) (2024-07-14)
 
 
