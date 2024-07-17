@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.0.1...v2.0.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* Handle invalid buffer in debounced function ([29e9a27](https://github.com/Isrothy/neominimap.nvim/commit/29e9a2755eacb9041e03f6bbca61681691acc7a3))
+
 ## [2.0.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.0.0...v2.0.1) (2024-07-16)
 
 
