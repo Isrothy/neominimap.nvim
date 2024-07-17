@@ -95,6 +95,14 @@ M.create_minimap_buffer = function(bufnr)
         vim.schedule_wrap(function()
             logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
 
+            if not api.nvim_buf_is_valid(mbufnr) then
+                logger.log(
+                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr),
+                    vim.log.levels.WARN
+                )
+                return
+            end
+
             logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
             local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
@@ -140,6 +148,13 @@ M.create_minimap_buffer = function(bufnr)
     vim.b[bufnr].update_diagnostic = util.debounce(
         vim.schedule_wrap(function()
             logger.log(string.format("Generating diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
+            if not api.nvim_buf_is_valid(mbufnr) then
+                logger.log(
+                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr),
+                    vim.log.levels.WARN
+                )
+                return
+            end
             extensions.apply(mbufnr, diagnostic.namespace, diagnostic.get_decorations(bufnr))
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
@@ -214,6 +229,8 @@ M.delete_minimap_buffer = function(bufnr)
         vim.log.levels.TRACE
     )
     M.set_minimap_bufnr(bufnr, nil)
+    vim.b[bufnr].update_diagnostic = nil
+    vim.b[bufnr].update_minimap_text = nil
     return bufnr
 end
 
