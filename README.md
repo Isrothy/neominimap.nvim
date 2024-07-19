@@ -219,6 +219,18 @@ buf_filter = function(bufnr)
 end,
 ```
 
+## Highlights
+
+| Highlight Group          | Description                                       |
+|--------------------------|---------------------------------------------------|
+| NeominimapBackground     | Background color for the minimap.                 |
+| NeominimapBorder         | Border color for the minimap window.              |
+| NeominimapCursorLine     | Color for the cursor line in the minimap.         |
+| NeominimapHintLine       |                                                   |
+| NeominimapInfoLine       |                                                   |
+| NeominimapWarnLine       |                                                   |
+| NeominimapErrorLine      |                                                   |
+
 ## TODO
 
 - [x] LSP integration

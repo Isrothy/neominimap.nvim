@@ -25,10 +25,10 @@ api.nvim_set_hl(0, "NeominimapWarnFg", { fg = colors.WARN, default = true })
 api.nvim_set_hl(0, "NeominimapInfoFg", { fg = colors.INFO, default = true })
 api.nvim_set_hl(0, "NeominimapHintFg", { fg = colors.HINT, default = true })
 
-api.nvim_set_hl(0, "NeominimapErrorBg", { bg = colors.ERROR, default = true })
-api.nvim_set_hl(0, "NeominimapWarnBg", { bg = colors.WARN, default = true })
-api.nvim_set_hl(0, "NeominimapInfoBg", { bg = colors.INFO, default = true })
-api.nvim_set_hl(0, "NeominimapHintBg", { bg = colors.HINT, default = true })
+api.nvim_set_hl(0, "NeominimapErrorLine", { bg = colors.ERROR, default = true })
+api.nvim_set_hl(0, "NeominimapWarnLine", { bg = colors.WARN, default = true })
+api.nvim_set_hl(0, "NeominimapInfoLine", { bg = colors.INFO, default = true })
+api.nvim_set_hl(0, "NeominimapHintLine", { bg = colors.HINT, default = true })
 
 local colors_name = {
     "NeominimapError",
