@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*        For NVIM v0.10.*        Last change: 2024 July 14
+*neominimap.nvim.txt*        For NVIM v0.10.*        Last change: 2024 July 19
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -12,6 +12,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Commands                             |neominimap.nvim-neominimap-commands|
   - How it works                     |neominimap.nvim-neominimap-how-it-works|
   - Tips                                     |neominimap.nvim-neominimap-tips|
+  - Highlights                         |neominimap.nvim-neominimap-highlights|
   - TODO                                     |neominimap.nvim-neominimap-todo|
   - Non-Goals                           |neominimap.nvim-neominimap-non-goals|
   - Similar projects             |neominimap.nvim-neominimap-similar-projects|
@@ -295,6 +296,26 @@ DISABLE MINIMAP FOR LARGE FILE ~
     end,
 <
 
+
+HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
+
+  -----------------------------------------------------------------------
+  Highlight Group         Description
+  ----------------------- -----------------------------------------------
+  NeominimapBackground    Background color for the minimap.
+
+  NeominimapBorder        Border color for the minimap window.
+
+  NeominimapCursorLine    Color for the cursor line in the minimap.
+
+  NeominimapHintLine      
+
+  NeominimapInfoLine      
+
+  NeominimapWarnLine      
+
+  NeominimapErrorLine     
+  -----------------------------------------------------------------------
 
 TODO                                         *neominimap.nvim-neominimap-todo*
 
