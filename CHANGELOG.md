@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.0.2...v2.1.0) (2024-07-20)
+
+
+### Features
+
+* Added  configuration option to set margins ([87bf665](https://github.com/Isrothy/neominimap.nvim/commit/87bf665e978fd179bbe85413a60d56e1a73c9c77))
+
+
+### Bug Fixes
+
+* Ensure buffer ID validity ([16e490c](https://github.com/Isrothy/neominimap.nvim/commit/16e490cd061fae90f2cba30346debc6e25a77a60))
+
 ## [2.0.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.0.1...v2.0.2) (2024-07-17)
 
 
