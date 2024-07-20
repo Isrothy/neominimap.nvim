@@ -140,13 +140,13 @@ end
 ---@param winid integer
 local get_window_config = function(winid)
     logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
-    local minimap_height = win_get_true_height(winid)
+    local minimap_height = win_get_true_height(winid) - config.margin.top - config.margin.bottom
     if config.max_minimap_height then
         minimap_height = math.min(minimap_height, config.max_minimap_height)
     end
 
-    local col = api.nvim_win_get_width(winid)
-    local row = 0
+    local col = api.nvim_win_get_width(winid) - config.margin.right
+    local row = config.margin.top
 
     local height = (function()
         local border = config.window_border

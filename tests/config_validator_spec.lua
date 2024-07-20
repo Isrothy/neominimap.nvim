@@ -24,7 +24,6 @@ describe("Neominimap Config Validation", function()
             y_multiplier = 1,
             delay = 200,
             z_index = 1,
-            window_border = "single",
             diagnostic = {
                 enabled = true,
                 severity = vim.diagnostic.severity.WARN,
@@ -38,6 +37,12 @@ describe("Neominimap Config Validation", function()
             treesitter = {
                 enabled = true,
                 priority = 200,
+            },
+            window_border = "single",
+            margin = {
+                right = 2,
+                top = 1,
+                bottom = 1,
             },
         }
         assert.is_true(validate_user_config(config))
@@ -221,6 +226,38 @@ describe("Neominimap Config Validation", function()
     it("should invalidate incorrect delay type", function()
         local config = {
             delay = "fast",
+        }
+        assert.is_false(validate_user_config(config))
+    end)
+
+    -- Valid margin config
+    it("should validate correct margin config", function()
+        local config = {
+            margin = {
+                right = 2,
+                top = 1,
+                bottom = 1,
+            },
+        }
+        assert.is_true(validate_user_config(config))
+    end)
+
+    -- Invalid margin config (non-table)
+    it("should invalidate incorrect margin config (non-table)", function()
+        local config = {
+            margin = "invalid_margin",
+        }
+        assert.is_false(validate_user_config(config))
+    end)
+
+    -- Invalid margin config (incorrect types)
+    it("should invalidate incorrect margin config (incorrect types)", function()
+        local config = {
+            margin = {
+                right = "2",
+                top = "1",
+                bottom = "1",
+            },
         }
         assert.is_false(validate_user_config(config))
     end)

@@ -117,6 +117,13 @@ vim.g.neominimap = {
     -- Border style of the floating window
     -- Accepts all usual border style options (e.g., "single", "double")
     window_border = "single",
+
+    -- Margin of the floating window
+    margin = {
+        top = 0,
+        bottom = 0,
+        right = 0,
+    },
 }
 ```
 

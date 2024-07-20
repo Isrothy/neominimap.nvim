@@ -17,6 +17,7 @@ local M = {}
 ---@field treesitter Neominimap.TreesitterConfig?
 ---@field z_index integer?
 ---@field window_border (string | string[])?
+---@field margin Neominimap.Margin?
 
 ---@class Neominimap.DiagnosticConfig
 ---@field enabled boolean?
@@ -32,6 +33,11 @@ local M = {}
 ---@class Neominimap.TreesitterConfig
 ---@field enabled boolean?
 ---@field priority integer?
+
+---@class Neominimap.Margin
+---@field right integer?
+---@field top integer?
+---@field bottom integer?
 
 ---@type Neominimap.UserConfig | fun():Neominimap.UserConfig | nil
 vim.g.neominimap = vim.g.neominimap
