@@ -164,6 +164,26 @@ local function validate_treesitter(value)
     return true
 end
 
+---@param value any
+---@return boolean
+local function validate_margin(value)
+    if value ~= nil then
+        if type(value) == "table" then
+            return true
+                and validate_type(value.right, "number", "margin.right")
+                and validate_type(value.top, "number", "margin.top")
+                and validate_type(value.bottom, "number", "margin.bottom")
+        else
+            vim.notify(
+                string.format("Invalid type for margin: expected table, got %s", type(value)),
+                vim.log.levels.ERROR
+            )
+            return false
+        end
+    end
+    return true
+end
+
 ---@param config any
 ---@return boolean
 M.validate_user_config = function(config)
@@ -184,6 +204,7 @@ M.validate_user_config = function(config)
             and validate_type(config.window_border, { "string", "table" }, "window_border")
             and validate_diagnostic(config.diagnostic)
             and validate_treesitter(config.treesitter)
+            and validate_margin(config.margin)
     end
     return true
 end

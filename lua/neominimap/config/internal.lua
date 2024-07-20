@@ -16,9 +16,9 @@ local M = {}
 ---@field delay integer
 ---@field diagnostic Neominimap.InternalDiagnosticConfig
 ---@field treesitter Neominimap.InternalTreesitterConfig
----@field use_git boolean
 ---@field z_index integer
 ---@field window_border string | string[]
+---@field margin Neominimap.InternalMargin
 
 ---@class Neominimap.InternalDiagnosticConfig
 ---@field enabled boolean
@@ -34,6 +34,11 @@ local M = {}
 ---@class Neominimap.InternalTreesitterConfig
 ---@field enabled boolean
 ---@field priority integer
+
+---@class Neominimap.InternalMargin
+---@field right integer
+---@field top integer
+---@field bottom integer
 
 ---@enum Neominimap.Relative
 M.RELATIVE = {
@@ -80,7 +85,11 @@ M.default_config = {
         enabled = true,
         priority = 200,
     },
-    use_git = true,
+    margin = {
+        right = 0,
+        top = 0,
+        bottom = 0,
+    },
     z_index = 1, -- The z-index the floating window will be on
     window_border = "single", -- The border style of the floating window (accepts all usual options)
 }
