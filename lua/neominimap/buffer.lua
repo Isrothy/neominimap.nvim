@@ -94,10 +94,10 @@ M.create_minimap_buffer = function(bufnr)
     vim.b[bufnr].update_minimap_text = util.debounce(
         vim.schedule_wrap(function()
             logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
-
-            if not api.nvim_buf_is_valid(mbufnr) then
+            local mbufnr_ = M.get_minimap_bufnr(bufnr)
+            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
                 logger.log(
-                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr),
+                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr_),
                     vim.log.levels.WARN
                 )
                 return
@@ -111,13 +111,13 @@ M.create_minimap_buffer = function(bufnr)
             logger.log(string.format("Generating minimap text for buffer %d", bufnr), vim.log.levels.TRACE)
             local minimap = text.gen(lines, tabwidth)
 
-            vim.bo[mbufnr].modifiable = true
+            vim.bo[mbufnr_].modifiable = true
 
-            logger.log(string.format("Setting lines for buffer %d", mbufnr), vim.log.levels.TRACE)
-            util.noautocmd(api.nvim_buf_set_lines)(mbufnr, 0, -1, true, minimap)
+            logger.log(string.format("Setting lines for buffer %d", mbufnr_), vim.log.levels.TRACE)
+            util.noautocmd(api.nvim_buf_set_lines)(mbufnr_, 0, -1, true, minimap)
             logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
-            vim.bo[mbufnr].modifiable = false
+            vim.bo[mbufnr_].modifiable = false
 
             vim.api.nvim_exec_autocmds("User", {
                 group = "Neominimap",
@@ -134,7 +134,7 @@ M.create_minimap_buffer = function(bufnr)
                 )
                 local highlights = treesitter.extract_ts_highlights(bufnr)
                 if highlights then
-                    treesitter.apply(mbufnr, highlights)
+                    treesitter.apply(mbufnr_, highlights)
                 end
                 logger.log(
                     string.format("Treesitter diagnostics for buffer %d generated successfully", bufnr),
@@ -148,14 +148,15 @@ M.create_minimap_buffer = function(bufnr)
     vim.b[bufnr].update_diagnostic = util.debounce(
         vim.schedule_wrap(function()
             logger.log(string.format("Generating diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
-            if not api.nvim_buf_is_valid(mbufnr) then
+            local mbufnr_ = M.get_minimap_bufnr(bufnr)
+            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
                 logger.log(
-                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr),
+                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr_),
                     vim.log.levels.WARN
                 )
                 return
             end
-            extensions.apply(mbufnr, diagnostic.namespace, diagnostic.get_decorations(bufnr))
+            extensions.apply(mbufnr_, diagnostic.namespace, diagnostic.get_decorations(bufnr))
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay
