@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*        For NVIM v0.10.*        Last change: 2024 July 19
+*neominimap.nvim.txt*        For NVIM v0.10.*        Last change: 2024 July 20
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -142,6 +142,13 @@ The following is the default configuration.
         -- Border style of the floating window
         -- Accepts all usual border style options (e.g., "single", "double")
         window_border = "single",
+    
+        -- Margin of the floating window
+        margin = {
+            top = 0,
+            bottom = 0,
+            right = 0,
+        },
     }
 <
 
