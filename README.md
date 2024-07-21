@@ -1,5 +1,9 @@
 # Neominimap
 
+<a href="https://dotfyle.com/plugins/Isrothy/neominimap.nvim">
+  <img src="https://dotfyle.com/plugins/Isrothy/neominimap.nvim/shield" />
+</a>
+
 ## Overview
 
 This plugin provides a visual representation of your code structure on the side
