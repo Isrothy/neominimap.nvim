@@ -1,5 +1,12 @@
 # Neominimap
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Isrothy/neominimap.nvim)
+![GitHub License](https://img.shields.io/github/license/Isrothy/neominimap.nvim)
+![GitHub Release](https://img.shields.io/github/v/release/Isrothy/neominimap.nvim)
+<a href="https://dotfyle.com/plugins/Isrothy/neominimap.nvim">
+  <img src="https://dotfyle.com/plugins/Isrothy/neominimap.nvim/shield" />
+</a>
+
 ## Overview
 
 This plugin provides a visual representation of your code structure on the side
