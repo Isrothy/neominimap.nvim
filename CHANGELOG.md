@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.1.0...v2.1.1) (2024-07-22)
+
+
+### Bug Fixes
+
+* **window:** set spell false for the minimap window ([dbc959c](https://github.com/Isrothy/neominimap.nvim/commit/dbc959cabfc887e014da9639ade465cbebde8e58))
+
 ## [2.1.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.0.2...v2.1.0) (2024-07-20)
 
 
