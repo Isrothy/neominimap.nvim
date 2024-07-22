@@ -211,6 +211,7 @@ M.create_minimap_window = function(winid)
     vim.wo[mwinid].sidescrolloff = 0
     vim.wo[mwinid].winblend = 0
     vim.wo[mwinid].cursorline = true
+    vim.wo[mwinid].spell = false
 
     logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
     return mwinid
