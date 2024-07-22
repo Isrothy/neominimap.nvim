@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.1.1...v2.2.0) (2024-07-22)
+
+
+### Features
+
+* Add more badges ([36ddc11](https://github.com/Isrothy/neominimap.nvim/commit/36ddc1113880eda2a0ad6f101d45fb2d281ed7cb))
+
 ## [2.1.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.1.0...v2.1.1) (2024-07-22)
 
 
