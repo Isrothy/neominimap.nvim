@@ -199,19 +199,33 @@ M.create_minimap_window = function(winid)
     local mwinid = util.noautocmd(api.nvim_open_win)(mbufnr, false, win_cfg)
     M.set_minimap_winid(winid, mwinid)
 
-    vim.wo[mwinid].winhighlight =
-        "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine"
-    vim.wo[mwinid].wrap = false
-    vim.wo[mwinid].foldcolumn = "0"
-    vim.wo[mwinid].signcolumn = "no"
-    vim.wo[mwinid].statuscolumn = ""
-    vim.wo[mwinid].number = false
-    vim.wo[mwinid].relativenumber = false
-    vim.wo[mwinid].scrolloff = 99999 -- To center minimap
-    vim.wo[mwinid].sidescrolloff = 0
-    vim.wo[mwinid].winblend = 0
-    vim.wo[mwinid].cursorline = true
-    vim.wo[mwinid].spell = false
+    local winopt = {
+        winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
+        wrap = false,
+        foldcolumn = "0",
+        signcolumn = "no",
+        statuscolumn = "",
+        number = false,
+        relativenumber = false,
+        scrolloff = 99999, -- To center minimap
+        sidescrolloff = 0,
+        winblend = 0,
+        cursorline = true,
+        spell = false,
+    }
+
+    local user_opt = type(config.winopt) == "function" and config.winopt(winid) or config.winopt
+    if type(user_opt) == "table" then
+        winopt = vim.tbl_deep_extend("force", winopt, user_opt)
+    else
+        logger.log_and_notify(
+            string.format("Invalid type for winopt: expected table, got %s", type(user_opt)),
+            vim.log.levels.ERROR
+        )
+    end
+    for k, v in pairs(winopt) do
+        vim.wo[mwinid][k] = v
+    end
 
     logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
     return mwinid

@@ -18,6 +18,8 @@ local M = {}
 ---@field z_index integer?
 ---@field window_border (string | string[])?
 ---@field margin Neominimap.Margin?
+---@field winopt (table | fun(winid: integer) : table)?
+---@field bufopt (table | fun(bufnr: integer) : table)?
 
 ---@class Neominimap.DiagnosticConfig
 ---@field enabled boolean?

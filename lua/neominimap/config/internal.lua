@@ -19,6 +19,8 @@ local M = {}
 ---@field z_index integer
 ---@field window_border string | string[]
 ---@field margin Neominimap.InternalMargin
+---@field winopt table | fun(winid: integer) : table
+---@field bufopt table | fun(bufnr: integer) : table
 
 ---@class Neominimap.InternalDiagnosticConfig
 ---@field enabled boolean
@@ -92,6 +94,8 @@ M.default_config = {
     },
     z_index = 1, -- The z-index the floating window will be on
     window_border = "single", -- The border style of the floating window (accepts all usual options)
+    winopt = {},
+    bufopt = {},
 }
 
 return M
