@@ -184,6 +184,40 @@ local function validate_margin(value)
     return true
 end
 
+local function validate_winopt(value)
+    if value ~= nil then
+        if type(value) == "function" then
+            return true
+        elseif type(value) == "table" then
+            return true
+        else
+            vim.notify(
+                string.format("Invalid type for winopt: expected function or table, got %s", type(value)),
+                vim.log.levels.ERROR
+            )
+            return false
+        end
+    end
+    return true
+end
+
+local function validate_bufopt(value)
+    if value ~= nil then
+        if type(value) == "function" then
+            return true
+        elseif type(value) == "table" then
+            return true
+        else
+            vim.notify(
+                string.format("Invalid type for bufopt: expected function or table, got %s", type(value)),
+                vim.log.levels.ERROR
+            )
+            return false
+        end
+    end
+    return true
+end
+
 ---@param config any
 ---@return boolean
 M.validate_user_config = function(config)
@@ -205,6 +239,8 @@ M.validate_user_config = function(config)
             and validate_diagnostic(config.diagnostic)
             and validate_treesitter(config.treesitter)
             and validate_margin(config.margin)
+            and validate_winopt(config.winopt)
+            and validate_bufopt(config.bufopt)
     end
     return true
 end

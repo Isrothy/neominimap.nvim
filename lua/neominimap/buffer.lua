@@ -87,9 +87,24 @@ M.create_minimap_buffer = function(bufnr)
     logger.log(string.format("Created a new buffer %d for minimap of buffer %d", mbufnr, bufnr), vim.log.levels.TRACE)
     M.set_minimap_bufnr(bufnr, mbufnr)
 
-    vim.bo[mbufnr].buftype = "nofile"
-    vim.bo[mbufnr].swapfile = false
-    vim.bo[mbufnr].bufhidden = "hide"
+    local bufopt = {
+        buftype = "nofile",
+        swapfile = false,
+        bufhidden = "hide",
+    }
+
+    local user_opt = type(config.bufopt) == "function" and config.bufopt(bufnr) or config.bufopt
+    if type(user_opt) == "table" then
+        bufopt = vim.tbl_deep_extend("force", bufopt, user_opt)
+    else
+        logger.log_and_notify(
+            string.format("Invalid type for bufopt: expected table, got %s", type(user_opt)),
+            vim.log.levels.ERROR
+        )
+    end
+    for k, v in pairs(bufopt) do
+        vim.bo[mbufnr][k] = v
+    end
 
     vim.b[bufnr].update_minimap_text = util.debounce(
         vim.schedule_wrap(function()

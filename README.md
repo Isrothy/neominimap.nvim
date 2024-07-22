@@ -131,6 +131,47 @@ vim.g.neominimap = {
         bottom = 0,
         right = 0,
     },
+
+    --- Override default window options.
+    --- Can be either a table or a function that takes the winid of
+    --- the window to which a minimap is attached and returns a table.
+    ---@type table | fun(winid: integer) : table
+    winopt = {},
+
+    --- Override default buffer options.
+    --- Can be either a table or a function that takes the bufnr of
+    --- the buffer from which a minimap is generated and returns a table.
+    ---@type table | fun(bufnr: integer) : table
+    bufopt = {}
+}
+```
+
+The default `winopt` is:
+
+```lua
+{
+    winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
+    wrap = false,
+    foldcolumn = "0",
+    signcolumn = "no",
+    statuscolumn = "",
+    number = false,
+    relativenumber = false,
+    scrolloff = 99999,
+    sidescrolloff = 0,
+    winblend = 0,
+    cursorline = true,
+    spell = false,
+}
+```
+
+The default `bufopt` is:
+
+```lua
+{
+    buftype = "nofile",
+    swapfile = false,
+    bufhidden = "hide",
 }
 ```
 
