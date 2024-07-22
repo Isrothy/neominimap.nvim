@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.2.0...v2.3.0) (2024-07-22)
+
+
+### Features
+
+* Allow users to override window options and buffer optinos ([9eca6eb](https://github.com/Isrothy/neominimap.nvim/commit/9eca6eb33389f4f9a54415a40891c43d8aa5addc))
+
 ## [2.2.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.1.1...v2.2.0) (2024-07-22)
 
 
