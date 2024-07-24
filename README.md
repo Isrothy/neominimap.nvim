@@ -48,6 +48,9 @@ With Lazy:
 The following is the default configuration.
 
 ```lua
+---@module "neominimap.config.meta"
+
+---@type Neominimap.UserConfig
 vim.g.neominimap = {
     -- Enable the plugin by default
     auto_enable = true,
@@ -74,11 +77,13 @@ vim.g.neominimap = {
     },
     
     -- When false is returned, the minimap will not be created for this buffer
+    ---@type fun(bufnr: number): boolean
     buf_filter = function(bufnr)
         return true
     end
 
     -- When false is returned, the minimap will not be created for this window
+    ---@type fun(bufnr: number): boolean
     win_filter = function(winid)
         return true
     end

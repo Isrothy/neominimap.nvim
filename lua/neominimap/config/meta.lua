@@ -3,8 +3,8 @@ local M = {}
 ---@class Neominimap.UserConfig
 ---@field auto_enable? boolean
 ---@field log_path? string
----@field log_level? string | integer
----@field notification_level? string | integer
+---@field log_level? integer
+---@field notification_level? integer
 ---@field exclude_filetypes? string[]
 ---@field exclude_buftypes? string[]
 ---@field buf_filter? fun(bufnr: integer): boolean
