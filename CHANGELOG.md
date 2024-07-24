@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.3.0...v2.4.0) (2024-07-24)
+
+
+### Features
+
+* Enable type check if lazydev is enabled ([9164627](https://github.com/Isrothy/neominimap.nvim/commit/916462778401b5003fa53bdbeb06415f9c173e0c))
+* Use vim.validate to validate user config ([1a815e9](https://github.com/Isrothy/neominimap.nvim/commit/1a815e90d02b307e7b0ace806dac50ae75bb42be))
+
 ## [2.3.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.2.0...v2.3.0) (2024-07-22)
 
 
