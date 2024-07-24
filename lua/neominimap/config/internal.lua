@@ -1,60 +1,21 @@
 local M = {}
 
 ---@class Neominimap.InternalConfig
----@field auto_enable boolean
----@field log_path string
----@field log_level integer
----@field notification_level integer
----@field exclude_filetypes (string[])
----@field exclude_buftypes (string[])
----@field buf_filter fun(bufnr: integer): boolean
----@field win_filter fun(winid: integer): boolean
----@field max_minimap_height integer?
----@field minimap_width integer
----@field x_multiplier integer
----@field y_multiplier integer
----@field delay integer
----@field diagnostic Neominimap.InternalDiagnosticConfig
----@field treesitter Neominimap.InternalTreesitterConfig
----@field z_index integer
----@field window_border string | string[]
----@field margin Neominimap.InternalMargin
----@field winopt table | fun(winid: integer) : table
----@field bufopt table | fun(bufnr: integer) : table
-
----@class Neominimap.InternalDiagnosticConfig
----@field enabled boolean
----@field severity integer
----@field priority Neominimap.InternalDiagnosticPriority
-
----@class Neominimap.InternalDiagnosticPriority
----@field ERROR integer
----@field WARN integer
----@field INFO integer
----@field HINT integer
-
----@class Neominimap.InternalTreesitterConfig
----@field enabled boolean
----@field priority integer
-
----@class Neominimap.InternalMargin
----@field right integer
----@field top integer
----@field bottom integer
-
----@enum Neominimap.Relative
-M.RELATIVE = {
-    win = "win",
-    editor = "editor",
-}
-
----@type Neominimap.InternalConfig
 M.default_config = {
-    auto_enable = true,
-    log_level = vim.log.levels.OFF,
-    notification_level = vim.log.levels.INFO,
-    log_path = vim.fn.stdpath("data") .. "/neominimap.log",
-    exclude_filetypes = { "help" },
+    auto_enable = true, ---@type boolean
+
+    log_level = vim.log.levels.OFF, ---@type integer
+
+    notification_level = vim.log.levels.INFO, ---@type integer
+
+    log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string
+
+    ---@type string[]
+    exclude_filetypes = {
+        "help",
+    },
+
+    ---@type string[]
     exclude_buftypes = {
         "nofile",
         "nowrite",
@@ -62,39 +23,48 @@ M.default_config = {
         "terminal",
         "prompt",
     },
+
+    ---@type fun(bufnr: integer): boolean
     buf_filter = function()
         return true
     end,
+
+    ---@type fun(winid: integer): boolean
     win_filter = function()
         return true
     end,
-    max_minimap_height = nil,
-    minimap_width = 20,
-    x_multiplier = 4,
-    y_multiplier = 1,
-    delay = 200,
+
+    max_minimap_height = nil, ---@type integer?
+    minimap_width = 20, ---@type integer
+    x_multiplier = 4, ---@type integer
+    y_multiplier = 1, ---@type integer
+    delay = 200, ---@type integer
     diagnostic = {
-        enabled = true,
-        severity = vim.diagnostic.severity.WARN,
+        enabled = true, ---@type boolean
+        severity = vim.diagnostic.severity.WARN, ---@type integer
         priority = {
-            ERROR = 100,
-            WARN = 90,
-            INFO = 80,
-            HINT = 70,
+            ERROR = 100, ---@type integer
+            WARN = 90, ---@type integer
+            INFO = 80, ---@type integer
+            HINT = 70, ---@type integer
         },
     },
     treesitter = {
-        enabled = true,
-        priority = 200,
+        enabled = true, ---@type boolean
+        priority = 200, ---@type integer
     },
     margin = {
-        right = 0,
-        top = 0,
-        bottom = 0,
+        right = 0, ---@type integer
+        top = 0, ---@type integer
+        bottom = 0, ---@type integer
     },
-    z_index = 1, -- The z-index the floating window will be on
-    window_border = "single", -- The border style of the floating window (accepts all usual options)
+    z_index = 1, ---@type integer
+    window_border = "single", ---@type string | string[]
+
+    ---@type table | fun(winid: integer) : table
     winopt = {},
+
+    ---@type table | fun(bufnr: integer) : table
     bufopt = {},
 }
 
