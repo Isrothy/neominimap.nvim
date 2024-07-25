@@ -177,6 +177,7 @@ The default `bufopt` is:
     buftype = "nofile",
     swapfile = false,
     bufhidden = "hide",
+    undolevels = -1,
 }
 ```
 

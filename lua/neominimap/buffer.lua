@@ -91,6 +91,7 @@ M.create_minimap_buffer = function(bufnr)
         buftype = "nofile",
         swapfile = false,
         bufhidden = "hide",
+        undolevels = -1,
     }
 
     local user_opt = type(config.bufopt) == "function" and config.bufopt(bufnr) or config.bufopt
