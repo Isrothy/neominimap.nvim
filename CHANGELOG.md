@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.4.0...v2.4.1) (2024-07-25)
+
+
+### Bug Fixes
+
+* Set undolevels to -1 to reduce memoey use ([a3e6e25](https://github.com/Isrothy/neominimap.nvim/commit/a3e6e25d933a569c929bb861208530df9529c025))
+
 ## [2.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.3.0...v2.4.0) (2024-07-24)
 
 
