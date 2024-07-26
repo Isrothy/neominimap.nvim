@@ -37,8 +37,6 @@ Criticisms are welcome.
 SCREENSHOTS                           *neominimap.nvim-neominimap-screenshots*
 
 
-
-
 FEATURES                                 *neominimap.nvim-neominimap-features*
 
 - LSP Integration
@@ -47,7 +45,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
 
-- nvim-treesitter <https://github.com/nvim-treesitter/nvim-treesitter> for highlighting
+- Optional: nvim-treesitter <https://github.com/nvim-treesitter/nvim-treesitter> for highlighting
 
 
 INSTALLATION                         *neominimap.nvim-neominimap-installation*
@@ -56,19 +54,19 @@ With Lazy:
 
 >lua
     {
-      "Isrothy/neominimap.nvim",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter", --- Recommended
-      },
-      enabled = true,
-      lazy = false, -- NOTE: NO NEED to Lazy load
-      init = function()
-        vim.opt.wrap = false -- Recommended
-        vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
-        vim.g.neominimap = {
-          auto_enable = true,
-        }
-      end,
+        "Isrothy/neominimap.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter", --- Recommended
+        },
+        enabled = true,
+        lazy = false, -- NOTE: NO NEED to Lazy load
+        init = function()
+            vim.opt.wrap = false -- Recommended
+            vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
+            vim.g.neominimap = {
+                auto_enable = true,
+            }
+        end,
     },
 <
 
@@ -218,9 +216,9 @@ Notice that a minimap is shown if and only if - Neominimap is enabled globally,
 - Neominimap is enabled for the current buffer, and - Neominimap is enabled for
 the current window.
 
-  ----------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------
   Command                               Description                                 Arguments
-  ------------------------------------- ------------------------------------------- ------------
+  ------------------------------------- ------------------------------------------- -----------
   Neominimap on                         Turn on minimaps globally.                  None
 
   Neominimap off                        Turn off minimaps globally.                 None
@@ -260,7 +258,7 @@ the current window.
   Neominimap winRefresh [window_list]   Refresh the minimap for specified windows.  Optional:
                                         If no windows are specified, refresh for    List of
                                         the current window.                         windows
-  ----------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------
 
 USAGE EXAMPLES ~
 
@@ -287,41 +285,45 @@ LUA API ~
 
 These are the corresponding commands in the Lua API.
 
-  ---------------------------------------------------------------------------------------------------------------
-  Command                        Description                       Usage
-  ------------------------------ --------------------------------- ----------------------------------------------
-  Neominimap on                  Turns on the minimap globally.    require('neominimap').on()
+  -------------------------------------------------------------------------------------------------------
+  Command                        Description               Usage
+  ------------------------------ ------------------------- ----------------------------------------------
+  Neominimap on                  Turns on the minimap      require('neominimap').on()
+                                 globally.                 
 
-  Neominimap off                 Turns off the minimap globally.   require('neominimap').off()
+  Neominimap off                 Turns off the minimap     require('neominimap').off()
+                                 globally.                 
 
-  Neominimap toggle              Toggles the minimap globally.     require('neominimap').toggle()
+  Neominimap toggle              Toggles the minimap       require('neominimap').toggle()
+                                 globally.                 
 
-  Neominimap refresh             Refreshes the minimap globally.   require('neominimap').refresh()
+  Neominimap refresh             Refreshes the minimap     require('neominimap').refresh()
+                                 globally.                 
 
-  Neominimap bufOn [args]        Turns on the minimap for          require('neominimap').bufOn({"1", "2"})
-                                 specified buffers.                
+  Neominimap bufOn [args]        Turns on the minimap for  require('neominimap').bufOn({"1", "2"})
+                                 specified buffers.        
 
-  Neominimap bufOff [args]       Turns off the minimap for         require('neominimap').bufOff({"1", "2"})
-                                 specified buffers.                
+  Neominimap bufOff [args]       Turns off the minimap for require('neominimap').bufOff({"1", "2"})
+                                 specified buffers.        
 
-  Neominimap bufToggle [args ]   Toggles the minimap for specified require('neominimap').bufToggle({"1", "2"})
-                                 buffers.                          
+  Neominimap bufToggle [args ]   Toggles the minimap for   require('neominimap').bufToggle({"1", "2"})
+                                 specified buffers.        
 
-  Neominimap bufRefresh [args]   Refreshes the minimap for         require('neominimap').bufRefresh({"1", "2"})
-                                 specified buffers.                
+  Neominimap bufRefresh [args]   Refreshes the minimap for require('neominimap').bufRefresh({"1", "2"})
+                                 specified buffers.        
 
-  Neominimap winOn [args]        Turns on the minimap for          require('neominimap').winOn({"3", "4"})
-                                 specified windows.                
+  Neominimap winOn [args]        Turns on the minimap for  require('neominimap').winOn({"3", "4"})
+                                 specified windows.        
 
-  Neominimap winOff [args]       Turns off the minimap for         require('neominimap').winOff({"3", "4"})
-                                 specified windows.                
+  Neominimap winOff [args]       Turns off the minimap for require('neominimap').winOff({"3", "4"})
+                                 specified windows.        
 
-  Neominimap winToggle [args]    Toggles the minimap for specified require('neominimap').winToggle({"3", "4"})
-                                 windows.                          
+  Neominimap winToggle [args]    Toggles the minimap for   require('neominimap').winToggle({"3", "4"})
+                                 specified windows.        
 
-  Neominimap winRefresh [args]   Refreshes the minimap for         require('neominimap').winRefresh({"3", "4"})
-                                 specified windows.                
-  ---------------------------------------------------------------------------------------------------------------
+  Neominimap winRefresh [args]   Refreshes the minimap for require('neominimap').winRefresh({"3", "4"})
+                                 specified windows.        
+  -------------------------------------------------------------------------------------------------------
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
 
@@ -365,23 +367,15 @@ DISABLE MINIMAP FOR LARGE FILE ~
 
 HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
 
-  -----------------------------------------------------------------------
-  Highlight Group         Description
-  ----------------------- -----------------------------------------------
-  NeominimapBackground    Background color for the minimap.
-
-  NeominimapBorder        Border color for the minimap window.
-
-  NeominimapCursorLine    Color for the cursor line in the minimap.
-
-  NeominimapHintLine      
-
-  NeominimapInfoLine      
-
-  NeominimapWarnLine      
-
-  NeominimapErrorLine     
-  -----------------------------------------------------------------------
+  Highlight Group        Description
+  ---------------------- -------------------------------------------
+  NeominimapBackground   Background color for the minimap.
+  NeominimapBorder       Border color for the minimap window.
+  NeominimapCursorLine   Color for the cursor line in the minimap.
+  NeominimapHintLine     
+  NeominimapInfoLine     
+  NeominimapWarnLine     
+  NeominimapErrorLine    
 
 TODO                                         *neominimap.nvim-neominimap-todo*
 
@@ -451,6 +445,7 @@ also learned from that project.
 1. *GitHub commit activity*: https://img.shields.io/github/commit-activity/m/Isrothy/neominimap.nvim
 2. *GitHub License*: https://img.shields.io/github/license/Isrothy/neominimap.nvim
 3. *GitHub Release*: https://img.shields.io/github/v/release/Isrothy/neominimap.nvim
+4. *screenshot*: https://github.com/user-attachments/assets/029d61c7-94ac-4e68-9308-3c82a3c07fef
 
 Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
 
