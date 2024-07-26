@@ -191,6 +191,7 @@ The default `bufopt` is:
 ## Commands
 
 Notice that a minimap is shown if and only if
+
 - Neominimap is enabled globally,
 - Neominimap is enabled for the current buffer, and
 - Neominimap is enabled for the current window.
@@ -203,7 +204,7 @@ Notice that a minimap is shown if and only if
 | `Neominimap refresh`                  | Refresh minimaps globally.                                                                              | None                      |
 | `Neominimap bufOn [buffer_list]`      | Enable the minimap for specified buffers. If no buffers are specified, enable for the current buffer.   | Optional: List of buffers |
 | `Neominimap bufOff [buffer_list]`     | Disable the minimap for specified buffers. If no buffers are specified, disable for the current buffer. | Optional: List of buffers |
-| `Neominimap bufToggle [buffer_list] ` | Toggle the minimap for specified buffers. If no buffers are specified, toggle for the current buffer.   | Optional: List of buffers |
+| `Neominimap bufToggle [buffer_list]`  | Toggle the minimap for specified buffers. If no buffers are specified, toggle for the current buffer.   | Optional: List of buffers |
 | `Neominimap bufRefresh [buffer_list]` | Refresh the minimap for specified buffers. If no buffers are specified, refresh for the current buffer. | Optional: List of buffers |
 | `Neominimap winOn [window_list]`      | Enable the minimap for specified windows. If no windows are specified, enable for the current window.   | Optional: List of windows |
 | `Neominimap winOff [window_list]`     | Disable the minimap for specified windows. If no windows are specified, disable for the current window. | Optional: List of windows |
@@ -213,16 +214,19 @@ Notice that a minimap is shown if and only if
 ### Usage Examples
 
 To turn on the minimap globally:
+
 ```vim
 :Neominimap on
 ```
 
 To disable the minimap for the current buffer:
+
 ```vim
 :Neominimap bufOff
 ```
 
 To refresh the minimap for windows 3 and 4:
+
 ```vim
 :Neominimap winRefresh 3 4
 ```
@@ -254,6 +258,7 @@ When a buffer is displayed in a window,
 the minimap buffer is automatically opened side by side with the main window.
 
 This approach minimizes unnecessary rendering when
+
 - Multiple windows are open for same file
 - Switching between buffers within a window
 
@@ -360,5 +365,3 @@ Thanks to [gorbit99](https://github.com/gorbit99) for
 by which this plugin was inspired.
 The map generation algorithm and TreeSitter integration algorithm are also
 learned from that project.
-
-
