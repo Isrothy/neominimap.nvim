@@ -23,6 +23,10 @@ Criticisms are welcome.
 - LSP Integration
 - TreeSitter Integration
 
+## Dependencies
+
+- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for highlighting
+
 ## Installation
 
 With Lazy:
@@ -30,8 +34,11 @@ With Lazy:
 ```lua
 {
   "Isrothy/neominimap.nvim",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter", --- Recommended
+  },
   enabled = true,
-  lazy = false, -- WARN: NO NEED to Lazy load
+  lazy = false, -- NOTE: NO NEED to Lazy load
   init = function()
     vim.opt.wrap = false -- Recommended
     vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
