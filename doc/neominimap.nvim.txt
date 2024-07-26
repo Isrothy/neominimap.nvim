@@ -212,9 +212,11 @@ The default `bufopt` is:
 
 COMMANDS                                 *neominimap.nvim-neominimap-commands*
 
-Notice that a minimap is shown if and only if - Neominimap is enabled globally,
-- Neominimap is enabled for the current buffer, and - Neominimap is enabled for
-the current window.
+Notice that a minimap is shown if and only if
+
+- Neominimap is enabled globally,
+- Neominimap is enabled for the current buffer, and
+- Neominimap is enabled for the current window.
 
   ---------------------------------------------------------------------------------------------
   Command                               Description                                 Arguments
@@ -332,8 +334,10 @@ For every file opened, the plugin generates a corresponding minimap buffer.
 When a buffer is displayed in a window, the minimap buffer is automatically
 opened side by side with the main window.
 
-This approach minimizes unnecessary rendering when - Multiple windows are open
-for same file - Switching between buffers within a window
+This approach minimizes unnecessary rendering when
+
+- Multiple windows are open for same file
+- Switching between buffers within a window
 
 
 TREESITTER INTEGRATION ~
