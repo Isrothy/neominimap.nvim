@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.4.1...v2.4.2) (2024-07-27)
+
+
+### Bug Fixes
+
+* Handle Blob input correctly in str_to_visible_codepoints() ([3c53bfd](https://github.com/Isrothy/neominimap.nvim/commit/3c53bfd51f6316258becd4c5e367c377f39df7f9))
+
 ## [2.4.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.4.0...v2.4.1) (2024-07-25)
 
 
