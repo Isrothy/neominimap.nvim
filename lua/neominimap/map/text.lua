@@ -47,7 +47,10 @@ end
 M.str_to_visible_codepoints = function(str, tabwidth)
     local view_points = {}
     local col = 0
-    local char_list = vim.fn.str2list(str)
+    local ok, char_list = pcall(vim.fn.str2list, str)
+    if not ok then
+        char_list = vim.fn.blob2list(str)
+    end
     for _, code in ipairs(char_list) do
         if char.is_tab(code) then
             local spaces_to_add = tabwidth - (col % tabwidth)
