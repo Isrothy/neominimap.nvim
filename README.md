@@ -1,11 +1,27 @@
 # Neominimap
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Isrothy/neominimap.nvim)
 ![GitHub License](https://img.shields.io/github/license/Isrothy/neominimap.nvim)
-![GitHub Release](https://img.shields.io/github/v/release/Isrothy/neominimap.nvim)
+
+![GitHub Repo stars](https://img.shields.io/github/stars/Isrothy/neominimap.nvim)
+![GitHub forks](https://img.shields.io/github/forks/Isrothy/neominimap.nvim)
+![GitHub watchers](https://img.shields.io/github/watchers/Isrothy/neominimap.nvim)
+![GitHub contributors](https://img.shields.io/github/contributors/Isrothy/neominimap.nvim)
 <a href="https://dotfyle.com/plugins/Isrothy/neominimap.nvim">
   <img src="https://dotfyle.com/plugins/Isrothy/neominimap.nvim/shield" />
 </a>
+
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Isrothy/neominimap.nvim)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/Isrothy/neominimap.nvim)
+
+![GitHub Created At](https://img.shields.io/github/created-at/Isrothy/neominimap.nvim)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Isrothy/neominimap.nvim)
+![GitHub last commit](https://img.shields.io/github/last-commit/Isrothy/neominimap.nvim)
+![GitHub Release](https://img.shields.io/github/v/release/Isrothy/neominimap.nvim)
+
+![GitHub top language](https://img.shields.io/github/languages/top/Isrothy/neominimap.nvim)
+![GitHub language count](https://img.shields.io/github/languages/count/Isrothy/neominimap.nvim)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Isrothy/neominimap.nvim)
+
 
 ## Overview
 
