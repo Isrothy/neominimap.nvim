@@ -149,9 +149,7 @@ M.create_minimap_buffer = function(bufnr)
                     vim.log.levels.TRACE
                 )
                 local highlights = treesitter.extract_ts_highlights(bufnr)
-                if highlights then
-                    treesitter.apply(mbufnr_, highlights)
-                end
+                treesitter.apply(mbufnr_, highlights)
                 logger.log(
                     string.format("Treesitter diagnostics for buffer %d generated successfully", bufnr),
                     vim.log.levels.TRACE
