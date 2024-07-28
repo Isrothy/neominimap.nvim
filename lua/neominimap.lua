@@ -74,6 +74,10 @@ M.winRefresh = function(args, opts)
     require("neominimap.command.window").subcommand_tbl.winRefresh.impl(args, opts)
 end
 
+M.perf = function(args, opts)
+    require("neominimap.command.perf").subcommand_tbl.perf.impl(args, opts)
+end
+
 M.setup = function()
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
 

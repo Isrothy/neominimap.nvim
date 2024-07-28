@@ -47,7 +47,7 @@ M.create_autocmds = function()
             vim.schedule(function()
                 logger.log(string.format("Debounced updating text for buffer %d.", bufnr), vim.log.levels.TRACE)
                 ---@cast bufnr integer
-                buffer.update_text(bufnr)
+                buffer.render(bufnr)
                 logger.log(
                     string.format("Debounced text updating for buffer %d is called", bufnr),
                     vim.log.levels.TRACE
