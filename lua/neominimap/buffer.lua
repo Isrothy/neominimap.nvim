@@ -113,7 +113,7 @@ M.internal_render = function(bufnr)
 
     if config.treesitter.enabled then
         logger.log(string.format("Generating treesitter diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
-        local highlights = treesitter.extract_ts_highlights(bufnr)
+        local highlights = treesitter.extract_highlights(bufnr)
         treesitter.apply(mbufnr_, highlights)
         logger.log(
             string.format("Treesitter diagnostics for buffer %d generated successfully", bufnr),
