@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.4.2...v2.5.0) (2024-08-02)
+
+
+### Features
+
+* Add perf command ([638fdfc](https://github.com/Isrothy/neominimap.nvim/commit/638fdfc994c278add09f4a90ce42b5db482ce14f))
+* Multiple runs ([4fe5fcd](https://github.com/Isrothy/neominimap.nvim/commit/4fe5fcdae9e5d64441b789464e70a699cd0800cd))
+
+
+### Performance Improvements
+
+* Optimize is_white_space ([5771b81](https://github.com/Isrothy/neominimap.nvim/commit/5771b8169ec1c394e7be4507c03175ebf24f8e7e))
+
 ## [2.4.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.4.1...v2.4.2) (2024-07-27)
 
 
