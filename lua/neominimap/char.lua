@@ -1,23 +1,20 @@
 local M = {}
 
-local whitespace = {
-    0x9,
-    0xA,
-    0xB,
-    0xC,
-    0xD,
-    0x20,
-    0x85,
-    0xA0,
-    0x1680,
-    0x2000,
-    0x2001,
-}
-
 ---@param code integer
 ---@return boolean
 M.is_white_space = function(code)
-    return vim.tbl_contains(whitespace, code)
+    return false
+        or code == 0x9
+        or code == 0xA
+        or code == 0xB
+        or code == 0xC
+        or code == 0xD
+        or code == 0x20
+        or code == 0x85
+        or code == 0xA0
+        or code == 0x1680
+        or code == 0x2000
+        or code == 0x2001
 end
 
 ---@param code integer
