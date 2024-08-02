@@ -8,7 +8,8 @@ M.subcommand_tbl = vim.tbl_deep_extend(
     "error",
     require("neominimap.command.window").subcommand_tbl,
     require("neominimap.command.buffer").subcommand_tbl,
-    require("neominimap.command.global").subcommand_tbl
+    require("neominimap.command.global").subcommand_tbl,
+    require("neominimap.command.perf").subcommand_tbl
 )
 
 return M

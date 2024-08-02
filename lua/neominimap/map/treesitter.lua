@@ -57,23 +57,69 @@ local get_or_create_hl_info = function(hl_group)
     return new_group
 end
 
+---@class BufferHighlight
+---@field start_row integer
+---@field end_row integer
+---@field start_col integer
+---@field end_col integer
+---@field group string
+
+---@param bufnr integer
+---@return BufferHighlight[]
+local get_buffer_highlights = function(bufnr)
+    local buf_highlighter = treesitter.highlighter.active[bufnr]
+    local line_count = api.nvim_buf_line_count(bufnr)
+    if buf_highlighter == nil then
+        return {}
+    end
+    local highlights = {}
+    buf_highlighter.tree:for_each_tree(function(tstree, tree)
+        if not tstree then
+            return
+        end
+
+        local root = tstree:root()
+        local lang = tree:lang()
+        local query = treesitter.query.get(lang, "highlights")
+        if not query then
+            return
+        end
+
+        local iter = query:iter_captures(root, buf_highlighter.bufnr, 0, line_count + 1)
+
+        for capture_id, node in iter do
+            local hl_group = query.captures[capture_id]
+            local start_row, start_col, end_row, end_col =
+                ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
+            highlights[#highlights + 1] = {
+                start_row = start_row,
+                start_col = start_col,
+                end_row = end_row,
+                end_col = end_col,
+                group = hl_group,
+            }
+        end
+    end)
+    return highlights
+end
+
+---@class MinimapHighlight
+---@field line integer
+---@field col integer
+---@field end_col integer
+---@field group string
+
 ---Extracts the highlighting from the given buffer using treesitter.
 ---For any codepoint, the most common group will be chosen.
 ---If there are multiple groups with the same number of occurrences, all will be chosen.
 ---@param bufnr integer
----@return table<string, boolean>[][]?
-M.extract_ts_highlights = function(bufnr)
-    local buf_highlighter = treesitter.highlighter.active[bufnr]
-    if buf_highlighter == nil then
-        return nil
-    end
-
+---@return MinimapHighlight[]
+M.extract_highlights = function(bufnr)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local tabwidth = vim.bo[bufnr].tabstop
     local line_count = #lines
     local minimap_width = config.minimap_width
     local minimap_height = math.ceil(line_count / 4 / config.y_multiplier)
-    logger.log("Minimap height: " .. minimap_height .. ", minimap width: " .. minimap_width, vim.log.levels.DEBUG)
 
     ---@type integer[][]
     local utf8_pos_list = vim.tbl_map(vim.str_utf_pos, lines)
@@ -98,57 +144,25 @@ M.extract_ts_highlights = function(bufnr)
         highlights[row] = line
     end
 
-    buf_highlighter.tree:for_each_tree(function(tstree, tree)
-        if not tstree then
-            return
-        end
+    for _, h in ipairs(get_buffer_highlights(bufnr)) do
+        local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
-        local root = tstree:root()
-        local lang = tree:lang()
-        local query = treesitter.query.get(lang, "highlights")
-        if not query then
-            return
-        end
-
-        local iter = query:iter_captures(root, buf_highlighter.bufnr, 0, line_count + 1)
-
-        for capture_id, node in iter do
-            local hl_group = query.captures[capture_id]
-            local start_row, start_col, end_row, end_col =
-                ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
-
-            logger.log(
-                string.format(
-                    "Extracted highlight %s, range: (%d,%d), (%d,%d)",
-                    hl_group,
-                    start_row,
-                    start_col,
-                    end_row,
-                    end_col
-                ),
-                vim.log.levels.DEBUG
-            )
-
-            local minimap_hl = get_or_create_hl_info("@" .. hl_group)
-
-            for row = start_row, end_row do
-                local from = row == start_row and start_col or 1
-                local to = row == end_row and end_col or string.len(lines[row])
-                logger.log(string.format("from: %d, to: %d", from, to), vim.log.levels.DEBUG)
-                from = char_idx_to_codepoint_idx(row, from)
-                to = char_idx_to_codepoint_idx(row, to)
-                if from ~= nil and to ~= nil then
-                    for col = from, to do
-                        local mrow, mcol = coord.codepoint_to_mcodepoint(row, col)
-                        if mcol > minimap_width then
-                            break
-                        end
-                        highlights[mrow][mcol][minimap_hl] = (highlights[mrow][mcol][minimap_hl] or 0) + 1
+        for row = h.start_row, h.end_row do
+            local from = row == h.start_row and h.start_col or 1
+            local to = row == h.end_row and h.end_col or string.len(lines[row])
+            from = char_idx_to_codepoint_idx(row, from)
+            to = char_idx_to_codepoint_idx(row, to)
+            if from ~= nil and to ~= nil then
+                for col = from, to do
+                    local mrow, mcol = coord.codepoint_to_mcodepoint(row, col)
+                    if mcol > minimap_width then
+                        break
                     end
+                    highlights[mrow][mcol][minimap_hl] = (highlights[mrow][mcol][minimap_hl] or 0) + 1
                 end
             end
         end
-    end)
+    end
 
     for y = 1, minimap_height do
         for x = 1, minimap_width do
@@ -156,33 +170,41 @@ M.extract_ts_highlights = function(bufnr)
         end
     end
 
-    return highlights
-end
-
---- Applies the given highlights to the given buffer.
---- If there are multiple highlights for the same position, all of them will be applied.
----@param highlights table<string, boolean>[][]
----@param mbufnr integer
-M.apply = function(mbufnr, highlights)
-    local minimap_height = api.nvim_buf_line_count(mbufnr)
-    local minimap_width = config.minimap_width
-    api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
+    local ret = {}
     for y = 1, minimap_height do
         for x = 1, minimap_width do
             for group in pairs(highlights[y][x]) do
                 -- For performance reasons, consecutive highlights are merged into one.
                 local end_x = x
                 while end_x < minimap_width and vim.tbl_contains(highlights[y][end_x + 1], group) do
-                    highlights[y][end_x][group] = nil
+                    highlights[y][end_x + 1][group] = nil
                     end_x = end_x + 1
                 end
-                api.nvim_buf_set_extmark(mbufnr, namespace, y - 1, (x - 1) * 3, {
-                    hl_group = group,
+                ret[#ret + 1] = {
+                    line = y - 1,
+                    col = (x - 1) * 3,
                     end_col = end_x * 3,
-                    priority = config.treesitter.priority,
-                })
+                    group = group,
+                }
             end
         end
+    end
+
+    return ret
+end
+
+--- Applies the given highlights to the given buffer.
+--- If there are multiple highlights for the same position, all of them will be applied.
+---@param mbufnr integer
+---@param highlights MinimapHighlight[]
+M.apply = function(mbufnr, highlights)
+    api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
+    for _, hl in ipairs(highlights) do
+        api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
+            end_col = hl.end_col,
+            hl_group = hl.group,
+            hl_mode = "combine",
+        })
     end
 end
 
