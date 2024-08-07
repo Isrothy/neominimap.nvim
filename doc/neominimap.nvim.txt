@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*        For NVIM v0.10.*        Last change: 2024 July 27
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 07
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -139,6 +139,9 @@ The following is the default configuration.
         -- minimap is refreshed after a certain delay
         -- Set the delay in milliseconds
         delay = 200,
+      
+        -- Sync the cursor position with the minimap
+        sync_cursor = true,
     
         -- Z-index for the floating window
         z_index = 1,
@@ -266,6 +269,11 @@ Notice that a minimap is shown if and only if
   Neominimap winRefresh [window_list]   Refresh the minimap for specified windows.  Optional:
                                         If no windows are specified, refresh for    List of
                                         the current window.                         windows
+
+  Neominimap focus                      Focus on the minimap. Set cursor to the     None
+                                        minimap window.                             
+
+  Neominimap blur                       Unfocus the minimap. Set cursor back.       None
   ---------------------------------------------------------------------------------------------
 
 USAGE EXAMPLES ~
@@ -331,6 +339,10 @@ These are the corresponding commands in the Lua API.
 
   Neominimap winRefresh [args]   Refreshes the minimap for require('neominimap').winRefresh({"3", "4"})
                                  specified windows.        
+
+  Neominimap focus               Focuses the minimap.      require('neominimap').focus()
+
+  Neominimap unfocus             Unfocuses the minimap.    require('neominimap').unfocus()
   -------------------------------------------------------------------------------------------------------
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
