@@ -38,6 +38,7 @@ M.default_config = {
     minimap_width = 20, ---@type integer
     x_multiplier = 4, ---@type integer
     y_multiplier = 1, ---@type integer
+    sync_cursor = true, ---@type boolean
     delay = 200, ---@type integer
     diagnostic = {
         enabled = true, ---@type boolean

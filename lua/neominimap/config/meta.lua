@@ -12,6 +12,7 @@ local M = {}
 ---@field minimap_width? integer
 ---@field x_multiplier? integer
 ---@field y_multiplier? integer
+---@field sync_cursor? boolean
 ---@field delay? integer
 ---@field diagnostic? Neominimap.DiagnosticConfig
 ---@field treesitter? Neominimap.TreesitterConfig

@@ -128,6 +128,9 @@ vim.g.neominimap = {
     -- minimap is refreshed after a certain delay
     -- Set the delay in milliseconds
     delay = 200,
+  
+    -- Sync the cursor position with the minimap
+    sync_cursor = true,
 
     -- Z-index for the floating window
     z_index = 1,
