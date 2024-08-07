@@ -22,7 +22,6 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/Isrothy/neominimap.nvim)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Isrothy/neominimap.nvim)
 
-
 ## Overview
 
 This plugin provides a visual representation of your code structure on the side
@@ -229,6 +228,8 @@ Notice that a minimap is shown if and only if
 | `Neominimap winOff [window_list]`     | Disable the minimap for specified windows. If no windows are specified, disable for the current window. | Optional: List of windows |
 | `Neominimap winToggle [window_list]`  | Toggle the minimap for specified windows. If no windows are specified, toggle for the current window.   | Optional: List of windows |
 | `Neominimap winRefresh [window_list]` | Refresh the minimap for specified windows. If no windows are specified, refresh for the current window. | Optional: List of windows |
+| `Neominimap focus`                    | Focus on the minimap. Set cursor to the minimap window.                                                 | None                      |
+| `Neominimap blur`                     | Unfocus the minimap. Set cursor back.                                                                   | None                      |
 
 ### Usage Examples
 
@@ -268,6 +269,8 @@ These are the corresponding commands in the Lua API.
 | `Neominimap winOff [args]`     | Turns off the minimap for specified windows. | `require('neominimap').winOff({"3", "4"})`     |
 | `Neominimap winToggle [args]`  | Toggles the minimap for specified windows.   | `require('neominimap').winToggle({"3", "4"})`  |
 | `Neominimap winRefresh [args]` | Refreshes the minimap for specified windows. | `require('neominimap').winRefresh({"3", "4"})` |
+| `Neominimap focus`             | Focuses the minimap.                         | `require('neominimap').focus()`                |
+| `Neominimap unfocus`           | Unfocuses the minimap.                       | `require('neominimap').unfocus()`              |`
 
 ## How it works
 
