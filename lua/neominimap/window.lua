@@ -94,6 +94,12 @@ M.list_windows = function()
     return vim.tbl_keys(winid_to_mwinid)
 end
 
+---@param mwinid integer
+---@return boolean
+M.is_minimap_window = function(mwinid)
+    return M.get_parent_winid(mwinid) ~= nil
+end
+
 ---@param winid integer
 ---@return boolean
 M.should_show_minimap = function(winid)
@@ -261,7 +267,7 @@ end
 
 ---@param winid integer
 ---@return boolean
-M.reset_cursor_line = function(winid)
+M.reset_mwindow_cursor_line = function(winid)
     logger.log(string.format("Resetting cursor line for window %d", winid), vim.log.levels.TRACE)
     local mwinid = M.get_minimap_winid(winid)
     if not mwinid then
@@ -278,6 +284,28 @@ M.reset_cursor_line = function(winid)
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(mwinid, { row, 0 })
     end
     logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
+    return false
+end
+
+---@param mwinid integer
+---@return boolean
+M.reset_parent_window_cursor_line = function(mwinid)
+    logger.log(string.format("Resetting cursor line for minimap window %d", mwinid), vim.log.levels.TRACE)
+    local winid = M.get_parent_winid(mwinid)
+    if not winid then
+        logger.log("Window not found", vim.log.levels.TRACE)
+        return false
+    end
+    local rowCol = vim.api.nvim_win_get_cursor(mwinid)
+    local row = rowCol[1]
+    local col = rowCol[2]
+    row, col = coord.mcodepoint_to_codepoint(row, col)
+    local bufnr = api.nvim_win_get_buf(winid)
+    local line_cnt = api.nvim_buf_line_count(bufnr)
+    if row <= line_cnt then
+        vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(winid, { row, 0 })
+    end
+    logger.log(string.format("Cursor line reset for minimap window %d", mwinid), vim.log.levels.TRACE)
     return false
 end
 
@@ -349,7 +377,7 @@ M.refresh_minimap_window = function(winid)
         api.nvim_win_set_buf(mwinid, mbufnr)
     end
 
-    M.reset_cursor_line(winid)
+    M.reset_mwindow_cursor_line(winid)
 
     logger.log(string.format("Minimap for window %d refreshed", winid), vim.log.levels.TRACE)
     return mwinid
