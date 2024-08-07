@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.5.0...v2.6.0) (2024-08-07)
+
+
+### Features
+
+* Add configuration option to enable/disable cursor line sync ([4267c24](https://github.com/Isrothy/neominimap.nvim/commit/4267c241803724f66d6c8360ffe247e65e2763cd))
+* Add focus feature for minimap ([59bde8b](https://github.com/Isrothy/neominimap.nvim/commit/59bde8b702a69d387cad83640e38c9a1e2df0d34))
+* Sync cursor line between windows and minimap ([db49cca](https://github.com/Isrothy/neominimap.nvim/commit/db49cca37eecee7c0cd78b7115b9b382bb50aa17))
+
 ## [2.5.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.4.2...v2.5.0) (2024-08-02)
 
 
