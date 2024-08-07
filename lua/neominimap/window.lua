@@ -70,6 +70,17 @@ M.get_minimap_winid = function(winid)
     return mwinid
 end
 
+---@param mwinid integer
+---@return integer?
+M.get_parent_winid = function(mwinid)
+    for winid, mwinid_ in pairs(winid_to_mwinid) do
+        if mwinid_ == mwinid then
+            return winid
+        end
+    end
+    return nil
+end
+
 --- Set the winid of the minimap attached to the given window
 ---@param winid integer
 ---@param mwinid integer?
@@ -268,6 +279,34 @@ M.reset_cursor_line = function(winid)
     end
     logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
     return false
+end
+
+---@param winid integer
+---@return boolean
+M.focus = function(winid)
+    logger.log(string.format("Focusing window %d", winid), vim.log.levels.TRACE)
+    local mwinid = M.get_minimap_winid(winid)
+    if not mwinid then
+        logger.log(string.format("Minimap window %d is not valid", winid), vim.log.levels.TRACE)
+        return false
+    end
+    api.nvim_set_current_win(mwinid)
+    logger.log(string.format("Window %d focused", winid), vim.log.levels.TRACE)
+    return true
+end
+
+--- @param mwinid integer
+--- @return boolean
+M.unfocus = function(mwinid)
+    logger.log(string.format("Unfocusing window %d", mwinid), vim.log.levels.TRACE)
+    local winid = M.get_parent_winid(mwinid)
+    if not winid then
+        logger.log("Window not found", vim.log.levels.TRACE)
+        return false
+    end
+    api.nvim_set_current_win(winid)
+    logger.log(string.format("Window %d unfocused", mwinid), vim.log.levels.TRACE)
+    return true
 end
 
 --- Refresh the minimap attached to the given window
