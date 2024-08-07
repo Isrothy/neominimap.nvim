@@ -74,8 +74,20 @@ M.winRefresh = function(args, opts)
     require("neominimap.command.window").subcommand_tbl.winRefresh.impl(args, opts)
 end
 
+---@param args string[]
+---@param opts table
 M.perf = function(args, opts)
     require("neominimap.command.perf").subcommand_tbl.perf.impl(args, opts)
+end
+
+---@param args string[]
+---@param opts table
+M.focus = function(args, opts)
+    require("neominimap.command.focus").subcommand_tbl.focus.impl(args, opts)
+end
+
+M.unfocus = function(args, opts)
+    require("neominimap.command.focus").subcommand_tbl.unfocus.impl(args, opts)
 end
 
 M.setup = function()

@@ -167,9 +167,23 @@ M.create_autocmds = function()
             logger.log(string.format("Window ID: %d", winid), vim.log.levels.TRACE)
             vim.schedule(function()
                 local window = require("neominimap.window")
-                logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
-                window.reset_cursor_line(winid)
-                logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
+                if window.is_minimap_window(winid) then
+                    if config.sync_cursor then
+                        logger.log(
+                            string.format("Resetting parent cursor line for minimap window %d.", winid),
+                            vim.log.levels.TRACE
+                        )
+                        window.reset_parent_window_cursor_line(winid)
+                        logger.log(
+                            string.format("Parent cursor line reset for window %d.", winid),
+                            vim.log.levels.TRACE
+                        )
+                    end
+                else
+                    logger.log(string.format("Resettting cursor line for window %d.", winid), vim.log.levels.TRACE)
+                    window.reset_mwindow_cursor_line(winid)
+                    logger.log(string.format("Cursor line reset for window %d.", winid), vim.log.levels.TRACE)
+                end
             end)
         end,
     })
@@ -198,7 +212,7 @@ M.create_autocmds = function()
                 end
                 for _, winid in ipairs(updated_windows) do
                     logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
-                    window.reset_cursor_line(winid)
+                    window.reset_mwindow_cursor_line(winid)
                     logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
                 end
             end)

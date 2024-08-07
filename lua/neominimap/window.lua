@@ -70,6 +70,17 @@ M.get_minimap_winid = function(winid)
     return mwinid
 end
 
+---@param mwinid integer
+---@return integer?
+M.get_parent_winid = function(mwinid)
+    for winid, mwinid_ in pairs(winid_to_mwinid) do
+        if mwinid_ == mwinid then
+            return winid
+        end
+    end
+    return nil
+end
+
 --- Set the winid of the minimap attached to the given window
 ---@param winid integer
 ---@param mwinid integer?
@@ -81,6 +92,12 @@ end
 --- @return integer[]
 M.list_windows = function()
     return vim.tbl_keys(winid_to_mwinid)
+end
+
+---@param mwinid integer
+---@return boolean
+M.is_minimap_window = function(mwinid)
+    return M.get_parent_winid(mwinid) ~= nil
 end
 
 ---@param winid integer
@@ -250,7 +267,7 @@ end
 
 ---@param winid integer
 ---@return boolean
-M.reset_cursor_line = function(winid)
+M.reset_mwindow_cursor_line = function(winid)
     logger.log(string.format("Resetting cursor line for window %d", winid), vim.log.levels.TRACE)
     local mwinid = M.get_minimap_winid(winid)
     if not mwinid then
@@ -268,6 +285,56 @@ M.reset_cursor_line = function(winid)
     end
     logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
     return false
+end
+
+---@param mwinid integer
+---@return boolean
+M.reset_parent_window_cursor_line = function(mwinid)
+    logger.log(string.format("Resetting cursor line for minimap window %d", mwinid), vim.log.levels.TRACE)
+    local winid = M.get_parent_winid(mwinid)
+    if not winid then
+        logger.log("Window not found", vim.log.levels.TRACE)
+        return false
+    end
+    local rowCol = vim.api.nvim_win_get_cursor(mwinid)
+    local row = rowCol[1]
+    local col = rowCol[2]
+    row, col = coord.mcodepoint_to_codepoint(row, col)
+    local bufnr = api.nvim_win_get_buf(winid)
+    local line_cnt = api.nvim_buf_line_count(bufnr)
+    if row <= line_cnt then
+        vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(winid, { row, 0 })
+    end
+    logger.log(string.format("Cursor line reset for minimap window %d", mwinid), vim.log.levels.TRACE)
+    return false
+end
+
+---@param winid integer
+---@return boolean
+M.focus = function(winid)
+    logger.log(string.format("Focusing window %d", winid), vim.log.levels.TRACE)
+    local mwinid = M.get_minimap_winid(winid)
+    if not mwinid then
+        logger.log(string.format("Minimap window %d is not valid", winid), vim.log.levels.TRACE)
+        return false
+    end
+    api.nvim_set_current_win(mwinid)
+    logger.log(string.format("Window %d focused", winid), vim.log.levels.TRACE)
+    return true
+end
+
+--- @param mwinid integer
+--- @return boolean
+M.unfocus = function(mwinid)
+    logger.log(string.format("Unfocusing window %d", mwinid), vim.log.levels.TRACE)
+    local winid = M.get_parent_winid(mwinid)
+    if not winid then
+        logger.log("Window not found", vim.log.levels.TRACE)
+        return false
+    end
+    api.nvim_set_current_win(winid)
+    logger.log(string.format("Window %d unfocused", mwinid), vim.log.levels.TRACE)
+    return true
 end
 
 --- Refresh the minimap attached to the given window
@@ -310,7 +377,7 @@ M.refresh_minimap_window = function(winid)
         api.nvim_win_set_buf(mwinid, mbufnr)
     end
 
-    M.reset_cursor_line(winid)
+    M.reset_mwindow_cursor_line(winid)
 
     logger.log(string.format("Minimap for window %d refreshed", winid), vim.log.levels.TRACE)
     return mwinid
