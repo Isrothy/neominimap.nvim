@@ -49,6 +49,7 @@ M.validate_config = function(cfg)
         y_multiplier = { cfg.y_multiplier, "number" },
         delay = { cfg.delay, "number" },
 
+        diagnostic = { cfg.diagnostic, "table" },
         ["diagnostic.enabled"] = { cfg.diagnostic.enabled, "boolean" },
         ["diagnostic.severity"] = { cfg.diagnostic.severity, "number" },
         ["diagnostic.priority.ERROR"] = { cfg.diagnostic.priority.ERROR, "number" },
@@ -56,12 +57,17 @@ M.validate_config = function(cfg)
         ["diagnostic.priority.INFO"] = { cfg.diagnostic.priority.INFO, "number" },
         ["diagnostic.priority.HINT"] = { cfg.diagnostic.priority.HINT, "number" },
 
+        treesitter = { cfg.treesitter, "table" },
         ["treesitter.enabled"] = { cfg.treesitter.enabled, "boolean" },
         ["treesitter.priority"] = { cfg.treesitter.priority, "number" },
 
+        margin = { cfg.margin, "table" },
         ["margin.right"] = { cfg.margin.right, "number" },
         ["margin.top"] = { cfg.margin.top, "number" },
         ["margin.bottom"] = { cfg.margin.bottom, "number" },
+
+        fold = { cfg.fold, "table" },
+        ["fold.enabled"] = { cfg.fold.enabled, "boolean" },
 
         z_index = { cfg.z_index, "number" },
         window_border = { cfg.window_border, { "string", "table" } },

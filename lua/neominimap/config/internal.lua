@@ -59,6 +59,9 @@ M.default_config = {
         top = 0, ---@type integer
         bottom = 0, ---@type integer
     },
+    fold = {
+        enabled = true, ---@type boolean
+    },
     z_index = 1, ---@type integer
     window_border = "single", ---@type string | string[]
 

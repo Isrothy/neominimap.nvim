@@ -37,6 +37,7 @@ Criticisms are welcome.
 
 - LSP Integration
 - TreeSitter Integration
+- Fold Integration
 - Respects UTF-8 encoding and tab width
 
 ## Dependencies
@@ -150,6 +151,11 @@ vim.g.neominimap = {
     treesitter = {
         enabled = true,
         priority = 200,
+    },
+    
+    -- Considering fold when rendering minimap
+    fold = {
+        enabled = true,
     },
 
     -- Border style of the floating window

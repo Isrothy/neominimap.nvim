@@ -7,6 +7,7 @@ local logger = require("neominimap.logger")
 local extensions = require("neominimap.map.extensions")
 local diagnostic = require("neominimap.map.extensions.diagnostic")
 local treesitter = require("neominimap.map.treesitter")
+local fold = require("neominimap.map.fold")
 local text = require("neominimap.map.text")
 
 ---@type table<integer, integer>
@@ -89,6 +90,12 @@ M.internal_render = function(bufnr)
 
     logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+    if config.fold.enabled then
+        logger.log(string.format("Applying fold for buffer %d", bufnr), vim.log.levels.TRACE)
+        lines = fold.filter_folds(bufnr, lines)
+        logger.log(string.format("Fold for buffer %d applied successfully", bufnr), vim.log.levels.TRACE)
+    end
 
     local tabwidth = vim.bo[bufnr].tabstop
 
