@@ -37,6 +37,7 @@ Criticisms are welcome.
 
 - LSP Integration
 - TreeSitter Integration
+- Respects UTF-8 encoding and tab width
 
 ## Dependencies
 
