@@ -86,11 +86,14 @@ M.focus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.focus.impl(args, opts)
 end
 
+---@param args string[]
+---@param opts table
 M.unfocus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.unfocus.impl(args, opts)
 end
 
-
+---@param args string[]
+---@param opts table
 M.toggleFocus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.toggleFocus.impl(args, opts)
 end
