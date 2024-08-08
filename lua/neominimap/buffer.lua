@@ -91,9 +91,11 @@ M.internal_render = function(bufnr)
     logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
+    fold.cache_folds(bufnr)
+
     if config.fold.enabled then
         logger.log(string.format("Applying fold for buffer %d", bufnr), vim.log.levels.TRACE)
-        lines = fold.filter_folds(bufnr, lines)
+        lines = fold.filter_folds(fold.get_cached_folds(bufnr), lines)
         logger.log(string.format("Fold for buffer %d applied successfully", bufnr), vim.log.levels.TRACE)
     end
 
@@ -188,6 +190,7 @@ M.create_minimap_buffer = function(bufnr)
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr
 end
+
 
 ---@param bufnr integer
 M.render = function(bufnr)

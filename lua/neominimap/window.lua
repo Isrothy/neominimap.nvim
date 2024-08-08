@@ -2,6 +2,7 @@ local api = vim.api
 local fn = vim.fn
 local util = require("neominimap.util")
 local config = require("neominimap.config").get()
+local fold = require("neominimap.map.fold")
 local logger = require("neominimap.logger")
 local buffer = require("neominimap.buffer")
 local coord = require("neominimap.map.coord")
@@ -277,6 +278,16 @@ M.reset_mwindow_cursor_line = function(winid)
     local rowCol = vim.api.nvim_win_get_cursor(winid)
     local row = rowCol[1]
     local col = rowCol[2]
+    if config.fold.enabled then
+        local bufnr = api.nvim_win_get_buf(winid)
+        local vrow = fold.substract_fold_lines(fold.get_cached_folds(bufnr), row)
+        if not vrow then
+            logger.log("failed to find the line number considering folded lines", vim.log.levels.WARN)
+            row = 1
+        else
+            row = vrow
+        end
+    end
     row, col = coord.codepoint_to_mcodepoint(row, col)
     local mbufnr = api.nvim_win_get_buf(mwinid)
     local line_cnt = api.nvim_buf_line_count(mbufnr)
@@ -296,11 +307,20 @@ M.reset_parent_window_cursor_line = function(mwinid)
         logger.log("Window not found", vim.log.levels.TRACE)
         return false
     end
+    local bufnr = api.nvim_win_get_buf(winid)
     local rowCol = vim.api.nvim_win_get_cursor(mwinid)
     local row = rowCol[1]
     local col = rowCol[2]
     row, col = coord.mcodepoint_to_codepoint(row, col)
-    local bufnr = api.nvim_win_get_buf(winid)
+    if config.fold.enabled then
+        local vrow = fold.add_fold_lines(fold.get_cached_folds(bufnr), row)
+        if not vrow then
+            logger.log("Failed to find the line number considering folded lines", vim.log.levels.WARN)
+            row = 1
+        else
+            row = vrow
+        end
+    end
     local line_cnt = api.nvim_buf_line_count(bufnr)
     if row <= line_cnt then
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(winid, { row, 0 })

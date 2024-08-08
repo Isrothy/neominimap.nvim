@@ -39,10 +39,9 @@ M.is_line_folded = function(bufnr, line)
 end
 
 ---@generic T
----@param bufnr integer
+---@param folds Fold[]
 ---@param lines T[]
-M.filter_folds = function(bufnr, lines)
-    local folds = M.get_all_folds(bufnr)
+M.filter_folds = function(folds, lines)
     local filtered_lines = {}
     local index = 1
     for line_num, line in ipairs(lines) do
@@ -54,6 +53,47 @@ M.filter_folds = function(bufnr, lines)
         end
     end
     return filtered_lines
+end
+
+---@param folds Fold[]
+---@param lineNr integer
+---@return integer?
+M.substract_fold_lines = function(folds, lineNr)
+    local acc = 0
+    for _, f in ipairs(folds) do
+        if lineNr <= f.start then
+            break
+        elseif lineNr <= f.end_ then
+            return nil
+        else
+            acc = acc + f.end_ - f.start
+        end
+    end
+    return lineNr - acc
+end
+
+---@param folds Fold[]
+---@param lineNr integer
+M.add_fold_lines = function(folds, lineNr)
+    for _, f in ipairs(folds) do
+        if lineNr <= f.start then
+            break
+        else
+			lineNr = lineNr + f.end_ - f.start
+        end
+    end
+    return lineNr
+end
+
+---@param bufnr integer
+---@return Fold[]
+M.get_cached_folds = function(bufnr)
+    return vim.b[bufnr].neominimap_folds or {}
+end
+
+---@param bufnr integer
+M.cache_folds = function(bufnr)
+    vim.b[bufnr].neominimap_folds = M.get_all_folds(bufnr)
 end
 
 return M

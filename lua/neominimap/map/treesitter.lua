@@ -145,25 +145,12 @@ M.extract_highlights = function(bufnr)
         highlights[row] = line
     end
 
-    local folds = fold.get_all_folds(bufnr)
-    local function substract_fold_lines(line) ---@type fun(line:integer):integer?
-        local acc = 0
-        for _, f in ipairs(folds) do
-            if line <= f.start then
-                break
-            elseif line <= f.end_ then
-                return nil
-            else
-                acc = acc + f.end_ - f.start
-            end
-        end
-        return line - acc
-    end
+    local folds = fold.get_cached_folds(bufnr)
     for _, h in ipairs(get_buffer_highlights(bufnr)) do
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
-            local vrow = substract_fold_lines(row)
+            local vrow = fold.substract_fold_lines(folds, row)
             if vrow then
                 local from = row == h.start_row and h.start_col or 1
                 local to = row == h.end_row and h.end_col or string.len(lines[row])
