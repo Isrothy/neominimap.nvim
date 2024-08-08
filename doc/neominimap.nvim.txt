@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 07
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 08
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -47,6 +47,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 
 - LSP Integration
 - TreeSitter Integration
+- Respects UTF-8 encoding and tab width
 
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
