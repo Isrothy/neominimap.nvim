@@ -90,6 +90,11 @@ M.unfocus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.unfocus.impl(args, opts)
 end
 
+
+M.toggleFocus = function(args, opts)
+    require("neominimap.command.focus").subcommand_tbl.toggleFocus.impl(args, opts)
+end
+
 M.setup = function()
     local gid = api.nvim_create_augroup("Neominimap", { clear = true })
 
