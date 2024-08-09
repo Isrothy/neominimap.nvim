@@ -169,7 +169,7 @@ local get_window_config = function(winid)
     local height = (function()
         local border = config.window_border
         if type(border) == "string" then
-            return border == "none" and minimap_height or minimap_height - 2
+            return (border == "none" and minimap_height) or (border == "shadow" and minimap_height - 1) or minimap_height - 2
         else
             local h = minimap_height
             if border[2] ~= "" then
