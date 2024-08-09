@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 08
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 09
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -16,6 +16,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Highlights                         |neominimap.nvim-neominimap-highlights|
   - TODO                                     |neominimap.nvim-neominimap-todo|
   - Non-Goals                           |neominimap.nvim-neominimap-non-goals|
+  - Limitations                       |neominimap.nvim-neominimap-limitations|
   - Similar projects             |neominimap.nvim-neominimap-similar-projects|
   - Acknowledgements             |neominimap.nvim-neominimap-acknowledgements|
 2. Links                                               |neominimap.nvim-links|
@@ -47,6 +48,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 
 - LSP Integration
 - TreeSitter Integration
+- Fold Integration
 - Respects UTF-8 encoding and tab width
 
 
@@ -162,6 +164,11 @@ The following is the default configuration.
         treesitter = {
             enabled = true,
             priority = 200,
+        },
+        
+        -- Considering fold when rendering minimap
+        fold = {
+            enabled = true,
         },
     
         -- Border style of the floating window
@@ -426,6 +433,13 @@ NON-GOALS                               *neominimap.nvim-neominimap-non-goals*
     it’s not impossible to display them by highlights.
 
 
+LIMITATIONS                           *neominimap.nvim-neominimap-limitations*
+
+- Updating Folds Immediately.
+    Neovim does not provide a fold event. Therefore, this plugin cannot update
+    immediately whenever fold changes in a buffer.
+
+
 SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
 
 - codewindow.nvim <https://github.com/gorbit99/codewindow.nvim>
@@ -439,6 +453,7 @@ SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
         tab width.
     - Codewindow.nvim currently has more features like git integration and focus
         on the minimap, which this plugin does not.
+    - Codewindow.nvim does not consider folds while this plugin does.
 - mini.map <https://github.com/echasnovski/mini.map>
     - Mini.map allows for encode symbol customization, while this plugin does not.
     - Mini.map includes a scrollbar, which this plugin does not.
