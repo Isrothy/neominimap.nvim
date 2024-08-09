@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.7.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.6.0...v2.7.0) (2024-08-09)
+
+
+### Features
+
+* Add toggleFocus command ([65d8ae2](https://github.com/Isrothy/neominimap.nvim/commit/65d8ae2976cfebb7899e6abcd140ff703b28c58d))
+* Support folds ([74e81c7](https://github.com/Isrothy/neominimap.nvim/commit/74e81c78014b4e86d5961e01596231194480a62d))
+
+
+### Bug Fixes
+
+* Inconsistency of current line when folds on ([08ea1c8](https://github.com/Isrothy/neominimap.nvim/commit/08ea1c8d760d576be5a7ded35716f6b558ab9e10))
+
 ## [2.6.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.5.0...v2.6.0) (2024-08-07)
 
 
