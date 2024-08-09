@@ -5,6 +5,7 @@ local ts_utils = require("nvim-treesitter.ts_utils")
 local coord = require("neominimap.map.coord")
 local text = require("neominimap.map.text")
 local logger = require("neominimap.logger")
+local fold = require("neominimap.map.fold")
 local api = vim.api
 local treesitter = vim.treesitter
 
@@ -144,21 +145,25 @@ M.extract_highlights = function(bufnr)
         highlights[row] = line
     end
 
+    local folds = fold.get_cached_folds(bufnr)
     for _, h in ipairs(get_buffer_highlights(bufnr)) do
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
-            local from = row == h.start_row and h.start_col or 1
-            local to = row == h.end_row and h.end_col or string.len(lines[row])
-            from = char_idx_to_codepoint_idx(row, from)
-            to = char_idx_to_codepoint_idx(row, to)
-            if from ~= nil and to ~= nil then
-                for col = from, to do
-                    local mrow, mcol = coord.codepoint_to_mcodepoint(row, col)
-                    if mcol > minimap_width then
-                        break
+            local vrow = fold.substract_fold_lines(folds, row)
+            if vrow then
+                local from = row == h.start_row and h.start_col or 1
+                local to = row == h.end_row and h.end_col or string.len(lines[row])
+                from = char_idx_to_codepoint_idx(row, from)
+                to = char_idx_to_codepoint_idx(row, to)
+                if from ~= nil and to ~= nil then
+                    for col = from, to do
+                        local mrow, mcol = coord.codepoint_to_mcodepoint(vrow, col)
+                        if mcol > minimap_width then
+                            break
+                        end
+                        highlights[mrow][mcol][minimap_hl] = (highlights[mrow][mcol][minimap_hl] or 0) + 1
                     end
-                    highlights[mrow][mcol][minimap_hl] = (highlights[mrow][mcol][minimap_hl] or 0) + 1
                 end
             end
         end

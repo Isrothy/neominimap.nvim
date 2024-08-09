@@ -42,6 +42,9 @@ local M = {}
 ---@field top? integer
 ---@field bottom? integer
 
+---@class Neominimap.Fold
+---@field enabled? boolean
+---
 ---@type Neominimap.UserConfig | fun():Neominimap.UserConfig | nil
 vim.g.neominimap = vim.g.neominimap
 

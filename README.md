@@ -37,6 +37,7 @@ Criticisms are welcome.
 
 - LSP Integration
 - TreeSitter Integration
+- Fold Integration
 - Respects UTF-8 encoding and tab width
 
 ## Dependencies
@@ -150,6 +151,11 @@ vim.g.neominimap = {
     treesitter = {
         enabled = true,
         priority = 200,
+    },
+    
+    -- Considering fold when rendering minimap
+    fold = {
+        enabled = true,
     },
 
     -- Border style of the floating window
@@ -351,6 +357,13 @@ end,
   Since a screen bound is a windowwise thing,
   it's not impossible to display them by highlights.
 
+## Limitations
+
+- Updating Folds Immediately.
+  Neovim does not provide a fold event. Therefore, this plugin cannot update
+  immediately whenever fold changes in a buffer.
+  
+
 ## Similar projects
 
 - [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim)
@@ -364,6 +377,7 @@ end,
     tab width.
   - Codewindow.nvim currently has more features like git integration and focus
     on the minimap, which this plugin does not.
+  - Codewindow.nvim does not consider folds while this plugin does.
 
 - [mini.map](https://github.com/echasnovski/mini.map)
   - Mini.map allows for encode symbol customization, while this plugin does not.
