@@ -236,7 +236,8 @@ Notice that a minimap is shown if and only if
 | `Neominimap winToggle [window_list]`  | Toggle the minimap for specified windows. If no windows are specified, toggle for the current window.   | Optional: List of windows |
 | `Neominimap winRefresh [window_list]` | Refresh the minimap for specified windows. If no windows are specified, refresh for the current window. | Optional: List of windows |
 | `Neominimap focus`                    | Focus on the minimap. Set cursor to the minimap window.                                                 | None                      |
-| `Neominimap blur`                     | Unfocus the minimap. Set cursor back.                                                                   | None                      |
+| `Neominimap unfocus`                  | Unfocus the minimap. Set cursor back.                                                                   | None                      |
+| `Neominimap toggleFocus`              | Toggle minimap focus                                                                                    | None                      |
 
 ### Usage Examples
 
@@ -277,7 +278,8 @@ These are the corresponding commands in the Lua API.
 | `Neominimap winToggle [args]`  | Toggles the minimap for specified windows.   | `require('neominimap').winToggle({"3", "4"})`  |
 | `Neominimap winRefresh [args]` | Refreshes the minimap for specified windows. | `require('neominimap').winRefresh({"3", "4"})` |
 | `Neominimap focus`             | Focuses the minimap.                         | `require('neominimap').focus()`                |
-| `Neominimap unfocus`           | Unfocuses the minimap.                       | `require('neominimap').unfocus()`              |`
+| `Neominimap unfocus`           | Unfocuses the minimap.                       | `require('neominimap').unfocus()`              |
+| `Neominimap toggleFocus`       | Toggle minimap focus.                        | `require('neominimap').toggleFocus()`          |
 
 ## How it works
 
