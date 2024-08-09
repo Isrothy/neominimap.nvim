@@ -130,7 +130,7 @@ The following is the default configuration.
             "terminal",
             "prompt",
         },
-        
+    
         -- When false is returned, the minimap will not be created for this buffer
         ---@type fun(bufnr: number): boolean
         buf_filter = function(bufnr)
@@ -160,7 +160,7 @@ The following is the default configuration.
         -- minimap is refreshed after a certain delay
         -- Set the delay in milliseconds
         delay = 200,
-      
+    
         -- Sync the cursor position with the minimap
         sync_cursor = true,
     
@@ -183,7 +183,7 @@ The following is the default configuration.
             enabled = true,
             priority = 200,
         },
-        
+    
         -- Considering fold when rendering minimap
         fold = {
             enabled = true,
@@ -329,51 +329,72 @@ LUA API ~
 
 These are the corresponding commands in the Lua API.
 
-  -------------------------------------------------------------------------------------------------------
-  Command                        Description               Usage
-  ------------------------------ ------------------------- ----------------------------------------------
-  Neominimap on                  Turns on the minimap      require('neominimap').on()
-                                 globally.                 
+  ---------------------------------------------------------------------------------------------------
+  Function                                    Description          Arguments
+  ------------------------------------------- -------------------- ----------------------------------
+  require('neominimap').on()                  Enables the minimap  None
+                                              globally across all  
+                                              buffers and windows. 
 
-  Neominimap off                 Turns off the minimap     require('neominimap').off()
-                                 globally.                 
+  require('neominimap').off()                 Disables the minimap None
+                                              globally.            
 
-  Neominimap toggle              Toggles the minimap       require('neominimap').toggle()
-                                 globally.                 
+  require('neominimap').toggle()              Toggles the minimap  None
+                                              on or off globally.  
 
-  Neominimap refresh             Refreshes the minimap     require('neominimap').refresh()
-                                 globally.                 
+  require('neominimap').refresh()             Refreshes the        None
+                                              minimap globally.    
 
-  Neominimap bufOn [args]        Turns on the minimap for  require('neominimap').bufOn({"1", "2"})
-                                 specified buffers.        
+  require('neominimap').bufOn(<bufnr>)        Enables the minimap  Optional: Single buffer number or
+                                              for specified        list of buffer numbers (defaults
+                                              buffers.             to current buffer if none
+                                                                   provided)
 
-  Neominimap bufOff [args]       Turns off the minimap for require('neominimap').bufOff({"1", "2"})
-                                 specified buffers.        
+  require('neominimap').bufOff(<bufnr>)       Disables the minimap Optional: Single buffer number or
+                                              for specified        list of buffer numbers (defaults
+                                              buffers.             to current buffer if none
+                                                                   provided)
 
-  Neominimap bufToggle [args ]   Toggles the minimap for   require('neominimap').bufToggle({"1", "2"})
-                                 specified buffers.        
+  require('neominimap').bufToggle(<bufnr>)    Toggles the minimap  Optional: Single buffer number or
+                                              for specified        list of buffer numbers (defaults
+                                              buffers.             to current buffer if none
+                                                                   provided)
 
-  Neominimap bufRefresh [args]   Refreshes the minimap for require('neominimap').bufRefresh({"1", "2"})
-                                 specified buffers.        
+  require('neominimap').bufRefresh(<bufnr>)   Refreshes the        Optional: Single buffer number or
+                                              minimap for          list of buffer numbers (defaults
+                                              specified buffers.   to current buffer if none
+                                                                   provided)
 
-  Neominimap winOn [args]        Turns on the minimap for  require('neominimap').winOn({"3", "4"})
-                                 specified windows.        
+  require('neominimap').winOn(<winid>)        Enables the minimap  Optional: Single window ID or list
+                                              for specified        of window IDs (defaults to current
+                                              windows.             window if none provided)
 
-  Neominimap winOff [args]       Turns off the minimap for require('neominimap').winOff({"3", "4"})
-                                 specified windows.        
+  require('neominimap').winOff(<winid>)       Disables the minimap Optional: Single window ID or list
+                                              for specified        of window IDs (defaults to current
+                                              windows.             window if none provided)
 
-  Neominimap winToggle [args]    Toggles the minimap for   require('neominimap').winToggle({"3", "4"})
-                                 specified windows.        
+  require('neominimap').winToggle(<winid>)    Toggles the minimap  Optional: Single window ID or list
+                                              for specified        of window IDs (defaults to current
+                                              windows.             window if none provided)
 
-  Neominimap winRefresh [args]   Refreshes the minimap for require('neominimap').winRefresh({"3", "4"})
-                                 specified windows.        
+  require('neominimap').winRefresh(<winid>)   Refreshes the        Optional: Single window ID or list
+                                              minimap for          of window IDs (defaults to current
+                                              specified windows.   window if none provided)
 
-  Neominimap focus               Focuses the minimap.      require('neominimap').focus()
+  require('neominimap').focus()               Focuses the minimap  None
+                                              window, allowing     
+                                              interaction with it. 
 
-  Neominimap unfocus             Unfocuses the minimap.    require('neominimap').unfocus()
+  require('neominimap').unfocus()             Unfocuses the        None
+                                              minimap window,      
+                                              returning focus to   
+                                              the editor.          
 
-  Neominimap toggleFocus         Toggle minimap focus.     require('neominimap').toggleFocus()
-  -------------------------------------------------------------------------------------------------------
+  require('neominimap').toggleFocus()         Toggles focus        None
+                                              between the minimap  
+                                              and the main editor  
+                                              window.              
+  ---------------------------------------------------------------------------------------------------
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
 
