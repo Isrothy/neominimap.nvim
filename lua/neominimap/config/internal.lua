@@ -63,7 +63,7 @@ M.default_config = {
         enabled = true, ---@type boolean
     },
     z_index = 1, ---@type integer
-    window_border = "single", ---@type string | string[]
+    window_border = "single", ---@type string | string[] | [string, string][]
 
     ---@type table | fun(winid: integer) : table
     winopt = {},

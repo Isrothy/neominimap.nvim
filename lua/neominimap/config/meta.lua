@@ -17,7 +17,7 @@ local M = {}
 ---@field diagnostic? Neominimap.DiagnosticConfig
 ---@field treesitter? Neominimap.TreesitterConfig
 ---@field z_index? integer
----@field window_border? (string | string[])
+---@field window_border? string | string[] | [string, string][]
 ---@field margin? Neominimap.Margin
 ---@field winopt? table | fun(winid: integer) : table
 ---@field bufopt? table | fun(bufnr: integer) : table
