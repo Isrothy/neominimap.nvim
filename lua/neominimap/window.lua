@@ -170,7 +170,7 @@ local get_minimap_height = function(winid)
             return minimap_window_height - 2
         end
     else
-        local function char(n)
+        local char = function(n)
             local b = border[n]
             return type(b) == "string" and b or b[1]
         end
