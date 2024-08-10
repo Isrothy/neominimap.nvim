@@ -239,23 +239,36 @@ Notice that a minimap is shown if and only if
 - Neominimap is enabled for the current buffer, and
 - Neominimap is enabled for the current window.
 
-| Command                               | Description                                                                                             | Arguments                 |
-|---------------------------------------|---------------------------------------------------------------------------------------------------------|---------------------------|
-| `Neominimap on`                       | Turn on minimaps globally.                                                                              | None                      |
-| `Neominimap off`                      | Turn off minimaps globally.                                                                             | None                      |
-| `Neominimap toggle`                   | Toggle minimaps globally.                                                                               | None                      |
-| `Neominimap refresh`                  | Refresh minimaps globally.                                                                              | None                      |
-| `Neominimap bufOn [buffer_list]`      | Enable the minimap for specified buffers. If no buffers are specified, enable for the current buffer.   | Optional: List of buffers |
-| `Neominimap bufOff [buffer_list]`     | Disable the minimap for specified buffers. If no buffers are specified, disable for the current buffer. | Optional: List of buffers |
-| `Neominimap bufToggle [buffer_list]`  | Toggle the minimap for specified buffers. If no buffers are specified, toggle for the current buffer.   | Optional: List of buffers |
-| `Neominimap bufRefresh [buffer_list]` | Refresh the minimap for specified buffers. If no buffers are specified, refresh for the current buffer. | Optional: List of buffers |
-| `Neominimap winOn [window_list]`      | Enable the minimap for specified windows. If no windows are specified, enable for the current window.   | Optional: List of windows |
-| `Neominimap winOff [window_list]`     | Disable the minimap for specified windows. If no windows are specified, disable for the current window. | Optional: List of windows |
-| `Neominimap winToggle [window_list]`  | Toggle the minimap for specified windows. If no windows are specified, toggle for the current window.   | Optional: List of windows |
-| `Neominimap winRefresh [window_list]` | Refresh the minimap for specified windows. If no windows are specified, refresh for the current window. | Optional: List of windows |
-| `Neominimap focus`                    | Focus on the minimap. Set cursor to the minimap window.                                                 | None                      |
-| `Neominimap unfocus`                  | Unfocus the minimap. Set cursor back.                                                                   | None                      |
-| `Neominimap toggleFocus`              | Toggle minimap focus                                                                                    | None                      |
+| Command                               | Description                                                                                                             | Arguments                 |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------|
+| `Neominimap on`                       | Turn on minimaps globally.                                                                                      | None                      |
+| `Neominimap off`                      | Turn off minimaps globally.                                                                                     | None                      |
+| `Neominimap toggle`                   | Toggle minimaps globally.                                                                                       | None                      |
+| `Neominimap refresh`                  | Refresh minimaps globally.                                                                                      | None                      |
+| `Neominimap bufOn [buffer_list]`      | Enable the minimap for specified buffers. If no buffers are specified, enable for the current buffer.           | Optional: List of buffers |
+| `Neominimap bufOff [buffer_list]`     | Disable the minimap for specified buffers. If no buffers are specified, disable for the current buffer.         | Optional: List of buffers |
+| `Neominimap bufToggle [buffer_list]`  | Toggle the minimap for specified buffers. If no buffers are specified, toggle for the current buffer.           | Optional: List of buffers |
+| `Neominimap bufRefresh [buffer_list]` | Refresh the minimap buffers for specified buffers. If no buffers are specified, refresh for the current buffer. | Optional: List of buffers |
+| `Neominimap winOn [window_list]`      | Enable the minimap for specified windows. If no windows are specified, enable for the current window.           | Optional: List of windows |
+| `Neominimap winOff [window_list]`     | Disable the minimap for specified windows. If no windows are specified, disable for the current window.         | Optional: List of windows |
+| `Neominimap winToggle [window_list]`  | Toggle the minimap for specified windows. If no windows are specified, toggle for the current window.           | Optional: List of windows |
+| `Neominimap winRefresh [window_list]` | Refresh the minimap windows for specified windows. If no windows are specified, refresh for the current window. | Optional: List of windows |
+| `Neominimap focus`                    | Focus on the minimap. Set cursor to the minimap window.                                                         | None                      |
+| `Neominimap unfocus`                  | Unfocus the minimap. Set cursor back.                                                                           | None                      |
+| `Neominimap toggleFocus`              | Toggle minimap focus                                                                                            | None                      |
+
+NOTE:
+
+`Neominimap bufRefresh` only refreshes minimap buffers, which includes:
+
+- Creating or wiping out buffers as needed.
+- Rendering minimap text and applying highlights.
+
+`Neominimap winRefresh` only refreshes minimap windows, which includes:
+
+- Opening or closing windows as needed.
+- Updating window configurations, such as positions and sizes.
+- Attaching windows to the correct buffers.
 
 ### Usage Examples
 
@@ -281,23 +294,23 @@ To refresh the minimap for windows 3 and 4:
 
 These are the corresponding commands in the Lua API.
 
-| Function                                      | Description                                                   | Arguments                                                                                              |
-|-----------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `require('neominimap').on()`                  | Enables the minimap globally across all buffers and windows.  | None                                                                                                   |
-| `require('neominimap').off()`                 | Disables the minimap globally.                                | None                                                                                                   |
-| `require('neominimap').toggle()`              | Toggles the minimap on or off globally.                       | None                                                                                                   |
-| `require('neominimap').refresh()`             | Refreshes the minimap globally.                               | None                                                                                                   |
-| `require('neominimap').bufOn(<bufnr>)`        | Enables the minimap for specified buffers.                    | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
-| `require('neominimap').bufOff(<bufnr>)`       | Disables the minimap for specified buffers.                   | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
-| `require('neominimap').bufToggle(<bufnr>)`    | Toggles the minimap for specified buffers.                    | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
-| `require('neominimap').bufRefresh(<bufnr>)`   | Refreshes the minimap for specified buffers.                  | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
-| `require('neominimap').winOn(<winid>)`        | Enables the minimap for specified windows.                    | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
-| `require('neominimap').winOff(<winid>)`       | Disables the minimap for specified windows.                   | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
-| `require('neominimap').winToggle(<winid>)`    | Toggles the minimap for specified windows.                    | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
-| `require('neominimap').winRefresh(<winid>)`   | Refreshes the minimap for specified windows.                  | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
-| `require('neominimap').focus()`               | Focuses the minimap window, allowing interaction with it.     | None                                                                                                   |
-| `require('neominimap').unfocus()`             | Unfocuses the minimap window, returning focus to the editor.  | None                                                                                                   |
-| `require('neominimap').toggleFocus()`         | Toggles focus between the minimap and the main editor window. | None                                                                                                   |
+| Function                                    | Description                                                   | Arguments                                                                                              |
+|---------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| `require('neominimap').on()`                | Enables the minimap globally across all buffers and windows.  | None                                                                                                   |
+| `require('neominimap').off()`               | Disables the minimap globally.                                | None                                                                                                   |
+| `require('neominimap').toggle()`            | Toggles the minimap on or off globally.                       | None                                                                                                   |
+| `require('neominimap').refresh()`           | Refreshes the minimap globally.                               | None                                                                                                   |
+| `require('neominimap').bufOn(<bufnr>)`      | Enables the minimap for specified buffers.                    | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
+| `require('neominimap').bufOff(<bufnr>)`     | Disables the minimap for specified buffers.                   | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
+| `require('neominimap').bufToggle(<bufnr>)`  | Toggles the minimap for specified buffers.                    | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
+| `require('neominimap').bufRefresh(<bufnr>)` | Refreshes the minimap buffers for specified buffers.          | Optional: Single buffer number or list of buffer numbers (defaults to current buffer if none provided) |
+| `require('neominimap').winOn(<winid>)`      | Enables the minimap for specified windows.                    | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
+| `require('neominimap').winOff(<winid>)`     | Disables the minimap for specified windows.                   | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
+| `require('neominimap').winToggle(<winid>)`  | Toggles the minimap for specified windows.                    | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
+| `require('neominimap').winRefresh(<winid>)` | Refreshes the minimap windows for specified windows.          | Optional: Single window ID or list of window IDs (defaults to current window if none provided)         |
+| `require('neominimap').focus()`             | Focuses the minimap window, allowing interaction with it.     | None                                                                                                   |
+| `require('neominimap').unfocus()`           | Unfocuses the minimap window, returning focus to the editor.  | None                                                                                                   |
+| `require('neominimap').toggleFocus()`       | Toggles focus between the minimap and the main editor window. | None                                                                                                   |
 
 ## How it works
 
