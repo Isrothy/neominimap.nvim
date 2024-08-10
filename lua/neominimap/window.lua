@@ -168,25 +168,29 @@ local get_window_config = function(winid)
 
     local height = (function()
         local border = config.window_border
-        if type(border) == "string" then
-            return (border == "none" and minimap_height) or (border == "shadow" and minimap_height - 1) or minimap_height - 2
-        end
         local h = minimap_height
+        if type(border) == "string" then
+            return (border == "none" and h) or (border == "shadow" and h - 1) or h - 2
+        end
+        local function char(n)
+            local b = border[n]
+            return type(b) == "string" and b or b[1]
+        end
         if #border == 8 then
-            if border[2] ~= "" then
+            if char(2) ~= "" then
                 h = h - 1
             end
-            if border[6] ~= "" then
+            if char(6) ~= "" then
                 h = h - 1
             end
             return h
         elseif #border == 4 or #border == 2 then
-            if border[2] ~= "" then
+            if char(2) ~= "" then
                 h = h - 2
             end
             return h
         elseif #border == 1 then
-            if border[1] ~= "" then
+            if char(1) ~= "" then
                 h = h - 2
             end
             return h
