@@ -197,18 +197,21 @@ local get_window_config = function(winid)
         end
     end)()
 
-    return {
-        relative = "win",
-        win = winid,
-        anchor = "NE",
-        width = config.minimap_width,
-        height = height,
-        row = row,
-        col = col,
-        focusable = false,
-        zindex = config.z_index,
-        border = config.window_border,
-    }
+    return height
+            and height > 0
+            and {
+                relative = "win",
+                win = winid,
+                anchor = "NE",
+                width = config.minimap_width,
+                height = height,
+                row = row,
+                col = col,
+                focusable = false,
+                zindex = config.z_index,
+                border = config.window_border,
+            }
+        or nil
 end
 
 --- WARN: This function does not check whether a minimap should be created for this window nor if this window is valid.
@@ -228,6 +231,10 @@ M.create_minimap_window = function(winid)
 
     logger.log(string.format("Creating minimap window for window %d", winid), vim.log.levels.TRACE)
     local win_cfg = get_window_config(winid)
+    if not win_cfg then
+        logger.log(string.format("Window %d is too short", winid), vim.log.levels.TRACE)
+        return nil
+    end
     win_cfg.noautocmd = true --Set noautocmd here for noautocmd can only set for none existing window
     local mwinid = util.noautocmd(api.nvim_open_win)(mbufnr, false, win_cfg)
     M.set_minimap_winid(winid, mwinid)
@@ -406,6 +413,13 @@ M.refresh_minimap_window = function(winid)
     end
 
     local cfg = get_window_config(winid)
+    if not cfg then
+        logger.log(string.format("Window %d is too short", winid), vim.log.levels.TRACE)
+        if M.get_minimap_winid(winid) then
+            M.close_minimap_window(winid)
+        end
+        return nil
+    end
     util.noautocmd(api.nvim_win_set_config)(mwinid, cfg)
 
     if api.nvim_win_get_buf(mwinid) ~= mbufnr then
