@@ -247,12 +247,6 @@ The default `bufopt` is:
 
 COMMANDS                                 *neominimap.nvim-neominimap-commands*
 
-Notice that a minimap is shown if and only if
-
-- Neominimap is enabled globally,
-- Neominimap is enabled for the current buffer, and
-- Neominimap is enabled for the current window.
-
   ----------------------------------------------------------------------------------------------
   Command                               Description                                  Arguments
   ------------------------------------- -------------------------------------------- -----------
@@ -303,19 +297,20 @@ Notice that a minimap is shown if and only if
 
   Neominimap toggleFocus                Toggle minimap focus                         None
   ----------------------------------------------------------------------------------------------
-NOTE:
 
-`Neominimap bufRefresh` only refreshes minimap buffers, which includes:
+  [!NOTE] A minimap is shown if and only if
+  - Neominimap is enabled globally,
+  - Neominimap is enabled for the current buffer, and
+  - Neominimap is enabled for the current window.
 
-- Creating or wiping out buffers as needed.
-- Rendering minimap text and applying highlights.
-
-`Neominimap winRefresh` only refreshes minimap windows, which includes:
-
-- Opening or closing windows as needed.
-- Updating window configurations, such as positions and sizes.
-- Attaching windows to the correct buffers.
-
+  [!NOTE]
+  `Neominimap bufRefresh` only refreshes minimap buffers, which includes:
+  - Creating or wiping out buffers as needed.
+  - Rendering minimap text and applying highlights.
+  `Neominimap winRefresh` only refreshes minimap windows, which includes:
+  - Opening or closing windows as needed.
+  - Updating window configurations, such as positions and sizes.
+  - Attaching windows to the correct buffers.
 
 USAGE EXAMPLES ~
 
