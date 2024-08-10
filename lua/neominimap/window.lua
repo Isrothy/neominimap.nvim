@@ -171,10 +171,12 @@ local get_minimap_height = function(winid)
         end
     else
         local minimap_height = minimap_window_height
-        if border[2] ~= "" then
+        local up = (2 - 1) % #border + 1
+        local down = (6 - 1) % #border + 1
+        if border[up] ~= "" then
             minimap_height = minimap_height - 1
         end
-        if border[6] ~= "" then
+        if border[down] ~= "" then
             minimap_height = minimap_height - 1
         end
         return minimap_height
