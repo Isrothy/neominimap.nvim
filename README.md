@@ -233,12 +233,6 @@ The default `bufopt` is:
 
 ## Commands
 
-Notice that a minimap is shown if and only if
-
-- Neominimap is enabled globally,
-- Neominimap is enabled for the current buffer, and
-- Neominimap is enabled for the current window.
-
 | Command                               | Description                                                                                                             | Arguments                 |
 |---------------------------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------|
 | `Neominimap on`                       | Turn on minimaps globally.                                                                                      | None                      |
@@ -257,18 +251,25 @@ Notice that a minimap is shown if and only if
 | `Neominimap unfocus`                  | Unfocus the minimap. Set cursor back.                                                                           | None                      |
 | `Neominimap toggleFocus`              | Toggle minimap focus                                                                                            | None                      |
 
-NOTE:
+> [!NOTE]
+> A minimap is shown if and only if
+>
+> - Neominimap is enabled globally,
+> - Neominimap is enabled for the current buffer, and
+> - Neominimap is enabled for the current window.
 
-`Neominimap bufRefresh` only refreshes minimap buffers, which includes:
-
-- Creating or wiping out buffers as needed.
-- Rendering minimap text and applying highlights.
-
-`Neominimap winRefresh` only refreshes minimap windows, which includes:
-
-- Opening or closing windows as needed.
-- Updating window configurations, such as positions and sizes.
-- Attaching windows to the correct buffers.
+> [!NOTE]
+>
+> `Neominimap bufRefresh` only refreshes minimap buffers, which includes:
+>
+> - Creating or wiping out buffers as needed.
+> - Rendering minimap text and applying highlights.
+>
+> `Neominimap winRefresh` only refreshes minimap windows, which includes:
+>
+> - Opening or closing windows as needed.
+> - Updating window configurations, such as positions and sizes.
+> - Attaching windows to the correct buffers.
 
 ### Usage Examples
 
