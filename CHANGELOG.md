@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.7.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.7.0...v2.7.1) (2024-08-11)
+
+
+### Bug Fixes
+
+* Do not show minimap when the window is too small ([7427624](https://github.com/Isrothy/neominimap.nvim/commit/74276249ddc5e2ed7a13a734b8919909a4a84f32))
+* Handle cases when borders has highlight groups ([54ea78a](https://github.com/Isrothy/neominimap.nvim/commit/54ea78a236bb31913e8a259e228470d6055b2e91))
+* Handle cases where 'border' length is less than 8 ([98ce237](https://github.com/Isrothy/neominimap.nvim/commit/98ce237f3fbf6e928cbdf7d69f8680b7555df000))
+* Incorrect win height when border==shadow ([3d63539](https://github.com/Isrothy/neominimap.nvim/commit/3d63539dcb65ac76fd52dbf06ac2ef2bc278a75d))
+
 ## [2.7.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.6.0...v2.7.0) (2024-08-09)
 
 
