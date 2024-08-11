@@ -58,7 +58,7 @@ local get_or_create_hl_info = function(hl_group)
     return new_group
 end
 
----@class BufferHighlight
+---@class (exact) Neominimap.BufferHighlight
 ---@field start_row integer
 ---@field end_row integer
 ---@field start_col integer
@@ -66,7 +66,7 @@ end
 ---@field group string
 
 ---@param bufnr integer
----@return BufferHighlight[]
+---@return Neominimap.BufferHighlight[]
 local get_buffer_highlights = function(bufnr)
     local buf_highlighter = treesitter.highlighter.active[bufnr]
     local line_count = api.nvim_buf_line_count(bufnr)
@@ -104,7 +104,7 @@ local get_buffer_highlights = function(bufnr)
     return highlights
 end
 
----@class MinimapHighlight
+---@class (exact) Neominimap.MinimapHighlight
 ---@field line integer
 ---@field col integer
 ---@field end_col integer
@@ -114,7 +114,7 @@ end
 ---For any codepoint, the most common group will be chosen.
 ---If there are multiple groups with the same number of occurrences, all will be chosen.
 ---@param bufnr integer
----@return MinimapHighlight[]
+---@return Neominimap.MinimapHighlight[]
 M.extract_highlights = function(bufnr)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local tabwidth = vim.bo[bufnr].tabstop
