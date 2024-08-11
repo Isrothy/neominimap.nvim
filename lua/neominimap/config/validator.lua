@@ -47,6 +47,7 @@ M.validate_config = function(cfg)
         minimap_width = { cfg.minimap_width, "number" },
         x_multiplier = { cfg.x_multiplier, "number" },
         y_multiplier = { cfg.y_multiplier, "number" },
+        sync_cursor = { cfg.sync_cursor, "boolean" },
         delay = { cfg.delay, "number" },
 
         diagnostic = { cfg.diagnostic, "table" },
