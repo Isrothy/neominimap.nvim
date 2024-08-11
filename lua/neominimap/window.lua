@@ -101,6 +101,41 @@ M.is_minimap_window = function(mwinid)
     return M.get_parent_winid(mwinid) ~= nil
 end
 
+--- The height of the minimap, excluding the border
+---@param winid integer
+---@return integer
+local get_minimap_height = function(winid)
+    local minimap_window_height = win_get_true_height(winid) - config.margin.top - config.margin.bottom
+    if config.max_minimap_height then
+        minimap_window_height = math.min(minimap_window_height, config.max_minimap_height)
+    end
+    local border = config.window_border
+    if type(border) == "string" then
+        if border == "none" then
+            return minimap_window_height
+        elseif border == "shadow" then
+            return minimap_window_height - 1
+        else
+            return minimap_window_height - 2
+        end
+    else
+        local char = function(n)
+            local b = border[n]
+            return type(b) == "string" and b or b[1]
+        end
+        local minimap_height = minimap_window_height
+        local up = (2 - 1) % #border + 1
+        local down = (6 - 1) % #border + 1
+        if char(up) ~= "" then
+            minimap_height = minimap_height - 1
+        end
+        if char(down) ~= "" then
+            minimap_height = minimap_height - 1
+        end
+        return minimap_height
+    end
+end
+
 ---@param winid integer
 ---@return boolean
 M.should_show_minimap = function(winid)
@@ -141,8 +176,13 @@ M.should_show_minimap = function(winid)
         return false
     end
 
-    if win_get_true_height(winid) == 0 or api.nvim_win_get_width(winid) == 0 then
-        logger.log(string.format("Window %d has zero height or width", winid), vim.log.levels.TRACE)
+    if get_minimap_height(winid) <= 0 then
+        logger.log(string.format("Height of window %d is too small", winid), vim.log.levels.TRACE)
+        return false
+    end
+
+    if 2 * config.minimap_width + 4 > api.nvim_win_get_width(winid) then
+        logger.log(string.format("Width of window %d is too small", winid), vim.log.levels.TRACE)
         return false
     end
 
@@ -158,29 +198,10 @@ end
 ---@param winid integer
 local get_window_config = function(winid)
     logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
-    local minimap_height = win_get_true_height(winid) - config.margin.top - config.margin.bottom
-    if config.max_minimap_height then
-        minimap_height = math.min(minimap_height, config.max_minimap_height)
-    end
 
     local col = api.nvim_win_get_width(winid) - config.margin.right
     local row = config.margin.top
-
-    local height = (function()
-        local border = config.window_border
-        if type(border) == "string" then
-            return border == "none" and minimap_height or minimap_height - 2
-        else
-            local h = minimap_height
-            if border[2] ~= "" then
-                h = h - 1
-            end
-            if border[6] ~= "" then
-                h = h - 1
-            end
-            return h
-        end
-    end)()
+    local height = get_minimap_height(winid)
 
     return {
         relative = "win",
