@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.7.1...v2.7.2) (2024-08-11)
+
+
+### Bug Fixes
+
+* Validate sync_cursor ([d905c76](https://github.com/Isrothy/neominimap.nvim/commit/d905c7659934c5b0b6ac0a45166f0a819f458af2))
+
 ## [2.7.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.7.0...v2.7.1) (2024-08-11)
 
 
