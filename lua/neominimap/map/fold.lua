@@ -1,13 +1,13 @@
 local M = {}
 
----@class Fold
+---@class (exact) Fold
 ---@field start integer
 ---@field end_ integer
 
 ---@param bufnr integer
 ---@return Fold[]
 M.get_all_folds = function(bufnr)
-    local folds = {}
+    local folds = {} ---@type Fold[]
     local line_count = vim.api.nvim_buf_line_count(bufnr)
     vim.api.nvim_buf_call(bufnr, function()
         local line = 1
@@ -79,7 +79,7 @@ M.add_fold_lines = function(folds, lineNr)
         if lineNr <= f.start then
             break
         else
-			lineNr = lineNr + f.end_ - f.start
+            lineNr = lineNr + f.end_ - f.start
         end
     end
     return lineNr

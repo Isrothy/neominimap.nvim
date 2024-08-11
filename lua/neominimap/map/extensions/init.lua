@@ -4,7 +4,7 @@ local api = vim.api
 local coord = require("neominimap.map.coord")
 local logger = require("neominimap.logger")
 
----@class Neominimap.Decoration
+---@class (exact) Neominimap.Decoration
 ---@field lnum integer The starting line (1 based)
 ---@field end_lnum integer The ending line (1 based)
 ---@field col integer The starting column (1 based)
