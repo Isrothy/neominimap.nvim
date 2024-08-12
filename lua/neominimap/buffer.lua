@@ -4,8 +4,8 @@ local api = vim.api
 local config = require("neominimap.config").get()
 local util = require("neominimap.util")
 local logger = require("neominimap.logger")
-local extensions = require("neominimap.map.extensions")
-local diagnostic = require("neominimap.map.extensions.diagnostic")
+local handlers = require("neominimap.map.handlers")
+local diagnostic = require("neominimap.map.handlers.diagnostic")
 local treesitter = require("neominimap.map.treesitter")
 local fold = require("neominimap.map.fold")
 local text = require("neominimap.map.text")
@@ -181,7 +181,7 @@ M.create_minimap_buffer = function(bufnr)
                 )
                 return
             end
-            extensions.apply(mbufnr_, diagnostic.namespace, diagnostic.get_decorations(bufnr))
+            handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_decorations(bufnr))
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay
@@ -190,7 +190,6 @@ M.create_minimap_buffer = function(bufnr)
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr
 end
-
 
 ---@param bufnr integer
 M.render = function(bufnr)
