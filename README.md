@@ -35,10 +35,11 @@ Criticisms are welcome.
 
 ## Features
 
-- LSP Integration
-- TreeSitter Integration
-- Fold Integration
-- Git Integration
+- LSP integration
+- TreeSitter integration
+- Fold integration
+- Git integration
+- Support for marks in sign column and line highlight
 - Respects UTF-8 encoding and tab width
 
 ## Dependencies
