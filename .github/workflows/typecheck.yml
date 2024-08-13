@@ -9,6 +9,11 @@ jobs:
     name: Type Check Code Base
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout dependency lazydev
+        uses: actions/checkout@v3
+        with:
+          repository: "folke/lazydev.nvim"
+          path: "deps/lazydev.nvim"
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Type Check Code Base
