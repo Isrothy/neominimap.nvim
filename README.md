@@ -94,7 +94,7 @@ With Lazy:
 The following is the default configuration.
 
 ```lua
-M.default_config = {
+{
     -- Enable the plugin by default
     auto_enable = true, ---@type boolean
 
@@ -355,10 +355,22 @@ between the highlights in the minimap and those in the buffer.
 ### Disable minimap for large file
 
 ```lua
-buf_filter = function(bufnr)
-  local line_count = vim.api.nvim_buf_line_count(bufnr)
-  return line_count < 4096
-end,
+vim.g.neominimap = {
+    buf_filter = function(bufnr)
+        local line_count = vim.api.nvim_buf_line_count(bufnr)
+        return line_count < 4096
+    end
+}
+```
+
+### Always show signcolumn
+
+```lua
+vim.g.neominimap = {
+    winopt = {
+        signcolumn = "yes",
+    }
+}
 ```
 
 ## Highlights
