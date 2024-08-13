@@ -209,7 +209,7 @@ The default `winopt` is:
     winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
     wrap = false,
     foldcolumn = "0",
-    signcolumn = "no",
+    signcolumn = "auto",
     statuscolumn = "",
     number = false,
     relativenumber = false,
