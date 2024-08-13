@@ -46,18 +46,18 @@ local priority_list = {
 
 ---@param bufnr integer
 ---@return Neominimap.Handler.Mark[]
-M.get_decorations = function(bufnr)
+M.get_marks = function(bufnr)
     local diags = diagnostic.get(bufnr, {
         severity = {
             min = config.diagnostic.severity,
         },
     })
-    local ret = {}
+    ---@type Neominimap.Handler.Mark[]
+    local marks = {}
     for _, diag in ipairs(diags) do
         local severity = diag.severity
         ---@cast severity integer
-        ---@type Neominimap.Handler.Mark
-        ret[#ret + 1] = {
+        marks[#marks + 1] = {
             lnum = diag.lnum + 1,
             end_lnum = diag.end_lnum + 1,
             priority = priority_list[severity],
@@ -66,7 +66,7 @@ M.get_decorations = function(bufnr)
             sign_highlight = colors_name[severity] .. "Sign",
         }
     end
-    return ret
+    return marks
 end
 
 return M

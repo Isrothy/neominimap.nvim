@@ -59,6 +59,11 @@ M.validate_config = function(cfg)
         ["diagnostic.priority.INFO"] = { cfg.diagnostic.priority.INFO, "number" },
         ["diagnostic.priority.HINT"] = { cfg.diagnostic.priority.HINT, "number" },
 
+        git = { cfg.git, "table" },
+        ["git.enabled"] = { cfg.git.enabled, "boolean" },
+        ["git.mode"] = { cfg.git.mode, "string" },
+        ["git.priority"] = { cfg.git.priority, "number" },
+
         treesitter = { cfg.treesitter, "table" },
         ["treesitter.enabled"] = { cfg.treesitter.enabled, "boolean" },
         ["treesitter.priority"] = { cfg.treesitter.priority, "number" },

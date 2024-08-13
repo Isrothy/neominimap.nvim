@@ -51,6 +51,11 @@ M.default_config = {
             HINT = 70, ---@type integer
         },
     },
+    git = {
+        enabled = true, ---@type boolean
+        mode = "sign", ---@type Neominimap.Handler.MarkMode
+        priority = 6, ---@type integer
+    },
     treesitter = {
         enabled = true, ---@type boolean
         priority = 200, ---@type integer

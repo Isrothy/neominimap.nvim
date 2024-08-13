@@ -43,6 +43,7 @@ Criticisms are welcome.
 ## Dependencies
 
 - Optional: [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for highlighting
+- Optional: [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for Git integration
 
 ## Installation
 
@@ -53,6 +54,7 @@ With Lazy:
     "Isrothy/neominimap.nvim",
     dependencies = {
         "nvim-treesitter/nvim-treesitter", -- Recommended
+        "lewis6991/gitsigns.nvim", -- Recommended
     },
     enabled = true,
     lazy = false, -- NOTE: NO NEED to Lazy load
@@ -82,7 +84,6 @@ With Lazy:
         }
     end,
 },
-
 ```
 
 ## Configuration

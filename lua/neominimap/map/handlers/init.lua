@@ -2,6 +2,7 @@ local M = {}
 
 local api = vim.api
 local coord = require("neominimap.map.coord")
+local config = require("neominimap.config").get()
 local logger = require("neominimap.logger")
 
 ---@class (exact) Neominimap.Handler.Mark
@@ -95,7 +96,7 @@ local apply_sign = function(mbufnr, namespace, marks)
         if lineNr <= line_count then
             api.nvim_buf_set_extmark(mbufnr, namespace, lineNr - 1, 0, {
                 hl_mode = "combine",
-                sign_text = coord.bitmap_to_char(mark.flag),
+                sign_text = " " .. coord.bitmap_to_char(mark.flag),
                 sign_hl_group = mark.hl,
                 priority = mark.priority,
             })

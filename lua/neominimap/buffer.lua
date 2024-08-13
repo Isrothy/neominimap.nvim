@@ -6,6 +6,7 @@ local util = require("neominimap.util")
 local logger = require("neominimap.logger")
 local handlers = require("neominimap.map.handlers")
 local diagnostic = require("neominimap.map.handlers.diagnostic")
+local git = require("neominimap.map.handlers.git")
 local treesitter = require("neominimap.map.treesitter")
 local fold = require("neominimap.map.fold")
 local text = require("neominimap.map.text")
@@ -181,8 +182,25 @@ M.create_minimap_buffer = function(bufnr)
                 )
                 return
             end
-            handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_decorations(bufnr), config.diagnostic.mode)
+            handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_marks(bufnr), config.diagnostic.mode)
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
+        end),
+        config.delay
+    )
+
+    vim.b[bufnr].update_git = util.debounce(
+        vim.schedule_wrap(function()
+            logger.log(string.format("Generating gitsigns for buffer %d", bufnr), vim.log.levels.TRACE)
+            local mbufnr_ = M.get_minimap_bufnr(bufnr)
+            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
+                logger.log(
+                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr_),
+                    vim.log.levels.WARN
+                )
+                return
+            end
+            handlers.apply(mbufnr_, git.namespace, git.get_marks(bufnr), config.git.mode)
+            logger.log(string.format("Gitsigns for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay
     )
@@ -202,6 +220,13 @@ end
 M.update_diagnostics = function(bufnr)
     if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_diagnostic then
         vim.b[bufnr].update_diagnostic()
+    end
+end
+
+---@param bufnr integer
+M.update_git = function(bufnr)
+    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_git then
+        vim.b[bufnr].update_git()
     end
 end
 
