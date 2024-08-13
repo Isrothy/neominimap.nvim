@@ -17,6 +17,8 @@ local refresh_attached_windows = function(bufnr)
     end
 end
 
+---@param args string[]
+---@return integer[]
 local args_to_list = function(args)
     if #args == 0 then
         return { vim.api.nvim_get_current_buf() }

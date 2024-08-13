@@ -2,6 +2,8 @@ local api = vim.api
 
 local M = {}
 
+---@param args string[]
+---@return integer[]
 local args_to_list = function(args)
     if #args == 0 then
         return { vim.api.nvim_get_current_win() }

@@ -2,6 +2,7 @@ local M = {}
 local config = require("neominimap.config").get()
 local levels = vim.log.levels
 
+---@type table<integer, string>
 local level_names = {
     [levels.TRACE] = "TRACE",
     [levels.DEBUG] = "DEBUG",

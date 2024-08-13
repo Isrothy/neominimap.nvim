@@ -13,6 +13,7 @@ local get_hl_fg = function(name)
     return string.format("#%06x", hl.fg)
 end
 
+---@type table<string, string>
 local colors = {
     ERROR = get_hl_fg("DiagnosticError"),
     WARN = get_hl_fg("DiagnosticWarn"),
@@ -30,6 +31,7 @@ api.nvim_set_hl(0, "NeominimapWarnLine", { bg = colors.WARN, default = true })
 api.nvim_set_hl(0, "NeominimapInfoLine", { bg = colors.INFO, default = true })
 api.nvim_set_hl(0, "NeominimapHintLine", { bg = colors.HINT, default = true })
 
+---@type string[]
 local colors_name = {
     "NeominimapError",
     "NeominimapWarn",
@@ -37,6 +39,7 @@ local colors_name = {
     "NeominimapHint",
 }
 
+---@type integer[]
 local priority_list = {
     config.diagnostic.priority.ERROR,
     config.diagnostic.priority.WARN,

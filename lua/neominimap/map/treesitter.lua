@@ -38,6 +38,7 @@ local function resolve_hl_link(group)
     return hl
 end
 
+---@type table<string, string>
 local hl_cache = {}
 
 ---@param hl_group string
@@ -72,6 +73,7 @@ local get_buffer_highlights = function(bufnr)
     if buf_highlighter == nil then
         return {}
     end
+    ---@type Neominimap.BufferHighlight[]
     local highlights = {}
     buf_highlighter.tree:for_each_tree(function(tstree, tree)
         if not tstree then
@@ -177,6 +179,7 @@ M.extract_highlights = function(bufnr)
         end
     end
 
+    ---@type Neominimap.MinimapHighlight[]
     local ret = {}
     for y = 1, minimap_height do
         for x = 1, minimap_width do
