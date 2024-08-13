@@ -1,7 +1,6 @@
 local M = {}
 
 local api = vim.api
-local logger = require("neominimap.logger")
 
 ---@class (exact) Neominimap.Handler.Mark
 ---@field lnum integer The starting line (1 based)
@@ -114,6 +113,7 @@ local fun_tbl = {
 ---@param marks Neominimap.Handler.Mark[]
 ---@param mode Neominimap.Handler.MarkMode
 M.apply = function(mbufnr, namespace, marks, mode)
+    local logger = require("neominimap.logger")
     logger.log(
         string.format("Applying marks for minimap buffer %d with namespace %d, mode: %s", mbufnr, namespace, mode),
         vim.log.levels.TRACE
