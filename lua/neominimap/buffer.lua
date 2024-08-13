@@ -181,7 +181,7 @@ M.create_minimap_buffer = function(bufnr)
                 )
                 return
             end
-            handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_decorations(bufnr))
+            handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_decorations(bufnr), config.diagnostic.mode)
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay

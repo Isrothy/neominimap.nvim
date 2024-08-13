@@ -26,6 +26,7 @@ local M = {}
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
+---@field mode? Neominimap.Handler.MarkMode
 ---@field severity? integer
 ---@field priority? Neominimap.DiagnosticPriority
 

@@ -53,6 +53,7 @@ M.validate_config = function(cfg)
         diagnostic = { cfg.diagnostic, "table" },
         ["diagnostic.enabled"] = { cfg.diagnostic.enabled, "boolean" },
         ["diagnostic.severity"] = { cfg.diagnostic.severity, "number" },
+        ["diagnostic.mode"] = { cfg.diagnostic.mode, "string" },
         ["diagnostic.priority.ERROR"] = { cfg.diagnostic.priority.ERROR, "number" },
         ["diagnostic.priority.WARN"] = { cfg.diagnostic.priority.WARN, "number" },
         ["diagnostic.priority.INFO"] = { cfg.diagnostic.priority.INFO, "number" },

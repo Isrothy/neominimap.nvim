@@ -43,6 +43,7 @@ M.default_config = {
     diagnostic = {
         enabled = true, ---@type boolean
         severity = vim.diagnostic.severity.WARN, ---@type integer
+        mode = "line", ---@type Neominimap.Handler.MarkMode
         priority = {
             ERROR = 100, ---@type integer
             WARN = 90, ---@type integer
