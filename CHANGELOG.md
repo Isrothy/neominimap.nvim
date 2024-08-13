@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.8.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.7.2...v2.8.0) (2024-08-13)
+
+
+### Features
+
+* Draw signcolumn when this is sign to display ([407f62a](https://github.com/Isrothy/neominimap.nvim/commit/407f62a3b66c3377d1041c89ab31f3affd28ea00))
+* Support gitsigns ([a348b2c](https://github.com/Isrothy/neominimap.nvim/commit/a348b2c8c2327e94811c719839db2f26d3e31f66))
+* Support signcolumn ([3924f18](https://github.com/Isrothy/neominimap.nvim/commit/3924f18a65729fab6cc46c2a1e9d61716d6ce38b))
+
+
+### Bug Fixes
+
+* Respect  setting ([256c609](https://github.com/Isrothy/neominimap.nvim/commit/256c609def794098be686a6d896b8feaa404a2c3))
+
 ## [2.7.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.7.1...v2.7.2) (2024-08-11)
 
 
