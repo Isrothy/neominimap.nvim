@@ -1,5 +1,3 @@
-local bit = require("bit")
-
 local M = {}
 
 --- @generic F: function

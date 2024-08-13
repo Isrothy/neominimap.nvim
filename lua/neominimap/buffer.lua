@@ -2,14 +2,6 @@ local M = {}
 
 local api = vim.api
 local config = require("neominimap.config").get()
-local util = require("neominimap.util")
-local logger = require("neominimap.logger")
-local handlers = require("neominimap.map.handlers")
-local diagnostic = require("neominimap.map.handlers.diagnostic")
-local git = require("neominimap.map.handlers.git")
-local treesitter = require("neominimap.map.treesitter")
-local fold = require("neominimap.map.fold")
-local text = require("neominimap.map.text")
 
 ---@type table<integer, integer>
 local bufnr_to_mbufnr = {}
@@ -42,6 +34,7 @@ end
 ---@param bufnr integer
 ---@return boolean
 M.should_generate_minimap = function(bufnr)
+    local logger = require("neominimap.logger")
     local filetype = vim.bo[bufnr].filetype
     local buftype = vim.bo[bufnr].buftype
     if vim.b[bufnr].neominimap_disabled then
@@ -79,6 +72,7 @@ end
 
 ---@param bufnr integer
 M.internal_render = function(bufnr)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     local mbufnr_ = M.get_minimap_bufnr(bufnr)
     if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
@@ -92,10 +86,10 @@ M.internal_render = function(bufnr)
     logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
-    fold.cache_folds(bufnr)
-
     if config.fold.enabled then
         logger.log(string.format("Applying fold for buffer %d", bufnr), vim.log.levels.TRACE)
+        local fold = require("neominimap.map.fold")
+        fold.cache_folds(bufnr)
         lines = fold.filter_folds(fold.get_cached_folds(bufnr), lines)
         logger.log(string.format("Fold for buffer %d applied successfully", bufnr), vim.log.levels.TRACE)
     end
@@ -103,11 +97,13 @@ M.internal_render = function(bufnr)
     local tabwidth = vim.bo[bufnr].tabstop
 
     logger.log(string.format("Generating minimap text for buffer %d", bufnr), vim.log.levels.TRACE)
+    local text = require("neominimap.map.text")
     local minimap = text.gen(lines, tabwidth)
 
     vim.bo[mbufnr_].modifiable = true
 
     logger.log(string.format("Setting lines for buffer %d", mbufnr_), vim.log.levels.TRACE)
+    local util = require("neominimap.util")
     util.noautocmd(api.nvim_buf_set_lines)(mbufnr_, 0, -1, true, minimap)
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
@@ -123,6 +119,7 @@ M.internal_render = function(bufnr)
 
     if config.treesitter.enabled then
         logger.log(string.format("Generating treesitter diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
+        local treesitter = require("neominimap.map.treesitter")
         local highlights = treesitter.extract_highlights(bufnr)
         treesitter.apply(mbufnr_, highlights)
         logger.log(
@@ -137,7 +134,9 @@ end
 --- @param bufnr integer
 --- @return integer mbufnr bufnr of the minimap buffer if created, nil otherwise
 M.create_minimap_buffer = function(bufnr)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Starting to generate minimap for buffer %d", bufnr), vim.log.levels.TRACE)
+    local util = require("neominimap.util")
     local mbufnr = util.noautocmd(function()
         return api.nvim_create_buf(false, true)
     end)()
@@ -182,6 +181,8 @@ M.create_minimap_buffer = function(bufnr)
                 )
                 return
             end
+            local handlers = require("neominimap.map.handlers")
+            local diagnostic = require("neominimap.map.handlers.diagnostic")
             handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_marks(bufnr), config.diagnostic.mode)
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
@@ -199,6 +200,8 @@ M.create_minimap_buffer = function(bufnr)
                 )
                 return
             end
+            local handlers = require("neominimap.map.handlers")
+            local git = require("neominimap.map.handlers.git")
             handlers.apply(mbufnr_, git.namespace, git.get_marks(bufnr), config.git.mode)
             logger.log(string.format("Gitsigns for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
@@ -235,6 +238,7 @@ end
 --- @param bufnr integer
 --- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
 M.refresh_minimap_buffer = function(bufnr)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Attempting to refresh minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
         if M.get_minimap_bufnr(bufnr) then
@@ -261,6 +265,7 @@ end
 --- @param bufnr integer
 --- @return integer? mbufnr bufnr of the minimap buffer if successfully removed, nil otherwise
 M.delete_minimap_buffer = function(bufnr)
+    local logger = require("neominimap.logger")
     if not api.nvim_buf_is_valid(bufnr) then
         logger.log(string.format("Buffer %d is not valid. Skipping deletion of minimap.", bufnr), vim.log.levels.WARN)
         return nil
@@ -274,6 +279,7 @@ M.delete_minimap_buffer = function(bufnr)
         return nil
     end
     logger.log(string.format("Deleting minimap for buffer %d", bufnr), vim.log.levels.TRACE)
+    local util = require("neominimap.util")
     util.noautocmd(api.nvim_buf_delete)(mbufnr, { force = true })
     logger.log(
         string.format("Minimap buffer %d for buffer %d deleted successfully", mbufnr, bufnr),
@@ -286,6 +292,7 @@ M.delete_minimap_buffer = function(bufnr)
 end
 
 M.update_all_diagnostics = function()
+    local logger = require("neominimap.logger")
     logger.log("Updating all diagnostics", vim.log.levels.TRACE)
     local buffer_list = api.nvim_list_bufs()
     for _, bufnr in ipairs(buffer_list) do
@@ -296,6 +303,7 @@ M.update_all_diagnostics = function()
 end
 
 M.refresh_all_minimap_buffers = function()
+    local logger = require("neominimap.logger")
     logger.log("Refreshing all minimap buffers", vim.log.levels.TRACE)
     local buffer_list = api.nvim_list_bufs()
     for _, bufnr in ipairs(buffer_list) do
@@ -306,8 +314,9 @@ M.refresh_all_minimap_buffers = function()
 end
 
 M.delete_all_minimap_buffers = function()
+    local logger = require("neominimap.logger")
     logger.log("Wiping out all minimap buffers", vim.log.levels.TRACE)
-    local buffer_list = M.list_buffers()
+    local buffer_list = api.nvim_list_bufs()
     for _, bufnr in ipairs(buffer_list) do
         logger.log(string.format("Wiping out minimap for buffer %d", bufnr), vim.log.levels.TRACE)
         M.delete_minimap_buffer(bufnr)

@@ -1,7 +1,4 @@
 local api = vim.api
-local buffer = require("neominimap.buffer")
-local window = require("neominimap.window")
-local logger = require("neominimap.logger")
 
 local M = {}
 
@@ -15,6 +12,7 @@ local refresh_attached_windows = function(bufnr)
         end
     end
     for _, winid in ipairs(updated_windows) do
+        local window = require("neominimap.window")
         window.refresh_minimap_window(winid)
     end
 end
@@ -26,6 +24,7 @@ local args_to_list = function(args)
         local bufnr = {}
         for _, arg in ipairs(args) do
             local nr = tonumber(arg)
+            local logger = require("neominimap.logger")
             if not nr then
                 logger.notify(string.format("Buffer number %s is not a number.", arg), vim.log.levels.ERROR)
             elseif not api.nvim_buf_is_valid(nr) then
@@ -41,6 +40,7 @@ end
 ---@param bufnr integer
 local refresh = function(bufnr)
     vim.schedule(function()
+        local buffer = require("neominimap.buffer")
         buffer.refresh_minimap_buffer(bufnr)
         refresh_attached_windows(bufnr)
     end)

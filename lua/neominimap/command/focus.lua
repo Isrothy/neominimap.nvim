@@ -1,19 +1,21 @@
 local api = vim.api
-local window = require("neominimap.window")
-local logger = require("neominimap.logger")
 
 local M = {}
 
 ---@param winid integer
 local focus = function(winid)
+    local window = require("neominimap.window")
     if not window.focus(winid) then
+        local logger = require("neominimap.logger")
         logger.notify("Minimap can not be focused for current window", vim.log.levels.ERROR)
     end
 end
 
 ---@param mwinid integer
 local unfocus = function(mwinid)
+    local window = require("neominimap.window")
     if not window.unfocus(mwinid) then
+        local logger = require("neominimap.logger")
         logger.notify("Minimap can not be unfocused for current window", vim.log.levels.ERROR)
     end
 end
@@ -23,6 +25,7 @@ M.subcommand_tbl = {
     focus = {
         impl = function(args, opts)
             local winid = api.nvim_get_current_win()
+            local window = require("neominimap.window")
             if not window.is_minimap_window(winid) then
                 focus(winid)
             end
@@ -31,6 +34,7 @@ M.subcommand_tbl = {
     unfocus = {
         impl = function(args, opts)
             local winid = api.nvim_get_current_win()
+            local window = require("neominimap.window")
             if window.is_minimap_window(winid) then
                 unfocus(winid)
             end
@@ -39,6 +43,7 @@ M.subcommand_tbl = {
     toggleFocus = {
         impl = function(args, opts)
             local winid = api.nvim_get_current_win()
+            local window = require("neominimap.window")
             if window.is_minimap_window(winid) then
                 unfocus(winid)
             else

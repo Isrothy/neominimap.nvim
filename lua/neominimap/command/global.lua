@@ -1,7 +1,3 @@
-local logger = require("neominimap.logger")
-local window = require("neominimap.window")
-local buffer = require("neominimap.buffer")
-
 local M = {}
 
 ---@type boolean
@@ -14,6 +10,9 @@ local function open_minimap()
     M.enabled = true
     require("neominimap.autocmds").create_autocmds()
     vim.schedule(function()
+        local logger = require("neominimap.logger")
+        local window = require("neominimap.window")
+        local buffer = require("neominimap.buffer")
         logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
         buffer.refresh_all_minimap_buffers()
         window.refresh_all_minimap_windows()
@@ -28,6 +27,9 @@ local function close_minimap()
     M.enabled = false
     require("neominimap.autocmds").clear_autocmds()
     vim.schedule(function()
+        local logger = require("neominimap.logger")
+        local window = require("neominimap.window")
+        local buffer = require("neominimap.buffer")
         logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
         window.close_all_minimap_windows()
         buffer.delete_all_minimap_buffers()
@@ -45,6 +47,8 @@ end
 
 local function refresh_minimap()
     vim.schedule(function()
+        local window = require("neominimap.window")
+        local buffer = require("neominimap.buffer")
         buffer.refresh_all_minimap_buffers()
         window.refresh_all_minimap_windows()
     end)

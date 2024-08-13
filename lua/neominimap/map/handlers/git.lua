@@ -1,7 +1,6 @@
 local M = {}
 
 local api = vim.api
-local gitsigns = require("gitsigns")
 local config = require("neominimap.config").get()
 
 M.namespace = api.nvim_create_namespace("neominimap_git")
@@ -52,6 +51,7 @@ api.nvim_set_hl(0, "NeominimapGitDeleteLine", { bg = colors.delete, default = tr
 ---@param bufnr integer
 ---@return Neominimap.Handler.Mark[]
 M.get_marks = function(bufnr)
+    local gitsigns = require("gitsigns")
     if not gitsigns then
         return {}
     end
