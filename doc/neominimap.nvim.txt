@@ -108,7 +108,7 @@ CONFIGURATION                       *neominimap.nvim-neominimap-configuration*
 The following is the default configuration.
 
 >lua
-    M.default_config = {
+    {
         -- Enable the plugin by default
         auto_enable = true, ---@type boolean
     
@@ -444,10 +444,23 @@ TIPS                                         *neominimap.nvim-neominimap-tips*
 DISABLE MINIMAP FOR LARGE FILE ~
 
 >lua
-    buf_filter = function(bufnr)
-      local line_count = vim.api.nvim_buf_line_count(bufnr)
-      return line_count < 4096
-    end,
+    vim.g.neominimap = {
+        buf_filter = function(bufnr)
+            local line_count = vim.api.nvim_buf_line_count(bufnr)
+            return line_count < 4096
+        end
+    }
+<
+
+
+ALWAYS SHOW SIGNCOLUMN ~
+
+>lua
+    vim.g.neominimap = {
+        winopt = {
+            signcolumn = "yes",
+        }
+    }
 <
 
 
