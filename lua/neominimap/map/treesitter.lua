@@ -1,11 +1,6 @@
 local M = {}
 
 local config = require("neominimap.config").get()
-local ts_utils = require("nvim-treesitter.ts_utils")
-local coord = require("neominimap.map.coord")
-local text = require("neominimap.map.text")
-local logger = require("neominimap.logger")
-local fold = require("neominimap.map.fold")
 local api = vim.api
 local treesitter = vim.treesitter
 
@@ -68,6 +63,10 @@ end
 ---@param bufnr integer
 ---@return Neominimap.BufferHighlight[]
 local get_buffer_highlights = function(bufnr)
+    local ts_utils = require("nvim-treesitter.ts_utils")
+    if not ts_utils then
+        return {}
+    end
     local buf_highlighter = treesitter.highlighter.active[bufnr]
     local line_count = api.nvim_buf_line_count(bufnr)
     if buf_highlighter == nil then
@@ -116,6 +115,7 @@ end
 ---@param bufnr integer
 ---@return Neominimap.MinimapHighlight[]
 M.extract_highlights = function(bufnr)
+    local text = require("neominimap.map.text")
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local tabwidth = vim.bo[bufnr].tabstop
     local line_count = #lines
@@ -145,6 +145,8 @@ M.extract_highlights = function(bufnr)
         highlights[row] = line
     end
 
+    local fold = require("neominimap.map.fold")
+    local coord = require("neominimap.map.coord")
     local folds = fold.get_cached_folds(bufnr)
     for _, h in ipairs(get_buffer_highlights(bufnr)) do
         local minimap_hl = get_or_create_hl_info("@" .. h.group)

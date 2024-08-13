@@ -54,10 +54,6 @@ With Lazy:
 ---@module "neominimap.config.meta"
 {
     "Isrothy/neominimap.nvim",
-    dependencies = {
-        "nvim-treesitter/nvim-treesitter", -- Recommended
-        "lewis6991/gitsigns.nvim", -- Recommended
-    },
     enabled = true,
     lazy = false, -- NOTE: NO NEED to Lazy load
     -- Optional

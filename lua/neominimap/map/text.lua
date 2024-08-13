@@ -1,9 +1,6 @@
 local M = {}
 
-local char = require("neominimap.char")
 local bit = require("bit")
-local coord = require("neominimap.map.coord")
-local util = require("neominimap.util")
 local config = require("neominimap.config").get()
 
 ---Converts a byte index to its UTF-8 index
@@ -11,6 +8,7 @@ local config = require("neominimap.config").get()
 ---@param utf8_pos integer[] a list of the starting byte positions of each UTF-8 codepoint
 ---@return integer
 M.byte_index_to_utf8_index = function(byte_index, utf8_pos)
+    local util = require("neominimap.util")
     return util.upper_bound(utf8_pos, byte_index) - 1
 end
 
@@ -19,6 +17,7 @@ end
 ---@param tabwidth integer
 ---@return integer[]
 M.codepoints_pos = function(str, tabwidth)
+    local char = require("neominimap.char")
     local pos = {}
     local col = 0
     local char_list = vim.fn.str2list(str)
@@ -45,6 +44,7 @@ end
 ---@param tabwidth integer
 ---@return integer[]
 M.str_to_visible_codepoints = function(str, tabwidth)
+    local char = require("neominimap.char")
     local view_points = {}
     local col = 0
     local ok, char_list = pcall(vim.fn.str2list, str)
@@ -85,6 +85,7 @@ M.gen = function(lines, tabwidth)
         end
     end
 
+    local coord = require("neominimap.map.coord")
     for row, line in ipairs(lines) do
         local view_points = M.str_to_visible_codepoints(line, tabwidth)
         for _, col in ipairs(view_points) do

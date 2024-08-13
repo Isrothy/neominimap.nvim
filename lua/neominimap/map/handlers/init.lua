@@ -1,8 +1,6 @@
 local M = {}
 
 local api = vim.api
-local coord = require("neominimap.map.coord")
-local config = require("neominimap.config").get()
 local logger = require("neominimap.logger")
 
 ---@class (exact) Neominimap.Handler.Mark
@@ -31,6 +29,7 @@ local apply_line = function(mbufnr, namespace, marks)
 
     ---@type table<integer, Neominimap.Handler.Line>
     local lines = {}
+    local coord = require("neominimap.map.coord")
     for _, mark in ipairs(marks) do
         for i = mark.lnum, mark.end_lnum, 1 do
             local row, col = i, 1
@@ -69,6 +68,7 @@ local apply_sign = function(mbufnr, namespace, marks)
 
     ---@type table<integer, Neominimap.Handler.Sign>
     local signs = {}
+    local coord = require("neominimap.map.coord")
     for _, mark in ipairs(marks) do
         for i = mark.lnum, mark.end_lnum, 1 do
             local row, col = i, 1

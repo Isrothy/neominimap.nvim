@@ -1,6 +1,4 @@
 local api = vim.api
-local buffer = require("neominimap.buffer")
-local logger = require("neominimap.logger")
 
 local M = {}
 
@@ -8,6 +6,8 @@ local M = {}
 local perf = function(bufnr)
     vim.schedule(function()
         require("plenary.profile").start("profile.log", {})
+        local logger = require("neominimap.logger")
+        local buffer = require("neominimap.buffer")
         local start_time = vim.loop.hrtime()
         for _ = 1, 100 do
             buffer.internal_render(bufnr)

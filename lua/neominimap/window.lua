@@ -1,11 +1,6 @@
 local api = vim.api
 local fn = vim.fn
-local util = require("neominimap.util")
 local config = require("neominimap.config").get()
-local fold = require("neominimap.map.fold")
-local logger = require("neominimap.logger")
-local buffer = require("neominimap.buffer")
-local coord = require("neominimap.map.coord")
 
 local M = {}
 
@@ -139,6 +134,7 @@ end
 ---@param winid integer
 ---@return boolean
 M.should_show_minimap = function(winid)
+    local logger = require("neominimap.logger")
     if not api.nvim_win_is_valid(winid) then
         logger.log(string.format("Window %d is not valid", winid), vim.log.levels.WARN)
         return false
@@ -153,6 +149,7 @@ M.should_show_minimap = function(winid)
     end
 
     local bufnr = api.nvim_win_get_buf(winid)
+    local buffer = require("neominimap.buffer")
     if not buffer.get_minimap_bufnr(bufnr) then
         logger.log(
             string.format("No minimap buffer available for buffer %d in window %d", bufnr, winid),
@@ -197,6 +194,7 @@ end
 
 ---@param winid integer
 local get_window_config = function(winid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
 
     local col = api.nvim_win_get_width(winid) - config.margin.right
@@ -222,9 +220,12 @@ end
 ---@param winid integer
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
 M.create_minimap_window = function(winid)
+    local logger = require("neominimap.logger")
+    local util = require("neominimap.util")
     logger.log(string.format("Attempting to create minimap for window %d", winid), vim.log.levels.TRACE)
 
     local bufnr = api.nvim_win_get_buf(winid)
+    local buffer = require("neominimap.buffer")
     local mbufnr = buffer.get_minimap_bufnr(bufnr)
 
     if not mbufnr then
@@ -274,11 +275,13 @@ end
 ---@param winid integer
 ---@return integer? mwinid winid of the minimap window if successfully removed, nil otherwise
 M.close_minimap_window = function(winid)
+    local logger = require("neominimap.logger")
     local mwinid = M.get_minimap_winid(winid)
     M.set_minimap_winid(winid, nil)
     logger.log(string.format("Attempting to close minimap for window %d", winid), vim.log.levels.TRACE)
     if mwinid and api.nvim_win_is_valid(mwinid) then
         logger.log(string.format("Deleting minimap window %d", mwinid), vim.log.levels.TRACE)
+        local util = require("neominimap.util")
         util.noautocmd(api.nvim_win_close)(mwinid, true)
         return mwinid
     else
@@ -290,6 +293,7 @@ end
 ---@param winid integer
 ---@return boolean
 M.reset_mwindow_cursor_line = function(winid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Resetting cursor line for window %d", winid), vim.log.levels.TRACE)
     local mwinid = M.get_minimap_winid(winid)
     if not mwinid then
@@ -301,6 +305,7 @@ M.reset_mwindow_cursor_line = function(winid)
     local col = rowCol[2]
     if config.fold.enabled then
         local bufnr = api.nvim_win_get_buf(winid)
+        local fold = require("neominimap.map.fold")
         local vrow = fold.substract_fold_lines(fold.get_cached_folds(bufnr), row)
         if not vrow then
             logger.log("failed to find the line number considering folded lines", vim.log.levels.WARN)
@@ -309,10 +314,12 @@ M.reset_mwindow_cursor_line = function(winid)
             row = vrow
         end
     end
+    local coord = require("neominimap.map.coord")
     row, col = coord.codepoint_to_mcodepoint(row, col)
     local mbufnr = api.nvim_win_get_buf(mwinid)
     local line_cnt = api.nvim_buf_line_count(mbufnr)
     if row <= line_cnt then
+        local util = require("neominimap.util")
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(mwinid, { row, 0 })
     end
     logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
@@ -322,6 +329,7 @@ end
 ---@param mwinid integer
 ---@return boolean
 M.reset_parent_window_cursor_line = function(mwinid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Resetting cursor line for minimap window %d", mwinid), vim.log.levels.TRACE)
     local winid = M.get_parent_winid(mwinid)
     if not winid then
@@ -332,8 +340,10 @@ M.reset_parent_window_cursor_line = function(mwinid)
     local rowCol = vim.api.nvim_win_get_cursor(mwinid)
     local row = rowCol[1]
     local col = rowCol[2]
+    local coord = require("neominimap.map.coord")
     row, col = coord.mcodepoint_to_codepoint(row, col)
     if config.fold.enabled then
+        local fold = require("neominimap.map.fold")
         local vrow = fold.add_fold_lines(fold.get_cached_folds(bufnr), row)
         if not vrow then
             logger.log("Failed to find the line number considering folded lines", vim.log.levels.WARN)
@@ -344,6 +354,7 @@ M.reset_parent_window_cursor_line = function(mwinid)
     end
     local line_cnt = api.nvim_buf_line_count(bufnr)
     if row <= line_cnt then
+        local util = require("neominimap.util")
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(winid, { row, 0 })
     end
     logger.log(string.format("Cursor line reset for minimap window %d", mwinid), vim.log.levels.TRACE)
@@ -353,6 +364,7 @@ end
 ---@param winid integer
 ---@return boolean
 M.focus = function(winid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Focusing window %d", winid), vim.log.levels.TRACE)
     local mwinid = M.get_minimap_winid(winid)
     if not mwinid then
@@ -367,6 +379,7 @@ end
 --- @param mwinid integer
 --- @return boolean
 M.unfocus = function(mwinid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Unfocusing window %d", mwinid), vim.log.levels.TRACE)
     local winid = M.get_parent_winid(mwinid)
     if not winid then
@@ -386,6 +399,7 @@ end
 ---@param winid integer
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
 M.refresh_minimap_window = function(winid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Refreshing minimap for window %d", winid), vim.log.levels.TRACE)
     if not api.nvim_win_is_valid(winid) or not M.should_show_minimap(winid) then
         logger.log(string.format("Window %d is not valid or should not be shown", winid), vim.log.levels.TRACE)
@@ -396,6 +410,7 @@ M.refresh_minimap_window = function(winid)
     end
 
     local bufnr = api.nvim_win_get_buf(winid)
+    local buffer = require("neominimap.buffer")
     local mbufnr = buffer.get_minimap_bufnr(bufnr)
     if not mbufnr then
         logger.log(string.format("Minimap buffer not available for window %d", winid), vim.log.levels.TRACE)
@@ -412,6 +427,7 @@ M.refresh_minimap_window = function(winid)
     end
 
     local cfg = get_window_config(winid)
+    local util = require("neominimap.util")
     util.noautocmd(api.nvim_win_set_config)(mwinid, cfg)
 
     if api.nvim_win_get_buf(mwinid) ~= mbufnr then
@@ -427,6 +443,7 @@ end
 --- Refresh all minimaps in the given tab
 ---@param tabid integer
 M.refresh_minimaps_in_tab = function(tabid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Refreshing all minimaps in tab %d", tabid), vim.log.levels.TRACE)
     local win_list = api.nvim_tabpage_list_wins(tabid)
     for _, winid in ipairs(win_list) do
@@ -438,6 +455,7 @@ end
 --- Close all minimaps in the given tab
 ---@param tabid integer
 M.close_minimap_in_tab = function(tabid)
+    local logger = require("neominimap.logger")
     logger.log(string.format("Closing all minimaps in tab %d", tabid), vim.log.levels.TRACE)
     local win_list = api.nvim_tabpage_list_wins(tabid)
     for _, winid in ipairs(win_list) do
@@ -448,6 +466,7 @@ end
 
 --- Refresh all minimaps across tabs
 M.refresh_all_minimap_windows = function()
+    local logger = require("neominimap.logger")
     logger.log("Refreshing all minimap windows", vim.log.levels.TRACE)
     local win_list = api.nvim_list_wins()
     for _, winid in ipairs(win_list) do
@@ -458,6 +477,7 @@ end
 
 --- Close all minimaps across tabs
 M.close_all_minimap_windows = function()
+    local logger = require("neominimap.logger")
     logger.log("Closing all minimap windows", vim.log.levels.TRACE)
     for _, winid in ipairs(M.list_windows()) do
         M.close_minimap_window(winid)
