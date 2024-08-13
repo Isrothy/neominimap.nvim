@@ -79,6 +79,10 @@ M.create_autocmds = function()
                 local buffer = require("neominimap.buffer")
                 if config.git.enabled then
                     logger.log("Updating git signs.", vim.log.levels.TRACE)
+                    if not args.data or not args.data.buffer then
+                        logger.log("Buffer ID not found.", vim.log.levels.WARN)
+                        return
+                    end
                     local bufnr = tonumber(args.data.buffer)
                     ---@cast bufnr integer
                     buffer.update_git(bufnr)
