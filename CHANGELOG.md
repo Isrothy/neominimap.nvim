@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.0...v2.8.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* Handle case where args.data.buffer may be null ([2ad19b6](https://github.com/Isrothy/neominimap.nvim/commit/2ad19b6dbd87c1a776b70edd5ae93526dc3c0a70))
+* Respect config.git.enabled ([80879bd](https://github.com/Isrothy/neominimap.nvim/commit/80879bd115512f0c7de2d661302efe5982d1ec0c))
+
 ## [2.8.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.7.2...v2.8.0) (2024-08-13)
 
 
