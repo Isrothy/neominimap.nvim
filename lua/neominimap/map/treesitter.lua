@@ -201,7 +201,7 @@ end
 --- Applies the given highlights to the given buffer.
 --- If there are multiple highlights for the same position, all of them will be applied.
 ---@param mbufnr integer
----@param highlights MinimapHighlight[]
+---@param highlights Neominimap.MinimapHighlight[]
 M.apply = function(mbufnr, highlights)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
     for _, hl in ipairs(highlights) do
