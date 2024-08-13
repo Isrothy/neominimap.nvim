@@ -63,7 +63,9 @@ M.create_autocmds = function()
             vim.schedule(function()
                 local buffer = require("neominimap.buffer")
                 logger.log("Updating diagnostics.", vim.log.levels.TRACE)
-                buffer.update_all_diagnostics()
+                if config.diagnostic.enabled then
+                    buffer.update_all_diagnostics()
+                end
                 logger.log("Diagnostics updated.", vim.log.levels.TRACE)
             end)
         end,
