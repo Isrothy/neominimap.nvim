@@ -372,15 +372,25 @@ vim.g.neominimap = {
 
 ## Highlights
 
-| Highlight Group      | Description                               |
-|----------------------|-------------------------------------------|
-| NeominimapBackground | Background color for the minimap.         |
-| NeominimapBorder     | Border color for the minimap window.      |
-| NeominimapCursorLine | Color for the cursor line in the minimap. |
-| NeominimapHintLine   |                                           |
-| NeominimapInfoLine   |                                           |
-| NeominimapWarnLine   |                                           |
-| NeominimapErrorLine  |                                           |
+| Highlight Group         | Description                                   |
+|-------------------------|-----------------------------------------------|
+| NeominimapBackground    | Background color for the minimap.             |
+| NeominimapBorder        | Border highlight for the minimap window.      |
+| NeominimapCursorLine    | Highlight for the cursor line in the minimap. |
+| NeominimapHintLine      |                                               |
+| NeominimapInfoLine      |                                               |
+| NeominimapWarnLine      |                                               |
+| NeominimapErrorLine     |                                               |
+| NeominimapHintSign      |                                               |
+| NeominimapInfoSign      |                                               |
+| NeominimapWarnSign      |                                               |
+| NeominimapErrorSign     |                                               |
+| NeominimapGitAddLine    |                                               |
+| NeominimapGitChangeLine |                                               |
+| NeominimapGitDeleteLine |                                               |
+| NeominimapGitAddSign    |                                               |
+| NeominimapGitChangeSign |                                               |
+| NeominimapGitDeleteSign |                                               |
 
 ## TODO
 
