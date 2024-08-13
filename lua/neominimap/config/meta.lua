@@ -16,6 +16,7 @@ local M = {}
 ---@field sync_cursor? boolean
 ---@field delay? integer
 ---@field diagnostic? Neominimap.DiagnosticConfig
+---@field git? Neominimap.GitConfig
 ---@field treesitter? Neominimap.TreesitterConfig
 ---@field margin? Neominimap.MarginConfig
 ---@field fold? Neominimap.FoldConfig
@@ -26,6 +27,7 @@ local M = {}
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
+---@field mode? Neominimap.Handler.MarkMode
 ---@field severity? integer
 ---@field priority? Neominimap.DiagnosticPriority
 
@@ -34,6 +36,11 @@ local M = {}
 ---@field WARN? integer
 ---@field INFO? integer
 ---@field HINT? integer
+
+---@class (exact) Neominimap.GitConfig
+---@field enabled? boolean
+---@field mode? Neominimap.Handler.MarkMode
+---@field priority? integer
 
 ---@class (exact) Neominimap.TreesitterConfig
 ---@field enabled? boolean

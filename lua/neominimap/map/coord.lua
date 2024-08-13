@@ -5,6 +5,7 @@ local M = {}
 
 local config = require("neominimap.config").get()
 
+---@type string
 local braille_chars = ""
     .. "⠀⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄⡅⡆⡇⠈⠉⠊⠋⠌⠍⠎⠏⡈⡉⡊⡋⡌⡍⡎⡏"
     .. "⠐⠑⠒⠓⠔⠕⠖⠗⡐⡑⡒⡓⡔⡕⡖⡗⠘⠙⠚⠛⠜⠝⠞⠟⡘⡙⡚⡛⡜⡝⡞⡟"
@@ -15,12 +16,19 @@ local braille_chars = ""
     .. "⢠⢡⢢⢣⢤⢥⢦⢧⣠⣡⣢⣣⣤⣥⣦⣧⢨⢩⢪⢫⢬⢭⢮⢯⣨⣩⣪⣫⣬⣭⣮⣯"
     .. "⢰⢱⢲⢳⢴⢵⢶⢷⣰⣱⣲⣳⣴⣵⣶⣷⢸⢹⢺⢻⢼⢽⢾⢿⣸⣹⣺⣻⣼⣽⣾⣿"
 
+---@type integer[]
 local braille_codes = vim.fn.str2list(braille_chars)
 
 ---@param bitmap integer
----@return string
+---@return integer
 M.bitmap_to_code = function(bitmap)
     return braille_codes[bitmap + 1]
+end
+
+---@param bitmap integer
+---@return string
+M.bitmap_to_char = function(bitmap)
+    return vim.fn.list2str({ M.bitmap_to_code(bitmap) })
 end
 
 ---@param y integer

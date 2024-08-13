@@ -56,18 +56,36 @@ M.create_autocmds = function()
         end,
     })
 
-    vim.api.nvim_create_autocmd("DiagnosticChanged", {
+    api.nvim_create_autocmd("DiagnosticChanged", {
         group = gid,
         callback = function()
             logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
             vim.schedule(function()
                 local buffer = require("neominimap.buffer")
                 logger.log("Updating diagnostics.", vim.log.levels.TRACE)
-                buffer.update_all_diagnostics()
+                if config.diagnostic.enabled then
+                    buffer.update_all_diagnostics()
+                end
                 logger.log("Diagnostics updated.", vim.log.levels.TRACE)
             end)
         end,
     })
+
+    api.nvim_create_autocmd("User", {
+        pattern = "GitSignsUpdate",
+        callback = function(args)
+            logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
+            vim.schedule(function()
+                local buffer = require("neominimap.buffer")
+                logger.log("Updating git signs.", vim.log.levels.TRACE)
+                local bufnr = tonumber(args.data.buffer)
+                ---@cast bufnr integer
+                buffer.update_git(bufnr)
+                logger.log("Git signs updated.", vim.log.levels.TRACE)
+            end)
+        end,
+    })
+
     api.nvim_create_autocmd("BufWinEnter", {
         group = gid,
         callback = function()
