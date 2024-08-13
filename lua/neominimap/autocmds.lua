@@ -77,11 +77,13 @@ M.create_autocmds = function()
             logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
             vim.schedule(function()
                 local buffer = require("neominimap.buffer")
-                logger.log("Updating git signs.", vim.log.levels.TRACE)
-                local bufnr = tonumber(args.data.buffer)
-                ---@cast bufnr integer
-                buffer.update_git(bufnr)
-                logger.log("Git signs updated.", vim.log.levels.TRACE)
+                if config.git.enabled then
+                    logger.log("Updating git signs.", vim.log.levels.TRACE)
+                    local bufnr = tonumber(args.data.buffer)
+                    ---@cast bufnr integer
+                    buffer.update_git(bufnr)
+                    logger.log("Git signs updated.", vim.log.levels.TRACE)
+                end
             end)
         end,
     })
