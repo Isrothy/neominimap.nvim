@@ -176,7 +176,7 @@ M.create_minimap_buffer = function(bufnr)
             local mbufnr_ = M.get_minimap_bufnr(bufnr)
             if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
                 logger.log(
-                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr_),
+                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
                     vim.log.levels.WARN
                 )
                 return
@@ -195,7 +195,7 @@ M.create_minimap_buffer = function(bufnr)
             local mbufnr_ = M.get_minimap_bufnr(bufnr)
             if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
                 logger.log(
-                    string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr_),
+                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
                     vim.log.levels.WARN
                 )
                 return
