@@ -57,6 +57,9 @@ M.get_marks = function(bufnr)
     end
     --- @type {type:string, added:{start: integer, count: integer}}[]
     local hunks = require("gitsigns").get_hunks(bufnr)
+    if not hunks then
+        return {}
+    end
     ---@type Neominimap.Handler.Mark[]
     local marks = {}
     for _, hunk in ipairs(hunks) do
