@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.1...v2.8.2) (2024-08-14)
+
+
+### Bug Fixes
+
+* Handle cases when hunks are null ([80033b3](https://github.com/Isrothy/neominimap.nvim/commit/80033b31ed1523ad2683032d9f7c8e295a50efa5))
+
 ## [2.8.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.0...v2.8.1) (2024-08-13)
 
 
