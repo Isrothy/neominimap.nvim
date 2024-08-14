@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.3](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.2...v2.8.3) (2024-08-14)
+
+
+### Bug Fixes
+
+* Handle cases when bufnr may be null ([a35a9d3](https://github.com/Isrothy/neominimap.nvim/commit/a35a9d3566e315dc9854e0a9e55e84931a7be0b1))
+
 ## [2.8.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.1...v2.8.2) (2024-08-14)
 
 
