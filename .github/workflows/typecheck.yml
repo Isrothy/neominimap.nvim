@@ -1,4 +1,4 @@
-name: Type Check Code Base
+name: Type check
 on:
   pull_request: ~
   push:
@@ -6,15 +6,8 @@ on:
       - main
 jobs:
   build:
-    name: Type Check Code Base
+    name: Type check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout dependency lazydev
-        uses: actions/checkout@v3
-        with:
-          repository: "folke/lazydev.nvim"
-          path: "deps/lazydev.nvim"
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - name: Type Check Code Base
-        uses: mrcjkb/lua-typecheck-action@v0
+      - uses: actions/checkout@v4
+      - uses: stevearc/nvim-typecheck-action@v2
