@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.3...v2.9.0) (2024-08-14)
+
+
+### Features
+
+* Introduce checkhealth ([9f2b354](https://github.com/Isrothy/neominimap.nvim/commit/9f2b354456962f7c7d7815927facde3522b17148))
+
 ## [2.8.3](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.2...v2.8.3) (2024-08-14)
 
 
