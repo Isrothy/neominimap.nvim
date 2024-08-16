@@ -33,6 +33,17 @@ Criticisms are welcome.
 
 ![screenshot](https://github.com/user-attachments/assets/029d61c7-94ac-4e68-9308-3c82a3c07fef)
 
+Show diagnostics:
+![image](https://github.com/user-attachments/assets/0710873b-bfa8-4102-bd6f-dbd9dd5cb9fd)
+
+Show git signs:
+![image](https://github.com/user-attachments/assets/383ab582-884d-4fd5-86ab-1324ebedd7c0)
+
+Show search results:
+![image](https://github.com/user-attachments/assets/83a1a5a5-7bc7-48cc-9c01-39de75fada94)
+
+
+
 ## Features
 
 - LSP integration
