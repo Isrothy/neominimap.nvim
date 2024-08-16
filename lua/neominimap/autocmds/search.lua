@@ -1,3 +1,6 @@
+--- This code is adapted from the Satellite.nvim project by Lewis6991.
+--- Satellite.nvim is available under the MIT License at https://github.com/lewis6991/satellite.nvim.
+
 --- This module implements a user autocmd for Search events
 ---
 --- The data fields is populated depending on the specific search event:
@@ -5,14 +8,13 @@
 --- - 'hlsearch' is set to the current value when v:hlsearch changes
 --- - 'pattern' is set to the current search pattern when a new search is
 ---    performed
----
 
 local api, fn = vim.api, vim.fn
-local M = {}
 
 --- @param data any
 local function exec_autocmd(data)
     api.nvim_exec_autocmds("User", {
+        group = "Neominimap",
         pattern = "Search",
         data = data,
     })
@@ -47,37 +49,11 @@ end
 
 local group = api.nvim_create_augroup("NeominimapSearch", {})
 
-M.create_autocmds = function()
-    api.nvim_create_autocmd({ "CmdlineEnter", "CmdLineChanged", "CmdlineLeave" }, {
-        group = group,
-        callback = function()
-            if require("neominimap.util").is_search_mode() then
-                exec_autocmd({ pattern = fn.getcmdline() })
-            end
-        end,
-    })
-    api.nvim_create_autocmd("User", {
-        group = group,
-        pattern = "Search",
-        callback = function()
-            local logger = require("neominimap.logger")
-            logger.log("Search event triggered", vim.log.levels.TRACE)
-            vim.schedule(function()
-                local buffer = require("neominimap.buffer")
-                local visible_buffers = require("neominimap.util").get_visible_buffers()
-                for _, bufnr in ipairs(visible_buffers) do
-                    logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
-                    buffer.update_search(bufnr)
-                    logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
-                end
-                logger.log("Search status refreshed.", vim.log.levels.TRACE)
-            end)
-        end,
-    })
-end
-
-M.cleanup_autocmds = function()
-    api.nvim_clear_autocmds({ group = group })
-end
-
-return M
+api.nvim_create_autocmd({ "CmdlineEnter", "CmdLineChanged", "CmdlineLeave" }, {
+    group = group,
+    callback = function()
+        if require("neominimap.util").is_search_mode() then
+            exec_autocmd({ pattern = fn.getcmdline() })
+        end
+    end,
+})

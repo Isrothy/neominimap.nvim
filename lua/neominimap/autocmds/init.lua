@@ -274,15 +274,29 @@ M.create_autocmds = function()
         end,
     })
     if config.search.enabled then
-        require("neominimap.autocmds.search").create_autocmds()
+        require("neominimap.autocmds.search")
+        api.nvim_create_autocmd("User", {
+            group = gid,
+            pattern = "Search",
+            callback = function()
+                logger.log("Search event triggered", vim.log.levels.TRACE)
+                vim.schedule(function()
+                    local buffer = require("neominimap.buffer")
+                    local visible_buffers = require("neominimap.util").get_visible_buffers()
+                    for _, bufnr in ipairs(visible_buffers) do
+                        logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        buffer.update_search(bufnr)
+                        logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    end
+                    logger.log("Search status refreshed.", vim.log.levels.TRACE)
+                end)
+            end,
+        })
     end
 end
 
 M.clear_autocmds = function()
     api.nvim_clear_autocmds({ group = gid })
-    if config.search.enabled then
-        require("neominimap.autocmds.search").cleanup_autocmds()
-    end
 end
 
 return M
