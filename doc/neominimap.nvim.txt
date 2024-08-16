@@ -14,6 +14,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - How it works                     |neominimap.nvim-neominimap-how-it-works|
   - Tips                                     |neominimap.nvim-neominimap-tips|
   - Highlights                         |neominimap.nvim-neominimap-highlights|
+  - Namespaces                         |neominimap.nvim-neominimap-namespaces|
   - TODO                                     |neominimap.nvim-neominimap-todo|
   - Non-Goals                           |neominimap.nvim-neominimap-non-goals|
   - Limitations                       |neominimap.nvim-neominimap-limitations|
@@ -506,6 +507,15 @@ HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
 
   NeominimapGitDeleteSign   
   ------------------------------------------------------------------------
+
+NAMESPACES                             *neominimap.nvim-neominimap-namespaces*
+
+  Namespace               Description
+  ----------------------- ----------------------------------
+  neominimap_git          Git signs and highlights.
+  neominimap_diagnostic   Diagnostic signs and highlights.
+  neominimap_search       Search signs and highlights.
+  neominimap_treesitter   Treesitter highlights.
 
 TODO                                         *neominimap.nvim-neominimap-todo*
 
