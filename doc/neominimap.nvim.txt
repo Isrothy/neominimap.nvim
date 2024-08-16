@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 13
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 16
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -183,6 +183,12 @@ The following is the default configuration.
             enabled = true, ---@type boolean
             mode = "sign", ---@type Neominimap.Handler.MarkMode
             priority = 6, ---@type integer
+        },
+    
+        search = {
+            enabled = false, ---@type boolean
+            mode = "line", ---@type Neominimap.Handler.MarkMode
+            priority = 20, ---@type integer
         },
     
         treesitter = {
@@ -506,7 +512,7 @@ TODO                                         *neominimap.nvim-neominimap-todo*
 - ☒ LSP integration
 - ☒ TreeSitter integration
 - ☒ Git integration
-- ☐ Search integration
+- ☒ Search integration
 - ☐ Support for window relative to editor
 - ☒ Validate user configuration
 - ☒ Documentation
