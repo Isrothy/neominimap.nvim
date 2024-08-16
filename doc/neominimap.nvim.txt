@@ -249,6 +249,7 @@ The default `bufopt` is:
 >lua
     {
         buftype = "nofile",
+        filetype = "neominimap",
         swapfile = false,
         bufhidden = "hide",
         undolevels = -1,
