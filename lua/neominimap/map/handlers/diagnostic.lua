@@ -10,7 +10,7 @@ M.namespace = api.nvim_create_namespace("neominimap_diagnostic")
 ---@return string
 local get_hl_fg = function(name)
     local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
-    return string.format("#%06x", hl.fg)
+    return hl.fg and string.format("#%06x", hl.fg) or "NONE"
 end
 
 ---@type table<string, string>
