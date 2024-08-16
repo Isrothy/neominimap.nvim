@@ -4,20 +4,24 @@ local M = {}
 
 ---@param winid integer
 local focus = function(winid)
-    local window = require("neominimap.window")
-    if not window.focus(winid) then
-        local logger = require("neominimap.logger")
-        logger.notify("Minimap can not be focused for current window", vim.log.levels.ERROR)
-    end
+    vim.schedule(function()
+        local window = require("neominimap.window")
+        if not window.focus(winid) then
+            local logger = require("neominimap.logger")
+            logger.notify("Minimap can not be focused for current window", vim.log.levels.ERROR)
+        end
+    end)
 end
 
 ---@param mwinid integer
 local unfocus = function(mwinid)
-    local window = require("neominimap.window")
-    if not window.unfocus(mwinid) then
-        local logger = require("neominimap.logger")
-        logger.notify("Minimap can not be unfocused for current window", vim.log.levels.ERROR)
-    end
+    vim.schedule(function()
+        local window = require("neominimap.window")
+        if not window.unfocus(mwinid) then
+            local logger = require("neominimap.logger")
+            logger.notify("Minimap can not be unfocused for current window", vim.log.levels.ERROR)
+        end
+    end)
 end
 
 ---@type table<string, Neominimap.Subcommand>

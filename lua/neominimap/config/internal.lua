@@ -63,6 +63,13 @@ M.default_config = {
     -- Sync the cursor position with the minimap
     sync_cursor = true, ---@type boolean
 
+    click = {
+        -- Enable mouse click on minimap
+        enabled = false, ---@type boolean
+        -- Automatically switch focus to minimap when clicked
+        auto_switch_focus = true, ---@type boolean
+    },
+
     diagnostic = {
         enabled = true, ---@type boolean
         severity = vim.diagnostic.severity.WARN, ---@type integer

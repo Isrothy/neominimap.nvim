@@ -14,10 +14,12 @@ local M = {}
 ---@field x_multiplier? integer
 ---@field y_multiplier? integer
 ---@field sync_cursor? boolean
+---@field click? Neominimap.ClickConfig
 ---@field delay? integer
 ---@field diagnostic? Neominimap.DiagnosticConfig
 ---@field git? Neominimap.GitConfig
 ---@field treesitter? Neominimap.TreesitterConfig
+---@field search? Neominimap.SearchConfig
 ---@field margin? Neominimap.MarginConfig
 ---@field fold? Neominimap.FoldConfig
 ---@field z_index? integer
@@ -55,6 +57,10 @@ local M = {}
 ---@field right? integer
 ---@field top? integer
 ---@field bottom? integer
+
+---@class (exact) Neominimap.ClickConfig
+---@field enabled? boolean
+---@field auto_switch_focus? boolean
 
 ---@class (exact) Neominimap.FoldConfig
 ---@field enabled? boolean

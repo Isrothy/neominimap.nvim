@@ -209,7 +209,7 @@ local get_window_config = function(winid)
         height = height,
         row = row,
         col = col,
-        focusable = false,
+        focusable = config.click.enabled,
         zindex = config.z_index,
         border = config.window_border,
     }
@@ -294,7 +294,7 @@ end
 ---@return boolean
 M.reset_mwindow_cursor_line = function(winid)
     local logger = require("neominimap.logger")
-    logger.log(string.format("Resetting cursor line for window %d", winid), vim.log.levels.TRACE)
+    logger.log(string.format("Resetting cursor line for minimap of window %d", winid), vim.log.levels.TRACE)
     local mwinid = M.get_minimap_winid(winid)
     if not mwinid then
         logger.log(string.format("Minimap window %d is not valid", winid), vim.log.levels.TRACE)
@@ -302,7 +302,8 @@ M.reset_mwindow_cursor_line = function(winid)
     end
     local rowCol = vim.api.nvim_win_get_cursor(winid)
     local row = rowCol[1]
-    local col = rowCol[2]
+    local col = rowCol[2] + 1
+    logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
     if config.fold.enabled then
         local bufnr = api.nvim_win_get_buf(winid)
         local fold = require("neominimap.map.fold")
@@ -320,9 +321,10 @@ M.reset_mwindow_cursor_line = function(winid)
     local line_cnt = api.nvim_buf_line_count(mbufnr)
     if row <= line_cnt then
         local util = require("neominimap.util")
+        logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(mwinid, { row, 0 })
     end
-    logger.log(string.format("Cursor line reset for window %d", winid), vim.log.levels.TRACE)
+    logger.log(string.format("Cursor line reset for minimap of window %d", winid), vim.log.levels.TRACE)
     return false
 end
 
@@ -330,7 +332,7 @@ end
 ---@return boolean
 M.reset_parent_window_cursor_line = function(mwinid)
     local logger = require("neominimap.logger")
-    logger.log(string.format("Resetting cursor line for minimap window %d", mwinid), vim.log.levels.TRACE)
+    logger.log(string.format("Resetting cursor line for parent of minimap window %d", mwinid), vim.log.levels.TRACE)
     local winid = M.get_parent_winid(mwinid)
     if not winid then
         logger.log("Window not found", vim.log.levels.TRACE)
@@ -339,7 +341,8 @@ M.reset_parent_window_cursor_line = function(mwinid)
     local bufnr = api.nvim_win_get_buf(winid)
     local rowCol = vim.api.nvim_win_get_cursor(mwinid)
     local row = rowCol[1]
-    local col = rowCol[2]
+    local col = rowCol[2] + 1
+    logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
     local coord = require("neominimap.map.coord")
     row, col = coord.mcodepoint_to_codepoint(row, col)
     if config.fold.enabled then
@@ -355,9 +358,10 @@ M.reset_parent_window_cursor_line = function(mwinid)
     local line_cnt = api.nvim_buf_line_count(bufnr)
     if row <= line_cnt then
         local util = require("neominimap.util")
+        logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(winid, { row, 0 })
     end
-    logger.log(string.format("Cursor line reset for minimap window %d", mwinid), vim.log.levels.TRACE)
+    logger.log(string.format("Cursor line reset for parent of minimap window %d", mwinid), vim.log.levels.TRACE)
     return false
 end
 
@@ -371,7 +375,8 @@ M.focus = function(winid)
         logger.log(string.format("Minimap window %d is not valid", winid), vim.log.levels.TRACE)
         return false
     end
-    api.nvim_set_current_win(mwinid)
+    local util = require("neominimap.util")
+    util.noautocmd(api.nvim_set_current_win)(mwinid)
     logger.log(string.format("Window %d focused", winid), vim.log.levels.TRACE)
     return true
 end
@@ -386,7 +391,8 @@ M.unfocus = function(mwinid)
         logger.log("Window not found", vim.log.levels.TRACE)
         return false
     end
-    api.nvim_set_current_win(winid)
+    local util = require("neominimap.util")
+    util.noautocmd(api.nvim_set_current_win)(winid)
     logger.log(string.format("Window %d unfocused", mwinid), vim.log.levels.TRACE)
     return true
 end
