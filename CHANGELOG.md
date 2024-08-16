@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.10.0...v2.11.0) (2024-08-16)
+
+
+### Features
+
+* Set neominimap filetype ([309deb2](https://github.com/Isrothy/neominimap.nvim/commit/309deb2842158edc68c30671b291627cf7875cd4))
+
 ## [2.10.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.9.0...v2.10.0) (2024-08-16)
 
 
