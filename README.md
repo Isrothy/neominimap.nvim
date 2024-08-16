@@ -376,6 +376,110 @@ vim.g.neominimap = {
 }
 ```
 
+### Integrating with [statuscol](https://github.com/luukvbaal/statuscol.nvim)
+
+First, in the `neominimap` configuration, set `mode = "sign"` for the handlers
+that you want to display in the sign column.
+
+Next, set `statuscolumn` to `%!v:lua.StatusCol()` so that
+statuscol will render the status column.
+
+```lua
+vim.g.neominimap = {
+    auto_enable = true,
+    diagnostic = {
+        mode = "line",
+    },
+    git = {
+        enabled = true,
+        mode = "sign",
+    },
+    search = {
+        enabled = true,
+        mode = "sign",
+    },
+    winopt = function(winid)
+        local ok, _ = pcall(require, "statuscol") -- Make sure statuscol is installed
+        local stc = ok and "%!v:lua.StatusCol()" or ""
+        return {
+            stc = stc,
+        }
+    end,
+}
+```
+
+Next, declare these two auxiliary functions:
+
+``` lua
+local function is_neominimap(arg)
+    return vim.bo[arg.buf].filetype == "neominimap"
+end
+
+local function is_not_neominimap(arg)
+    return not is_neominimap(arg)
+end
+
+```
+
+Finally, use these functions to filter out segments
+for normal buffers and minimap buffers.
+Here is an example:
+
+```lua
+{
+    "luukvbaal/statuscol.nvim",
+    opts = function()
+        local builtin = require("statuscol.builtin")
+        return {
+            setopt = true,
+            relculright = true,
+            segments = {
+              -- These segments will be shown for normal buffers
+              {
+                  sign = {
+                      namespace = { ".*" },
+                      name = { ".*" },
+                  },
+                  condition = { is_not_neominimap },
+              },
+              {
+                  text = {
+                      builtin.lnumfunc,
+                      " ",
+                      builtin.foldfunc,
+                  },
+                  condition = { is_not_neominimap },
+              },
+              {
+                  sign = {
+                      namespace = { "gitsigns_" },
+                  },
+                  condition = { is_not_neominimap },
+              },
+
+              -- These segments will be shown for minimap buffers
+              {
+                  sign = {
+                      namespace = { "neominimap_search" },
+                      maxwidth = 1,
+                      colwidth = 1, -- For more compact look
+                  },
+                  condition = { is_neominimap },
+              },
+              {
+                  sign = {
+                      namespace = { "neominimap_git" },
+                      maxwidth = 1,
+                      colwidth = 1,
+                  },
+                  condition = { is_neominimap },
+              },
+            },
+        }
+    end,
+}
+```
+
 ## Highlights
 
 | Highlight Group           | Description                                   |
