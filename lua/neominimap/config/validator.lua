@@ -69,6 +69,10 @@ M.validate_config = function(cfg)
         ["search.mode"] = { cfg.search.mode, "string" },
         ["search.priority"] = { cfg.search.priority, "number" },
 
+        click = { cfg.click, "table" },
+        ["click.enabled"] = { cfg.click.enabled, "boolean" },
+        ["click.auto_switch_focus"] = { cfg.click.auto_switch_focus, "boolean" },
+
         treesitter = { cfg.treesitter, "table" },
         ["treesitter.enabled"] = { cfg.treesitter.enabled, "boolean" },
         ["treesitter.priority"] = { cfg.treesitter.priority, "number" },

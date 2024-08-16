@@ -56,6 +56,24 @@ M.create_autocmds = function()
         end,
     })
 
+    if config.click.enabled and not config.click.auto_switch_focus then
+        api.nvim_create_autocmd("WinEnter", {
+            group = gid,
+            callback = function()
+                local winid = api.nvim_get_current_win()
+                logger.log(string.format("WinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
+                vim.schedule(function()
+                    local window = require("neominimap.window")
+                    if window.is_minimap_window(winid) then
+                        logger.log(string.format("Unfocusing minimap window %d.", winid), vim.log.levels.TRACE)
+                        window.unfocus(winid)
+                        logger.log(string.format("Minimap window %d unfocused.", winid), vim.log.levels.TRACE)
+                    end
+                end)
+            end,
+        })
+    end
+
     if config.diagnostic.enabled then
         api.nvim_create_autocmd("DiagnosticChanged", {
             group = gid,
