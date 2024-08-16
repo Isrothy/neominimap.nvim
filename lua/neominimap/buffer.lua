@@ -145,6 +145,7 @@ M.create_minimap_buffer = function(bufnr)
 
     local bufopt = {
         buftype = "nofile",
+        filetype = "neominimap",
         swapfile = false,
         bufhidden = "hide",
         undolevels = -1,
