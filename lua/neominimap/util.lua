@@ -1,5 +1,27 @@
 local M = {}
 
+--- @return integer[]
+M.get_visible_buffers = function()
+    local visible_buffers = {}
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        table.insert(visible_buffers, buf)
+    end
+    return visible_buffers
+end
+
+---@return boolean
+M.is_search_mode = function()
+    if
+        vim.o.incsearch
+        and vim.o.hlsearch
+        and vim.api.nvim_get_mode().mode == "c"
+        and vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
+    then
+        return true
+    end
+    return false
+end
 --- @generic F: function
 --- @param f F
 --- @return F

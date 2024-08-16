@@ -42,6 +42,11 @@ local M = {}
 ---@field mode? Neominimap.Handler.MarkMode
 ---@field priority? integer
 
+---@class (exact) Neominimap.SearchConfig
+---@field enabled? boolean
+---@field mode? Neominimap.Handler.MarkMode
+---@field priority? integer
+
 ---@class (exact) Neominimap.TreesitterConfig
 ---@field enabled? boolean
 ---@field priority? integer

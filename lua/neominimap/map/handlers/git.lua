@@ -9,7 +9,7 @@ M.namespace = api.nvim_create_namespace("neominimap_git")
 ---@return string
 local get_hl_fg = function(name)
     local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
-    return string.format("#%06x", hl.fg)
+    return hl.fg and string.format("#%06x", hl.fg) or "NONE"
 end
 
 ---@type table<string, string>
@@ -66,8 +66,8 @@ M.get_marks = function(bufnr)
         local start = math.max(1, hunk.added.start)
         local end_ = start + math.max(0, hunk.added.count - 1)
         marks[#marks + 1] = {
-            lnum = start + 1,
-            end_lnum = end_ + 1,
+            lnum = start,
+            end_lnum = end_,
             priority = config.git.priority,
             id = toId[hunk.type],
             line_highlight = toLineHighlight[hunk.type],

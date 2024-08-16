@@ -56,28 +56,28 @@ M.create_autocmds = function()
         end,
     })
 
-    api.nvim_create_autocmd("DiagnosticChanged", {
-        group = gid,
-        callback = function()
-            logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
-            vim.schedule(function()
-                local buffer = require("neominimap.buffer")
-                logger.log("Updating diagnostics.", vim.log.levels.TRACE)
-                if config.diagnostic.enabled then
+    if config.diagnostic.enabled then
+        api.nvim_create_autocmd("DiagnosticChanged", {
+            group = gid,
+            callback = function()
+                logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
+                vim.schedule(function()
+                    local buffer = require("neominimap.buffer")
+                    logger.log("Updating diagnostics.", vim.log.levels.TRACE)
                     buffer.update_all_diagnostics()
-                end
-                logger.log("Diagnostics updated.", vim.log.levels.TRACE)
-            end)
-        end,
-    })
+                    logger.log("Diagnostics updated.", vim.log.levels.TRACE)
+                end)
+            end,
+        })
+    end
 
-    api.nvim_create_autocmd("User", {
-        pattern = "GitSignsUpdate",
-        callback = function(args)
-            logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
-            vim.schedule(function()
-                local buffer = require("neominimap.buffer")
-                if config.git.enabled then
+    if config.git.enabled then
+        api.nvim_create_autocmd("User", {
+            pattern = "GitSignsUpdate",
+            callback = function(args)
+                logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
+                vim.schedule(function()
+                    local buffer = require("neominimap.buffer")
                     logger.log("Updating git signs.", vim.log.levels.TRACE)
                     if not args.data or not args.data.buffer then
                         logger.log("Buffer ID not found.", vim.log.levels.WARN)
@@ -87,10 +87,10 @@ M.create_autocmds = function()
                     ---@cast bufnr integer
                     buffer.update_git(bufnr)
                     logger.log("Git signs updated.", vim.log.levels.TRACE)
-                end
-            end)
-        end,
-    })
+                end)
+            end,
+        })
+    end
 
     api.nvim_create_autocmd("BufWinEnter", {
         group = gid,
@@ -102,6 +102,16 @@ M.create_autocmds = function()
                 logger.log(string.format("Refreshing minimap window for window ID: %d.", winid), vim.log.levels.TRACE)
                 window.refresh_minimap_window(winid)
                 logger.log(string.format("Minimap window refreshed for window %d.", winid), vim.log.levels.TRACE)
+
+                if config.search.enabled then
+                    logger.log("Refreshing search status.", vim.log.levels.TRACE)
+                    local bufnr = api.nvim_get_current_buf()
+                    local buffer = require("neominimap.buffer")
+                    logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    buffer.update_search(bufnr)
+                    logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    logger.log("Search status refreshed.", vim.log.levels.TRACE)
+                end
             end)
         end,
     })
@@ -143,6 +153,17 @@ M.create_autocmds = function()
             logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
             logger.log(string.format("Refreshing minimaps for tab ID: %d.", tid), vim.log.levels.TRACE)
             window.refresh_minimaps_in_tab(tid)
+            if config.search.enabled then
+                logger.log("Refreshing search status.", vim.log.levels.TRACE)
+                local buffer = require("neominimap.buffer")
+                local visiable_buffers = require("neominimap.util").get_visible_buffers()
+                for _, bufnr in ipairs(visiable_buffers) do
+                    logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    buffer.update_search_status(bufnr)
+                    logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                end
+                logger.log("Search status refreshed.", vim.log.levels.TRACE)
+            end
             logger.log(string.format("Minimaps refreshed for tab %d.", tid), vim.log.levels.TRACE)
         end),
     })
@@ -234,6 +255,16 @@ M.create_autocmds = function()
                     buffer.update_diagnostics(bufnr)
                     logger.log(string.format("Diagnostics refreshed for bufnr %d.", bufnr), vim.log.levels.TRACE)
                 end
+                if config.git.enabled then
+                    logger.log(string.format("Refreshing git status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    buffer.update_git(bufnr)
+                    logger.log(string.format("Git status refreshed for buffer %d.", bufnr), vim.log.levels.TRACE)
+                end
+                if config.search.enabled then
+                    logger.log(string.format("Refreshing search status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    buffer.update_search(bufnr)
+                    logger.log(string.format("Search status refreshed for buffer %d.", bufnr), vim.log.levels.TRACE)
+                end
                 for _, winid in ipairs(updated_windows) do
                     logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
                     window.reset_mwindow_cursor_line(winid)
@@ -242,6 +273,26 @@ M.create_autocmds = function()
             end)
         end,
     })
+    if config.search.enabled then
+        require("neominimap.autocmds.search")
+        api.nvim_create_autocmd("User", {
+            group = gid,
+            pattern = "Search",
+            callback = function()
+                logger.log("Search event triggered", vim.log.levels.TRACE)
+                vim.schedule(function()
+                    local buffer = require("neominimap.buffer")
+                    local visible_buffers = require("neominimap.util").get_visible_buffers()
+                    for _, bufnr in ipairs(visible_buffers) do
+                        logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        buffer.update_search(bufnr)
+                        logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    end
+                    logger.log("Search status refreshed.", vim.log.levels.TRACE)
+                end)
+            end,
+        })
+    end
 end
 
 M.clear_autocmds = function()
