@@ -11,24 +11,17 @@ M.namespace = api.nvim_create_namespace("neominimap_search")
 ---@return string
 local get_hl_bg = function(name)
     local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
-    return string.format("#%06x", hl.bg)
+    if hl.fg then
+        return string.format("#%06x", hl.fg)
+    elseif hl.bg then
+        return string.format("#%06x", hl.bg)
+    else
+        return "#00ffff"
+    end
 end
 
 api.nvim_set_hl(0, "NeominimapSearchSign", { fg = get_hl_bg("Search"), default = true })
 api.nvim_set_hl(0, "NeominimapSearchLine", { bg = get_hl_bg("Search"), default = true })
-
----@return boolean
-local function is_search_mode()
-    if
-        vim.o.incsearch
-        and vim.o.hlsearch
-        and api.nvim_get_mode().mode == "c"
-        and vim.tbl_contains({ "/", "?" }, fn.getcmdtype())
-    then
-        return true
-    end
-    return false
-end
 
 --- @param pattern string
 --- @return string
@@ -43,7 +36,7 @@ end
 
 --- @return string
 local function get_pattern()
-    if is_search_mode() then
+    if require("neominimap.util").is_search_mode() then
         return vim.fn.getcmdline()
     end
     return vim.v.hlsearch == 1 and fn.getreg("/") --[[@as string]]
@@ -80,7 +73,7 @@ local get_matches = function(bufnr)
     if pattern and pattern ~= "" then
         local lines = api.nvim_buf_get_lines(bufnr, 0, -1, true)
 
-        for lnum, line in lines do
+        for lnum, line in ipairs(lines) do
             local ok, col = pcall(fn.match, line, pattern, 0)
             if ok and col ~= -1 then
                 matches[#matches + 1] = lnum
@@ -101,7 +94,7 @@ end
 ---@return Neominimap.Handler.Mark[]
 M.get_marks = function(bufnr)
     local marks = get_matches(bufnr)
-    return vim.map(marks, function(lnum)
+    return vim.tbl_map(function(lnum)
         return {
             lnum = lnum + 1,
             end_lnum = lnum + 1,
@@ -110,7 +103,7 @@ M.get_marks = function(bufnr)
             line_highlight = "NeominimapSearchLine",
             sign_highlight = "NeominimapSearchSign",
         }
-    end)
+    end, marks)
 end
 
 return M

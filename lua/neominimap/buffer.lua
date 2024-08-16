@@ -208,6 +208,25 @@ M.create_minimap_buffer = function(bufnr)
         config.delay
     )
 
+    vim.b[bufnr].update_search = util.debounce(
+        vim.schedule_wrap(function()
+            logger.log(string.format("Generating search for buffer %d", bufnr), vim.log.levels.TRACE)
+            local mbufnr_ = M.get_minimap_bufnr(bufnr)
+            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
+                logger.log(
+                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
+                    vim.log.levels.WARN
+                )
+                return
+            end
+            local handlers = require("neominimap.map.handlers")
+            local search = require("neominimap.map.handlers.search")
+            handlers.apply(mbufnr_, search.namespace, search.get_marks(bufnr), config.search.mode)
+            logger.log(string.format("Search for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
+        end),
+        config.delay
+    )
+
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr
 end
@@ -230,6 +249,13 @@ end
 M.update_git = function(bufnr)
     if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_git then
         vim.b[bufnr].update_git()
+    end
+end
+
+---@param bufnr integer
+M.update_search = function(bufnr)
+    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_search then
+        vim.b[bufnr].update_search()
     end
 end
 

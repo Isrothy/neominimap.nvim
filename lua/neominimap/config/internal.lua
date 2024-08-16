@@ -83,8 +83,8 @@ M.default_config = {
 
     search = {
         enabled = false, ---@type boolean
-        mode = "sign", ---@type Neominimap.Handler.MarkMode
-        priority = 5, ---@type integer
+        mode = "line", ---@type Neominimap.Handler.MarkMode
+        priority = 20, ---@type integer
     },
 
     treesitter = {
