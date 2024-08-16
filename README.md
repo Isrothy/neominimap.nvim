@@ -50,6 +50,7 @@ Show search results:
 - TreeSitter integration
 - Fold integration
 - Git integration
+- Search integration
 - Support for marks in sign column and line highlight
 - Respects UTF-8 encoding and tab width
 
