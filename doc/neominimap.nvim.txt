@@ -58,7 +58,8 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 - Fold integration
 - Git integration
 - Search integration
-- Support for marks in sign column and line highlight
+- Mouse click support
+- Support for marks in the sign column and line highlight
 - Respects UTF-8 encoding and tab width
 - Focus on the minimap, allowing interaction with it
 
@@ -174,6 +175,13 @@ The following is the default configuration.
     
         -- Sync the cursor position with the minimap
         sync_cursor = true, ---@type boolean
+    
+        click = {
+            -- Enable mouse click on minimap
+            enabled = false, ---@type boolean
+            -- Automatically switch focus to minimap when clicked
+            auto_switch_focus = true, ---@type boolean
+        },
     
         diagnostic = {
             enabled = true, ---@type boolean
