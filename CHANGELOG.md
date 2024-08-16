@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.10.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.9.0...v2.10.0) (2024-08-16)
+
+
+### Features
+
+* Autocmds to trigger search update ([93fc883](https://github.com/Isrothy/neominimap.nvim/commit/93fc883c14c8f6384a4fa054b64ff1397d170a33))
+* Autocmds to trigger search update ([694447a](https://github.com/Isrothy/neominimap.nvim/commit/694447a5bac5ac3307121c5b9ee92e3d24439916))
+* Incorrect line number for gitsigns ([1a73bdc](https://github.com/Isrothy/neominimap.nvim/commit/1a73bdc2732b6577db554becf23f5995fc7cc784))
+* Introduce search marks ([aa99135](https://github.com/Isrothy/neominimap.nvim/commit/aa9913515e9ce2a38b786045b8a93c929d7842f2))
+
+
+### Bug Fixes
+
+* Handle cases when hl.fg is nil ([c931780](https://github.com/Isrothy/neominimap.nvim/commit/c931780391fbc7da6019db7ef0bcd38b1d9507ca))
+
 ## [2.9.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.8.3...v2.9.0) (2024-08-14)
 
 
