@@ -60,6 +60,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 - Search integration
 - Support for marks in sign column and line highlight
 - Respects UTF-8 encoding and tab width
+- Focus on the minimap, allowing interaction with it
 
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
@@ -673,8 +674,6 @@ SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
     - Codewindow.nvim renders the minimap based on bytes, while this plugin
         renders based on codepoints. Specifically, it respects UTF-8 encoding and
         tab width.
-    - Codewindow.nvim currently has more features like git integration and focus
-        on the minimap, which this plugin does not.
     - Codewindow.nvim does not consider folds while this plugin does.
 - mini.map <https://github.com/echasnovski/mini.map>
     - Mini.map allows for encode symbol customization, while this plugin does not.
