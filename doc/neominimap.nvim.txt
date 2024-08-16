@@ -470,9 +470,9 @@ ALWAYS SHOW SIGNCOLUMN ~
 
 HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
 
-  ------------------------------------------------------------------------
+  -----------------------------------------------------------------------
   Highlight Group           Description
-  ------------------------- ----------------------------------------------
+  ------------------------- ---------------------------------------------
   NeominimapBackground      Background color for the minimap.
 
   NeominimapBorder          Border highlight for the minimap window.
@@ -506,7 +506,7 @@ HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
   NeominimapGitChangeSign   
 
   NeominimapGitDeleteSign   
-  ------------------------------------------------------------------------
+  -----------------------------------------------------------------------
 
 NAMESPACES                             *neominimap.nvim-neominimap-namespaces*
 
