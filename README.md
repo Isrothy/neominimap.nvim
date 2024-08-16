@@ -42,8 +42,6 @@ Show git signs:
 Show search results:
 ![image](https://github.com/user-attachments/assets/83a1a5a5-7bc7-48cc-9c01-39de75fada94)
 
-
-
 ## Features
 
 - LSP integration
@@ -53,6 +51,7 @@ Show search results:
 - Search integration
 - Support for marks in sign column and line highlight
 - Respects UTF-8 encoding and tab width
+- Focus on the minimap, allowing interaction with it
 
 ## Dependencies
 
@@ -566,8 +565,6 @@ Here is an example:
   - Codewindow.nvim renders the minimap based on bytes, while this plugin
     renders based on codepoints. Specifically, it respects UTF-8 encoding and
     tab width.
-  - Codewindow.nvim currently has more features like git integration and focus
-    on the minimap, which this plugin does not.
   - Codewindow.nvim does not consider folds while this plugin does.
 
 - [mini.map](https://github.com/echasnovski/mini.map)
