@@ -381,8 +381,10 @@ vim.g.neominimap = {
 First, in the `neominimap` configuration, set `mode = "sign"` for the handlers
 that you want to display in the sign column.
 
-Next, set `statuscolumn` to `%!v:lua.StatusCol()` so that
+Set `statuscolumn` to `%!v:lua.StatusCol()` so that
 statuscol will render the status column.
+
+For example:
 
 ```lua
 vim.g.neominimap = {
