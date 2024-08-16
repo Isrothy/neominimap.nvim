@@ -64,6 +64,11 @@ M.validate_config = function(cfg)
         ["git.mode"] = { cfg.git.mode, "string" },
         ["git.priority"] = { cfg.git.priority, "number" },
 
+        search = { cfg.search, "table" },
+        ["search.enabled"] = { cfg.search.enabled, "boolean" },
+        ["search.mode"] = { cfg.search.mode, "string" },
+        ["search.priority"] = { cfg.search.priority, "number" },
+
         treesitter = { cfg.treesitter, "table" },
         ["treesitter.enabled"] = { cfg.treesitter.enabled, "boolean" },
         ["treesitter.priority"] = { cfg.treesitter.priority, "number" },
