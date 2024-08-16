@@ -171,6 +171,12 @@ The following is the default configuration.
         priority = 6, ---@type integer
     },
 
+    search = {
+        enabled = false, ---@type boolean
+        mode = "line", ---@type Neominimap.Handler.MarkMode
+        priority = 20, ---@type integer
+    },
+
     treesitter = {
         enabled = true, ---@type boolean
         priority = 200, ---@type integer
@@ -397,7 +403,7 @@ vim.g.neominimap = {
 - [x] LSP integration
 - [x] TreeSitter integration
 - [x] Git integration
-- [ ] Search integration
+- [x] Search integration
 - [ ] Support for window relative to editor
 - [x] Validate user configuration
 - [x] Documentation
