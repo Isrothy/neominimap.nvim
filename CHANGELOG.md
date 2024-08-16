@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.11.0...v2.12.0) (2024-08-16)
+
+
+### Features
+
+* Support mouse click ([f86bb95](https://github.com/Isrothy/neominimap.nvim/commit/f86bb95dc6f897e8e1382537c8681343cec85946))
+
 ## [2.11.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.10.0...v2.11.0) (2024-08-16)
 
 
