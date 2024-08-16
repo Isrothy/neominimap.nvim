@@ -398,6 +398,15 @@ vim.g.neominimap = {
 | NeominimapGitChangeSign |                                               |
 | NeominimapGitDeleteSign |                                               |
 
+## Namespaces
+
+| Namespace               | Description                      |
+|-------------------------|----------------------------------|
+| `neominimap_git`        | Git signs and highlights.        |
+| `neominimap_diagnostic` | Diagnostic signs and highlights. |
+| `neominimap_search`     | Search signs and highlights.     |
+| `neominimap_treesitter` | Treesitter highlights.           |
+
 ## TODO
 
 - [x] LSP integration
