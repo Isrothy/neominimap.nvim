@@ -244,6 +244,7 @@ The default `winopt` is:
     winblend = 0,
     cursorline = true,
     spell = false,
+    list = false,
 }
 ```
 
