@@ -252,6 +252,7 @@ M.create_minimap_window = function(winid)
         winblend = 0,
         cursorline = true,
         spell = false,
+        list = false,
     }
 
     local user_opt = type(config.winopt) == "function" and config.winopt(winid) or config.winopt
