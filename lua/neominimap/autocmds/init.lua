@@ -177,7 +177,7 @@ M.create_autocmds = function()
                 local visiable_buffers = require("neominimap.util").get_visible_buffers()
                 for _, bufnr in ipairs(visiable_buffers) do
                     logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
-                    buffer.update_search_status(bufnr)
+                    buffer.update_search(bufnr)
                     logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
                 end
                 logger.log("Search status refreshed.", vim.log.levels.TRACE)
