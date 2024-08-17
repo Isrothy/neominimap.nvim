@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 16
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 17
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -256,6 +256,7 @@ The default `winopt` is:
         winblend = 0,
         cursorline = true,
         spell = false,
+        list = false,
     }
 <
 
