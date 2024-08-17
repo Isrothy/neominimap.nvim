@@ -365,9 +365,9 @@ LUA API ~
 
 These are the corresponding commands in the Lua API.
 
-  ----------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------------
   Function                                    Description           Arguments
-  ------------------------------------------- --------------------- ----------------------------------
+  ------------------------------------------- --------------------- ---------------------------------
   require('neominimap').on()                  Enable the minimap    None
                                               globally across all   
                                               buffers and windows.  
@@ -381,41 +381,37 @@ These are the corresponding commands in the Lua API.
   require('neominimap').refresh()             Refresh the minimap   None
                                               globally.             
 
-  require('neominimap').bufOn(<bufnr>)        Enable the minimap    Optional: Single buffer number or
-                                              for specified         list of buffer numbers (defaults
-                                              buffers.              to current buffer if none
-                                                                    provided)
+  require('neominimap').bufOn(<bufnr>)        Enable the minimap    List of buffer numbers (defaults
+                                              for specified         to current buffer if list is
+                                              buffers.              empty)
 
-  require('neominimap').bufOff(<bufnr>)       Disable the minimap   Optional: Single buffer number or
-                                              for specified         list of buffer numbers (defaults
-                                              buffers.              to current buffer if none
-                                                                    provided)
+  require('neominimap').bufOff(<bufnr>)       Disable the minimap   List of buffer numbers (defaults
+                                              for specified         to current buffer if list is
+                                              buffers.              empty)
 
-  require('neominimap').bufToggle(<bufnr>)    Toggle the minimap    Optional: Single buffer number or
-                                              for specified         list of buffer numbers (defaults
-                                              buffers.              to current buffer if none
-                                                                    provided)
+  require('neominimap').bufToggle(<bufnr>)    Toggle the minimap    List of buffer numbers (defaults
+                                              for specified         to current buffer if list is
+                                              buffers.              empty)
 
-  require('neominimap').bufRefresh(<bufnr>)   Refresh the minimap   Optional: Single buffer number or
-                                              buffers for specified list of buffer numbers (defaults
-                                              buffers.              to current buffer if none
-                                                                    provided)
+  require('neominimap').bufRefresh(<bufnr>)   Refresh the minimap   List of buffer numbers (defaults
+                                              buffers for specified to current buffer if list is
+                                              buffers.              empty)
 
-  require('neominimap').winOn(<winid>)        Enable the minimap    Optional: Single window ID or list
-                                              for specified         of window IDs (defaults to current
-                                              windows.              window if none provided)
+  require('neominimap').winOn(<winid>)        Enable the minimap    List of window IDs (defaults to
+                                              for specified         current window if list is empty)
+                                              windows.              
 
-  require('neominimap').winOff(<winid>)       Disable the minimap   Optional: Single window ID or list
-                                              for specified         of window IDs (defaults to current
-                                              windows.              window if none provided)
+  require('neominimap').winOff(<winid>)       Disable the minimap   List of window IDs (defaults to
+                                              for specified         current window if list is empty)
+                                              windows.              
 
-  require('neominimap').winToggle(<winid>)    Toggle the minimap    Optional: Single window ID or list
-                                              for specified         of window IDs (defaults to current
-                                              windows.              window if none provided)
+  require('neominimap').winToggle(<winid>)    Toggle the minimap    List of window IDs (defaults to
+                                              for specified         current window if list is empty)
+                                              windows.              
 
-  require('neominimap').winRefresh(<winid>)   Refresh the minimap   Optional: Single window ID or list
-                                              windows for specified of window IDs (defaults to current
-                                              windows.              window if none provided)
+  require('neominimap').winRefresh(<winid>)   Refresh the minimap   List of window IDs (defaults to
+                                              windows for specified current window if list is empty)
+                                              windows.              
 
   require('neominimap').focus()               Focuse the minimap    None
                                               window, allowing      
@@ -428,7 +424,7 @@ These are the corresponding commands in the Lua API.
   require('neominimap').toggleFocus()         Toggle focus between  None
                                               the minimap and the   
                                               main editor window.   
-  ----------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------------
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
 
