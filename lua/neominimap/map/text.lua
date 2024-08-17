@@ -20,7 +20,10 @@ M.codepoints_pos = function(str, tabwidth)
     local char = require("neominimap.char")
     local pos = {}
     local col = 0
-    local char_list = vim.fn.str2list(str)
+    local ok, char_list = pcall(vim.fn.str2list, str)
+    if not ok then
+        char_list = vim.fn.blob2list(str)
+    end
     for idx, code in ipairs(char_list) do
         if char.is_tab(code) then
             local spaces_to_add = tabwidth - (col % tabwidth)
