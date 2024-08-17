@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.0...v2.12.1) (2024-08-17)
+
+
+### Bug Fixes
+
+* do not show eol characters ([85b2b5d](https://github.com/Isrothy/neominimap.nvim/commit/85b2b5d2b2321282d7daf33c02c633758c9f4439))
+
 ## [2.12.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.11.0...v2.12.0) (2024-08-16)
 
 
