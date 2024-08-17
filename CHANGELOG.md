@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.12.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.1...v2.12.2) (2024-08-17)
+
+
+### Bug Fixes
+
+* Handle cases when str is binary ([79a7d6b](https://github.com/Isrothy/neominimap.nvim/commit/79a7d6bafb6da25015bd66c2cfa193e8561e493e))
+* Incorrect function name ([07bea09](https://github.com/Isrothy/neominimap.nvim/commit/07bea09c63974e2f49c0f629a0e029544d7fa0b5))
+
 ## [2.12.1](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.0...v2.12.1) (2024-08-17)
 
 
