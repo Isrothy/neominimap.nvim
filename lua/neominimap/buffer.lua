@@ -35,16 +35,17 @@ end
 ---@return boolean
 M.should_generate_minimap = function(bufnr)
     local logger = require("neominimap.logger")
+    local var = require("neominimap.variables")
     local filetype = vim.bo[bufnr].filetype
     local buftype = vim.bo[bufnr].buftype
-    if not vim.g.neominimap_enabled then
+    if not var.g.enabled then
         logger.log(
             string.format("Neominimap is disabled. Skipping generation of minimap for buffer %d", bufnr),
             vim.log.levels.TRACE
         )
         return false
     end
-    if vim.b[bufnr].neominimap_disabled then
+    if not var.b[bufnr].enabled then
         logger.log(
             string.format("Buffer %d is not enabled. Skipping generation of minimap", bufnr),
             vim.log.levels.TRACE

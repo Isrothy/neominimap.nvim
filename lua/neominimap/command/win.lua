@@ -31,22 +31,25 @@ end
 
 ---@param winid integer
 local winOn = function(winid)
-    vim.w[winid].neominimap_disabled = false
+    local var = require("neominimap.variables")
+    var.w[winid].enabled = true
     require("neominimap.window").win_cmds.winOn(winid)
 end
 
 ---@param winid integer
 local winOff = function(winid)
-    vim.w[winid].neominimap_disabled = true
+    local var = require("neominimap.variables")
+    var.w[winid].enabled = false
     require("neominimap.window").win_cmds.winOff(winid)
 end
 
 ---@param winid integer
 local winToggle = function(winid)
-    if vim.w[winid].neominimap_disabled then
-        winOn(winid)
-    else
+    local var = require("neominimap.variables")
+    if var.w[winid].enabled then
         winOff(winid)
+    else
+        winOn(winid)
     end
 end
 

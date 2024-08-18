@@ -5,17 +5,18 @@ local M = {}
 ---@field off fun()
 ---@field refresh fun()
 
----@type boolean
-vim.g.neominimap_enabled = false
-
 local function open_minimap()
-    if vim.g.neominimap_enabled then
+    local var = require("neominimap.variables")
+    local logger = require("neominimap.logger")
+    logger.log("var.g.enabled = " .. tostring(var.g.enabled), vim.log.levels.DEBUG)
+    if var.g.enabled then
         return
     end
-    vim.g.neominimap_enabled = true
+    var.set_var("enabled", true)
+    -- var.g.enabled = true
+    logger.log("var.g.enabled = " .. tostring(var.get_var("enabled")), vim.log.levels.DEBUG)
     require("neominimap.autocmds").create_autocmds()
 
-    local logger = require("neominimap.logger")
     logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
     require("neominimap.buffer").global_cmds.on()
     require("neominimap.window").global_cmds.on()
@@ -23,10 +24,11 @@ local function open_minimap()
 end
 
 local function close_minimap()
-    if not vim.g.neominimap_enabled then
+    local var = require("neominimap.variables")
+    if not var.g.enabled then
         return
     end
-    vim.g.neominimap_enabled = false
+    var.g.enabled = false
     require("neominimap.autocmds").clear_autocmds()
 
     local logger = require("neominimap.logger")
@@ -37,7 +39,8 @@ local function close_minimap()
 end
 
 local function toggle_minimap()
-    if vim.g.neominimap_enabled then
+    local var = require("neominimap.variables")
+    if var.g.enabled then
         close_minimap()
     else
         open_minimap()
