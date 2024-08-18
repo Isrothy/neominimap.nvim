@@ -140,7 +140,7 @@ M.should_show_minimap = function(winid)
         return false
     end
 
-    if vim.g.neominimap_disabled then
+    if not vim.g.neominimap_enabled then
         logger.log("Minimap is disabled. Skipping generation of minimap", vim.log.levels.TRACE)
         return false
     end
@@ -488,49 +488,28 @@ end
 
 ---@type Neominimap.Command.Win.Handler
 M.win_cmds = {
-    winRefresh = function(winid)
-        vim.schedule(function()
-            M.refresh_minimap_window(winid)
-        end)
-    end,
-    winOn = function(winid)
-        vim.w[winid].neominimap_disabled = false
-        M.win_cmds.winRefresh(winid)
-    end,
-    winOff = function(winid)
-        vim.w[winid].neominimap_disabled = true
-        M.win_cmds.winRefresh(winid)
-    end,
-    winToggle = function(winid)
-        if vim.w[winid].neominimap_disabled then
-            M.win_cmds.winOn(winid)
-        else
-            M.win_cmds.winOff(winid)
-        end
-    end,
+    ["winRefresh"] = vim.schedule_wrap(M.refresh_minimap_window),
+    ["winOn"] = vim.schedule_wrap(M.refresh_minimap_window),
+    ["winOff"] = vim.schedule_wrap(M.refresh_minimap_window),
 }
 
 ---@type Neominimap.Command.Focus.Handler
 M.focus_cmds = {
-    focus = function(winid)
-        vim.schedule(function()
-            local ok = M.focus(winid)
-            if not ok then
-                local logger = require("neominimap.logger")
-                logger.notify("Minimap can not be focused for current window", vim.log.levels.ERROR)
-            end
-        end)
-    end,
-    unfocus = function(mwinid)
-        vim.schedule(function()
-            local ok = M.unfocus(mwinid)
-            if not ok then
-                local logger = require("neominimap.logger")
-                logger.notify("Minimap can not be unfocused for current window", vim.log.levels.ERROR)
-            end
-        end)
-    end,
-    toggleFocus = function(winid)
+    ["focus"] = vim.schedule_wrap(function(winid)
+        local ok = M.focus(winid)
+        if not ok then
+            local logger = require("neominimap.logger")
+            logger.notify("Minimap can not be focused for current window", vim.log.levels.ERROR)
+        end
+    end),
+    ["unfocus"] = vim.schedule_wrap(function(mwinid)
+        local ok = M.unfocus(mwinid)
+        if not ok then
+            local logger = require("neominimap.logger")
+            logger.notify("Minimap can not be unfocused for current window", vim.log.levels.ERROR)
+        end
+    end),
+    ["toggleFocus"] = function(winid)
         if M.is_minimap_window(winid) then
             M.focus_cmds.unfocus(winid)
         else
@@ -539,25 +518,11 @@ M.focus_cmds = {
     end,
 }
 
----@type boolean
-local global_enabled = false
-
 ---@type Neominimap.Command.Global.Handler
 M.global_cmds = {
-    on = function()
-        global_enabled = true
-        M.refresh_all_minimap_windows()
-    end,
-    off = function()
-        global_enabled = false
-        M.close_all_minimap_windows()
-    end,
-    toggle = function() end,
-    refresh = function()
-        vim.schedule(function()
-            M.refresh_all_minimap_windows()
-        end)
-    end,
+    on = vim.schedule_wrap(M.refresh_all_minimap_windows),
+    off = vim.schedule_wrap(M.refresh_all_minimap_windows),
+    refresh = vim.schedule_wrap(M.refresh_all_minimap_windows),
 }
 
 return M
