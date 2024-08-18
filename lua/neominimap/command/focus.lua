@@ -10,7 +10,7 @@ local M = {}
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     focus = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command focus triggered.", vim.log.levels.INFO)
 
@@ -20,7 +20,7 @@ M.subcommand_tbl = {
         end,
     },
     unfocus = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command unfocus triggered.", vim.log.levels.INFO)
 
@@ -30,7 +30,7 @@ M.subcommand_tbl = {
         end,
     },
     toggleFocus = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command toggleFocus triggered.", vim.log.levels.INFO)
 

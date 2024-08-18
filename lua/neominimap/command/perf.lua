@@ -22,7 +22,7 @@ end
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     perf = {
-        impl = function(args, opts)
+        impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command perf triggered.", vim.log.levels.INFO)
 
