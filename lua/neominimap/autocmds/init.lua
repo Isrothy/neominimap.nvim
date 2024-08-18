@@ -251,7 +251,7 @@ M.create_autocmds = function()
     })
     api.nvim_create_autocmd("User", {
         group = "Neominimap",
-        pattern = "BufferTextUpdated",
+        pattern = "MinimapBufferTextUpdated",
         callback = function(args)
             logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)
             local window = require("neominimap.window")
@@ -292,9 +292,12 @@ M.create_autocmds = function()
     })
     api.nvim_create_autocmd("User", {
         group = "Neominimap",
-        pattern = "MinimapBufferRefreshed",
+        pattern = { "MinimapBufferCreated", "MinimapBufferDeleted" },
         callback = function(args)
-            logger.log("User Neominimap event triggered. patter: MinimapBufferRefreshed", vim.log.levels.TRACE)
+            logger.log(
+                "User Neominimap event triggered. patter: MinimapBufferCreated or MinimapBufferDeleted",
+                vim.log.levels.TRACE
+            )
             local window = require("neominimap.window")
             local bufnr = args.data.buf
             local win_list = require("neominimap.util").get_attached_window(bufnr)
