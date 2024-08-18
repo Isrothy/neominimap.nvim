@@ -37,7 +37,7 @@ M.should_generate_minimap = function(bufnr)
     local logger = require("neominimap.logger")
     local filetype = vim.bo[bufnr].filetype
     local buftype = vim.bo[bufnr].buftype
-    if vim.g.neominimap_disabled then
+    if not vim.g.neominimap_enabled then
         logger.log(
             string.format("Neominimap is disabled. Skipping generation of minimap for buffer %d", bufnr),
             vim.log.levels.TRACE
@@ -368,22 +368,16 @@ end
 
 ---@type Neominimap.Command.Buf.Handler
 M.buf_cmds = {
-    ["bufOn"] = function(bufnr)
-        vim.b[bufnr].neominimap_disabled = false
-        vim.schedule_wrap(M.refresh_minimap_buffer)(bufnr)
-    end,
-    ["bufOff"] = function(bufnr)
-        vim.b[bufnr].neominimap_disabled = true
-        M.delete_minimap_buffer(bufnr)
-    end,
-    ["bufToggle"] = function(bufnr)
-        if vim.b[bufnr].neominimap_disabled then
-            M.buf_cmds.bufOn(bufnr)
-        else
-            M.buf_cmds.bufOff(bufnr)
-        end
-    end,
+    ["bufOn"] = vim.schedule_wrap(M.refresh_minimap_buffer),
+    ["bufOff"] = vim.schedule_wrap(M.refresh_minimap_buffer),
     ["bufRefresh"] = vim.schedule_wrap(M.refresh_minimap_buffer),
+}
+
+---@type Neominimap.Command.Global.Handler
+M.global_cmds = {
+    ["on"] = vim.schedule_wrap(M.refresh_all_minimap_buffers),
+    ["off"] = vim.schedule_wrap(M.refresh_all_minimap_buffers),
+    ["refresh"] = vim.schedule_wrap(M.refresh_all_minimap_buffers),
 }
 
 return M

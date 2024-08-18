@@ -4,7 +4,6 @@ local api = vim.api
 ---@field winRefresh fun(winid:integer)
 ---@field winOn fun(winid:integer)
 ---@field winOff fun(winid:integer)
----@field winToggle fun(winid:integer)
 
 local M = {}
 
@@ -30,6 +29,32 @@ local args_to_list = function(args)
     end
 end
 
+---@param winid integer
+local winOn = function(winid)
+    vim.w[winid].neominimap_disabled = false
+    require("neominimap.window").win_cmds.winOn(winid)
+end
+
+---@param winid integer
+local winOff = function(winid)
+    vim.w[winid].neominimap_disabled = true
+    require("neominimap.window").win_cmds.winOff(winid)
+end
+
+---@param winid integer
+local winToggle = function(winid)
+    if vim.w[winid].neominimap_disabled then
+        winOn(winid)
+    else
+        winOff(winid)
+    end
+end
+
+---@param winid integer
+local function winRefresh(winid)
+    require("neominimap.window").win_cmds.winRefresh(winid)
+end
+
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     winOn = {
@@ -38,8 +63,7 @@ M.subcommand_tbl = {
             logger.log("Command winOn triggered.", vim.log.levels.TRACE)
 
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").win_cmds.winOn
-            vim.tbl_map(fun, win_list)
+            vim.tbl_map(winOn, win_list)
         end,
     },
     winOff = {
@@ -48,8 +72,7 @@ M.subcommand_tbl = {
             logger.log("Command winOff triggered.", vim.log.levels.TRACE)
 
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").win_cmds.winOff
-            vim.tbl_map(fun, win_list)
+            vim.tbl_map(winOff, win_list)
         end,
     },
     winToggle = {
@@ -58,8 +81,7 @@ M.subcommand_tbl = {
             logger.log("Command winToggle triggered.", vim.log.levels.TRACE)
 
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").win_cmds.winToggle
-            vim.tbl_map(fun, win_list)
+            vim.tbl_map(winToggle, win_list)
         end,
     },
     winRefresh = {
@@ -68,8 +90,7 @@ M.subcommand_tbl = {
             logger.log("Command winRefresh triggered.", vim.log.levels.TRACE)
 
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").win_cmds.winRefresh
-            vim.tbl_map(fun, win_list)
+            vim.tbl_map(winRefresh, win_list)
         end,
     },
 }

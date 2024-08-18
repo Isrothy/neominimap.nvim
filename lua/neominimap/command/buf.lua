@@ -4,7 +4,6 @@ local api = vim.api
 ---@field bufRefresh fun(winid:integer)
 ---@field bufOn fun(mwinid:integer)
 ---@field bufOff fun(winid:integer)
----@field bufToggle fun(winid:integer)
 
 local M = {}
 
@@ -30,6 +29,32 @@ local args_to_list = function(args)
     end
 end
 
+---@param bufnr integer
+local function bufOn(bufnr)
+    vim.b[bufnr].neominimap_disabled = false
+    require("neominimap.buffer").buf_cmds.bufOn(bufnr)
+end
+
+---@param bufnr integer
+local function bufOff(bufnr)
+    vim.b[bufnr].neominimap_disabled = true
+    require("neominimap.buffer").buf_cmds.bufOff(bufnr)
+end
+
+---@param bufnr integer
+local function bufToggle(bufnr)
+    if vim.b[bufnr].neominimap_disabled then
+        bufOn(bufnr)
+    else
+        bufOff(bufnr)
+    end
+end
+
+---@param bufnr integer
+local function bufRefresh(bufnr)
+    require("neominimap.buffer").buf_cmds.bufRefresh(bufnr)
+end
+
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     ["bufOn"] = {
@@ -37,9 +62,8 @@ M.subcommand_tbl = {
             local logger = require("neominimap.logger")
             logger.log("Command bufOn triggered.", vim.log.levels.INFO)
 
-            local bufnr = args_to_list(args)
-            local fun = require("neominimap.buffer").buf_cmds.bufOn
-            vim.tbl_map(fun, bufnr)
+            local buf_list = args_to_list(args)
+            vim.tbl_map(bufOn, buf_list)
         end,
     },
     ["bufOff"] = {
@@ -47,9 +71,8 @@ M.subcommand_tbl = {
             local logger = require("neominimap.logger")
             logger.log("Command bufOff triggered.", vim.log.levels.INFO)
 
-            local bufnr = args_to_list(args)
-            local fun = require("neominimap.buffer").buf_cmds.bufOff
-            vim.tbl_map(fun, bufnr)
+            local buf_list = args_to_list(args)
+            vim.tbl_map(bufOff, buf_list)
         end,
     },
     ["bufToggle"] = {
@@ -57,9 +80,8 @@ M.subcommand_tbl = {
             local logger = require("neominimap.logger")
             logger.log("Command bufToggle triggered.", vim.log.levels.INFO)
 
-            local fun = require("neominimap.buffer").buf_cmds.bufToggle
-            local bufnr = args_to_list(args)
-            vim.tbl_map(fun, bufnr)
+            local buf_list = args_to_list(args)
+            vim.tbl_map(bufToggle, buf_list)
         end,
     },
     ["bufRefresh"] = {
@@ -67,9 +89,8 @@ M.subcommand_tbl = {
             local logger = require("neominimap.logger")
             logger.log("Command bufRefresh triggered.", vim.log.levels.INFO)
 
-            local fun = require("neominimap.buffer").buf_cmds.bufRefresh
             local bufnr = args_to_list(args)
-            vim.tbl_map(fun, bufnr)
+            vim.tbl_map(bufRefresh, bufnr)
         end,
     },
 }
