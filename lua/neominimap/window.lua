@@ -244,7 +244,6 @@ M.create_minimap_window = function(winid)
         wrap = false,
         foldcolumn = "0",
         signcolumn = "auto",
-        statuscolumn = "",
         number = false,
         relativenumber = false,
         scrolloff = 99999, -- To center minimap

@@ -238,7 +238,6 @@ The default `winopt` is:
     wrap = false,
     foldcolumn = "0",
     signcolumn = "auto",
-    statuscolumn = "",
     number = false,
     relativenumber = false,
     scrolloff = 99999,
