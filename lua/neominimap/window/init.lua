@@ -254,7 +254,7 @@ M.create_minimap_window = function(winid)
         list = false,
         fillchars = "eob: ",
     }
-    config.winopt( winopt, winid)
+    config.winopt(winopt, winid)
     for k, v in pairs(winopt) do
         vim.wo[mwinid][k] = v
     end
@@ -481,5 +481,7 @@ M.close_all_minimap_windows = function()
         M.close_minimap_window(winid)
     end
 end
+
+
 
 return M
