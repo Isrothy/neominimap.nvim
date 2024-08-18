@@ -24,8 +24,8 @@ local M = {}
 ---@field fold? Neominimap.FoldConfig
 ---@field z_index? integer
 ---@field window_border? string | string[] | [string, string][]
----@field winopt? table | fun(winid: integer) : table
----@field bufopt? table | fun(bufnr: integer) : table
+---@field winopt? fun(opt: table, winid: integer)
+---@field bufopt? fun(opt: table, bufnr: integer)
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
