@@ -359,4 +359,24 @@ M.delete_all_minimap_buffers = function()
     logger.log("All minimap buffers wiped out", vim.log.levels.TRACE)
 end
 
+---@type Neominimap.Command.Buf.Handler
+M.buf_cmds = {
+    ["bufOn"] = function(bufnr)
+        vim.b[bufnr].neominimap_disabled = false
+        vim.schedule_wrap(M.refresh_minimap_buffer)(bufnr)
+    end,
+    ["bufOff"] = function(bufnr)
+        vim.b[bufnr].neominimap_disabled = true
+        M.delete_minimap_buffer(bufnr)
+    end,
+    ["bufToggle"] = function(bufnr)
+        if vim.b[bufnr].neominimap_disabled then
+            M.buf_cmds.bufOn(bufnr)
+        else
+            M.buf_cmds.bufOff(bufnr)
+        end
+    end,
+    ["bufRefresh"] = vim.schedule_wrap(M.refresh_minimap_buffer),
+}
+
 return M
