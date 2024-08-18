@@ -1,5 +1,11 @@
 local api = vim.api
 
+---@class Neominimap.Command.Win.Handler
+---@field refresh fun(winid:integer)
+---@field on fun(winid:integer)
+---@field off fun(winid:integer)
+---@field toggle fun(winid:integer)
+
 local M = {}
 
 ---@param args string[]
@@ -24,59 +30,34 @@ local args_to_list = function(args)
     end
 end
 
----@param winid integer
-local refresh = function(winid)
-    vim.schedule(function()
-        local window = require("neominimap.window")
-        window.refresh_minimap_window(winid)
-    end)
-end
-
----@param winid integer
-local function enable(winid)
-    vim.w[winid].neominimap_disabled = false
-    refresh(winid)
-end
-
----@param winid integer
-local function disable(winid)
-    vim.w[winid].neominimap_disabled = true
-    refresh(winid)
-end
-
----@param winid integer
-local function toggle(winid)
-    if vim.w[winid].neominimap_disabled then
-        enable(winid)
-    else
-        disable(winid)
-    end
-end
-
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     winOn = {
         impl = function(args, opts)
-            local winid = args_to_list(args)
-            vim.tbl_map(enable, winid)
+            local win_list = args_to_list(args)
+            local fun = require("neominimap.window").wincmd.on
+            vim.tbl_map(fun, win_list)
         end,
     },
     winOff = {
         impl = function(args, opts)
-            local winid = args_to_list(args)
-            vim.tbl_map(disable, winid)
+            local win_list = args_to_list(args)
+            local fun = require("neominimap.window").wincmd.off
+            vim.tbl_map(fun, win_list)
         end,
     },
     winToggle = {
         impl = function(args, opts)
-            local winid = args_to_list(args)
-            vim.tbl_map(toggle, winid)
+            local win_list = args_to_list(args)
+            local fun = require("neominimap.window").wincmd.toggle
+            vim.tbl_map(fun, win_list)
         end,
     },
     winRefresh = {
         impl = function(args, opts)
-            local winid = args_to_list(args)
-            vim.tbl_map(refresh, winid)
+            local win_list = args_to_list(args)
+            local fun = require("neominimap.window").wincmd.refresh
+            vim.tbl_map(fun, win_list)
         end,
     },
 }
