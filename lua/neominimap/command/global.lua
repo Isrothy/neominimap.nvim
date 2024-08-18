@@ -7,13 +7,13 @@ local M = {}
 ---@field refresh fun()
 
 ---@type boolean
-M.enabled = false
+vim.g.neominimap_enabled = false
 
 local function open_minimap()
-    if M.enabled then
+    if vim.g.neominimap_enabled then
         return
     end
-    M.enabled = true
+    vim.g.neominimap_enabled = true
     require("neominimap.autocmds").create_autocmds()
     vim.schedule(function()
         local logger = require("neominimap.logger")
@@ -27,10 +27,10 @@ local function open_minimap()
 end
 
 local function close_minimap()
-    if not M.enabled then
+    if not vim.g.neominimap_enabled then
         return
     end
-    M.enabled = false
+    vim.g.neominimap_enabled = false
     require("neominimap.autocmds").clear_autocmds()
     vim.schedule(function()
         local logger = require("neominimap.logger")
@@ -44,7 +44,7 @@ local function close_minimap()
 end
 
 local function toggle_minimap()
-    if M.enabled then
+    if vim.g.neominimap_enabled then
         close_minimap()
     else
         open_minimap()
