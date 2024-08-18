@@ -63,24 +63,36 @@ end
 M.subcommand_tbl = {
     bufOn = {
         impl = function(args, opts)
+            local logger = require("neominimap.logger")
+            logger.log("Command bufOn triggered.", vim.log.levels.INFO)
+
             local bufnr = args_to_list(args)
             vim.tbl_map(enable, bufnr)
         end,
     },
     bufOff = {
         impl = function(args, opts)
+            local logger = require("neominimap.logger")
+            logger.log("Command bufOff triggered.", vim.log.levels.INFO)
+
             local bufnr = args_to_list(args)
             vim.tbl_map(disable, bufnr)
         end,
     },
     bufToggle = {
         impl = function(args, opts)
+            local logger = require("neominimap.logger")
+            logger.log("Command bufToggle triggered.", vim.log.levels.INFO)
+
             local bufnr = args_to_list(args)
             vim.tbl_map(toggle, bufnr)
         end,
     },
     bufRefresh = {
         impl = function(args, opts)
+            local logger = require("neominimap.logger")
+            logger.log("Command bufRefresh triggered.", vim.log.levels.INFO)
+
             local bufnr = args_to_list(args)
             vim.tbl_map(refresh, bufnr)
         end,
