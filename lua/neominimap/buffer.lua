@@ -151,15 +151,8 @@ M.create_minimap_buffer = function(bufnr)
         undolevels = -1,
     }
 
-    local user_opt = type(config.bufopt) == "function" and config.bufopt(bufnr) or config.bufopt
-    if type(user_opt) == "table" then
-        bufopt = vim.tbl_deep_extend("force", bufopt, user_opt)
-    else
-        logger.log_and_notify(
-            string.format("Invalid type for bufopt: expected table, got %s", type(user_opt)),
-            vim.log.levels.ERROR
-        )
-    end
+    config.bufopt( bufopt, bufnr)
+
     for k, v in pairs(bufopt) do
         vim.bo[mbufnr][k] = v
     end

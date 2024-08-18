@@ -118,12 +118,14 @@ M.default_config = {
     window_border = "single", ---@type string | string[] | [string, string][]
 
     ---Overrite the default winopt
-    ---@type table | fun(winid: integer) : table
-    winopt = {},
+    ---@param opt table
+    ---@param winid integer the window id of the parent window, NOT minimap window
+    winopt = function(opt, winid) end,
 
     ---Overrite the default bufopt
-    ---@type table | fun(bufnr: integer) : table
-    bufopt = {},
+    ---@param opt table
+    ---@param bufnr integer the buffer id of the parent buffer, NOT minimap buffer
+    bufopt = function(opt, bufnr) end,
 }
 
 return M
