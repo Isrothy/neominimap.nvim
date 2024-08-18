@@ -1,10 +1,10 @@
 local api = vim.api
 
 ---@class Neominimap.Command.Win.Handler
----@field refresh fun(winid:integer)
----@field on fun(winid:integer)
----@field off fun(winid:integer)
----@field toggle fun(winid:integer)
+---@field winRefresh fun(winid:integer)
+---@field winOn fun(winid:integer)
+---@field winOff fun(winid:integer)
+---@field winToggle fun(winid:integer)
 
 local M = {}
 
@@ -35,28 +35,28 @@ M.subcommand_tbl = {
     winOn = {
         impl = function(args, opts)
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").wincmd.on
+            local fun = require("neominimap.window").win_cmds.winOn
             vim.tbl_map(fun, win_list)
         end,
     },
     winOff = {
         impl = function(args, opts)
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").wincmd.off
+            local fun = require("neominimap.window").win_cmds.winOff
             vim.tbl_map(fun, win_list)
         end,
     },
     winToggle = {
         impl = function(args, opts)
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").wincmd.toggle
+            local fun = require("neominimap.window").win_cmds.winToggle
             vim.tbl_map(fun, win_list)
         end,
     },
     winRefresh = {
         impl = function(args, opts)
             local win_list = args_to_list(args)
-            local fun = require("neominimap.window").wincmd.refresh
+            local fun = require("neominimap.window").win_cmds.winRefresh
             vim.tbl_map(fun, win_list)
         end,
     },
