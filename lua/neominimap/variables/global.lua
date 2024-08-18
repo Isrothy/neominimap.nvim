@@ -1,29 +1,32 @@
 local M = {}
 
 ---@class Neominimap.Variables.Global
-local g_default = {
+local global_default = {
     enabled = false, ---@type boolean Enable minimap globally
 }
 
-vim.g.neominimap_var = vim.deepcopy(g_default)
+vim.g.neominimap_var = vim.deepcopy(global_default)
+
+---@param name string
+---@return string
+local prefixed = function(name)
+    return "neominimap_" .. name
+end
 
 ---@param name string
 ---@param value any
 M.set_var = function(name, value)
-    -- local logger = require("neominimap.logger")
-    -- logger.log(string.format("Setting variable %s to %s", name, tostring(value)), vim.log.levels.DEBUG)
-    local tbl = vim.g.neominimap_var
-    tbl[name] = value
-    vim.g.neominimap_var = tbl
+    vim.g[prefixed(name)] = value
 end
 
 ---@param name string
 ---@return any
 M.get_var = function(name)
-    -- local logger = require("neominimap.logger")
-    -- logger.log(string.format("Getting variable %s", name), vim.log.levels.DEBUG)
-    -- logger.log(string.format("Variable %s is %s", name, tostring(vim.g.neominimap_var[name])), vim.log.levels.DEBUG)
-    return vim.g.neominimap_var[name]
+    local prefixed_name = prefixed(name)
+    if vim.g[prefixed_name] == nil then
+        vim.g[prefixed_name] = global_default[name]
+    end
+    return vim.g[prefixed_name]
 end
 
 ---@type Neominimap.Variables.Global

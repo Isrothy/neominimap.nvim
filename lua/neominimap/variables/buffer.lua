@@ -1,30 +1,37 @@
 local M = {}
 
 ---@class Neominimap.Variables.Buffer
-local b_default = {
-    enabled = true, ---@type boolean Enable minimap for this buffer
+local buffer_default = {
+    enabled = true, ---@type boolean Enable minimap for this buffer.
+    render = function() end, ---@type fun() Render minimap for this buffer. Genarate text and TreeSitter highlights.
+    update_diagnostic = function() end, ---@type fun()
+    update_git = function() end, ---@type fun()
+    update_search = function() end, ---@type fun()
+    cached_folds = {}, ---@type Neominimap.Fold[]
 }
+
+---@param name string
+---@return string
+local prefixed = function(name)
+    return "neominimap_" .. name
+end
 
 ---@param buffer integer
 ---@param name string
 ---@param value any
 M.buf_set_var = function(buffer, name, value)
-    local tbl = vim.b[buffer].neominimap_var
-    if not tbl then
-        vim.b[buffer].neominimap_var = vim.deepcopy(b_default)
-    end
-    tbl[name] = value
-    vim.b[buffer].neominimap_var = tbl
+    vim.b[buffer][prefixed(name)] = value
 end
 
 ---@param buffer integer
 ---@param name string
 ---@return any
 M.buf_get_var = function(buffer, name)
-    if not vim.b[buffer].neominimap_var then
-        vim.b[buffer].neominimap_var = vim.deepcopy(b_default)
+    local prefixed_name = prefixed(name)
+    if vim.b[buffer][prefixed_name] == nil then
+        vim.b[buffer][prefixed_name] = buffer_default[name]
     end
-    return vim.b[buffer].neominimap_var[name]
+    return vim.b[buffer][prefixed_name]
 end
 
 ---@param buffer integer

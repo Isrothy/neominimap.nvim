@@ -1,13 +1,13 @@
 local M = {}
 
----@class (exact) Fold
+---@class (exact) Neominimap.Fold
 ---@field start integer
 ---@field end_ integer
 
 ---@param bufnr integer
----@return Fold[]
+---@return Neominimap.Fold[]
 M.get_all_folds = function(bufnr)
-    local folds = {} ---@type Fold[]
+    local folds = {} ---@type Neominimap.Fold[]
     local line_count = vim.api.nvim_buf_line_count(bufnr)
     vim.api.nvim_buf_call(bufnr, function()
         local line = 1
@@ -39,7 +39,7 @@ M.is_line_folded = function(bufnr, line)
 end
 
 ---@generic T
----@param folds Fold[]
+---@param folds Neominimap.Fold[]
 ---@param lines T[]
 M.filter_folds = function(folds, lines)
     local filtered_lines = {}
@@ -55,7 +55,7 @@ M.filter_folds = function(folds, lines)
     return filtered_lines
 end
 
----@param folds Fold[]
+---@param folds Neominimap.Fold[]
 ---@param lineNr integer
 ---@return integer?
 M.substract_fold_lines = function(folds, lineNr)
@@ -72,7 +72,7 @@ M.substract_fold_lines = function(folds, lineNr)
     return lineNr - acc
 end
 
----@param folds Fold[]
+---@param folds Neominimap.Fold[]
 ---@param lineNr integer
 M.add_fold_lines = function(folds, lineNr)
     for _, f in ipairs(folds) do
@@ -86,14 +86,16 @@ M.add_fold_lines = function(folds, lineNr)
 end
 
 ---@param bufnr integer
----@return Fold[]
+---@return Neominimap.Fold[]
 M.get_cached_folds = function(bufnr)
-    return vim.b[bufnr].neominimap_folds or {}
+    local var = require("neominimap.variables")
+    return var.b[bufnr].cached_folds
 end
 
 ---@param bufnr integer
 M.cache_folds = function(bufnr)
-    vim.b[bufnr].neominimap_folds = M.get_all_folds(bufnr)
+    local var = require("neominimap.variables")
+    var.b[bufnr].cached_folds = M.get_all_folds(bufnr)
 end
 
 return M

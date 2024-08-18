@@ -1,30 +1,32 @@
 local M = {}
 
 ---@class Neominimap.Variables.Window
-local w_default = {
+local window_default = {
     enabled = true,
 }
+
+---@param name string
+---@return string
+local prefixed = function(name)
+    return "neominimap_" .. name
+end
 
 ---@param window integer
 ---@param name string
 ---@param value any
 M.win_set_var = function(window, name, value)
-    local tbl = vim.w[window].neominimap_var
-    if not tbl then
-        tbl = vim.deepcopy(w_default)
-    end
-    tbl[name] = value
-    vim.w[window].neominimap_var = tbl
+    vim.w[window][prefixed(name)] = value
 end
 
 ---@param window integer
 ---@param name string
 ---@return any
 M.win_get_var = function(window, name)
-    if not vim.w[window].neominimap_var then
-        vim.w[window].neominimap_var = vim.deepcopy(w_default)
+    local prefixed_name = prefixed(name)
+    if vim.w[window][prefixed_name] == nil then
+        vim.w[window][prefixed_name] = window_default[name]
     end
-    return vim.w[window].neominimap_var[name]
+    return vim.w[window][prefixed_name]
 end
 
 ---@param window integer
