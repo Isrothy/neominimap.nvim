@@ -1,4 +1,5 @@
 local M = {}
+local api, fn = vim.api, vim.fn
 
 --- @return integer[]
 M.get_visible_buffers = function()
@@ -10,13 +11,38 @@ M.get_visible_buffers = function()
     return visible_buffers
 end
 
+--- @param f fun(bufnr: integer)
+M.for_all_buffer = function(f)
+    local buffer_list = api.nvim_list_bufs()
+    vim.tbl_map(f, buffer_list)
+end
+
+--- @param f fun(winid: integer)
+M.for_all_window = function(f)
+    local win_list = api.nvim_list_wins()
+    vim.tbl_map(f, win_list)
+end
+
+--- @param tabid integer
+--- @param f fun(winid: integer)
+M.for_all_window_in_tab = function(f, tabid)
+    local win_list = api.nvim_tabpage_list_wins(tabid)
+    vim.tbl_map(f, win_list)
+end
+
+--- @param f fun(tabid: integer)
+M.for_all_tab = function(f)
+    local tab_list = api.nvim_list_tabpages()
+    vim.tbl_map(f, tab_list)
+end
+
 ---@return boolean
 M.is_search_mode = function()
     if
         vim.o.incsearch
         and vim.o.hlsearch
-        and vim.api.nvim_get_mode().mode == "c"
-        and vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
+        and api.nvim_get_mode().mode == "c"
+        and vim.tbl_contains({ "/", "?" }, fn.getcmdtype())
     then
         return true
     end
