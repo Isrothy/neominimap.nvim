@@ -220,12 +220,12 @@ The following is the default configuration.
 
     ---Overrite the default winopt
     ---@param opt table
-    ---@param winid integer the window id of the parent window, NOT minimap window
+    ---@param winid integer the window id of the source window, NOT minimap window
     winopt = function(opt, winid) end,
 
     ---Overrite the default bufopt
     ---@param opt table
-    ---@param bufnr integer the buffer id of the parent buffer, NOT minimap buffer
+    ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
     bufopt = function(opt, bufnr) end,
 }
 ```
