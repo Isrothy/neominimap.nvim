@@ -140,6 +140,11 @@ M.should_show_minimap = function(winid)
         return false
     end
 
+    if vim.g.neominimap_disabled then
+        logger.log("Minimap is disabled. Skipping generation of minimap", vim.log.levels.TRACE)
+        return false
+    end
+
     if vim.w[winid].neominimap_disabled then
         logger.log(
             string.format("Window %d is not enabled. Skipping generation of minimap", winid),
@@ -531,6 +536,27 @@ M.focus_cmds = {
         else
             M.focus_cmds.focus(winid)
         end
+    end,
+}
+
+---@type boolean
+local global_enabled = false
+
+---@type Neominimap.Command.Global.Handler
+M.global_cmds = {
+    on = function()
+        global_enabled = true
+        M.refresh_all_minimap_windows()
+    end,
+    off = function()
+        global_enabled = false
+        M.close_all_minimap_windows()
+    end,
+    toggle = function() end,
+    refresh = function()
+        vim.schedule(function()
+            M.refresh_all_minimap_windows()
+        end)
     end,
 }
 
