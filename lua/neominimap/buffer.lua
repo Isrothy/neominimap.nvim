@@ -151,7 +151,7 @@ M.create_minimap_buffer = function(bufnr)
         undolevels = -1,
     }
 
-    config.bufopt( bufopt, bufnr)
+    config.bufopt(bufopt, bufnr)
 
     for k, v in pairs(bufopt) do
         vim.bo[mbufnr][k] = v
