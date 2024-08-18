@@ -63,28 +63,28 @@ end
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     on = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command on triggered.", vim.log.levels.INFO)
             open_minimap()
         end,
     },
     off = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command off triggered.", vim.log.levels.INFO)
             close_minimap()
         end,
     },
     toggle = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command toggle triggered.", vim.log.levels.INFO)
             toggle_minimap()
         end,
     },
     refresh = {
-        impl = function(args, opts)
+        impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command refresh triggered.", vim.log.levels.INFO)
             refresh_minimap()
