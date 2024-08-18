@@ -257,7 +257,7 @@ end
 --- Remove a buffer that is attached to it
 --- @param bufnr integer
 --- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
-M.refresh_minimap_buffer = function(bufnr)
+local internal_refresh_minimap_buffer = function(bufnr)
     local logger = require("neominimap.logger")
     logger.log(string.format("Attempting to refresh minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
@@ -279,6 +279,20 @@ M.refresh_minimap_buffer = function(bufnr)
 
     logger.log(string.format("Minimap for buffer %d refreshed successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr
+end
+
+--- @param bufnr integer
+--- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
+M.refresh_minimap_buffer = function(bufnr)
+    require("neominimap.util").finally(internal_refresh_minimap_buffer, function()
+        api.nvim_exec_autocmds("User", {
+            group = "Neominimap",
+            pattern = "MinimapBufferRefreshed",
+            data = {
+                buf = bufnr,
+            },
+        })
+    end)(bufnr)
 end
 
 --- Remove the minimap attached to the given buffer

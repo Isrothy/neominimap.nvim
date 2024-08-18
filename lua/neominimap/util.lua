@@ -11,6 +11,22 @@ M.get_visible_buffers = function()
     return visible_buffers
 end
 
+--- @param bufnr integer
+--- @return integer[]
+M.get_attached_window = function(bufnr)
+    local win_list = api.nvim_list_wins()
+
+    ---@type integer[]
+    local attachec_windod = {}
+    for _, w in ipairs(win_list) do
+        if api.nvim_win_get_buf(w) == bufnr then
+            attachec_windod[#attachec_windod + 1] = w
+        end
+    end
+
+    return attachec_windod
+end
+
 --- @param f fun(bufnr: integer)
 M.for_all_buffer = function(f)
     local buffer_list = api.nvim_list_bufs()
@@ -76,6 +92,19 @@ M.debounce = function(f, delay)
         vim.uv.timer_start(timer, delay, 0, function()
             f(unpack(args))
         end)
+    end
+end
+
+--- @generic F: function
+--- @param f F
+--- @param callback fun()
+--- @return F
+M.finally = function(f, callback)
+    return function(...)
+        local args = { ... }
+        local ret = f(unpack(args))
+        callback()
+        return ret
     end
 end
 
