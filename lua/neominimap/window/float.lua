@@ -300,7 +300,6 @@ M.reset_mwindow_cursor_line = function(winid)
     local rowCol = vim.api.nvim_win_get_cursor(winid)
     local row = rowCol[1]
     local col = rowCol[2] + 1
-    logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
     if config.fold.enabled then
         local bufnr = api.nvim_win_get_buf(winid)
         local fold = require("neominimap.map.fold")
@@ -318,7 +317,6 @@ M.reset_mwindow_cursor_line = function(winid)
     local line_cnt = api.nvim_buf_line_count(mbufnr)
     if row <= line_cnt then
         local util = require("neominimap.util")
-        logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(mwinid, { row, 0 })
     end
     logger.log(string.format("Cursor line reset for minimap of window %d", winid), vim.log.levels.TRACE)
@@ -339,7 +337,6 @@ M.reset_parent_window_cursor_line = function(mwinid)
     local rowCol = vim.api.nvim_win_get_cursor(mwinid)
     local row = rowCol[1]
     local col = rowCol[2] + 1
-    logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
     local coord = require("neominimap.map.coord")
     row, col = coord.mcodepoint_to_codepoint(row, col)
     if config.fold.enabled then
@@ -355,7 +352,6 @@ M.reset_parent_window_cursor_line = function(mwinid)
     local line_cnt = api.nvim_buf_line_count(bufnr)
     if row <= line_cnt then
         local util = require("neominimap.util")
-        logger.log(string.format("row: %d, col: %d", row, col), vim.log.levels.DEBUG)
         vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(winid, { row, 0 })
     end
     logger.log(string.format("Cursor line reset for parent of minimap window %d", mwinid), vim.log.levels.TRACE)

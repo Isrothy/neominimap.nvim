@@ -8,13 +8,10 @@ local M = {}
 local function open_minimap()
     local var = require("neominimap.variables")
     local logger = require("neominimap.logger")
-    logger.log("var.g.enabled = " .. tostring(var.g.enabled), vim.log.levels.DEBUG)
     if var.g.enabled then
         return
     end
-    var.set_var("enabled", true)
-    -- var.g.enabled = true
-    logger.log("var.g.enabled = " .. tostring(var.get_var("enabled")), vim.log.levels.DEBUG)
+    var.g.enabled = true
     require("neominimap.autocmds").create_autocmds()
 
     logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
