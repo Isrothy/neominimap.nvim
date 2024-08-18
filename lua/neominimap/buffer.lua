@@ -165,14 +165,16 @@ M.create_minimap_buffer = function(bufnr)
         vim.bo[mbufnr][k] = v
     end
 
-    vim.b[bufnr].render = util.debounce(
+    local var = require("neominimap.variables")
+
+    var.b[bufnr].render = util.debounce(
         vim.schedule_wrap(function()
             M.internal_render(bufnr)
         end),
         config.delay
     )
 
-    vim.b[bufnr].update_diagnostic = util.debounce(
+    var.b[bufnr].update_diagnostic = util.debounce(
         vim.schedule_wrap(function()
             logger.log(string.format("Generating diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
             local mbufnr_ = M.get_minimap_bufnr(bufnr)
@@ -191,7 +193,7 @@ M.create_minimap_buffer = function(bufnr)
         config.delay
     )
 
-    vim.b[bufnr].update_git = util.debounce(
+    var.b[bufnr].update_git = util.debounce(
         vim.schedule_wrap(function()
             logger.log(string.format("Generating gitsigns for buffer %d", bufnr), vim.log.levels.TRACE)
             local mbufnr_ = M.get_minimap_bufnr(bufnr)
@@ -210,7 +212,7 @@ M.create_minimap_buffer = function(bufnr)
         config.delay
     )
 
-    vim.b[bufnr].update_search = util.debounce(
+    var.b[bufnr].update_search = util.debounce(
         vim.schedule_wrap(function()
             logger.log(string.format("Generating search for buffer %d", bufnr), vim.log.levels.TRACE)
             local mbufnr_ = M.get_minimap_bufnr(bufnr)
@@ -243,29 +245,33 @@ end
 
 ---@param bufnr integer
 M.render = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].render then
-        vim.b[bufnr].render()
+    local var = require("neominimap.variables")
+    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
+        var.b[bufnr].render()
     end
 end
 
 ---@param bufnr integer
 M.update_diagnostics = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_diagnostic then
-        vim.b[bufnr].update_diagnostic()
+    local var = require("neominimap.variables")
+    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
+        var.b[bufnr].update_diagnostic()
     end
 end
 
 ---@param bufnr integer
 M.update_git = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_git then
-        vim.b[bufnr].update_git()
+    local var = require("neominimap.variables")
+    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
+        var.b[bufnr].update_git()
     end
 end
 
 ---@param bufnr integer
 M.update_search = function(bufnr)
-    if api.nvim_buf_is_valid(bufnr) and not vim.b[bufnr].neominimap_disabled and vim.b[bufnr].update_search then
-        vim.b[bufnr].update_search()
+    local var = require("neominimap.variables")
+    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
+        var.b[bufnr].update_search()
     end
 end
 
@@ -322,8 +328,6 @@ M.delete_minimap_buffer = function(bufnr)
         vim.log.levels.TRACE
     )
     M.set_minimap_bufnr(bufnr, nil)
-    vim.b[bufnr].update_diagnostic = nil
-    vim.b[bufnr].render = nil
     api.nvim_exec_autocmds("User", {
         group = "Neominimap",
         pattern = "MinimapBufferDeleted",
