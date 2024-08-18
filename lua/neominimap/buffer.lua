@@ -111,7 +111,7 @@ M.internal_render = function(bufnr)
 
     vim.api.nvim_exec_autocmds("User", {
         group = "Neominimap",
-        pattern = "BufferTextUpdated",
+        pattern = "MinimapBufferTextUpdated",
         data = {
             buf = bufnr,
         },
@@ -222,6 +222,14 @@ M.create_minimap_buffer = function(bufnr)
     )
 
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
+
+    api.nvim_exec_autocmds("User", {
+        group = "Neominimap",
+        pattern = "MinimapBufferCreated",
+        data = {
+            buf = bufnr,
+        },
+    })
     return mbufnr
 end
 
@@ -257,7 +265,7 @@ end
 --- Remove a buffer that is attached to it
 --- @param bufnr integer
 --- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
-local internal_refresh_minimap_buffer = function(bufnr)
+M.refresh_minimap_buffer = function(bufnr)
     local logger = require("neominimap.logger")
     logger.log(string.format("Attempting to refresh minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     if not api.nvim_buf_is_valid(bufnr) or not M.should_generate_minimap(bufnr) then
@@ -279,20 +287,6 @@ local internal_refresh_minimap_buffer = function(bufnr)
 
     logger.log(string.format("Minimap for buffer %d refreshed successfully", bufnr), vim.log.levels.TRACE)
     return mbufnr
-end
-
---- @param bufnr integer
---- @return integer? mbufnr bufnr of the minimap buffer if created, nil otherwise
-M.refresh_minimap_buffer = function(bufnr)
-    require("neominimap.util").finally(internal_refresh_minimap_buffer, function()
-        api.nvim_exec_autocmds("User", {
-            group = "Neominimap",
-            pattern = "MinimapBufferRefreshed",
-            data = {
-                buf = bufnr,
-            },
-        })
-    end)(bufnr)
 end
 
 --- Remove the minimap attached to the given buffer
@@ -322,6 +316,13 @@ M.delete_minimap_buffer = function(bufnr)
     M.set_minimap_bufnr(bufnr, nil)
     vim.b[bufnr].update_diagnostic = nil
     vim.b[bufnr].render = nil
+    api.nvim_exec_autocmds("User", {
+        group = "Neominimap",
+        pattern = "MinimapBufferDeleted",
+        data = {
+            buf = bufnr,
+        },
+    })
     return bufnr
 end
 
