@@ -1,21 +1,12 @@
 local api = vim.api
 
-local M = {}
+---@class Neominimap.Command.Buf.Handler
+---@field bufRefresh fun(winid:integer)
+---@field bufOn fun(mwinid:integer)
+---@field bufOff fun(winid:integer)
+---@field bufToggle fun(winid:integer)
 
----@param bufnr integer
-local refresh_attached_windows = function(bufnr)
-    local win_list = api.nvim_list_wins()
-    local updated_windows = {}
-    for _, w in ipairs(win_list) do
-        if api.nvim_win_get_buf(w) == bufnr then
-            updated_windows[#updated_windows + 1] = w
-        end
-    end
-    for _, winid in ipairs(updated_windows) do
-        local window = require("neominimap.window")
-        window.refresh_minimap_window(winid)
-    end
-end
+local M = {}
 
 ---@param args string[]
 ---@return integer[]
@@ -44,7 +35,6 @@ local refresh = function(bufnr)
     vim.schedule(function()
         local buffer = require("neominimap.buffer")
         buffer.refresh_minimap_buffer(bufnr)
-        refresh_attached_windows(bufnr)
     end)
 end
 

@@ -3,12 +3,11 @@ local api = vim.api
 local M = {}
 
 local config = require("neominimap.config").get()
-local gid = api.nvim_create_augroup("Neominimap", { clear = true })
 
 M.create_autocmds = function()
     local logger = require("neominimap.logger")
     api.nvim_create_autocmd({ "BufNew", "BufRead" }, {
-        group = gid,
+        group = "Neominimap",
         callback = function(args)
             logger.log(
                 string.format("BufNew or BufRead event triggered for buffer %d.", args.buf),
@@ -25,7 +24,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("BufUnload", {
-        group = gid,
+        group = "Neominimap",
         callback = function(args)
             logger.log(string.format("BufUnload event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
             local bufnr = tonumber(args.buf)
@@ -39,7 +38,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
-        group = gid,
+        group = "Neominimap",
         callback = function(args)
             logger.log(string.format("TextChanged event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
             local bufnr = tonumber(args.buf)
@@ -58,7 +57,7 @@ M.create_autocmds = function()
 
     if config.click.enabled and not config.click.auto_switch_focus then
         api.nvim_create_autocmd("WinEnter", {
-            group = gid,
+            group = "Neominimap",
             callback = function()
                 local winid = api.nvim_get_current_win()
                 logger.log(string.format("WinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
@@ -76,7 +75,7 @@ M.create_autocmds = function()
 
     if config.diagnostic.enabled then
         api.nvim_create_autocmd("DiagnosticChanged", {
-            group = gid,
+            group = "Neominimap",
             callback = function()
                 logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
                 vim.schedule(function()
@@ -111,7 +110,7 @@ M.create_autocmds = function()
     end
 
     api.nvim_create_autocmd("BufWinEnter", {
-        group = gid,
+        group = "Neominimap",
         callback = function()
             local winid = api.nvim_get_current_win()
             logger.log(string.format("BufWinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
@@ -134,7 +133,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("WinNew", {
-        group = gid,
+        group = "Neominimap",
         callback = function()
             local winid = api.nvim_get_current_win()
             logger.log(string.format("WinNew event triggered for window %d.", winid), vim.log.levels.TRACE)
@@ -147,7 +146,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("WinClosed", {
-        group = gid,
+        group = "Neominimap",
         callback = function(args)
             logger.log(
                 string.format("WinClosed event triggered for window %d.", tonumber(args.match)),
@@ -164,7 +163,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("TabEnter", {
-        group = gid,
+        group = "Neominimap",
         callback = vim.schedule_wrap(function()
             local tid = api.nvim_get_current_tabpage()
             local window = require("neominimap.window")
@@ -186,7 +185,7 @@ M.create_autocmds = function()
         end),
     })
     api.nvim_create_autocmd("WinResized", {
-        group = gid,
+        group = "Neominimap",
         callback = function()
             logger.log("WinResized event triggered.", vim.log.levels.TRACE)
             local win_list = vim.deepcopy(vim.v.event.windows)
@@ -202,7 +201,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("WinScrolled", {
-        group = gid,
+        group = "Neominimap",
         callback = function()
             logger.log("WinScrolled event triggered.", vim.log.levels.TRACE)
             local win_list = {}
@@ -223,7 +222,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        group = gid,
+        group = "Neominimap",
         callback = function()
             logger.log("CursorMoved event triggered.", vim.log.levels.TRACE)
             local winid = api.nvim_get_current_win()
@@ -251,10 +250,10 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("User", {
-        group = gid,
+        group = "Neominimap",
         pattern = "BufferTextUpdated",
         callback = function(args)
-            logger.log("User Neominimap event triggered.", vim.log.levels.TRACE)
+            logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)
             local window = require("neominimap.window")
             local buffer = require("neominimap.buffer")
             local win_list = window.list_windows()
@@ -291,10 +290,25 @@ M.create_autocmds = function()
             end)
         end,
     })
+    api.nvim_create_autocmd("User", {
+        group = "Neominimap",
+        pattern = "MinimapBufferRefreshed",
+        callback = function(args)
+            logger.log("User Neominimap event triggered. patter: MinimapBufferRefreshed", vim.log.levels.TRACE)
+            local window = require("neominimap.window")
+            local bufnr = args.data.buf
+            local win_list = require("neominimap.util").get_attached_window(bufnr)
+            for _, winid in ipairs(win_list) do
+                logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
+                window.refresh_minimap_window(winid)
+                logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
+            end
+        end,
+    })
     if config.search.enabled then
         require("neominimap.autocmds.search")
         api.nvim_create_autocmd("User", {
-            group = gid,
+            group = "Neominimap",
             pattern = "Search",
             callback = function()
                 logger.log("Search event triggered", vim.log.levels.TRACE)
@@ -314,7 +328,7 @@ M.create_autocmds = function()
 end
 
 M.clear_autocmds = function()
-    api.nvim_clear_autocmds({ group = gid })
+    api.nvim_clear_autocmds({ group = "Neominimap" })
 end
 
 return M
