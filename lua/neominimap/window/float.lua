@@ -521,9 +521,9 @@ M.focus_cmds = {
 
 ---@type Neominimap.Command.Global.Handler
 M.global_cmds = {
-    on = vim.schedule_wrap(M.refresh_all_minimap_windows),
-    off = vim.schedule_wrap(M.refresh_all_minimap_windows),
-    refresh = vim.schedule_wrap(M.refresh_all_minimap_windows),
+    ["on"] = vim.schedule_wrap(M.refresh_all_minimap_windows),
+    ["off"] = vim.schedule_wrap(M.refresh_all_minimap_windows),
+    ["refresh"] = vim.schedule_wrap(M.refresh_all_minimap_windows),
 }
 
 return M

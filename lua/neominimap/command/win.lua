@@ -60,7 +60,7 @@ end
 
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
-    winOn = {
+    ["winOn"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command winOn triggered.", vim.log.levels.TRACE)
@@ -69,7 +69,7 @@ M.subcommand_tbl = {
             vim.tbl_map(winOn, win_list)
         end,
     },
-    winOff = {
+    ["winOff"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command winOff triggered.", vim.log.levels.TRACE)
@@ -78,7 +78,7 @@ M.subcommand_tbl = {
             vim.tbl_map(winOff, win_list)
         end,
     },
-    winToggle = {
+    ["winToggle"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command winToggle triggered.", vim.log.levels.TRACE)
@@ -87,7 +87,7 @@ M.subcommand_tbl = {
             vim.tbl_map(winToggle, win_list)
         end,
     },
-    winRefresh = {
+    ["winRefresh"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command winRefresh triggered.", vim.log.levels.TRACE)
