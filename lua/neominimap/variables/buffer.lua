@@ -1,16 +1,20 @@
 local M = {}
 
 ---@class Neominimap.Variables.Buffer
-local b_default = {}
+local b_default = {
+    enabled = true, ---@type boolean Enable minimap for this buffer
+}
 
 ---@param buffer integer
 ---@param name string
 ---@param value any
 M.buf_set_var = function(buffer, name, value)
-    if not vim.b[buffer].neominimap_var then
+    local tbl = vim.b[buffer].neominimap_var
+    if not tbl then
         vim.b[buffer].neominimap_var = vim.deepcopy(b_default)
     end
-    vim.b[buffer].neominimap_var[name] = value
+    tbl[name] = value
+    vim.b[buffer].neominimap_var = tbl
 end
 
 ---@param buffer integer

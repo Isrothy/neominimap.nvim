@@ -135,17 +135,18 @@ end
 ---@return boolean
 M.should_show_minimap = function(winid)
     local logger = require("neominimap.logger")
+    local var = require("neominimap.variables")
     if not api.nvim_win_is_valid(winid) then
         logger.log(string.format("Window %d is not valid", winid), vim.log.levels.WARN)
         return false
     end
 
-    if not vim.g.neominimap_enabled then
+    if not var.g.enabled then
         logger.log("Minimap is disabled. Skipping generation of minimap", vim.log.levels.TRACE)
         return false
     end
 
-    if vim.w[winid].neominimap_disabled then
+    if not var.w[winid].enabled then
         logger.log(
             string.format("Window %d is not enabled. Skipping generation of minimap", winid),
             vim.log.levels.TRACE

@@ -31,22 +31,25 @@ end
 
 ---@param bufnr integer
 local function bufOn(bufnr)
-    vim.b[bufnr].neominimap_disabled = false
+    local var = require("neominimap.variables")
+    var.b[bufnr].enabled = true
     require("neominimap.buffer").buf_cmds.bufOn(bufnr)
 end
 
 ---@param bufnr integer
 local function bufOff(bufnr)
-    vim.b[bufnr].neominimap_disabled = true
+    local var = require("neominimap.variables")
+    var.b[bufnr].enabled = false
     require("neominimap.buffer").buf_cmds.bufOff(bufnr)
 end
 
 ---@param bufnr integer
 local function bufToggle(bufnr)
-    if vim.b[bufnr].neominimap_disabled then
-        bufOn(bufnr)
-    else
+    local var = require("neominimap.variables")
+    if var.b[bufnr].enabled then
         bufOff(bufnr)
+    else
+        bufOn(bufnr)
     end
 end
 

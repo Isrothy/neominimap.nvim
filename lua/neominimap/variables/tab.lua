@@ -7,10 +7,12 @@ local t_default = {}
 ---@param name string
 ---@param value any
 M.tab_set_var = function(tab, name, value)
-    if not vim.t[tab].neominimap_var then
-        vim.t[tab].neominimap_var = {}
+    local tbl = vim.t[tab].neominimap_var
+    if not tbl then
+        tbl = vim.deepcopy(t_default)
     end
-    vim.t[tab].neominimap_var[name] = value
+    tbl[name] = value
+    vim.t[tab].neominimap_var = tbl
 end
 
 ---@param tab integer

@@ -1,16 +1,20 @@
 local M = {}
 
 ---@class Neominimap.Variables.Window
-local w_default = {}
+local w_default = {
+    enabled = true,
+}
 
 ---@param window integer
 ---@param name string
 ---@param value any
 M.win_set_var = function(window, name, value)
-    if not vim.w[window].neominimap_var then
-        vim.w[window].neominimap_var = {}
+    local tbl = vim.w[window].neominimap_var
+    if not tbl then
+        tbl = vim.deepcopy(w_default)
     end
-    vim.w[window].neominimap_var[name] = value
+    tbl[name] = value
+    vim.w[window].neominimap_var = tbl
 end
 
 ---@param window integer
@@ -18,7 +22,7 @@ end
 ---@return any
 M.win_get_var = function(window, name)
     if not vim.w[window].neominimap_var then
-        vim.w[window].neominimap_var = {}
+        vim.w[window].neominimap_var = vim.deepcopy(w_default)
     end
     return vim.w[window].neominimap_var[name]
 end
