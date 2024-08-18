@@ -255,16 +255,7 @@ M.create_minimap_window = function(winid)
         list = false,
         fillchars = "eob: ",
     }
-
-    local user_opt = type(config.winopt) == "function" and config.winopt(winid) or config.winopt
-    if type(user_opt) == "table" then
-        winopt = vim.tbl_deep_extend("force", winopt, user_opt)
-    else
-        logger.log_and_notify(
-            string.format("Invalid type for winopt: expected table, got %s", type(user_opt)),
-            vim.log.levels.ERROR
-        )
-    end
+    config.winopt( winopt, winid)
     for k, v in pairs(winopt) do
         vim.wo[mwinid][k] = v
     end
