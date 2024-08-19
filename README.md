@@ -245,6 +245,7 @@ The default `winopt` is:
     cursorline = true,
     spell = false,
     list = false,
+    fillchars = "eob: ",
 }
 ```
 
