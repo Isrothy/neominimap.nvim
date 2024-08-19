@@ -28,26 +28,26 @@ M.get_attached_window = function(bufnr)
 end
 
 --- @param f fun(bufnr: integer)
-M.for_all_buffer = function(f)
+M.for_all_buffers = function(f)
     local buffer_list = api.nvim_list_bufs()
     vim.tbl_map(f, buffer_list)
 end
 
 --- @param f fun(winid: integer)
-M.for_all_window = function(f)
+M.for_all_windows = function(f)
     local win_list = api.nvim_list_wins()
     vim.tbl_map(f, win_list)
 end
 
 --- @param tabid integer
 --- @param f fun(winid: integer)
-M.for_all_window_in_tab = function(f, tabid)
+M.for_all_windows_in_tab = function(f, tabid)
     local win_list = api.nvim_tabpage_list_wins(tabid)
     vim.tbl_map(f, win_list)
 end
 
 --- @param f fun(tabid: integer)
-M.for_all_tab = function(f)
+M.for_all_tabs = function(f)
     local tab_list = api.nvim_list_tabpages()
     vim.tbl_map(f, tab_list)
 end
