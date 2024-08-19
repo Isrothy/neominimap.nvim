@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.3](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.2...v2.12.3) (2024-08-19)
+
+
+### Bug Fixes
+
+* make eob character unseen in neominimap ([f3e9c52](https://github.com/Isrothy/neominimap.nvim/commit/f3e9c52bd6844efdd76f475e8cfd08e02ac18095))
+
 ## [2.12.2](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.1...v2.12.2) (2024-08-17)
 
 
