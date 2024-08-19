@@ -99,8 +99,6 @@ M.toggleFocus = function(args, opts)
 end
 
 M.setup = function()
-    local gid = api.nvim_create_augroup("Neominimap", { clear = true })
-
     api.nvim_create_user_command("Neominimap", function(opts)
         require("neominimap.command").commands(opts)
     end, {
@@ -111,8 +109,9 @@ M.setup = function()
         end,
         bang = false,
     })
+    require("neominimap.autocmds")
     api.nvim_create_autocmd("VimEnter", {
-        group = gid,
+        group = "Neominimap",
         callback = vim.schedule_wrap(function()
             local logger = require("neominimap.logger")
             local config = require("neominimap.config").get()
