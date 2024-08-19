@@ -170,6 +170,7 @@ M.create_minimap_window = function(winid)
         cursorline = true,
         spell = false,
         list = false,
+        fillchars = "eob: ",
     }
     config.winopt(winopt, winid)
     for k, v in pairs(winopt) do
