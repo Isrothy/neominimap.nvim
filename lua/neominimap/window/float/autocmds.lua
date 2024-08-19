@@ -1,5 +1,5 @@
 local api = vim.api
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 local M = {}
 
 M.create_autocmds = function()

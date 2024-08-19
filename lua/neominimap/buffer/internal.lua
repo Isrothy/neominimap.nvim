@@ -1,7 +1,7 @@
 local M = {}
 
 local api = vim.api
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 ---@param bufnr integer
 ---@return boolean

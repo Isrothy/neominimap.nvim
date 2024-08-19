@@ -1,7 +1,7 @@
 local M = {}
 
 local api = vim.api
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 --- The height of the minimap, excluding the border
 ---@param winid integer

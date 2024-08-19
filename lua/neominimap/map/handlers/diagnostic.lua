@@ -2,7 +2,7 @@ local M = {}
 
 local api = vim.api
 local diagnostic = vim.diagnostic
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 M.namespace = api.nvim_create_namespace("neominimap_diagnostic")
 

@@ -114,7 +114,7 @@ M.setup = function()
         group = "Neominimap",
         callback = vim.schedule_wrap(function()
             local logger = require("neominimap.logger")
-            local config = require("neominimap.config").get()
+            local config = require("neominimap.config")
             logger.log("VimEnter event triggered. Checking if minimap should auto-enable.", vim.log.levels.TRACE)
             if config.auto_enable then
                 M.on({}, {})

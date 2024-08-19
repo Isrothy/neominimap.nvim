@@ -1,7 +1,7 @@
 local M = {}
 
 local api = vim.api
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 local create_git_autocmds = function()
     api.nvim_create_autocmd("User", {

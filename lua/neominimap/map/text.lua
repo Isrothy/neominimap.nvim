@@ -1,7 +1,7 @@
 local M = {}
 
 local bit = require("bit")
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 ---Converts a byte index to its UTF-8 index
 ---@param byte_index integer
@@ -78,7 +78,7 @@ end
 --- @return string[]
 M.gen = function(lines, tabwidth)
     local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
-    local width = config[config.layout].minimap_width
+    local width = config:get_minimap_width()
 
     local map = {}
     for i = 1, height, 1 do

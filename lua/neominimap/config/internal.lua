@@ -1,9 +1,7 @@
-local M = {}
-
 ---@alias Neominimap.Config.LayoutType "split" | "float"
 
 ---@class Neominimap.Internal.Config
-M.default_config = {
+local M = {
     -- Enable the plugin by default
     auto_enable = true, ---@type boolean
 
@@ -135,5 +133,10 @@ M.default_config = {
     ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
     bufopt = function(opt, bufnr) end,
 }
+
+---@return integer
+function M:get_minimap_width()
+    return self[self.layout].minimap_width
+end
 
 return M

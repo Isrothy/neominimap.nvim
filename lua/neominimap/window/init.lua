@@ -1,4 +1,4 @@
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 local api = vim.api
 
