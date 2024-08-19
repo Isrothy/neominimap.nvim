@@ -444,7 +444,7 @@ end
 M.refresh_minimaps_in_tab = function(tabid)
     local logger = require("neominimap.logger")
     logger.log(string.format("Refreshing all minimaps in tab %d", tabid), vim.log.levels.TRACE)
-    require("neominimap.util").for_all_window_in_tab(M.refresh_minimap_window, tabid)
+    require("neominimap.util").for_all_windows_in_tab(M.refresh_minimap_window, tabid)
     logger.log(string.format("All minimaps in tab %d refreshed", tabid), vim.log.levels.TRACE)
 end
 
@@ -453,7 +453,7 @@ end
 M.close_minimap_in_tab = function(tabid)
     local logger = require("neominimap.logger")
     logger.log(string.format("Closing all minimaps in tab %d", tabid), vim.log.levels.TRACE)
-    require("neominimap.util").for_all_window_in_tab(M.close_minimap_window, tabid)
+    require("neominimap.util").for_all_windows_in_tab(M.close_minimap_window, tabid)
     logger.log(string.format("All minimaps in tab %d closed", tabid), vim.log.levels.TRACE)
 end
 
@@ -461,7 +461,7 @@ end
 M.refresh_all_minimap_windows = function()
     local logger = require("neominimap.logger")
     logger.log("Refreshing all minimap windows", vim.log.levels.TRACE)
-    require("neominimap.util").for_all_window(M.refresh_minimap_window)
+    require("neominimap.util").for_all_windows(M.refresh_minimap_window)
     logger.log("All minimap windows refreshed", vim.log.levels.TRACE)
 end
 
@@ -469,7 +469,7 @@ end
 M.close_all_minimap_windows = function()
     local logger = require("neominimap.logger")
     logger.log("Closing all minimap windows", vim.log.levels.TRACE)
-    require("neominimap.util").for_all_window(M.close_minimap_window)
+    require("neominimap.util").for_all_windows(M.close_minimap_window)
     logger.log("All minimap windows closed", vim.log.levels.TRACE)
 end
 

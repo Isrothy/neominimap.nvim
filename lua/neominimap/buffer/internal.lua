@@ -318,21 +318,21 @@ end
 M.update_all_diagnostics = function()
     local logger = require("neominimap.logger")
     logger.log("Updating all diagnostics", vim.log.levels.TRACE)
-    require("neominimap.util").for_all_buffer(M.update_diagnostics)
+    require("neominimap.util").for_all_buffers(M.update_diagnostics)
     logger.log("All diagnostics updated", vim.log.levels.TRACE)
 end
 
 M.refresh_all_minimap_buffers = function()
     local logger = require("neominimap.logger")
     logger.log("Refreshing all minimap buffers", vim.log.levels.TRACE)
-    require("neominimap.util").for_all_buffer(M.refresh_minimap_buffer)
+    require("neominimap.util").for_all_buffers(M.refresh_minimap_buffer)
     logger.log("All minimap buffers refreshed", vim.log.levels.TRACE)
 end
 
 M.delete_all_minimap_buffers = function()
     local logger = require("neominimap.logger")
     logger.log("Wiping out all minimap buffers", vim.log.levels.TRACE)
-    require("neominimap.util").for_all_buffer(M.delete_minimap_buffer)
+    require("neominimap.util").for_all_buffers(M.delete_minimap_buffer)
     logger.log("All minimap buffers wiped out", vim.log.levels.TRACE)
 end
 
