@@ -8,11 +8,13 @@ local config = require("neominimap.config").get()
 ---@return integer
 local get_minimap_height = function(winid)
     local win_util = require("neominimap.window.util")
-    local minimap_window_height = win_util.win_get_true_height(winid) - config.margin.top - config.margin.bottom
-    if config.max_minimap_height then
-        minimap_window_height = math.min(minimap_window_height, config.max_minimap_height)
+    local minimap_window_height = win_util.win_get_true_height(winid)
+        - config.float.margin.top
+        - config.float.margin.bottom
+    if config.float.max_minimap_height then
+        minimap_window_height = math.min(minimap_window_height, config.float.max_minimap_height)
     end
-    local border = config.window_border
+    local border = config.float.window_border
     if type(border) == "string" then
         if border == "none" then
             return minimap_window_height
@@ -93,7 +95,7 @@ M.should_show_minimap = function(winid)
         return false
     end
 
-    if 2 * config.minimap_width + 4 > api.nvim_win_get_width(winid) then
+    if 2 * config.float.minimap_width + 4 > api.nvim_win_get_width(winid) then
         logger.log(string.format("Width of window %d is too small", winid), vim.log.levels.TRACE)
         return false
     end
@@ -112,21 +114,21 @@ local get_window_config = function(winid)
     local logger = require("neominimap.logger")
     logger.log(string.format("Getting window configuration for window %d", winid), vim.log.levels.TRACE)
 
-    local col = api.nvim_win_get_width(winid) - config.margin.right
-    local row = config.margin.top
+    local col = api.nvim_win_get_width(winid) - config.float.margin.right
+    local row = config.float.margin.top
     local height = get_minimap_height(winid)
 
     return {
         relative = "win",
         win = winid,
         anchor = "NE",
-        width = config.minimap_width,
+        width = config.float.minimap_width,
         height = height,
         row = row,
         col = col,
         focusable = config.click.enabled,
-        zindex = config.z_index,
-        border = config.window_border,
+        zindex = config.float.z_index,
+        border = config.float.window_border,
     }
 end
 

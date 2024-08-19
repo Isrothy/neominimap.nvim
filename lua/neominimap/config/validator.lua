@@ -27,7 +27,7 @@ local function is_array_of(f)
 end
 
 ---@type fun(x:any):boolean
-local is_string_array = is_array_of(function(x)
+local is_array_of_strings = is_array_of(function(x)
     return type(x) == "string"
 end)
 
@@ -39,16 +39,29 @@ M.validate_config = function(cfg)
         log_level = { cfg.log_level, "number" },
         notification_level = { cfg.notification_level, "number" },
         log_path = { cfg.log_path, "string" },
-        exclude_filetypes = { cfg.exclude_filetypes, is_string_array, "list of string" },
-        exclude_buftypes = { cfg.exclude_buftypes, is_string_array, "list of string" },
+        exclude_filetypes = { cfg.exclude_filetypes, is_array_of_strings, "list of string" },
+        exclude_buftypes = { cfg.exclude_buftypes, is_array_of_strings, "list of string" },
         buf_filter = { cfg.buf_filter, "function" },
         win_filter = { cfg.win_filter, "function" },
-        max_minimap_height = { cfg.max_win_height, "number", true },
-        minimap_width = { cfg.minimap_width, "number" },
         x_multiplier = { cfg.x_multiplier, "number" },
         y_multiplier = { cfg.y_multiplier, "number" },
         sync_cursor = { cfg.sync_cursor, "boolean" },
         delay = { cfg.delay, "number" },
+
+        layout = { cfg.layout, "string" },
+
+        split = { cfg.split, "table" },
+        ["split.minimap_width"] = { cfg.split.minimap_width, "number" },
+
+        float = { cfg.float, "table" },
+        ["float.minimap_width"] = { cfg.float.minimap_width, "number" },
+        ["float.max_minimap_height"] = { cfg.float.max_minimap_height, "number", true },
+        ["float.margin"] = { cfg.float.margin, "table" },
+        ["float.margin.right"] = { cfg.float.margin.right, "number" },
+        ["float.margin.top"] = { cfg.float.margin.top, "number" },
+        ["float.margin.bottom"] = { cfg.float.margin.bottom, "number" },
+        ["float.z_index"] = { cfg.float.z_index, "number" },
+        ["float.window_border"] = { cfg.float.window_border, { "string", "table" } },
 
         diagnostic = { cfg.diagnostic, "table" },
         ["diagnostic.enabled"] = { cfg.diagnostic.enabled, "boolean" },
@@ -77,16 +90,9 @@ M.validate_config = function(cfg)
         ["treesitter.enabled"] = { cfg.treesitter.enabled, "boolean" },
         ["treesitter.priority"] = { cfg.treesitter.priority, "number" },
 
-        margin = { cfg.margin, "table" },
-        ["margin.right"] = { cfg.margin.right, "number" },
-        ["margin.top"] = { cfg.margin.top, "number" },
-        ["margin.bottom"] = { cfg.margin.bottom, "number" },
-
         fold = { cfg.fold, "table" },
         ["fold.enabled"] = { cfg.fold.enabled, "boolean" },
 
-        z_index = { cfg.z_index, "number" },
-        window_border = { cfg.window_border, { "string", "table" } },
         winopt = { cfg.winopt, { "table", "function" } },
         bufopt = { cfg.bufopt, { "table", "function" } },
     })

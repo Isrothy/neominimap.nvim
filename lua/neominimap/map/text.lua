@@ -78,7 +78,7 @@ end
 --- @return string[]
 M.gen = function(lines, tabwidth)
     local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
-    local width = config.minimap_width
+    local width = config[config.layout].minimap_width
 
     local map = {}
     for i = 1, height, 1 do

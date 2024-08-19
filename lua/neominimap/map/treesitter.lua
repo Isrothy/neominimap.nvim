@@ -121,7 +121,7 @@ M.extract_highlights = function(bufnr)
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local tabwidth = vim.bo[bufnr].tabstop
     local line_count = #lines
-    local minimap_width = config.minimap_width
+    local minimap_width = config[config.layout].minimap_width
     local minimap_height = math.ceil(line_count / 4 / config.y_multiplier)
 
     ---@type integer[][]

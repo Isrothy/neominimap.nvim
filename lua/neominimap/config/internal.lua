@@ -1,6 +1,8 @@
 local M = {}
 
----@class Neominimap.InternalConfig
+---@alias Neominimap.Config.LayoutType "split" | "float"
+
+---@class Neominimap.Internal.Config
 M.default_config = {
     -- Enable the plugin by default
     auto_enable = true, ---@type boolean
@@ -42,18 +44,37 @@ M.default_config = {
         return true
     end,
 
-    -- Maximum height for the minimap
-    -- If set to nil, there is no maximum height restriction
-    max_minimap_height = nil, ---@type integer?
-
-    -- Width of the minimap window
-    minimap_width = 20, ---@type integer
-
     -- How many columns a dot should span
     x_multiplier = 4, ---@type integer
 
     -- How many rows a dot should span
     y_multiplier = 1, ---@type integer
+
+    layout = "float", ---@type Neominimap.Config.LayoutType
+
+    split = {
+        minimap_width = 20, ---@type integer
+    },
+
+    float = {
+        minimap_width = 20, ---@type integer
+
+        --- If set to nil, there is no maximum height restriction
+        --- @type integer
+        max_minimap_height = nil,
+
+        margin = {
+            right = 0, ---@type integer
+            top = 0, ---@type integer
+            bottom = 0, ---@type integer
+        },
+        z_index = 1, ---@type integer
+
+        --- Border style of the floating window.
+        --- Accepts all usual border style options (e.g., "single", "double")
+        --- @type string | string[] | [string, string][]
+        window_border = "single",
+    },
 
     -- For performance issue, when text changed,
     -- minimap is refreshed after a certain delay
@@ -99,23 +120,10 @@ M.default_config = {
         priority = 200, ---@type integer
     },
 
-    margin = {
-        right = 0, ---@type integer
-        top = 0, ---@type integer
-        bottom = 0, ---@type integer
-    },
-
     fold = {
         -- Considering fold when rendering minimap
         enabled = true, ---@type boolean
     },
-
-    -- Z-index of the floating window
-    z_index = 1, ---@type integer
-
-    -- Border style of the floating window
-    -- Accepts all usual border style options (e.g., "single", "double")
-    window_border = "single", ---@type string | string[] | [string, string][]
 
     ---Overrite the default winopt
     ---@param opt table
