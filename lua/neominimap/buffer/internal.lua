@@ -144,6 +144,9 @@ M.create_minimap_buffer = function(bufnr)
 
     var.b[bufnr].render = util.debounce(
         vim.schedule_wrap(function()
+            if not api.nvim_buf_is_valid(bufnr) then
+                return
+            end
             M.internal_render(bufnr)
         end),
         config.delay
@@ -151,6 +154,9 @@ M.create_minimap_buffer = function(bufnr)
 
     var.b[bufnr].update_diagnostic = util.debounce(
         vim.schedule_wrap(function()
+            if not api.nvim_buf_is_valid(bufnr) then
+                return
+            end
             logger.log(string.format("Generating diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
             local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
             if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
@@ -170,6 +176,9 @@ M.create_minimap_buffer = function(bufnr)
 
     var.b[bufnr].update_git = util.debounce(
         vim.schedule_wrap(function()
+            if not api.nvim_buf_is_valid(bufnr) then
+                return
+            end
             logger.log(string.format("Generating gitsigns for buffer %d", bufnr), vim.log.levels.TRACE)
             local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
             if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
@@ -189,6 +198,9 @@ M.create_minimap_buffer = function(bufnr)
 
     var.b[bufnr].update_search = util.debounce(
         vim.schedule_wrap(function()
+            if not api.nvim_buf_is_valid(bufnr) then
+                return
+            end
             logger.log(string.format("Generating search for buffer %d", bufnr), vim.log.levels.TRACE)
             local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
             if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
