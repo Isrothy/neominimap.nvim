@@ -183,4 +183,46 @@ M.refresh_source = function()
     api.nvim_win_set_buf(mwinid, mbufnr)
 end
 
+---@return boolean
+M.reset_mwindow_cursor_line = function()
+    local logger = require("neominimap.logger")
+    local window_map = require("neominimap.window.float.window_map")
+    logger.log("Resetting cursor line for minimap of window %d", vim.log.levels.TRACE)
+    local tabid = api.nvim_get_current_tabpage()
+    local swinid = window_map.get_source_winid(tabid)
+    local mwinid = window_map.get_minimap_winid(tabid)
+    if not mwinid or not api.nvim_win_is_valid(mwinid) then
+        logger.log("Minimap window %d is not valid", vim.log.levels.TRACE)
+        return false
+    end
+    if not swinid or not api.nvim_win_is_valid(swinid) then
+        logger.log("Source window %d is not valid", vim.log.levels.TRACE)
+        return false
+    end
+    require("neominimap.window.util").sync_to_source(swinid, mwinid)
+    logger.log("Cursor line reset", vim.log.levels.TRACE)
+    return true
+end
+
+---@return boolean
+M.reset_parent_window_cursor_line = function()
+    local logger = require("neominimap.logger")
+    local window_map = require("neominimap.window.float.window_map")
+    logger.log("Resetting cursor line for minimap of window %d", vim.log.levels.TRACE)
+    local tabid = api.nvim_get_current_tabpage()
+    local swinid = window_map.get_source_winid(tabid)
+    local mwinid = window_map.get_minimap_winid(tabid)
+    if not mwinid or not api.nvim_win_is_valid(mwinid) then
+        logger.log("Minimap window %d is not valid", vim.log.levels.TRACE)
+        return false
+    end
+    if not swinid or not api.nvim_win_is_valid(swinid) then
+        logger.log("Source window %d is not valid", vim.log.levels.TRACE)
+        return false
+    end
+    require("neominimap.window.util").sync_to_minimap(swinid, mwinid)
+    logger.log(string.format("Cursor line reset for parent of minimap window %d", mwinid), vim.log.levels.TRACE)
+    return true
+end
+
 return M
