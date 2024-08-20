@@ -1,5 +1,6 @@
 local M = {}
 local api, fn = vim.api, vim.fn
+local config = require("neominimap.config")
 
 --- @param winid integer
 --- @return boolean
@@ -43,6 +44,30 @@ M.win_get_true_height = function(winid)
     end
 
     return winheight
+end
+
+local default_winopt = {
+    winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
+    wrap = false,
+    foldcolumn = "0",
+    signcolumn = "auto",
+    number = false,
+    relativenumber = false,
+    scrolloff = 99999, -- To center minimap
+    sidescrolloff = 0,
+    winblend = 0,
+    cursorline = true,
+    spell = false,
+    list = false,
+    fillchars = "eob: ",
+}
+
+---@param winid integer
+---@return table
+M.win_get_opt = function(winid)
+    local winopt = vim.deepcopy(default_winopt)
+    config.winopt(winopt, winid)
+    return winopt
 end
 
 return M

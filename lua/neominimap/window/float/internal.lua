@@ -157,22 +157,7 @@ M.create_minimap_window = function(winid)
     local window_map = require("neominimap.window.float.window_map")
     window_map.set_minimap_winid(winid, mwinid)
 
-    local winopt = {
-        winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
-        wrap = false,
-        foldcolumn = "0",
-        signcolumn = "auto",
-        number = false,
-        relativenumber = false,
-        scrolloff = 99999, -- To center minimap
-        sidescrolloff = 0,
-        winblend = 0,
-        cursorline = true,
-        spell = false,
-        list = false,
-        fillchars = "eob: ",
-    }
-    config.winopt(winopt, winid)
+    local winopt = require("neominimap.window.util").win_get_opt(mwinid)
     for k, v in pairs(winopt) do
         vim.wo[mwinid][k] = v
     end
