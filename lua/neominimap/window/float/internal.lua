@@ -157,7 +157,7 @@ M.create_minimap_window = function(winid)
     local window_map = require("neominimap.window.float.window_map")
     window_map.set_minimap_winid(winid, mwinid)
 
-    local winopt = require("neominimap.window.util").win_get_opt(mwinid)
+    local winopt = require("neominimap.window.util").get_winopt(winid)
     for k, v in pairs(winopt) do
         vim.wo[mwinid][k] = v
     end
