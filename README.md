@@ -248,13 +248,14 @@ The default `winopt` is:
     signcolumn = "auto",
     number = false,
     relativenumber = false,
-    scrolloff = 99999,
+    scrolloff = 99999, -- To center minimap
     sidescrolloff = 0,
     winblend = 0,
     cursorline = true,
     spell = false,
     list = false,
     fillchars = "eob: ",
+    winfixwidth = true,
 }
 ```
 

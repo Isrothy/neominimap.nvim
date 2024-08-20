@@ -60,6 +60,7 @@ local default_winopt = {
     spell = false,
     list = false,
     fillchars = "eob: ",
+    winfixwidth = true,
 }
 
 ---@param winid integer
