@@ -73,7 +73,7 @@ end
 
 ---@param swinid integer
 ---@param mwinid integer
-M.sync_source_with_minimap = function(swinid, mwinid)
+M.sync_to_minimap = function(swinid, mwinid)
     local logger = require("neominimap.logger")
     logger.log("Syncing source with minimap", vim.log.levels.TRACE)
     local bufnr = api.nvim_win_get_buf(swinid)
@@ -102,7 +102,7 @@ end
 
 ---@param swinid integer
 ---@param mwinid integer
-M.sync_minimap_with_source = function(swinid, mwinid)
+M.sync_to_source = function(swinid, mwinid)
     local logger = require("neominimap.logger")
     logger.log("Syncing minimap with source", vim.log.levels.TRACE)
     local rowCol = vim.api.nvim_win_get_cursor(swinid)

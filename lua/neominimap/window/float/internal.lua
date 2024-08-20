@@ -281,7 +281,7 @@ M.reset_mwindow_cursor_line = function(winid)
         logger.log(string.format("Minimap window is not valid for %d", winid), vim.log.levels.TRACE)
         return false
     end
-    require("neominimap.window.util").sync_minimap_with_source(winid, mwinid)
+    require("neominimap.window.util").sync_to_source(winid, mwinid)
     logger.log(string.format("Cursor line reset for minimap of window %d", winid), vim.log.levels.TRACE)
     return false
 end
@@ -297,7 +297,7 @@ M.reset_parent_window_cursor_line = function(mwinid)
         logger.log("Window not found", vim.log.levels.TRACE)
         return false
     end
-    require("neominimap.window.util").sync_source_with_minimap(winid, mwinid)
+    require("neominimap.window.util").sync_to_minimap(winid, mwinid)
     logger.log(string.format("Cursor line reset for parent of minimap window %d", mwinid), vim.log.levels.TRACE)
     return false
 end
