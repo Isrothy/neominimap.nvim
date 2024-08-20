@@ -52,11 +52,6 @@ M.should_show_minimap = function(winid)
         return false
     end
 
-    if 2 * config.float.minimap_width + 4 > api.nvim_win_get_width(winid) then
-        logger.log(string.format("Width of window %d is too small", winid), vim.log.levels.TRACE)
-        return false
-    end
-
     if not config.win_filter(winid) then
         logger.log(string.format("Window %d should not be shown due to win_filter", winid), vim.log.levels.TRACE)
         return false
@@ -222,6 +217,34 @@ M.reset_parent_window_cursor_line = function()
     end
     require("neominimap.window.util").sync_to_minimap(swinid, mwinid)
     logger.log(string.format("Cursor line reset for parent of minimap window %d", mwinid), vim.log.levels.TRACE)
+    return true
+end
+
+M.focus = function()
+    local logger = require("neominimap.logger")
+    logger.log("Focusing minimap", vim.log.levels.TRACE)
+    local tabid = api.nvim_get_current_tabpage()
+    local mwinid = require("neominimap.window.split.window_map").get_source_winid(tabid)
+    if not mwinid or not api.nvim_win_is_valid(mwinid) then
+        logger.log("Minimap window %d is not valid", vim.log.levels.TRACE)
+        return false
+    end
+    local util = require("neominimap.util")
+    util.noautocmd(api.nvim_set_current_win)(mwinid)
+    return true
+end
+
+M.unfocus = function()
+    local logger = require("neominimap.logger")
+    logger.log("Unfocusing minimap", vim.log.levels.TRACE)
+    local tabid = api.nvim_get_current_tabpage()
+    local mwinid = require("neominimap.window.split.window_map").get_minimap_winid(tabid)
+    if not mwinid or not api.nvim_win_is_valid(mwinid) then
+        logger.log("Minimap window %d is not valid", vim.log.levels.TRACE)
+        return false
+    end
+    local util = require("neominimap.util")
+    util.noautocmd(api.nvim_set_current_win)(mwinid)
     return true
 end
 
