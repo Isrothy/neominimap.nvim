@@ -1,5 +1,6 @@
 local M = {}
 
+---@type Neominimap.Command.Global.Handler
 M.global_cmds = {
     ["on"] = function() end,
     ["off"] = function() end,
