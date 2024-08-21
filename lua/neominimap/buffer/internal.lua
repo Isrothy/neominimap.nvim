@@ -83,7 +83,7 @@ M.internal_render = function(bufnr)
     local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
     if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
         logger.log(
-            string.format("Minimap buffer %d is not valid. Skipping generation of minimap.", mbufnr_),
+            "Minimap buffer is not valid. Skipping generation of minimap.",
             vim.log.levels.WARN
         )
         return
