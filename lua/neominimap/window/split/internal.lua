@@ -131,7 +131,7 @@ M.create_minimap_window_in_current_tab = function()
         return mbufnr
     end)()
     if not mbufnr then
-        local empty_buffer =  require("neominimap.buffer").get_empty_buffer()
+        local empty_buffer = require("neominimap.buffer").get_empty_buffer()
         util.noautocmd(api.nvim_win_set_buf)(mwinid, empty_buffer)
     else
         util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
@@ -305,7 +305,7 @@ M.focus = function()
     local logger = require("neominimap.logger")
     logger.log("Focusing minimap", vim.log.levels.TRACE)
     local tabid = api.nvim_get_current_tabpage()
-    local mwinid = require("neominimap.window.split.window_map").get_source_winid(tabid)
+    local mwinid = require("neominimap.window.split.window_map").get_minimap_winid(tabid)
     if not mwinid or not api.nvim_win_is_valid(mwinid) then
         logger.log("Minimap window %d is not valid", vim.log.levels.TRACE)
         return false
@@ -319,13 +319,13 @@ M.unfocus = function()
     local logger = require("neominimap.logger")
     logger.log("Unfocusing minimap", vim.log.levels.TRACE)
     local tabid = api.nvim_get_current_tabpage()
-    local mwinid = require("neominimap.window.split.window_map").get_minimap_winid(tabid)
-    if not mwinid or not api.nvim_win_is_valid(mwinid) then
-        logger.log("Minimap window %d is not valid", vim.log.levels.TRACE)
+    local swinid = require("neominimap.window.split.window_map").get_source_winid(tabid)
+    if not swinid or not api.nvim_win_is_valid(swinid) then
+        logger.log("Source window %d is not valid", vim.log.levels.TRACE)
         return false
     end
     local util = require("neominimap.util")
-    util.noautocmd(api.nvim_set_current_win)(mwinid)
+    util.noautocmd(api.nvim_set_current_win)(swinid)
     return true
 end
 
