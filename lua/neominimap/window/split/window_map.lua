@@ -15,6 +15,8 @@ local tabid_to_swinid = {}
 M.get_minimap_winid = function(tabid)
     local mwinid = tabid_to_mwinid[tabid]
     if mwinid ~= nil and not api.nvim_win_is_valid(mwinid) then
+        local logger = require("neominimap.logger")
+        -- logger.log("WTF??", vim.log.levels.DEBUG)
         tabid_to_mwinid[tabid] = nil
         return nil
     end

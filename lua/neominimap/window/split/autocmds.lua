@@ -89,13 +89,11 @@ M.create_autocmds = function()
                 "User Neominimap event triggered. patter: MinimapBufferCreated or MinimapBufferDeleted",
                 vim.log.levels.TRACE
             )
-            local bufnr = args.data.buf
-            local win_list = require("neominimap.util").get_attached_window(bufnr)
-            for _, winid in ipairs(win_list) do
-                logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
-                require("neominimap.window.split.internal").refresh_source_in_current_tab()
-                logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
-            end
+            vim.schedule(function()
+                logger.log(string.format("Refreshing source window."), vim.log.levels.TRACE)
+                require("neominimap.window.split.internal").refresh_current_tab()
+                logger.log(string.format("Source window refreshed."), vim.log.levels.TRACE)
+            end)
         end,
     })
 end

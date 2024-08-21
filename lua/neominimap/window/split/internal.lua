@@ -90,39 +90,57 @@ end
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
 M.create_minimap_window_in_current_tab = function()
     local tabid = api.nvim_get_current_tabpage()
-    local swinid = api.nvim_get_current_win()
+    local winid = api.nvim_get_current_win()
     local logger = require("neominimap.logger")
     logger.log(string.format("Attempting to create minimap window for tab %d", tabid), vim.log.levels.TRACE)
+    local util = require("neominimap.util")
 
     vim.cmd("noau vertical botright 1split")
     local mwinid = vim.api.nvim_get_current_win()
-    api.nvim_set_current_win(swinid)
+    util.noautocmd(api.nvim_set_current_win)(winid)
 
     local window_map = require("neominimap.window.split.window_map")
     window_map.set_minimap_winid(tabid, mwinid)
-    window_map.set_source_winid(tabid, swinid)
+    logger.log(string.format("Minimap window %d set for tab %d", mwinid, tabid), vim.log.levels.TRACE)
 
-    api.nvim_win_set_width(mwinid, config:get_minimap_width())
+    util.noautocmd(api.nvim_win_set_width)(mwinid, config:get_minimap_width())
+    logger.log(string.format("Minimap window %d created", mwinid), vim.log.levels.TRACE)
 
+    logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
     local winopt = require("neominimap.window.util").get_winopt(mwinid)
     for k, v in pairs(winopt) do
         vim.wo[mwinid][k] = v
     end
+    logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
 
     logger.log(string.format("Attaching a buffer to window %d", mwinid), vim.log.levels.TRACE)
-    local buffer = require("neominimap.buffer")
-    local sbufnr = api.nvim_win_get_buf(swinid)
-    local mbufnr = buffer.get_minimap_bufnr(sbufnr)
-    if mbufnr and api.nvim_buf_is_loaded(mbufnr) then
-        logger.log(string.format("Buffer %d already attached to window %d", mbufnr, mwinid), vim.log.levels.TRACE)
-        api.nvim_win_set_buf(mwinid, mbufnr)
+    local mbufnr = (function()
+        if not M.should_show_minimap_for_window(winid) then
+            logger.log(string.format("Window %d should not be shown", winid), vim.log.levels.TRACE)
+            return nil
+        end
+        logger.log(string.format("Window %d should be shown", winid), vim.log.levels.TRACE)
+        local buffer = require("neominimap.buffer")
+        local sbufnr = api.nvim_win_get_buf(winid)
+        local mbufnr = buffer.get_minimap_bufnr(sbufnr)
+        if mbufnr == nil or not api.nvim_buf_is_valid(mbufnr) then
+            logger.log("Buffer not available", vim.log.levels.TRACE)
+            return require("neominimap.buffer").get_empty_buffer()
+        end
+        logger.log(string.format("Buffer %d available", mbufnr), vim.log.levels.TRACE)
+        return mbufnr
+    end)()
+    if not mbufnr then
+        local empty_buffer =  require("neominimap.buffer").get_empty_buffer()
+        util.noautocmd(api.nvim_win_set_buf)(mwinid, empty_buffer)
     else
-        logger.log("Buffer not available", vim.log.levels.TRACE)
-        local empty_buffer = require("neominimap.buffer").get_empty_buffer()
-        api.nvim_win_set_buf(mwinid, empty_buffer)
+        util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
+        window_map.set_source_winid(tabid, winid)
     end
+    -- logger.log(tostring(tabid), vim.log.levels.DEBUG)
+    -- logger.log(tostring(window_map.get_minimap_winid(tabid)), vim.log.levels.DEBUG)
 
-    logger.log(string.format("Minimap window %d created", mwinid), vim.log.levels.TRACE)
+    logger.log(string.format("Minimap window %d created and set up.", mwinid), vim.log.levels.TRACE)
     return mwinid
 end
 
@@ -245,7 +263,7 @@ end
 M.reset_mwindow_cursor_line = function()
     local logger = require("neominimap.logger")
     local window_map = require("neominimap.window.split.window_map")
-    logger.log("Resetting cursor line for minimap of window %d", vim.log.levels.TRACE)
+    logger.log("Resetting cursor line for minimap", vim.log.levels.TRACE)
     local tabid = api.nvim_get_current_tabpage()
     local swinid = window_map.get_source_winid(tabid)
     local mwinid = window_map.get_minimap_winid(tabid)
@@ -266,7 +284,7 @@ end
 M.reset_parent_window_cursor_line = function()
     local logger = require("neominimap.logger")
     local window_map = require("neominimap.window.split.window_map")
-    logger.log("Resetting cursor line for minimap of window %d", vim.log.levels.TRACE)
+    logger.log("Resetting cursor line for source window", vim.log.levels.TRACE)
     local tabid = api.nvim_get_current_tabpage()
     local swinid = window_map.get_source_winid(tabid)
     local mwinid = window_map.get_minimap_winid(tabid)

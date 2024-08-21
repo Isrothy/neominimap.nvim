@@ -17,8 +17,9 @@ local get_bufopt = function(bufnr)
     return bufopt
 end
 
-M.empty_buffer = api.nvim_create_buf(false, true)
-api.nvim_buf_set_lines(M.empty_buffer, 0, -1, true, {})
+local noautocmd = require("neominimap.util").noautocmd
+M.empty_buffer = noautocmd(api.nvim_create_buf)(false, true)
+noautocmd(api.nvim_buf_set_lines)(M.empty_buffer, 0, -1, true, {})
 for k, v in pairs(default_bufopt) do
     vim.bo[M.empty_buffer][k] = v
 end
