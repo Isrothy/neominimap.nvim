@@ -10,6 +10,7 @@ api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true
 ---@field create_autocmds fun()
 ---@field global_cmds Neominimap.Command.Global.Handler
 ---@field win_cmds Neominimap.Command.Win.Handler
+---@field tab_cmds Neominimap.Command.Tab.Handler
 ---@field focus_cmds Neominimap.Command.Focus.Handler
 
 ---@type table<Neominimap.Config.LayoutType, Neominimap.Window>

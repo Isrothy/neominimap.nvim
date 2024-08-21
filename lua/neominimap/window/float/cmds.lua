@@ -8,11 +8,22 @@ local refresh_all = vim.schedule_wrap(function()
     require("neominimap.window.float.internal").refresh_all_minimap_windows()
 end)
 
+local refresh_all_in_tab = vim.schedule_wrap(function(tabid)
+    require("neominimap.window.float.internal").refresh_minimaps_in_tab(tabid)
+end)
+
 ---@type Neominimap.Command.Global.Handler
 M.global_cmds = {
     ["on"] = refresh_all,
     ["off"] = refresh_all,
     ["refresh"] = refresh_all,
+}
+
+---@type Neominimap.Command.Tab.Handler
+M.tab_cmds = {
+    ["tabRefresh"] = refresh_all_in_tab,
+    ["tabOn"] = refresh_all_in_tab,
+    ["tabOff"] = refresh_all_in_tab,
 }
 
 ---@type Neominimap.Command.Win.Handler

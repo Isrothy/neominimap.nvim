@@ -1,9 +1,9 @@
 local api = vim.api
 
 ---@class Neominimap.Command.Buf.Handler
----@field bufRefresh fun(winid:integer)
----@field bufOn fun(mwinid:integer)
----@field bufOff fun(winid:integer)
+---@field bufRefresh fun(bufnr:integer)
+---@field bufOn fun(bufnr:integer)
+---@field bufOff fun(bufnr:integer)
 
 local M = {}
 
