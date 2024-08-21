@@ -16,12 +16,12 @@ M.create_autocmds = function()
             end)
         end,
     })
-    api.nvim_create_autocmd("WinNew", {
+    api.nvim_create_autocmd({ "WinNew", "WinEnter" }, {
         group = "Neominimap",
         callback = function()
             local logger = require("neominimap.logger")
             local winid = api.nvim_get_current_win()
-            logger.log(string.format("WinNew event triggered for window %d.", winid), vim.log.levels.TRACE)
+            logger.log(string.format("WinNew or WinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
             vim.schedule(function()
                 logger.log("Refreshing minimap window", vim.log.levels.TRACE)
                 require("neominimap.window.split.internal").refresh_source_in_current_tab()
