@@ -51,6 +51,7 @@ Show search results:
 - Search integration
 - Mouse click support
 - Support for marks in the sign column and line highlight
+- Support both split window and float window layouts
 - Respects UTF-8 encoding and tab width
 - Focus on the minimap, allowing interaction with it
 
@@ -151,12 +152,19 @@ The following is the default configuration.
     -- How many rows a dot should span
     y_multiplier = 1, ---@type integer
 
+    --- Either `split` or `float`
+    --- When layout is set to `float`,
+    --- the minimap will be created in floating windows attached to all suitable windows
+    --- When layout is set to `split`,
+    --- the minimap will be created in one split window
     layout = "float", ---@type Neominimap.Config.LayoutType
 
+    --- Used when `layout` is set to `split`
     split = {
         minimap_width = 20, ---@type integer
     },
 
+    --- Used when `layout` is set to `float`
     float = {
         minimap_width = 20, ---@type integer
 
@@ -425,7 +433,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 - [x] TreeSitter integration
 - [x] Git integration
 - [x] Search integration
-- [ ] Support for window relative to editor
+- [x] Support for window relative to editor
 - [x] Validate user configuration
 - [x] Documentation
 - [ ] Performance improvements
