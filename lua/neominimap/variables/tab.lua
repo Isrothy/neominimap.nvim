@@ -1,7 +1,9 @@
 local M = {}
 
 ---@class Neominimap.Variables.Tab
-local tab_default = {}
+local tab_default = {
+    enabled = true, ---@type boolean Enable minimap for this tab.
+}
 
 ---@param name string
 ---@return string

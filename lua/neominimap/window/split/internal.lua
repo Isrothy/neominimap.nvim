@@ -5,8 +5,10 @@ local M = {}
 
 ---@param winid integer
 ---@return boolean
-M.should_show_minimap = function(winid)
+M.should_show_minimap_for_window = function(winid)
     local logger = require("neominimap.logger")
+    logger.log(string.format("Checking if window %d should be shown", winid), vim.log.levels.TRACE)
+
     local var = require("neominimap.variables")
     if not api.nvim_win_is_valid(winid) then
         logger.log(string.format("Window %d is not valid", winid), vim.log.levels.WARN)
@@ -58,6 +60,30 @@ M.should_show_minimap = function(winid)
     end
 
     logger.log(string.format("Minimap can be shown for window %d", winid), vim.log.levels.TRACE)
+    return true
+end
+
+---@param tabid integer
+---@return boolean
+M.should_show_minimap_for_tab = function(tabid)
+    local logger = require("neominimap.logger")
+    logger.log(string.format("Checking if tab %d should be shown", tabid), vim.log.levels.TRACE)
+
+    if not api.nvim_tabpage_is_valid(tabid) then
+        logger.log(string.format("Tab %d is not valid", tabid), vim.log.levels.WARN)
+        return false
+    end
+
+    local var = require("neominimap.variables")
+    if not var.g.enabled then
+        logger.log("Minimap is disabled. Skipping generation of minimap", vim.log.levels.TRACE)
+        return false
+    end
+    if not var.t[tabid].enabled then
+        logger.log(string.format("Tab %d is not enabled. Skipping generation of minimap", tabid), vim.log.levels.TRACE)
+        return false
+    end
+    logger.log(string.format("Minimap can be shown for tab %d", tabid), vim.log.levels.TRACE)
     return true
 end
 
@@ -124,7 +150,7 @@ local should_switch_window = function()
     logger.log("Checking if window should be switched", vim.log.levels.TRACE)
 
     local winid = api.nvim_get_current_win()
-    if not M.should_show_minimap(winid) then
+    if not M.should_show_minimap_for_window(winid) then
         logger.log(string.format("Window %d should not be shown", winid), vim.log.levels.TRACE)
         return false
     end
@@ -154,28 +180,48 @@ M.refresh_source = function()
         logger.log("No minimap window found", vim.log.levels.TRACE)
         return
     end
-    if not should_switch_window() then
-        logger.log("Window should not be switched", vim.log.levels.TRACE)
-        return
-    end
-    logger.log(string.format("Switching to window %d", mwinid), vim.log.levels.TRACE)
-    local swinid = window_map.get_source_winid(tabid)
-    if winid == swinid then
-        logger.log("Current window is source window", vim.log.levels.TRACE)
-        return
-    end
+
+    ---@type integer
+    local swinid = (function()
+        if not should_switch_window() then
+            logger.log("Window should not be switched", vim.log.levels.TRACE)
+            return window_map.get_source_winid(tabid)
+        else
+            logger.log(string.format("Switching to window %d", winid), vim.log.levels.TRACE)
+            return winid
+        end
+    end)()
+    window_map.set_source_winid(tabid, swinid)
 
     local buffer = require("neominimap.buffer")
-    local bufnr = api.nvim_win_get_buf(winid)
-    local mbufnr = buffer.get_minimap_bufnr(bufnr)
+    local sbufnr = api.nvim_win_get_buf(swinid)
+    local mbufnr = buffer.get_minimap_bufnr(sbufnr)
     if mbufnr == nil or not api.nvim_buf_is_valid(mbufnr) then
         logger.log("Minimap buffer not available", vim.log.levels.TRACE)
+        api.nvim_win_set_buf(mwinid, buffer.get_empty_buffer())
+    else
+        logger.log(string.format("Switching to buffer %d", mbufnr), vim.log.levels.TRACE)
+        api.nvim_win_set_buf(mwinid, mbufnr)
+    end
+end
+
+M.refresh_tab = function()
+    local logger = require("neominimap.logger")
+    logger.log("Refreshing minimap for tab", vim.log.levels.TRACE)
+    local window_map = require("neominimap.window.split.window_map")
+    local tabid = api.nvim_get_current_tabpage()
+    if not should_switch_window() then
+        logger.log("Window should not be switched", vim.log.levels.TRACE)
+        M.close_minimap_window(tabid)
         return
     end
-
-    logger.log(string.format("Switching to buffer %d", mbufnr), vim.log.levels.TRACE)
-    window_map.set_source_winid(tabid, winid)
-    api.nvim_win_set_buf(mwinid, mbufnr)
+    local mwinid = window_map.get_minimap_winid(tabid)
+    if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
+        logger.log("No minimap window found. Creating", vim.log.levels.TRACE)
+        M.create_minimap_window(tabid)
+        return
+    end
+    M.refresh_source()
 end
 
 ---@return boolean

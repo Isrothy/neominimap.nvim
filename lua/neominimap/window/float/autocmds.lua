@@ -58,10 +58,10 @@ M.create_autocmds = function()
             )
             local winid = tonumber(args.match)
             vim.schedule(function()
-                logger.log(string.format("Closing minimap for window %d.", winid), vim.log.levels.TRACE)
+                logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
                 ---@cast winid integer
-                require("neominimap.window.float.internal").close_minimap_window(winid)
-                logger.log(string.format("Minimap window closed for window %d.", winid), vim.log.levels.TRACE)
+                require("neominimap.window.float.internal").refresh_minimap_window(winid)
+                logger.log(string.format("Minimap window refreshed for window %d.", winid), vim.log.levels.TRACE)
             end)
         end,
     })
@@ -73,6 +73,7 @@ M.create_autocmds = function()
             logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
             logger.log(string.format("Refreshing minimaps for tab ID: %d.", tid), vim.log.levels.TRACE)
             require("neominimap.window.float.internal").refresh_minimaps_in_tab(tid)
+            logger.log(string.format("Minimaps refreshed for tab ID: %d.", tid), vim.log.levels.TRACE)
         end),
     })
     api.nvim_create_autocmd("WinResized", {
@@ -122,22 +123,17 @@ M.create_autocmds = function()
             vim.schedule(function()
                 local window_map = require("neominimap.window.float.window_map")
                 local internal = require("neominimap.window.float.internal")
-                if window_map.is_minimap_window(winid) then
-                    if config.sync_cursor then
-                        logger.log(
-                            string.format("Resetting parent cursor line for minimap window %d.", winid),
-                            vim.log.levels.TRACE
-                        )
-                        internal.reset_parent_window_cursor_line(winid)
-                        logger.log(
-                            string.format("Parent cursor line reset for window %d.", winid),
-                            vim.log.levels.TRACE
-                        )
-                    end
-                else
+                if not window_map.is_minimap_window(winid) then
                     logger.log(string.format("Resettting cursor line for window %d.", winid), vim.log.levels.TRACE)
                     internal.reset_mwindow_cursor_line(winid)
                     logger.log(string.format("Cursor line reset for window %d.", winid), vim.log.levels.TRACE)
+                elseif config.sync_cursor then
+                    logger.log(
+                        string.format("Resetting parent cursor line for minimap window %d.", winid),
+                        vim.log.levels.TRACE
+                    )
+                    internal.reset_parent_window_cursor_line(winid)
+                    logger.log(string.format("Parent cursor line reset for window %d.", winid), vim.log.levels.TRACE)
                 end
             end)
         end,
