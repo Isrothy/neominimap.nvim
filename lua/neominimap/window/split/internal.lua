@@ -87,10 +87,10 @@ M.should_show_minimap_for_tab = function(tabid)
     return true
 end
 
----@param swinid integer
 ---@return integer? mwinid winid of the minimap window if created, nil otherwise
-M.create_minimap_window = function(swinid)
-    local tabid = api.nvim_win_get_tabpage(swinid)
+M.create_minimap_window_in_current_tab = function()
+    local tabid = api.nvim_get_current_tabpage()
+    local swinid = api.nvim_get_current_win()
     local logger = require("neominimap.logger")
     logger.log(string.format("Attempting to create minimap window for tab %d", tabid), vim.log.levels.TRACE)
 
@@ -99,7 +99,7 @@ M.create_minimap_window = function(swinid)
     api.nvim_set_current_win(swinid)
 
     local window_map = require("neominimap.window.split.window_map")
-    window_map.set_minimap_winid(tabid, swinid)
+    window_map.set_minimap_winid(tabid, mwinid)
     window_map.set_source_winid(tabid, swinid)
 
     api.nvim_win_set_width(mwinid, config:get_minimap_width())
@@ -109,7 +109,7 @@ M.create_minimap_window = function(swinid)
         vim.wo[mwinid][k] = v
     end
 
-    logger.log(string.format("Attaching buffer %d to window %d", mwinid), vim.log.levels.TRACE)
+    logger.log(string.format("Attaching a buffer to window %d", mwinid), vim.log.levels.TRACE)
     local buffer = require("neominimap.buffer")
     local sbufnr = api.nvim_win_get_buf(swinid)
     local mbufnr = buffer.get_minimap_bufnr(sbufnr)
@@ -144,6 +144,13 @@ M.close_minimap_window = function(tabid)
     return mwinid
 end
 
+M.close_minimap_window_for_all_tabs = function()
+    local logger = require("neominimap.logger")
+    logger.log("Attempting to close minimap window for all tabs", vim.log.levels.TRACE)
+    require("neominimap.util").for_all_tabs(M.close_minimap_window)
+    logger.log("Minimap window for all tabs closed", vim.log.levels.TRACE)
+end
+
 ---@return boolean
 local should_switch_window = function()
     local logger = require("neominimap.logger")
@@ -168,7 +175,7 @@ end
 
 ---Refresh minimap window
 ---If current window could have a minimap, switch.
-M.refresh_source = function()
+M.refresh_source_in_current_tab = function()
     local logger = require("neominimap.logger")
     logger.log("Refreshing minimap", vim.log.levels.TRACE)
 
@@ -218,16 +225,16 @@ M.refresh_tab = function()
     local mwinid = window_map.get_minimap_winid(tabid)
     if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
         logger.log("No minimap window found. Creating", vim.log.levels.TRACE)
-        M.create_minimap_window(tabid)
+        M.create_minimap_window_in_current_tab()
         return
     end
-    M.refresh_source()
+    M.refresh_source_in_current_tab()
 end
 
 ---@return boolean
 M.reset_mwindow_cursor_line = function()
     local logger = require("neominimap.logger")
-    local window_map = require("neominimap.window.float.window_map")
+    local window_map = require("neominimap.window.split.window_map")
     logger.log("Resetting cursor line for minimap of window %d", vim.log.levels.TRACE)
     local tabid = api.nvim_get_current_tabpage()
     local swinid = window_map.get_source_winid(tabid)
@@ -248,7 +255,7 @@ end
 ---@return boolean
 M.reset_parent_window_cursor_line = function()
     local logger = require("neominimap.logger")
-    local window_map = require("neominimap.window.float.window_map")
+    local window_map = require("neominimap.window.split.window_map")
     logger.log("Resetting cursor line for minimap of window %d", vim.log.levels.TRACE)
     local tabid = api.nvim_get_current_tabpage()
     local swinid = window_map.get_source_winid(tabid)
