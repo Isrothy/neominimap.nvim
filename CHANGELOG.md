@@ -6,13 +6,13 @@
 ### ⚠ BREAKING CHANGES
 
 * Change winopt and bufopt configuration
-* Introduce split layout in configuration
-* Remove statuscolumn in defaut winopt
+* Change layout configuration
+* Remove statuscolumn in default winopt
 
 ### Features
 
 * Add tab commands ([f0c4e43](https://github.com/Isrothy/neominimap.nvim/commit/f0c4e43db70b0950fbf46fee5964cb0a0db7066a))
-* Introduce split layout in configuration ([6dcb593](https://github.com/Isrothy/neominimap.nvim/commit/6dcb5939c81d93a9de8f13a75845a55295db09e4))
+* Introduce split layout ([6dcb593](https://github.com/Isrothy/neominimap.nvim/commit/6dcb5939c81d93a9de8f13a75845a55295db09e4))
 
 ## [2.12.3](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.2...v2.12.3) (2024-08-19)
 
