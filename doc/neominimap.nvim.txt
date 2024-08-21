@@ -625,27 +625,31 @@ SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
 - codewindow.nvim <https://github.com/gorbit99/codewindow.nvim>
     - Codewindow.nvim renders the minimap whenever focus is switched to a
         different window or the buffer is switched. In contrast, this plugin caches
-        the minimap, so it only renders the minimap when the text is changed. Thus,
-        this plugin should have better performance when you frequently switch
-        windows or buffers.
+        the minimap, so it only renders when the text is changed. Therefore, this
+        plugin should offer better performance when frequently switching windows or
+        buffers.
     - Codewindow.nvim renders the minimap based on bytes, while this plugin
-        renders based on codepoints. Specifically, it respects UTF-8 encoding and
-        tab width.
-    - Codewindow.nvim does not consider folds while this plugin does.
+        renders based on codepoints, respecting UTF-8 encoding and tab width.
+    - Codewindow.nvim does not consider folds, whereas this plugin does.
+    - Codewindow.nvim shows the minimap in a floating window but does not support
+        a split window. This plugin supports both.
 - mini.map <https://github.com/echasnovski/mini.map>
-    - Mini.map allows for encode symbol customization, while this plugin does not.
+    - Mini.map allows for encoded symbol customization, while this plugin does not.
     - Mini.map includes a scrollbar, which this plugin does not.
-    - Mini.map does not have Treesitter integration, which this plugin does.
-    - Mini.map rescales the minimap so that the height is equal to the window
-        height, while this plugin generates the minimap by a fixed compression
-        rate.
-    - Mini.map does not cache the minimap neither, but it is still performant.
+    - Mini.map does not have Treesitter integration, whereas this plugin does.
+    - Mini.map rescales the minimap so that its height matches the window height,
+        while this plugin generates the minimap using a fixed compression rate.
+    - Mini.map does not cache the minimap, but it is still performant.
+    - Mini.map shows the minimap in a floating window but does not support a
+        split window. This plugin supports both.
 - minimap.vim <https://github.com/wfxr/minimap.vim>
-    - Just like Mini.map, Minimap.vim scales minimap.
+    - Like Mini.map, Minimap.vim scales the minimap.
     - Minimap.vim uses a Rust program to generate minimaps efficiently, while
         this plugin is written in Lua.
     - Minimap.vim does not have Treesitter or LSP integration, which this plugin
         does.
+    - Minimap.vim shows the minimap in a split window but does not support a
+        floating window. This plugin supports both.
 
 
 ACKNOWLEDGEMENTS                 *neominimap.nvim-neominimap-acknowledgements*
