@@ -1,5 +1,40 @@
 # Changelog
 
+## [3.0.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.3...v3.0.0) (2024-08-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Change winopt and bufopt configuration
+* Introduce split layout in configuration
+* Remove statuscolumn in defaut winopt
+* **config:** Changed type and meaning of bufopt and winopt
+
+### Features
+
+* Add tab commands ([f0c4e43](https://github.com/Isrothy/neominimap.nvim/commit/f0c4e43db70b0950fbf46fee5964cb0a0db7066a))
+* Change winopt and bufopt configuration ([d90ff24](https://github.com/Isrothy/neominimap.nvim/commit/d90ff2427df956d3bf7619499124ff004603518f))
+* **config:** Changed type and meaning of bufopt and winopt ([6174718](https://github.com/Isrothy/neominimap.nvim/commit/617471857067c953a8aa354131a846a176ad363c))
+* Handle cases when minimap window is invalid ([0e3c4b0](https://github.com/Isrothy/neominimap.nvim/commit/0e3c4b0427c807bee0cb83377a535255b01b593a))
+* Introduce split layout in configuration ([6dcb593](https://github.com/Isrothy/neominimap.nvim/commit/6dcb5939c81d93a9de8f13a75845a55295db09e4))
+* Log on command teiggered ([bb0acc2](https://github.com/Isrothy/neominimap.nvim/commit/bb0acc2f8f80b483a7f91ee0895aef2c61d17835))
+* Remove statuscolumn in defaut winopt ([3dcfb53](https://github.com/Isrothy/neominimap.nvim/commit/3dcfb53f6e1e139ba127805a8890d482968662d6))
+* Split window prototype ([1beff18](https://github.com/Isrothy/neominimap.nvim/commit/1beff183e5e8779845dbec4dd11dce1c4f1dbf59))
+
+
+### Bug Fixes
+
+* Add winfixwidth to window options ([2ee1495](https://github.com/Isrothy/neominimap.nvim/commit/2ee1495a4276e7cef8c8110dd2d482ef6bbafbdc))
+* Assign single variable instead of table ([e86815a](https://github.com/Isrothy/neominimap.nvim/commit/e86815a37b83bdb1edf43ccfc95683ddf68b6ded))
+* Check minimap width on refreshing ([3f36e7a](https://github.com/Isrothy/neominimap.nvim/commit/3f36e7a5bb086c1b24b38d342329ab98e864f3ca))
+* Focus not working ([6e0e531](https://github.com/Isrothy/neominimap.nvim/commit/6e0e531b4aaba03ba9596096a9b8cbaa43f64001))
+* Global on/off should overrite win on/off ([a111fa8](https://github.com/Isrothy/neominimap.nvim/commit/a111fa87161719de5c940b04d98db3eab641c183))
+* Handle cases when bufnr in debounce function may be null ([47f7f6e](https://github.com/Isrothy/neominimap.nvim/commit/47f7f6efb3b3caa5d1cf4fedb171d7ae2957c150))
+* Handle cases when no buffer left ([d2c7a4f](https://github.com/Isrothy/neominimap.nvim/commit/d2c7a4fee5bd6702dca68d83192f9a80d22fad5f))
+* Handle cases when source window is nil ([e4849ca](https://github.com/Isrothy/neominimap.nvim/commit/e4849ca78966d978f2ed825a497cb3d787f9f70f))
+* Handle tab on/off in float loyout ([40ebb6c](https://github.com/Isrothy/neominimap.nvim/commit/40ebb6c2b94581a95d1ad4a5696569a3cc2bd8ec))
+* Handle WinEnter events ([47ce35e](https://github.com/Isrothy/neominimap.nvim/commit/47ce35e9189fcb4b0163d9c044709eecaf599aa0))
+
 ## [2.12.3](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.2...v2.12.3) (2024-08-19)
 
 
