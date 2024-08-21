@@ -66,7 +66,6 @@ local default_winopt = {
 
 ---@param opt vim.wo
 ---@param winid integer
----@return table
 M.set_winopt = function(opt, winid)
     for k, v in pairs(default_winopt) do
         opt[k] = v
