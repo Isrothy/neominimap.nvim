@@ -1,7 +1,7 @@
 local api = vim.api
 local fn = vim.fn
 
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 local M = {}
 

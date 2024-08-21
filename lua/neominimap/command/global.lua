@@ -1,44 +1,43 @@
 local M = {}
 
----@type boolean
-M.enabled = false
+---@class Neominimap.Command.Global.Handler
+---@field on fun()
+---@field off fun()
+---@field refresh fun()
 
 local function open_minimap()
-    if M.enabled then
+    local var = require("neominimap.variables")
+    local logger = require("neominimap.logger")
+    if var.g.enabled then
         return
     end
-    M.enabled = true
+    var.g.enabled = true
     require("neominimap.autocmds").create_autocmds()
-    vim.schedule(function()
-        local logger = require("neominimap.logger")
-        local window = require("neominimap.window")
-        local buffer = require("neominimap.buffer")
-        logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
-        buffer.refresh_all_minimap_buffers()
-        window.refresh_all_minimap_windows()
-        logger.log("Minimap has been successfully opened.", vim.log.levels.INFO)
-    end)
+
+    logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
+    require("neominimap.buffer").global_cmds.on()
+    require("neominimap.window").global_cmds.on()
+    logger.log("Minimap has been successfully opened.", vim.log.levels.INFO)
 end
 
 local function close_minimap()
-    if not M.enabled then
+    local var = require("neominimap.variables")
+    if not var.g.enabled then
         return
     end
-    M.enabled = false
+    var.g.enabled = false
     require("neominimap.autocmds").clear_autocmds()
-    vim.schedule(function()
-        local logger = require("neominimap.logger")
-        local window = require("neominimap.window")
-        local buffer = require("neominimap.buffer")
-        logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
-        window.close_all_minimap_windows()
-        buffer.delete_all_minimap_buffers()
-        logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
-    end)
+
+    local logger = require("neominimap.logger")
+    logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
+    require("neominimap.buffer").global_cmds.off()
+    require("neominimap.window").global_cmds.off()
+    logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
 end
 
 local function toggle_minimap()
-    if M.enabled then
+    local var = require("neominimap.variables")
+    if var.g.enabled then
         close_minimap()
     else
         open_minimap()
@@ -46,33 +45,37 @@ local function toggle_minimap()
 end
 
 local function refresh_minimap()
-    vim.schedule(function()
-        local window = require("neominimap.window")
-        local buffer = require("neominimap.buffer")
-        buffer.refresh_all_minimap_buffers()
-        window.refresh_all_minimap_windows()
-    end)
+    require("neominimap.window").global_cmds.refresh()
+    require("neominimap.buffer").global_cmds.refresh()
 end
 
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
-    on = {
-        impl = function(args, opts)
+    ["on"] = {
+        impl = function()
+            local logger = require("neominimap.logger")
+            logger.log("Command on triggered.", vim.log.levels.INFO)
             open_minimap()
         end,
     },
-    off = {
-        impl = function(args, opts)
+    ["off"] = {
+        impl = function()
+            local logger = require("neominimap.logger")
+            logger.log("Command off triggered.", vim.log.levels.INFO)
             close_minimap()
         end,
     },
-    toggle = {
-        impl = function(args, opts)
+    ["toggle"] = {
+        impl = function()
+            local logger = require("neominimap.logger")
+            logger.log("Command toggle triggered.", vim.log.levels.INFO)
             toggle_minimap()
         end,
     },
-    refresh = {
-        impl = function(args, opts)
+    ["refresh"] = {
+        impl = function()
+            local logger = require("neominimap.logger")
+            logger.log("Command refresh triggered.", vim.log.levels.INFO)
             refresh_minimap()
         end,
     },

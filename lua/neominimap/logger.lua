@@ -1,5 +1,5 @@
 local M = {}
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 local levels = vim.log.levels
 
 ---@type table<integer, string>

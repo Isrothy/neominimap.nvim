@@ -3,7 +3,7 @@ local M = {}
 -- Map Point: The position of a dot in the minimap, 0-indexed.
 -- Map Code Point: The position of a character in the minimap buffer, 1-indexed.
 
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 ---@type string
 local braille_chars = ""

@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require("neominimap.config").get()
+local config = require("neominimap.config")
 
 local function lualib_available(name)
     local ok, _ = pcall(require, name)
