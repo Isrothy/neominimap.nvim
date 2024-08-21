@@ -252,7 +252,8 @@ M.refresh_current_tab = function()
         M.refresh_source_in_current_tab()
     else
         logger.log("Tab should not have minimap", vim.log.levels.TRACE)
-        if window_map.get_minimap_winid(tabid) ~= nil then
+        local mwinid = window_map.get_minimap_winid(tabid)
+        if mwinid ~= nil and api.nvim_win_is_valid(mwinid) then
             M.close_minimap_window(tabid)
         end
         return
