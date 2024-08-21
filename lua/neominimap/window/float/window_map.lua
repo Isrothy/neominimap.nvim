@@ -1,3 +1,5 @@
+---A map between windows and minimap windows
+
 local M = {}
 
 local api = vim.api
