@@ -48,7 +48,6 @@ Float window layout:
 Split window layout:
 ![image](https://github.com/user-attachments/assets/8a4fc48b-4811-4cee-a964-eccc5fda9a57)
 
-
 ## Features
 
 - LSP integration
