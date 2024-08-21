@@ -201,8 +201,15 @@ M.refresh_source_in_current_tab = function()
     window_map.set_source_winid(tabid, swinid)
 
     local buffer = require("neominimap.buffer")
-    local sbufnr = api.nvim_win_get_buf(swinid)
-    local mbufnr = buffer.get_minimap_bufnr(sbufnr)
+
+    local mbufnr = (function()
+        if not swinid or not api.nvim_win_is_valid(swinid) then
+            return nil
+        end
+        local sbufnr = api.nvim_win_get_buf(swinid)
+        return buffer.get_minimap_bufnr(sbufnr)
+    end)()
+
     if mbufnr == nil or not api.nvim_buf_is_valid(mbufnr) then
         logger.log("Minimap buffer not available", vim.log.levels.TRACE)
         api.nvim_win_set_buf(mwinid, buffer.get_empty_buffer())
@@ -212,23 +219,26 @@ M.refresh_source_in_current_tab = function()
     end
 end
 
-M.refresh_tab = function()
+M.refresh_current_tab = function()
     local logger = require("neominimap.logger")
     logger.log("Refreshing minimap for tab", vim.log.levels.TRACE)
     local window_map = require("neominimap.window.split.window_map")
     local tabid = api.nvim_get_current_tabpage()
-    if not should_switch_window() then
-        logger.log("Window should not be switched", vim.log.levels.TRACE)
-        M.close_minimap_window(tabid)
+    if M.should_show_minimap_for_tab(tabid) then
+        local mwinid = window_map.get_minimap_winid(tabid)
+        if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
+            logger.log("No minimap window found. Creating", vim.log.levels.TRACE)
+            M.create_minimap_window_in_current_tab()
+            return
+        end
+        M.refresh_source_in_current_tab()
+    else
+        logger.log("Tab should not have minimap", vim.log.levels.TRACE)
+        if window_map.get_minimap_winid(tabid) ~= nil then
+            M.close_minimap_window(tabid)
+        end
         return
     end
-    local mwinid = window_map.get_minimap_winid(tabid)
-    if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
-        logger.log("No minimap window found. Creating", vim.log.levels.TRACE)
-        M.create_minimap_window_in_current_tab()
-        return
-    end
-    M.refresh_source_in_current_tab()
 end
 
 ---@return boolean
