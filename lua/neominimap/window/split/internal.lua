@@ -107,10 +107,7 @@ M.create_minimap_window_in_current_tab = function()
     logger.log(string.format("Minimap window %d created", mwinid), vim.log.levels.TRACE)
 
     logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
-    local winopt = require("neominimap.window.util").get_winopt(mwinid)
-    for k, v in pairs(winopt) do
-        vim.wo[mwinid][k] = v
-    end
+    require("neominimap.window.util").set_winopt(vim.wo[mwinid], mwinid)
     logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
 
     logger.log(string.format("Attaching a buffer to window %d", mwinid), vim.log.levels.TRACE)

@@ -166,10 +166,9 @@ M.create_minimap_window = function(winid)
     local window_map = require("neominimap.window.float.window_map")
     window_map.set_minimap_winid(winid, mwinid)
 
-    local winopt = require("neominimap.window.util").get_winopt(winid)
-    for k, v in pairs(winopt) do
-        vim.wo[mwinid][k] = v
-    end
+    logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
+    require("neominimap.window.util").set_winopt(vim.wo[mwinid], mwinid)
+    logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
 
     logger.log(string.format("Minimap window %d created for window %d", mwinid, winid), vim.log.levels.TRACE)
     return mwinid

@@ -46,6 +46,7 @@ M.win_get_true_height = function(winid)
     return winheight
 end
 
+---@type vim.wo
 local default_winopt = {
     winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
     wrap = false,
@@ -63,12 +64,14 @@ local default_winopt = {
     winfixwidth = true,
 }
 
+---@param opt vim.wo
 ---@param winid integer
 ---@return table
-M.get_winopt = function(winid)
-    local winopt = vim.deepcopy(default_winopt)
-    config.winopt(winopt, winid)
-    return winopt
+M.set_winopt = function(opt, winid)
+    for k, v in pairs(default_winopt) do
+        opt[k] = v
+    end
+    config.winopt(opt, winid)
 end
 
 ---@param swinid integer

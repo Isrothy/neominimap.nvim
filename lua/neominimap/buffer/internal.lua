@@ -3,6 +3,7 @@ local M = {}
 local api = vim.api
 local config = require("neominimap.config")
 
+---@type vim.bo
 local default_bufopt = {
     buftype = "nofile",
     filetype = "neominimap",
@@ -11,10 +12,13 @@ local default_bufopt = {
     undolevels = -1,
 }
 
-local get_bufopt = function(bufnr)
-    local bufopt = vim.deepcopy(default_bufopt)
-    config.bufopt(bufopt, bufnr)
-    return bufopt
+---@param opt vim.bo
+---@param bufnr integer
+local set_bufopt = function(opt, bufnr)
+    for k, v in pairs(default_bufopt) do
+        opt[k] = v
+    end
+    config.bufopt(opt, bufnr)
 end
 
 local noautocmd = require("neominimap.util").noautocmd
@@ -147,11 +151,7 @@ M.create_minimap_buffer = function(bufnr)
     local buffer_map = require("neominimap.buffer.buffer_map")
     buffer_map.set_minimap_bufnr(bufnr, mbufnr)
 
-    local bufopt = get_bufopt(bufnr)
-
-    for k, v in pairs(bufopt) do
-        vim.bo[mbufnr][k] = v
-    end
+    set_bufopt(vim.bo[mbufnr], bufnr)
 
     local var = require("neominimap.variables")
 

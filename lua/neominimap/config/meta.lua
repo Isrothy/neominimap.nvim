@@ -22,8 +22,8 @@ local M = {}
 ---@field treesitter? Neominimap.TreesitterConfig
 ---@field search? Neominimap.SearchConfig
 ---@field fold? Neominimap.FoldConfig
----@field winopt? fun(opt: table, winid: integer)
----@field bufopt? fun(opt: table, bufnr: integer)
+---@field winopt? fun(opt: vim.wo, winid: integer)
+---@field bufopt? fun(opt: vim.bo, bufnr: integer)
 
 ---@class (exact) Neominimap.SplitConfig
 ---@field minimap_width? integer
