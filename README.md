@@ -42,6 +42,13 @@ Show git signs:
 Show search results:
 ![image](https://github.com/user-attachments/assets/83a1a5a5-7bc7-48cc-9c01-39de75fada94)
 
+Float window layout:
+![image](https://github.com/user-attachments/assets/71a14460-e8c0-468f-b7bc-6e991df1f042)
+
+Split window layout:
+![image](https://github.com/user-attachments/assets/8a4fc48b-4811-4cee-a964-eccc5fda9a57)
+
+
 ## Features
 
 - LSP integration
