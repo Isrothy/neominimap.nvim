@@ -194,6 +194,7 @@ M.refresh_source_in_current_tab = function()
     local logger = require("neominimap.logger")
     logger.log("Refreshing minimap", vim.log.levels.TRACE)
 
+    logger.log("Checking if minimap window exists", vim.log.levels.TRACE)
     local window_map = require("neominimap.window.split.window_map")
     local tabid = api.nvim_get_current_tabpage()
     local winid = vim.api.nvim_get_current_win()
@@ -202,7 +203,17 @@ M.refresh_source_in_current_tab = function()
         logger.log("No minimap window found", vim.log.levels.TRACE)
         return
     end
+    logger.log(string.format("Minimap window %d found", mwinid), vim.log.levels.TRACE)
 
+    logger.log("Resetting width for minimap", vim.log.levels.TRACE)
+    local width = api.nvim_win_get_width(mwinid)
+    local expected_width = config:get_minimap_width()
+    if width ~= expected_width then
+        require("neominimap.util").noautocmd(api.nvim_win_set_width)(mwinid, expected_width)
+        logger.log(string.format("Minimap window %d width set", mwinid), vim.log.levels.TRACE)
+    end
+
+    logger.log("Setting source window", vim.log.levels.TRACE)
     ---@type integer
     local swinid = (function()
         if not should_switch_window() then
@@ -214,9 +225,10 @@ M.refresh_source_in_current_tab = function()
         end
     end)()
     window_map.set_source_winid(tabid, swinid)
+    logger.log(string.format("Source window %d set", swinid), vim.log.levels.TRACE)
 
+    logger.log("Setting minimap buffer", vim.log.levels.TRACE)
     local buffer = require("neominimap.buffer")
-
     local mbufnr = (function()
         if not swinid or not api.nvim_win_is_valid(swinid) then
             return nil
@@ -232,6 +244,9 @@ M.refresh_source_in_current_tab = function()
         logger.log(string.format("Switching to buffer %d", mbufnr), vim.log.levels.TRACE)
         api.nvim_win_set_buf(mwinid, mbufnr)
     end
+    logger.log(string.format("Minimap buffer set", mbufnr), vim.log.levels.TRACE)
+
+    logger.log("Minimap refreshed", vim.log.levels.TRACE)
 end
 
 M.refresh_current_tab = function()
