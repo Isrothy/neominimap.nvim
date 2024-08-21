@@ -56,6 +56,15 @@ M.should_show_minimap = function(winid)
         return false
     end
 
+    local tabid = api.nvim_win_get_tabpage(winid)
+    if not var.t[tabid].enabled then
+        logger.log(
+            string.format("Window %d is not enabled. Skipping generation of minimap", winid),
+            vim.log.levels.TRACE
+        )
+        return false
+    end
+
     if not var.w[winid].enabled then
         logger.log(
             string.format("Window %d is not enabled. Skipping generation of minimap", winid),
