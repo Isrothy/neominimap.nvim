@@ -224,6 +224,10 @@ M.refresh_source_in_current_tab = function()
             return winid
         end
     end)()
+    if swinid == nil or not api.nvim_win_is_valid(swinid) then
+        logger.log("No source window found", vim.log.levels.TRACE)
+        return
+    end
     window_map.set_source_winid(tabid, swinid)
     logger.log(string.format("Source window %d set", swinid), vim.log.levels.TRACE)
 
