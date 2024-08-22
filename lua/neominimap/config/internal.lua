@@ -4,10 +4,10 @@ local M = {
     auto_enable = true, ---@type boolean
 
     -- Log level
-    log_level = vim.log.levels.OFF, ---@type integer
+    log_level = vim.log.levels.OFF, ---@type Neominimap.Log.Levels
 
     -- Notification level
-    notification_level = vim.log.levels.INFO, ---@type integer
+    notification_level = vim.log.levels.INFO, ---@type Neominimap.Log.Levels
 
     -- Path to the log file
     log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string
@@ -58,6 +58,9 @@ local M = {
     --- Used when `layout` is set to `split`
     split = {
         minimap_width = 20, ---@type integer
+
+        -- Always fix the width of the split window
+        fix_width = false, ---@type boolean
 
         ---@alias Neominimap.Config.SplitDirection "left" | "right"
         direction = "right", ---@type Neominimap.Config.SplitDirection

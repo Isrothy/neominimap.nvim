@@ -100,7 +100,7 @@ M.create_minimap_window_in_current_tab = function()
         ["right"] = "botright",
         ["left"] = "topleft",
     }
-    vim.cmd(string.format("noau vertical %s 1split", dir_tbl[config.split.direction]))
+    vim.cmd(string.format("noau vertical %s %dsplit", dir_tbl[config.split.direction], config:get_minimap_width()))
     local mwinid = vim.api.nvim_get_current_win()
     util.noautocmd(api.nvim_set_current_win)(winid)
 
@@ -108,7 +108,6 @@ M.create_minimap_window_in_current_tab = function()
     window_map.set_minimap_winid(tabid, mwinid)
     logger.log(string.format("Minimap window %d set for tab %d", mwinid, tabid), vim.log.levels.TRACE)
 
-    util.noautocmd(api.nvim_win_set_width)(mwinid, config:get_minimap_width())
     logger.log(string.format("Minimap window %d created", mwinid), vim.log.levels.TRACE)
 
     logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
@@ -194,6 +193,29 @@ local should_switch_window = function()
     return true
 end
 
+M.reset_minimap_width = function()
+    local logger = require("neominimap.logger")
+    logger.log("Resetting minimap width", vim.log.levels.TRACE)
+    local window_map = require("neominimap.window.split.window_map")
+    local tabid = api.nvim_get_current_tabpage()
+    local mwinid = window_map.get_minimap_winid(tabid)
+    if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
+        logger.log("No minimap window found", vim.log.levels.TRACE)
+        return
+    end
+
+    local width = api.nvim_win_get_width(mwinid)
+    local expected_width = config:get_minimap_width()
+    logger.log(string.format("Minimap width %d", width), vim.log.levels.DEBUG)
+
+    if width ~= expected_width then
+        local util = require("neominimap.util")
+        util.noautocmd(api.nvim_win_set_width)(mwinid, expected_width)
+        logger.log(string.format("Minimap width set to %d", width), vim.log.levels.TRACE)
+    end
+    logger.log("Minimap width reset", vim.log.levels.TRACE)
+end
+
 ---Refresh minimap window
 ---If current window could have a minimap, switch.
 M.refresh_source_in_current_tab = function()
@@ -210,14 +232,6 @@ M.refresh_source_in_current_tab = function()
         return
     end
     logger.log(string.format("Minimap window %d found", mwinid), vim.log.levels.TRACE)
-
-    logger.log("Resetting width for minimap", vim.log.levels.TRACE)
-    local width = api.nvim_win_get_width(mwinid)
-    local expected_width = config:get_minimap_width()
-    if width ~= expected_width then
-        require("neominimap.util").noautocmd(api.nvim_win_set_width)(mwinid, expected_width)
-        logger.log(string.format("Minimap window %d width set", mwinid), vim.log.levels.TRACE)
-    end
 
     logger.log("Setting source window", vim.log.levels.TRACE)
     ---@type integer?
@@ -274,14 +288,12 @@ M.refresh_current_tab = function()
     if config.split.close_if_last_window then
         logger.log("Checking if tab has no window", vim.log.levels.TRACE)
         local win_count = #api.nvim_tabpage_list_wins(tabid)
-        logger.log(string.format("Tab has %d windows", win_count), vim.log.levels.DEBUG)
         if win_count == 0 or (win_count == 1 and window_map.get_minimap_winid(tabid) ~= nil) then
             logger.log("Tab has no window", vim.log.levels.TRACE)
             vim.cmd("noau quit")
             return
         end
     end
-
     if M.should_show_minimap_for_tab(tabid) then
         local mwinid = window_map.get_minimap_winid(tabid)
         if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
@@ -290,6 +302,9 @@ M.refresh_current_tab = function()
             return
         end
         M.refresh_source_in_current_tab()
+        if config.split.fix_width then
+            M.reset_minimap_width()
+        end
     else
         logger.log("Tab should not have minimap", vim.log.levels.TRACE)
         local mwinid = window_map.get_minimap_winid(tabid)

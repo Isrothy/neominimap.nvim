@@ -80,10 +80,28 @@ M.create_autocmds = function()
             end)
         end,
     })
+
+    if config.split.fix_width then
+        api.nvim_create_autocmd("WinResized", {
+            group = "Neominimap",
+            desc = "Reset minimap width when window is resized",
+            callback = function()
+                local logger = require("neominimap.logger")
+                logger.log("WinResized event triggered.", vim.log.levels.TRACE)
+                vim.schedule(function()
+                    logger.log("Resetting minimap width.", vim.log.levels.TRACE)
+                    require("neominimap.window.split.internal").reset_minimap_width()
+                    logger.log("Minimap width reset.", vim.log.levels.TRACE)
+                end)
+            end,
+        })
+    end
+
     api.nvim_create_autocmd("User", {
         group = "Neominimap",
         pattern = { "MinimapBufferCreated", "MinimapBufferDeleted" },
-        callback = function(args)
+        desc = "Refresh source window when buffer is created or deleted",
+        callback = function()
             local logger = require("neominimap.logger")
             logger.log(
                 "User Neominimap event triggered. patter: MinimapBufferCreated or MinimapBufferDeleted",
@@ -100,7 +118,7 @@ M.create_autocmds = function()
         group = "Neominimap",
         pattern = "MinimapBufferTextUpdated",
         desc = "Reset cursor line when buffer text is updated",
-        callback = function(args)
+        callback = function()
             local logger = require("neominimap.logger")
             logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)
             vim.schedule(function()
