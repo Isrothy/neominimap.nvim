@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.0.1...v3.1.0) (2024-08-22)
+
+
+### Features
+
+* Support split direction ([f27f3f5](https://github.com/Isrothy/neominimap.nvim/commit/f27f3f5cd87e3e78bb93f41c2c7097976a1c091d))
+
 ## [3.0.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.0.0...v3.0.1) (2024-08-22)
 
 
