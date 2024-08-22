@@ -269,7 +269,7 @@ The following is the default configuration.
 
     diagnostic = {
         enabled = true, ---@type boolean
-        severity = vim.diagnostic.severity.WARN, ---@type integer
+        severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
         mode = "line", ---@type Neominimap.Handler.MarkMode
         priority = {
             ERROR = 100, ---@type integer

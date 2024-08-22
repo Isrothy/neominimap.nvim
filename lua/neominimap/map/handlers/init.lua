@@ -16,6 +16,12 @@ local AnnotationMode = {
     Line = "line",
 }
 
+---@enum Neominimap.Handler.SignKind
+local SignKind = {
+    Icon = "icon",
+    Braille = "braille",
+}
+
 ---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Annotation[])
 
 ---@type Neominimap.Handler.Apply
