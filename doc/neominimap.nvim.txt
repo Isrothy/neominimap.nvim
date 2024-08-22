@@ -11,6 +11,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Installation                     |neominimap.nvim-neominimap-installation|
   - Configuration                   |neominimap.nvim-neominimap-configuration|
   - Commands                             |neominimap.nvim-neominimap-commands|
+  - Lua API                               |neominimap.nvim-neominimap-lua-api|
   - How it works                     |neominimap.nvim-neominimap-how-it-works|
   - Tips                                     |neominimap.nvim-neominimap-tips|
   - Highlights                         |neominimap.nvim-neominimap-highlights|
@@ -44,6 +45,8 @@ Criticisms are welcome.
 
 SCREENSHOTS                           *neominimap.nvim-neominimap-screenshots*
 
+Click to expand ~
+
 Show diagnostics:
 
 Show git signs:
@@ -71,6 +74,8 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
 
+Click to expand ~
+
 - A font that supports dispalys **Braille Patterns** Unicode block
 - Optional: nvim-treesitter <https://github.com/nvim-treesitter/nvim-treesitter> for highlighting
 - Optional: gitsigns.nvim <https://github.com/lewis6991/gitsigns.nvim> for Git integration
@@ -79,6 +84,8 @@ DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
 INSTALLATION                         *neominimap.nvim-neominimap-installation*
 
 With Lazy:
+
+Click to expand ~
 
 >lua
     ---@module "neominimap.config.meta"
@@ -127,13 +134,15 @@ With Lazy:
                 auto_enable = true,
             }
         end,
-    },
+    }
 <
 
 
 CONFIGURATION                       *neominimap.nvim-neominimap-configuration*
 
 The following is the default configuration.
+
+Click to expand ~
 
 >lua
     {
@@ -319,6 +328,8 @@ The default `bufopt` is:
 
 COMMANDS                                 *neominimap.nvim-neominimap-commands*
 
+Click to expand ~
+
   ----------------------------------------------------------------------------------------------
   Command                               Description                                  Arguments
   ------------------------------------- -------------------------------------------- -----------
@@ -388,8 +399,8 @@ COMMANDS                                 *neominimap.nvim-neominimap-commands*
 
   [!NOTE] A minimap is shown if and only if
   - Neominimap is enabled globally,
-  - Neominimap is enabled for the current buffer, and
-  - Neominimap is enabled for the current tab, and
+  - Neominimap is enabled for the current buffer,
+  - Neominimap is enabled for the current tabage, and
   - Neominimap is enabled for the current window.
 `Neominimap bufRefresh` does the following:
 
@@ -428,7 +439,9 @@ To refresh the minimap for windows 3 and 4:
 <
 
 
-LUA API ~
+LUA API                                   *neominimap.nvim-neominimap-lua-api*
+
+Click to expand ~
 
 These are the corresponding commands in the Lua API.
 
@@ -511,6 +524,11 @@ These are the corresponding commands in the Lua API.
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
 
+Click to expand ~
+
+
+CACHING MINIMAP BUFFERS ~
+
 For every file opened, the plugin generates a corresponding minimap buffer.
 
 When a buffer is displayed in a window, the minimap buffer is automatically
@@ -545,6 +563,8 @@ Checkout the wiki page for more details. wiki
 
 
 HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
+
+Click to expand ~
 
   -----------------------------------------------------------------------
   Highlight Group           Description
@@ -586,6 +606,8 @@ HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
 
 NAMESPACES                             *neominimap.nvim-neominimap-namespaces*
 
+Click to expand ~
+
   Namespace               Description
   ----------------------- ----------------------------------
   neominimap_git          Git signs and highlights.
@@ -594,6 +616,8 @@ NAMESPACES                             *neominimap.nvim-neominimap-namespaces*
   neominimap_treesitter   Treesitter highlights.
 
 TODO                                         *neominimap.nvim-neominimap-todo*
+
+Click to expand ~
 
 - ☒ LSP integration
 - ☒ TreeSitter integration
@@ -608,6 +632,8 @@ TODO                                         *neominimap.nvim-neominimap-todo*
 
 NON-GOALS                               *neominimap.nvim-neominimap-non-goals*
 
+Click to expand ~
+
 - Scrollbar.
     Use satellite.nvim <https://github.com/lewis6991/satellite.nvim>,
     nvim-scrollview <https://github.com/dstein64/nvim-scrollview>
@@ -621,12 +647,16 @@ NON-GOALS                               *neominimap.nvim-neominimap-non-goals*
 
 LIMITATIONS                           *neominimap.nvim-neominimap-limitations*
 
+Click to expand ~
+
 - Updating Folds Immediately.
     Neovim does not provide a fold event. Therefore, this plugin cannot update
     immediately whenever fold changes in a buffer.
 
 
 SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
+
+Click to expand ~
 
 - codewindow.nvim <https://github.com/gorbit99/codewindow.nvim>
     - Codewindow.nvim renders the minimap whenever focus is switched to a
