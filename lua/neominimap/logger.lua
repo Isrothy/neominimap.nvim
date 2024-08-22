@@ -2,7 +2,12 @@ local M = {}
 local config = require("neominimap.config")
 local levels = vim.log.levels
 
----@type table<integer, string>
+---@enum level
+vim.log.levels = vim.log.levels
+
+---@alias Neominimap.Log.Levels 0|1|2|3|4|5
+
+---@type table<Neominimap.Log.Levels, string>
 local level_names = {
     [levels.TRACE] = "TRACE",
     [levels.DEBUG] = "DEBUG",
@@ -13,7 +18,7 @@ local level_names = {
 }
 
 ---@param msg string
----@param level integer?
+---@param level Neominimap.Log.Levels?
 M.log = function(msg, level)
     local filepath = config.log_path
     level = level or levels.INFO
@@ -30,7 +35,7 @@ M.log = function(msg, level)
 end
 
 ---@param msg string
----@param level integer?
+---@param level Neominimap.Log.Levels?
 M.notify = function(msg, level)
     level = level or levels.INFO
     if level >= config.notification_level then
@@ -39,7 +44,7 @@ M.notify = function(msg, level)
 end
 
 ---@param msg string
----@param level integer?
+---@param level Neominimap.Log.Levels?
 M.log_and_notify = function(msg, level)
     M.log(msg, level)
     M.notify(msg, level)
