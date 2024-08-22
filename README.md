@@ -125,8 +125,6 @@ With Lazy:
 The following is the default configuration.
 
 ```lua
----@alias Neominimap.Config.LayoutType "split" | "float"
-
 {
     -- Enable the plugin by default
     auto_enable = true, ---@type boolean
@@ -174,6 +172,8 @@ The following is the default configuration.
     -- How many rows a dot should span
     y_multiplier = 1, ---@type integer
 
+    ---@alias Neominimap.Config.LayoutType "split" | "float"
+
     --- Either `split` or `float`
     --- When layout is set to `float`,
     --- the minimap will be created in floating windows attached to all suitable windows
@@ -184,7 +184,9 @@ The following is the default configuration.
     --- Used when `layout` is set to `split`
     split = {
         minimap_width = 20, ---@type integer
-        direction = "left" ---@type Neominimap.Config.SplitDirection
+
+        ---@alias Neominimap.Config.SplitDirection "left" | "right"
+        direction = "right", ---@type Neominimap.Config.SplitDirection
     },
 
     --- Used when `layout` is set to `float`
