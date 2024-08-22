@@ -263,9 +263,21 @@ end
 
 M.refresh_current_tab = function()
     local logger = require("neominimap.logger")
-    logger.log("Refreshing minimap for tab", vim.log.levels.TRACE)
+    logger.log("Refreshing minimap for current tab", vim.log.levels.TRACE)
     local window_map = require("neominimap.window.split.window_map")
     local tabid = api.nvim_get_current_tabpage()
+
+    if config.split.close_if_last_window then
+        logger.log("Checking if tab has no window", vim.log.levels.TRACE)
+        local win_count = #api.nvim_tabpage_list_wins(tabid)
+        logger.log(string.format("Tab has %d windows", win_count), vim.log.levels.DEBUG)
+        if win_count == 0 or (win_count == 1 and window_map.get_minimap_winid(tabid) ~= nil) then
+            logger.log("Tab has no window", vim.log.levels.TRACE)
+            vim.cmd("noau quit")
+            return
+        end
+    end
+
     if M.should_show_minimap_for_tab(tabid) then
         local mwinid = window_map.get_minimap_winid(tabid)
         if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
@@ -280,8 +292,8 @@ M.refresh_current_tab = function()
         if mwinid ~= nil and api.nvim_win_is_valid(mwinid) then
             M.close_minimap_window(tabid)
         end
-        return
     end
+    logger.log("Minimap refreshed for current tab", vim.log.levels.TRACE)
 end
 
 ---@return boolean
