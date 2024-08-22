@@ -298,6 +298,7 @@ The default `bufopt` is:
     swapfile = false,
     bufhidden = "hide",
     undolevels = -1,
+    modifiable = false,
 }
 ```
 

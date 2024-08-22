@@ -10,6 +10,7 @@ local default_bufopt = {
     swapfile = false,
     bufhidden = "hide",
     undolevels = -1,
+    modifiable = false,
 }
 
 ---@param opt vim.bo
