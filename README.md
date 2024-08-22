@@ -53,7 +53,6 @@ Show git signs:
 
 Show search results:
 
-
 <details>
  <summary>Click to expand</summary>
 
@@ -424,7 +423,6 @@ To refresh the minimap for windows 3 and 4:
 > - Neominimap is enabled for the current tabage, and
 > - Neominimap is enabled for the current window.
 
-
 ## Lua API
 
 <details>
@@ -629,3 +627,9 @@ Thanks to [gorbit99](https://github.com/gorbit99) for
 by which this plugin was inspired.
 The map generation algorithm and TreeSitter integration algorithm are also
 learned from that project.
+
+Special thanks to [lewis6991](https://github.com/lewis6991) for creating the
+excellent [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) and
+[satellite.nvim](https://github.com/lewis6991/satellite.nvim) plugins. The Git
+integration in Neominimap was made possible by gitsigns.nvim, and the search
+integration was based on satellite.nvim's code.
