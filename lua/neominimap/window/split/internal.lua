@@ -214,25 +214,28 @@ M.refresh_source_in_current_tab = function()
     end
 
     logger.log("Setting source window", vim.log.levels.TRACE)
-    ---@type integer
+    ---@type integer?
     local swinid = (function()
-        if not should_switch_window() then
-            logger.log("Window should not be switched", vim.log.levels.TRACE)
-            return window_map.get_source_winid(tabid)
-        else
+        if should_switch_window() then
             logger.log(string.format("Switching to window %d", winid), vim.log.levels.TRACE)
             return winid
+        else
+            logger.log("Window should not be switched", vim.log.levels.TRACE)
+            local swinid = window_map.get_source_winid(tabid)
+            if swinid ~= nil and M.should_show_minimap_for_window(swinid) then
+                return swinid
+            else
+                return nil
+            end
         end
     end)()
-    if swinid == nil or not api.nvim_win_is_valid(swinid) then
-        logger.log("No source window found", vim.log.levels.TRACE)
-        return
-    end
+
     window_map.set_source_winid(tabid, swinid)
-    logger.log(string.format("Source window %d set", swinid), vim.log.levels.TRACE)
+    logger.log(string.format("Source window set"), vim.log.levels.TRACE)
 
     logger.log("Setting minimap buffer", vim.log.levels.TRACE)
     local buffer = require("neominimap.buffer")
+    ---@type integer?
     local mbufnr = (function()
         if not swinid or not api.nvim_win_is_valid(swinid) then
             return nil
