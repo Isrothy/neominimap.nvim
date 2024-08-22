@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.2.0...v3.3.0) (2024-08-22)
+
+
+### Features
+
+* Allow to fix minimap width ([ff71476](https://github.com/Isrothy/neominimap.nvim/commit/ff71476f1c954b0e7379e12dc7e1aac3ed130f9f))
+
 ## [3.2.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.1.0...v3.2.0) (2024-08-22)
 
 
