@@ -53,6 +53,7 @@ M.validate_config = function(cfg)
         split = { cfg.split, "table" },
         ["split.direction"] = { cfg.split.direction, "string" },
         ["split.minimap_width"] = { cfg.split.minimap_width, "number" },
+        ["split.close_if_last_window"] = { cfg.split.close_if_last_window, "boolean" },
 
         float = { cfg.float, "table" },
         ["float.minimap_width"] = { cfg.float.minimap_width, "number" },
