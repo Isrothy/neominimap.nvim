@@ -63,6 +63,7 @@ Split window layout:
 
 ## Dependencies
 
+- A font that supports dispalys **Braille Patterns** Unicode block
 - Optional: [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for highlighting
 - Optional: [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for Git integration
 
