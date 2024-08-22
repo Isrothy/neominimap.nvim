@@ -1,4 +1,5 @@
 ---@alias Neominimap.Config.LayoutType "split" | "float"
+---@alias Neominimap.Config.SplitDirection "left" | "right" | "top" | "bottom"
 
 ---@class Neominimap.Internal.Config
 local M = {
@@ -58,6 +59,7 @@ local M = {
     --- Used when `layout` is set to `split`
     split = {
         minimap_width = 20, ---@type integer
+        direction = "left" ---@type Neominimap.Config.SplitDirection
     },
 
     --- Used when `layout` is set to `float`

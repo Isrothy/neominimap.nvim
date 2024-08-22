@@ -95,7 +95,12 @@ M.create_minimap_window_in_current_tab = function()
     logger.log(string.format("Attempting to create minimap window for tab %d", tabid), vim.log.levels.TRACE)
     local util = require("neominimap.util")
 
-    vim.cmd("noau vertical botright 1split")
+    ---@type table<Neominimap.Config.SplitDirection, string>
+    local dir_tbl = {
+        ["right"] = "botright",
+        ["left"] = "topleft",
+    }
+    vim.cmd(string.format("noau vertical %s 1split", dir_tbl[config.split.direction]))
     local mwinid = vim.api.nvim_get_current_win()
     util.noautocmd(api.nvim_set_current_win)(winid)
 

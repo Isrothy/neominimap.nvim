@@ -31,7 +31,7 @@ local is_array_of_strings = is_array_of(function(x)
     return type(x) == "string"
 end)
 
----@param cfg any
+---@param cfg Neominimap.Internal.Config
 ---@return boolean
 M.validate_config = function(cfg)
     return validate_path("vim.g.neominimap", {
@@ -51,6 +51,7 @@ M.validate_config = function(cfg)
         layout = { cfg.layout, "string" },
 
         split = { cfg.split, "table" },
+        ["split.direction"] = { cfg.split.direction, "string" },
         ["split.minimap_width"] = { cfg.split.minimap_width, "number" },
 
         float = { cfg.float, "table" },
