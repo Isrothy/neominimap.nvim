@@ -57,11 +57,11 @@ Show search results:
 
 Click to expand ~
 
-Float window layout:
+Show minimaps in float windows:
 
 Click to expand ~
 
-Split window layout:
+Show minimaps in a split window:
 
 Click to expand ~
 
@@ -82,8 +82,6 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
 
-Click to expand ~
-
 - A font that supports dispalys **Braille Patterns** Unicode block
 - Optional: nvim-treesitter <https://github.com/nvim-treesitter/nvim-treesitter> for highlighting
 - Optional: gitsigns.nvim <https://github.com/lewis6991/gitsigns.nvim> for Git integration
@@ -92,8 +90,6 @@ Click to expand ~
 INSTALLATION                         *neominimap.nvim-neominimap-installation*
 
 With Lazy:
-
-Click to expand ~
 
 >lua
     ---@module "neominimap.config.meta"
@@ -104,34 +100,34 @@ Click to expand ~
         lazy = false, -- NOTE: NO NEED to Lazy load
         -- Optional
         keys = {
-                -- Global Minimap Controls
-                { "<leader>nm", "<cmd>Neominimap toggle<cr>", desc = "Toggle global minimap" },
-                { "<leader>no", "<cmd>Neominimap on<cr>", desc = "Enable global minimap" },
-                { "<leader>nc", "<cmd>Neominimap off<cr>", desc = "Disable global minimap" },
-                { "<leader>nr", "<cmd>Neominimap refresh<cr>", desc = "Refresh global minimap" },
+            -- Global Minimap Controls
+            { "<leader>nm", "<cmd>Neominimap toggle<cr>", desc = "Toggle global minimap" },
+            { "<leader>no", "<cmd>Neominimap on<cr>", desc = "Enable global minimap" },
+            { "<leader>nc", "<cmd>Neominimap off<cr>", desc = "Disable global minimap" },
+            { "<leader>nr", "<cmd>Neominimap refresh<cr>", desc = "Refresh global minimap" },
     
-                -- Window-Specific Minimap Controls
-                { "<leader>nwt", "<cmd>Neominimap winToggle<cr>", desc = "Toggle minimap for current window" },
-                { "<leader>nwr", "<cmd>Neominimap winRefresh<cr>", desc = "Refresh minimap for current window" },
-                { "<leader>nwo", "<cmd>Neominimap winOn<cr>", desc = "Enable minimap for current window" },
-                { "<leader>nwc", "<cmd>Neominimap winOff<cr>", desc = "Disable minimap for current window" },
+            -- Window-Specific Minimap Controls
+            { "<leader>nwt", "<cmd>Neominimap winToggle<cr>", desc = "Toggle minimap for current window" },
+            { "<leader>nwr", "<cmd>Neominimap winRefresh<cr>", desc = "Refresh minimap for current window" },
+            { "<leader>nwo", "<cmd>Neominimap winOn<cr>", desc = "Enable minimap for current window" },
+            { "<leader>nwc", "<cmd>Neominimap winOff<cr>", desc = "Disable minimap for current window" },
     
-                -- Tab-Specific Minimap Controls
-                { "<leader>ntt", "<cmd>Neominimap tabToggle<cr>", desc = "Toggle minimap for current tab" },
-                { "<leader>ntr", "<cmd>Neominimap tabRefresh<cr>", desc = "Refresh minimap for current tab" },
-                { "<leader>nto", "<cmd>Neominimap tabOn<cr>", desc = "Enable minimap for current tab" },
-                { "<leader>ntc", "<cmd>Neominimap tabOff<cr>", desc = "Disable minimap for current tab" },
+            -- Tab-Specific Minimap Controls
+            { "<leader>ntt", "<cmd>Neominimap tabToggle<cr>", desc = "Toggle minimap for current tab" },
+            { "<leader>ntr", "<cmd>Neominimap tabRefresh<cr>", desc = "Refresh minimap for current tab" },
+            { "<leader>nto", "<cmd>Neominimap tabOn<cr>", desc = "Enable minimap for current tab" },
+            { "<leader>ntc", "<cmd>Neominimap tabOff<cr>", desc = "Disable minimap for current tab" },
     
-                -- Buffer-Specific Minimap Controls
-                { "<leader>nbt", "<cmd>Neominimap bufToggle<cr>", desc = "Toggle minimap for current buffer" },
-                { "<leader>nbr", "<cmd>Neominimap bufRefresh<cr>", desc = "Refresh minimap for current buffer" },
-                { "<leader>nbo", "<cmd>Neominimap bufOn<cr>", desc = "Enable minimap for current buffer" },
-                { "<leader>nbc", "<cmd>Neominimap bufOff<cr>", desc = "Disable minimap for current buffer" },
+            -- Buffer-Specific Minimap Controls
+            { "<leader>nbt", "<cmd>Neominimap bufToggle<cr>", desc = "Toggle minimap for current buffer" },
+            { "<leader>nbr", "<cmd>Neominimap bufRefresh<cr>", desc = "Refresh minimap for current buffer" },
+            { "<leader>nbo", "<cmd>Neominimap bufOn<cr>", desc = "Enable minimap for current buffer" },
+            { "<leader>nbc", "<cmd>Neominimap bufOff<cr>", desc = "Disable minimap for current buffer" },
     
-                ---Focus Controls
-                { "<leader>nf", "<cmd>Neominimap focus<cr>", desc = "Focus on minimap" },
-                { "<leader>nu", "<cmd>Neominimap unfocus<cr>", desc = "Unfocus minimap" },
-                { "<leader>ns", "<cmd>Neominimap toggleFocus<cr>", desc = "Switch focus on minimap" },
+            ---Focus Controls
+            { "<leader>nf", "<cmd>Neominimap focus<cr>", desc = "Focus on minimap" },
+            { "<leader>nu", "<cmd>Neominimap unfocus<cr>", desc = "Unfocus minimap" },
+            { "<leader>ns", "<cmd>Neominimap toggleFocus<cr>", desc = "Switch focus on minimap" },
         },
         init = function()
             -- The following options are recommended when layout == "float"
@@ -160,10 +156,10 @@ Click to expand ~
         auto_enable = true, ---@type boolean
     
         -- Log level
-        log_level = vim.log.levels.OFF, ---@type integer
+        log_level = vim.log.levels.OFF, ---@type Neominimap.Log.Levels
     
         -- Notification level
-        notification_level = vim.log.levels.INFO, ---@type integer
+        notification_level = vim.log.levels.INFO, ---@type Neominimap.Log.Levels
     
         -- Path to the log file
         log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string
@@ -214,6 +210,9 @@ Click to expand ~
         --- Used when `layout` is set to `split`
         split = {
             minimap_width = 20, ---@type integer
+    
+            -- Always fix the width of the split window
+            fix_width = false, ---@type boolean
     
             ---@alias Neominimap.Config.SplitDirection "left" | "right"
             direction = "right", ---@type Neominimap.Config.SplitDirection
@@ -537,8 +536,6 @@ These are the corresponding commands in the Lua API.
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
 
-Click to expand ~
-
 
 CACHING MINIMAP BUFFERS ~
 
@@ -630,8 +627,6 @@ Click to expand ~
 
 TODO                                         *neominimap.nvim-neominimap-todo*
 
-Click to expand ~
-
 - ☒ LSP integration
 - ☒ TreeSitter integration
 - ☒ Git integration
@@ -644,8 +639,6 @@ Click to expand ~
 
 
 NON-GOALS                               *neominimap.nvim-neominimap-non-goals*
-
-Click to expand ~
 
 - Scrollbar.
     Use satellite.nvim <https://github.com/lewis6991/satellite.nvim>,
@@ -660,16 +653,12 @@ Click to expand ~
 
 LIMITATIONS                           *neominimap.nvim-neominimap-limitations*
 
-Click to expand ~
-
 - Updating Folds Immediately.
     Neovim does not provide a fold event. Therefore, this plugin cannot update
     immediately whenever fold changes in a buffer.
 
 
 SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
-
-Click to expand ~
 
 - codewindow.nvim <https://github.com/gorbit99/codewindow.nvim>
     - Codewindow.nvim renders the minimap whenever focus is switched to a
