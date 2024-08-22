@@ -91,9 +91,9 @@ local get_matches = function(bufnr)
 end
 
 --- @param bufnr integer
----@return Neominimap.Handler.Mark[]
-M.get_marks = function(bufnr)
-    local marks = get_matches(bufnr)
+---@return Annotation[]
+M.get_annotations = function(bufnr)
+    local annotations = get_matches(bufnr)
     return vim.tbl_map(function(lnum)
         return {
             lnum = lnum + 1,
@@ -103,7 +103,7 @@ M.get_marks = function(bufnr)
             line_highlight = "NeominimapSearchLine",
             sign_highlight = "NeominimapSearchSign",
         }
-    end, marks)
+    end, annotations)
 end
 
 return M

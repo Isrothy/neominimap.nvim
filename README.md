@@ -86,7 +86,7 @@ Split window layout:
 - 🔀 Git integration
 - 🔎 Search integration
 - 🖱️ Mouse click support
-- 🖍️ Support for marks in the sign column and line highlight
+- 🖍️ Support for map annotations in the sign column and line highlight
 - 📐 Support both split window and float window layouts
 - 🌐 Respects UTF-8 encoding and tab width
 - 🎯 Focus on the minimap, allowing interaction with it

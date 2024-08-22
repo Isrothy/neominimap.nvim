@@ -102,7 +102,7 @@ local M = {
     diagnostic = {
         enabled = true, ---@type boolean
         severity = vim.diagnostic.severity.WARN, ---@type integer
-        mode = "line", ---@type Neominimap.Handler.MarkMode
+        mode = "line", ---@type Neominimap.Handler.Annotation
         priority = {
             ERROR = 100, ---@type integer
             WARN = 90, ---@type integer
@@ -113,13 +113,13 @@ local M = {
 
     git = {
         enabled = true, ---@type boolean
-        mode = "sign", ---@type Neominimap.Handler.MarkMode
+        mode = "sign", ---@type Neominimap.Handler.Annotation
         priority = 6, ---@type integer
     },
 
     search = {
         enabled = false, ---@type boolean
-        mode = "line", ---@type Neominimap.Handler.MarkMode
+        mode = "line", ---@type Neominimap.Handler.Annotation
         priority = 20, ---@type integer
     },
 

@@ -49,8 +49,8 @@ api.nvim_set_hl(0, "NeominimapGitChangeLine", { bg = colors.change, default = tr
 api.nvim_set_hl(0, "NeominimapGitDeleteLine", { bg = colors.delete, default = true })
 
 ---@param bufnr integer
----@return Neominimap.Handler.Mark[]
-M.get_marks = function(bufnr)
+---@return Annotation[]
+M.get_annotations = function(bufnr)
     local gitsigns = require("gitsigns")
     if not gitsigns then
         return {}
@@ -60,12 +60,12 @@ M.get_marks = function(bufnr)
     if not hunks then
         return {}
     end
-    ---@type Neominimap.Handler.Mark[]
-    local marks = {}
+    ---@type Annotation[]
+    local annotation = {}
     for _, hunk in ipairs(hunks) do
         local start = math.max(1, hunk.added.start)
         local end_ = start + math.max(0, hunk.added.count - 1)
-        marks[#marks + 1] = {
+        annotation[#annotation + 1] = {
             lnum = start,
             end_lnum = end_,
             priority = config.git.priority,
@@ -74,7 +74,7 @@ M.get_marks = function(bufnr)
             sign_highlight = toSignHighlight[hunk.type],
         }
     end
-    return marks
+    return annotation
 end
 
 return M
