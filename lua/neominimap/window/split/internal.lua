@@ -138,9 +138,10 @@ M.create_minimap_window_in_current_tab = function()
     else
         util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
         window_map.set_source_winid(tabid, winid)
+
+        logger.log("Setting cursor line for minimap", vim.log.levels.TRACE)
+        M.reset_mwindow_cursor_line()
     end
-    -- logger.log(tostring(tabid), vim.log.levels.DEBUG)
-    -- logger.log(tostring(window_map.get_minimap_winid(tabid)), vim.log.levels.DEBUG)
 
     logger.log(string.format("Minimap window %d created and set up.", mwinid), vim.log.levels.TRACE)
     return mwinid
@@ -237,6 +238,9 @@ M.refresh_source_in_current_tab = function()
 
     window_map.set_source_winid(tabid, swinid)
     logger.log(string.format("Source window set"), vim.log.levels.TRACE)
+
+    logger.log("Setting cursor line for minimap", vim.log.levels.TRACE)
+    M.reset_mwindow_cursor_line()
 
     logger.log("Setting minimap buffer", vim.log.levels.TRACE)
     local buffer = require("neominimap.buffer")
