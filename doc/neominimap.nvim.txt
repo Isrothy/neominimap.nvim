@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 21
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 22
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -308,6 +308,7 @@ The default `bufopt` is:
         swapfile = false,
         bufhidden = "hide",
         undolevels = -1,
+        modifiable = false,
     }
 <
 
