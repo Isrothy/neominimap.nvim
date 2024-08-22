@@ -38,7 +38,7 @@ local M = {}
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.MarkMode
+---@field mode? Neominimap.Handler.Annotation
 ---@field severity? integer
 ---@field priority? Neominimap.DiagnosticPriority
 
@@ -50,12 +50,12 @@ local M = {}
 
 ---@class (exact) Neominimap.GitConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.MarkMode
+---@field mode? Neominimap.Handler.Annotation
 ---@field priority? integer
 
 ---@class (exact) Neominimap.SearchConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.MarkMode
+---@field mode? Neominimap.Handler.Annotation
 ---@field priority? integer
 
 ---@class (exact) Neominimap.TreesitterConfig
