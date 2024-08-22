@@ -37,6 +37,13 @@ M.create_autocmds = function()
                 string.format("WinClosed event triggered for window %d.", tonumber(args.match)),
                 vim.log.levels.TRACE
             )
+            local enabled = require("neominimap.variables").g.enabled
+            local mbufnr = require("neominimap.buffer").get_minimap_bufnr(args.buf)
+            -- 2 because window is still listed in its own WinClosed event
+            if mbufnr ~= nil and #vim.api.nvim_list_wins() == 2 and enabled then
+                logger.log("Quitting vim", vim.log.levels.TRACE)
+                vim.cmd("quitall")
+            end
             vim.schedule(function()
                 logger.log("Refreshing minimap window", vim.log.levels.TRACE)
                 require("neominimap.window.split.internal").refresh_source_in_current_tab()
