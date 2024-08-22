@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.0.0...v3.0.1) (2024-08-22)
+
+
+### Bug Fixes
+
+* Errors when windows or buffers are nil or not valid ([695c3b4](https://github.com/Isrothy/neominimap.nvim/commit/695c3b42b2066587d087cb9430f120f7ce529188))
+* Set buffer unmodifiable ([775667d](https://github.com/Isrothy/neominimap.nvim/commit/775667d4a5b6c8c50709c91ed2c5ecdb26f5e5dd))
+* Set parent to nil when appropriate ([be81003](https://github.com/Isrothy/neominimap.nvim/commit/be81003ab8b1784de6960db475a74158493e41c9))
+
 ## [3.0.0](https://github.com/Isrothy/neominimap.nvim/compare/v2.12.3...v3.0.0) (2024-08-21)
 
 
