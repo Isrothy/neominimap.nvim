@@ -31,6 +31,9 @@ Criticisms are welcome.
 
 ## Screenshots
 
+<details>
+ <summary>Click to expand</summary>
+
 ![screenshot](https://github.com/user-attachments/assets/029d61c7-94ac-4e68-9308-3c82a3c07fef)
 
 Show diagnostics:
@@ -48,6 +51,8 @@ Float window layout:
 Split window layout:
 ![image](https://github.com/user-attachments/assets/8a4fc48b-4811-4cee-a964-eccc5fda9a57)
 
+</details>
+
 ## Features
 
 - LSP integration
@@ -63,13 +68,21 @@ Split window layout:
 
 ## Dependencies
 
+<details>
+ <summary>Click to expand</summary>
+
 - A font that supports dispalys **Braille Patterns** Unicode block
 - Optional: [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for highlighting
 - Optional: [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for Git integration
 
+</details>
+
 ## Installation
 
 With Lazy:
+
+<details>
+ <summary>Click to expand</summary>
 
 ```lua
 ---@module "neominimap.config.meta"
@@ -118,12 +131,17 @@ With Lazy:
             auto_enable = true,
         }
     end,
-},
+}
 ```
+
+</details>
 
 ## Configuration
 
 The following is the default configuration.
+
+<details>
+ <summary>Click to expand</summary>
 
 ```lua
 {
@@ -306,7 +324,12 @@ The default `bufopt` is:
 }
 ```
 
+</details>
+
 ## Commands
+
+<details>
+ <summary>Click to expand</summary>
 
 | Command                               | Description                                                                                                     | Arguments                  |
 |---------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------|
@@ -334,8 +357,8 @@ The default `bufopt` is:
 > A minimap is shown if and only if
 >
 > - Neominimap is enabled globally,
-> - Neominimap is enabled for the current buffer, and
-> - Neominimap is enabled for the current tab, and
+> - Neominimap is enabled for the current buffer,
+> - Neominimap is enabled for the current tabage, and
 > - Neominimap is enabled for the current window.
 
 `Neominimap bufRefresh` does the following:
@@ -373,7 +396,12 @@ To refresh the minimap for windows 3 and 4:
 :Neominimap winRefresh 3 4
 ```
 
-### Lua API
+</details>
+
+## Lua API
+
+<details>
+ <summary>Click to expand</summary>
 
 These are the corresponding commands in the Lua API.
 
@@ -399,7 +427,14 @@ These are the corresponding commands in the Lua API.
 | `require('neominimap').unfocus()`           | Unfocus the minimap window, returning focus to the editor.   | None                                                                 |
 | `require('neominimap').toggleFocus()`       | Toggle focus between the minimap and the main editor window. | None                                                                 |
 
+</details>
+
 ## How it works
+
+<details>
+ <summary>Click to expand</summary>
+
+### Caching Minimap Buffers
 
 For every file opened, the plugin generates a corresponding minimap buffer.
 
@@ -411,7 +446,7 @@ This approach minimizes unnecessary rendering when
 - Multiple windows are open for same file
 - Switching between buffers within a window
 
-### TreeSitter integration
+### TreeSitter Integration
 
 First, the plugin retrieves all Treesitter nodes in the buffer.
 
@@ -430,11 +465,16 @@ As a result, unshown highlights may be displayed in the minimap,
 leading to potential inconsistencies
 between the highlights in the minimap and those in the buffer.
 
+</details>
+
 ## Tips
 
 Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neominimap.nvim/wiki/Tips)
 
 ## Highlights
+
+<details>
+ <summary>Click to expand</summary>
 
 | Highlight Group           | Description                                   |
 |---------------------------|-----------------------------------------------|
@@ -456,7 +496,12 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `NeominimapGitChangeSign` |                                               |
 | `NeominimapGitDeleteSign` |                                               |
 
+</details>
+
 ## Namespaces
+
+<details>
+ <summary>Click to expand</summary>
 
 | Namespace               | Description                      |
 |-------------------------|----------------------------------|
@@ -465,7 +510,12 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `neominimap_search`     | Search signs and highlights.     |
 | `neominimap_treesitter` | Treesitter highlights.           |
 
+</details>
+
 ## TODO
+
+<details>
+ <summary>Click to expand</summary>
 
 - [x] LSP integration
 - [x] TreeSitter integration
@@ -477,7 +527,12 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 - [ ] Performance improvements
 - [ ] More test cases
 
+</details>
+
 ## Non-Goals
+
+<details>
+ <summary>Click to expand</summary>
 
 - Scrollbar.
   Use [satellite.nvim](https://github.com/lewis6991/satellite.nvim),
@@ -489,13 +544,23 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
   Since a screen bound is a windowwise thing,
   it's not impossible to display them by highlights.
 
+</details>
+
 ## Limitations
+
+<details>
+ <summary>Click to expand</summary>
 
 - Updating Folds Immediately.
   Neovim does not provide a fold event. Therefore, this plugin cannot update
   immediately whenever fold changes in a buffer.
 
+</details>
+
 ## Similar projects
+
+<details>
+ <summary>Click to expand</summary>
 
 - [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim)
   - Codewindow.nvim renders the minimap whenever focus is switched to a
@@ -527,6 +592,8 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
     does.
   - Minimap.vim shows the minimap in a split window but does not support a
     floating window. This plugin supports both.
+
+</details>
 
 ## Acknowledgements
 
