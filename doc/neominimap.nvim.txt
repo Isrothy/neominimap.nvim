@@ -45,31 +45,39 @@ Criticisms are welcome.
 
 SCREENSHOTS                           *neominimap.nvim-neominimap-screenshots*
 
-Click to expand ~
-
 Show diagnostics:
+
+Click to expand ~
 
 Show git signs:
 
+Click to expand ~
+
 Show search results:
+
+Click to expand ~
 
 Float window layout:
 
+Click to expand ~
+
 Split window layout:
+
+Click to expand ~
 
 
 FEATURES                                 *neominimap.nvim-neominimap-features*
 
-- LSP integration
-- TreeSitter integration
-- Fold integration
-- Git integration
-- Search integration
-- Mouse click support
-- Support for marks in the sign column and line highlight
-- Support both split window and float window layouts
-- Respects UTF-8 encoding and tab width
-- Focus on the minimap, allowing interaction with it
+- 🖥️ LSP integration
+- 🌳 TreeSitter integration
+- ➖ Fold integration
+- 🔀 Git integration
+- 🔎 Search integration
+- 🖱️ Mouse click support
+- 🖍️ Support for marks in the sign column and line highlight
+- 📐 Support both split window and float window layouts
+- 🌐 Respects UTF-8 encoding and tab width
+- 🎯 Focus on the minimap, allowing interaction with it
 
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
@@ -396,12 +404,6 @@ Click to expand ~
 
   Neominimap toggleFocus                Toggle minimap focus                         None
   ----------------------------------------------------------------------------------------------
-
-  [!NOTE] A minimap is shown if and only if
-  - Neominimap is enabled globally,
-  - Neominimap is enabled for the current buffer,
-  - Neominimap is enabled for the current tabage, and
-  - Neominimap is enabled for the current window.
 `Neominimap bufRefresh` does the following:
 
 - Creating or wiping out buffers as needed.
@@ -438,6 +440,12 @@ To refresh the minimap for windows 3 and 4:
     :Neominimap winRefresh 3 4
 <
 
+
+  [!NOTE] A minimap is shown if and only if
+  - Neominimap is enabled globally,
+  - Neominimap is enabled for the current buffer,
+  - Neominimap is enabled for the current tabage, and
+  - Neominimap is enabled for the current window.
 
 LUA API                                   *neominimap.nvim-neominimap-lua-api*
 
