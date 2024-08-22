@@ -149,11 +149,32 @@ M.create_autocmds = function()
             )
             local bufnr = args.data.buf
             local win_list = require("neominimap.util").get_attached_window(bufnr)
-            for _, winid in ipairs(win_list) do
-                logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
-                require("neominimap.window.float.internal").refresh_minimap_window(winid)
-                logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
-            end
+            vim.schedule(function()
+                for _, winid in ipairs(win_list) do
+                    logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
+                    require("neominimap.window.float.internal").refresh_minimap_window(winid)
+                    logger.log(string.format("Minimap refreshed for window %d.", winid), vim.log.levels.TRACE)
+                end
+            end)
+        end,
+    })
+    api.nvim_create_autocmd("User", {
+        group = "Neominimap",
+        pattern = "MinimapBufferTextUpdated",
+        desc = "Reset cursor line when buffer text is updated",
+        callback = function(args)
+            local logger = require("neominimap.logger")
+            local bufnr = args.data.buf
+            logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)
+            logger.log(string.format("Buffer ID: %d", bufnr), vim.log.levels.TRACE)
+            local win_list = require("neominimap.util").get_attached_window(bufnr)
+            vim.schedule(function()
+                for _, winid in ipairs(win_list) do
+                    logger.log(string.format("Resetting cursor line for window %d.", winid), vim.log.levels.TRACE)
+                    require("neominimap.window.float.internal").reset_mwindow_cursor_line(winid)
+                    logger.log(string.format("Cursor line reset for window %d.", winid), vim.log.levels.TRACE)
+                end
+            end)
         end,
     })
 end

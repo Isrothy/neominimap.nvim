@@ -96,6 +96,20 @@ M.create_autocmds = function()
             end)
         end,
     })
+    api.nvim_create_autocmd("User", {
+        group = "Neominimap",
+        pattern = "MinimapBufferTextUpdated",
+        desc = "Reset cursor line when buffer text is updated",
+        callback = function(args)
+            local logger = require("neominimap.logger")
+            logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)
+            vim.schedule(function()
+                logger.log(string.format("Resetting cursor line"), vim.log.levels.TRACE)
+                require("neominimap.window.split.internal").reset_mwindow_cursor_line()
+                logger.log(string.format("Cursor line reset"), vim.log.levels.TRACE)
+            end)
+        end,
+    })
 end
 
 return M
