@@ -1,6 +1,3 @@
----@alias Neominimap.Config.LayoutType "split" | "float"
----@alias Neominimap.Config.SplitDirection "left" | "right" | "top" | "bottom"
-
 ---@class Neominimap.Internal.Config
 local M = {
     -- Enable the plugin by default
@@ -49,6 +46,8 @@ local M = {
     -- How many rows a dot should span
     y_multiplier = 1, ---@type integer
 
+    ---@alias Neominimap.Config.LayoutType "split" | "float"
+
     --- Either `split` or `float`
     --- When layout is set to `float`,
     --- the minimap will be created in floating windows attached to all suitable windows
@@ -59,7 +58,9 @@ local M = {
     --- Used when `layout` is set to `split`
     split = {
         minimap_width = 20, ---@type integer
-        direction = "left" ---@type Neominimap.Config.SplitDirection
+
+        ---@alias Neominimap.Config.SplitDirection "left" | "right"
+        direction = "right", ---@type Neominimap.Config.SplitDirection
     },
 
     --- Used when `layout` is set to `float`
