@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.2.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.1.0...v3.2.0) (2024-08-22)
+
+
+### Features
+
+* Add option to close if minimap is the last window ([37107fe](https://github.com/Isrothy/neominimap.nvim/commit/37107fedc51611edcdf6fe41e9a1adff0534be85))
+
+
+### Bug Fixes
+
+* Update cursor line when minimap text changed ([af8d138](https://github.com/Isrothy/neominimap.nvim/commit/af8d13891319b55e2b8b8ee30be6124244835a9c))
+* Validate config.split.close_if_last_window ([4f33e39](https://github.com/Isrothy/neominimap.nvim/commit/4f33e39c172028e76954f98ac42a3ae983d2fc25))
+
 ## [3.1.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.0.1...v3.1.0) (2024-08-22)
 
 
