@@ -39,7 +39,7 @@ M.create_autocmds = function()
             )
             vim.schedule(function()
                 logger.log("Refreshing minimap window", vim.log.levels.TRACE)
-                require("neominimap.window.split.internal").refresh_source_in_current_tab()
+                require("neominimap.window.split.internal").refresh_current_tab()
                 logger.log("Minimap window refreshed.", vim.log.levels.TRACE)
             end)
         end,

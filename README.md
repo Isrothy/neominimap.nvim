@@ -231,6 +231,9 @@ The following is the default configuration.
 
         ---@alias Neominimap.Config.SplitDirection "left" | "right"
         direction = "right", ---@type Neominimap.Config.SplitDirection
+
+        ---Automatically close the split window when it is the last window
+        close_if_last_window = false, ---@type boolean
     },
 
     --- Used when `layout` is set to `float`

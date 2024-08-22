@@ -28,6 +28,7 @@ local M = {}
 ---@class (exact) Neominimap.SplitConfig
 ---@field minimap_width? integer
 ---@field direction? Neominimap.Config.SplitDirection
+---@field close_if_last_window? boolean
 
 ---@class (exact) Neominimap.FloatConfig
 ---@field max_minimap_height? integer
