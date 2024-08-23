@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.3...v3.4.0) (2024-08-23)
+
+
+### Features
+
+* New Annotation mode: icons ([ad5eba7](https://github.com/Isrothy/neominimap.nvim/commit/ad5eba759572e53999f8bf6129e5a4793312991a))
+
 ## [3.3.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.2...v3.3.3) (2024-08-23)
 
 
