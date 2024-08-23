@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 22
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 23
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -151,7 +151,14 @@ The following is the default configuration.
 Click to expand ~
 
 >lua
-    {
+    ---@enum Neominimap.Handler.Annotation
+    local AnnotationMode = {
+        Sign = "sign", -- Show braille signs in the sign column
+        Icon = "icon", -- Show icons in the sign column
+        Line = "line", -- Highlight the background of the line on the minimap
+    }
+    
+    vim.g.neominimap ={
         -- Enable the plugin by default
         auto_enable = true, ---@type boolean
     
@@ -259,7 +266,7 @@ Click to expand ~
     
         diagnostic = {
             enabled = true, ---@type boolean
-            severity = vim.diagnostic.severity.WARN, ---@type integer
+            severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
             mode = "line", ---@type Neominimap.Handler.MarkMode
             priority = {
                 ERROR = 100, ---@type integer
@@ -576,6 +583,9 @@ HIGHLIGHTS                             *neominimap.nvim-neominimap-highlights*
 
 Click to expand ~
 
+
+HIGHLIGHT GROUPS OF NEOMINIMAP WINDOWS ~
+
   -----------------------------------------------------------------------
   Highlight Group           Description
   ------------------------- ---------------------------------------------
@@ -584,7 +594,13 @@ Click to expand ~
   NeominimapBorder          Border highlight for the minimap window.
 
   NeominimapCursorLine      Highlight for the cursor line in the minimap.
+  -----------------------------------------------------------------------
 
+HIGHLIGHT GROUPS OF DIAGNOSTIC ANNOTATIONS ~
+
+  -----------------------------------------------------------------------
+  Highlight Group           Description
+  ------------------------- ---------------------------------------------
   NeominimapHintLine        
 
   NeominimapInfoLine        
@@ -601,6 +617,20 @@ Click to expand ~
 
   NeominimapErrorSign       
 
+  NeominimapHintIcon        
+
+  NeominimapInfoIcon        
+
+  NeominimapWarnIcon        
+
+  NeominimapErrorIcon       
+  -----------------------------------------------------------------------
+
+HIGHLIGHT GROUPS OF GIT ANNOTATIONS ~
+
+  -----------------------------------------------------------------------
+  Highlight Group           Description
+  ------------------------- ---------------------------------------------
   NeominimapGitAddLine      
 
   NeominimapGitChangeLine   
@@ -612,6 +642,24 @@ Click to expand ~
   NeominimapGitChangeSign   
 
   NeominimapGitDeleteSign   
+
+  NeominimapGitAddIcon      
+
+  NeominimapGitChangeIcon   
+
+  NeominimapGitDeleteIcon   
+  -----------------------------------------------------------------------
+
+HIGHLIGHT GROUPS OF SEARCH ANNOTATIONS ~
+
+  -----------------------------------------------------------------------
+  Highlight Group           Description
+  ------------------------- ---------------------------------------------
+  NeominimapSearchLine      
+
+  NeominimapSearchSign      
+
+  NeominimapSearchIcon      
   -----------------------------------------------------------------------
 
 NAMESPACES                             *neominimap.nvim-neominimap-namespaces*
