@@ -118,8 +118,8 @@ M.sync_to_source = function(swinid, mwinid)
     if config.fold.enabled then
         local bufnr = api.nvim_win_get_buf(swinid)
         local fold = require("neominimap.map.fold")
-        local vrow = fold.substract_fold_lines(fold.get_cached_folds(bufnr), row)
-        if not vrow then
+        local vrow, hidden = fold.substract_fold_lines(fold.get_cached_folds(bufnr), row)
+        if hidden then
             logger.log("failed to find the line number considering folded lines", vim.log.levels.WARN)
             row = 1
         else

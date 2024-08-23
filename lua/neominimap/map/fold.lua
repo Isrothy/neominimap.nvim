@@ -57,19 +57,36 @@ end
 
 ---@param folds Neominimap.Fold[]
 ---@param lineNr integer
----@return integer?
+---@return integer
+---@return boolean hidden
 M.substract_fold_lines = function(folds, lineNr)
     local acc = 0
     for _, f in ipairs(folds) do
         if lineNr <= f.start then
             break
         elseif lineNr <= f.end_ then
-            return nil
+            return f.start - acc, true
         else
             acc = acc + f.end_ - f.start
         end
     end
-    return lineNr - acc
+    return lineNr - acc, false
+end
+
+---@param folds Neominimap.Fold[]
+---@param start_row integer
+---@param end_row integer
+---@return integer v_start
+---@return integer v_end
+M.get_visiable_range = function(folds, start_row, end_row)
+    local v_start, hidden_start = M.substract_fold_lines(folds, start_row)
+    local v_end, _ = M.substract_fold_lines(folds, end_row)
+
+    if hidden_start then
+        v_start = v_start + 1
+    end
+
+    return v_start, v_end
 end
 
 ---@param folds Neominimap.Fold[]

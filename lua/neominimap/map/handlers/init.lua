@@ -32,19 +32,15 @@ local apply_line = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        local start_row = fold.substract_fold_lines(cached_folds, annotation.lnum)
-        local end_row = fold.substract_fold_lines(cached_folds, annotation.end_lnum)
-
-        if start_row and end_row then
-            for row = start_row, end_row do
-                local col = 1
-                local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
-                if not lines[mrow] or lines[mrow].priority < annotation.priority then
-                    lines[mrow] = {
-                        hl = annotation.line_highlight,
-                        priority = annotation.priority,
-                    }
-                end
+        local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
+        for row = start_row, end_row do
+            local col = 1
+            local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
+            if not lines[mrow] or lines[mrow].priority < annotation.priority then
+                lines[mrow] = {
+                    hl = annotation.line_highlight,
+                    priority = annotation.priority,
+                }
             end
         end
     end
@@ -78,28 +74,25 @@ local apply_sign = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        local start_row = fold.substract_fold_lines(cached_folds, annotation.lnum)
-        local end_row = fold.substract_fold_lines(cached_folds, annotation.end_lnum)
-        if start_row and end_row then
-            for row = start_row, end_row do
-                local col = 1
-                local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
-                if
-                    not signs[mrow]
-                    or signs[mrow].priority < annotation.priority
-                    or (signs[mrow].priority == annotation.priority and signs[mrow].id < annotation.id)
-                then
-                    signs[mrow] = {
-                        flag = 0,
-                        id = annotation.id,
-                        hl = annotation.sign_highlight,
-                        priority = annotation.priority,
-                    }
-                end
-                if signs[mrow].id == annotation.id then
-                    local y, x = coord.codepoint_to_map_point(row, col)
-                    signs[mrow].flag = bit.bor(signs[mrow].flag, coord.map_point_to_flag(y, x))
-                end
+        local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
+        for row = start_row, end_row do
+            local col = 1
+            local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
+            if
+                not signs[mrow]
+                or signs[mrow].priority < annotation.priority
+                or (signs[mrow].priority == annotation.priority and signs[mrow].id < annotation.id)
+            then
+                signs[mrow] = {
+                    flag = 0,
+                    id = annotation.id,
+                    hl = annotation.sign_highlight,
+                    priority = annotation.priority,
+                }
+            end
+            if signs[mrow].id == annotation.id then
+                local y, x = coord.codepoint_to_map_point(row, col)
+                signs[mrow].flag = bit.bor(signs[mrow].flag, coord.map_point_to_flag(y, x))
             end
         end
     end
