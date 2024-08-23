@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.1...v3.3.2) (2024-08-23)
+## [3.3.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.1...v3.3.2) (2024-08-23)
 
 
 ### Bug Fixes
