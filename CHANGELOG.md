@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.1...v3.3.2) (2024-08-23)
+
+
+### Bug Fixes
+
+*  Correct row of annotations when foldings exist ([565f0c6](https://github.com/Isrothy/neominimap.nvim/commit/565f0c696a0f559b057775b04b4375d75418733c))
+
 ## [3.3.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.0...v3.3.1) (2024-08-23)
 
 
