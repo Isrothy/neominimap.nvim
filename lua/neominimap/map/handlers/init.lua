@@ -9,17 +9,13 @@ local api = vim.api
 ---@field priority integer
 ---@field line_highlight string
 ---@field sign_highlight string
+---@field icon_highlight string
 
 ---@enum Neominimap.Handler.Annotation
 local AnnotationMode = {
-    Sign = "sign",
-    Line = "line",
-}
-
----@enum Neominimap.Handler.SignKind
-local SignKind = {
-    Icon = "icon",
-    Braille = "braille",
+    Sign = "sign", -- Show braille signs in the sign column
+    Icon = "icon", -- Show icons in the sign column
+    Line = "line", -- Highlight the background of the line on the minimap
 }
 
 ---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Annotation[])

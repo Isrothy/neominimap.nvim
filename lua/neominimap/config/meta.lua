@@ -49,6 +49,7 @@ local M = {}
 ---@field WARN? integer
 ---@field INFO? integer
 ---@field HINT? integer
+
 ---@class (exact) Neominimap.GitConfig
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation

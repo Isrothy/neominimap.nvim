@@ -67,6 +67,7 @@ M.get_annotations = function(bufnr)
             id = severity,
             line_highlight = colors_name[severity] .. "Line",
             sign_highlight = colors_name[severity] .. "Sign",
+            icon_highlight = colors_name[severity] .. "Sign",
         }
     end
     return annotation

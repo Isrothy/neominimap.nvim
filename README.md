@@ -161,7 +161,14 @@ The following is the default configuration.
  <summary>Click to expand</summary>
 
 ```lua
-{
+---@enum Neominimap.Handler.Annotation
+local AnnotationMode = {
+    Sign = "sign", -- Show braille signs in the sign column
+    Icon = "icon", -- Show icons in the sign column
+    Line = "line", -- Highlight the background of the line on the minimap
+}
+
+vim.g.neominimap ={
     -- Enable the plugin by default
     auto_enable = true, ---@type boolean
 
