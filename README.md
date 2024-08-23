@@ -501,11 +501,18 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 <details>
  <summary>Click to expand</summary>
 
+### Highlight Groups of Neominimap Windows
+
 | Highlight Group           | Description                                   |
 |---------------------------|-----------------------------------------------|
 | `NeominimapBackground`    | Background color for the minimap.             |
 | `NeominimapBorder`        | Border highlight for the minimap window.      |
 | `NeominimapCursorLine`    | Highlight for the cursor line in the minimap. |
+
+### Highlight Groups of Diagnostic Annotations
+
+| Highlight Group           | Description                                   |
+|---------------------------|-----------------------------------------------|
 | `NeominimapHintLine`      |                                               |
 | `NeominimapInfoLine`      |                                               |
 | `NeominimapWarnLine`      |                                               |
@@ -514,12 +521,32 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `NeominimapInfoSign`      |                                               |
 | `NeominimapWarnSign`      |                                               |
 | `NeominimapErrorSign`     |                                               |
+| `NeominimapHintIcon`      |                                               |
+| `NeominimapInfoIcon`      |                                               |
+| `NeominimapWarnIcon`      |                                               |
+| `NeominimapErrorIcon`     |                                               |
+
+### Highlight Groups of Git Annotations
+
+| Highlight Group           | Description                                   |
+|---------------------------|-----------------------------------------------|
 | `NeominimapGitAddLine`    |                                               |
 | `NeominimapGitChangeLine` |                                               |
 | `NeominimapGitDeleteLine` |                                               |
 | `NeominimapGitAddSign`    |                                               |
 | `NeominimapGitChangeSign` |                                               |
 | `NeominimapGitDeleteSign` |                                               |
+| `NeominimapGitAddIcon`    |                                               |
+| `NeominimapGitChangeIcon` |                                               |
+| `NeominimapGitDeleteIcon` |                                               |
+
+### Highlight Groups of Search Annotations
+
+| Highlight Group           | Description                                   |
+|---------------------------|-----------------------------------------------|
+| `NeominimapSearchLine`    |                                               |
+| `NeominimapSearchSign`    |                                               |
+| `NeominimapSearchIcon`    |                                               |
 
 </details>
 

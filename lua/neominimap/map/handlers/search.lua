@@ -21,6 +21,7 @@ local get_hl_bg = function(name)
 end
 
 api.nvim_set_hl(0, "NeominimapSearchSign", { fg = get_hl_bg("Search"), default = true })
+api.nvim_set_hl(0, "NeominimapSearchIcon", { fg = get_hl_bg("Search"), default = true })
 api.nvim_set_hl(0, "NeominimapSearchLine", { bg = get_hl_bg("Search"), default = true })
 
 --- @param pattern string
@@ -101,6 +102,7 @@ M.get_annotations = function(bufnr)
             end_lnum = lnum + 1,
             priority = config.search.priority,
             id = 1,
+            icon = config.search.icon,
             line_highlight = "NeominimapSearchLine",
             sign_highlight = "NeominimapSearchSign",
             icon_highlight = "NeominimapSearchIcon",

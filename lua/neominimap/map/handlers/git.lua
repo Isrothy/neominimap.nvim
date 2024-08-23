@@ -27,10 +27,24 @@ local toSignHighlight = {
 }
 
 ---@type table<string, string>
+local toIconHighlight = {
+    ["add"] = "NeominimapGitAddIcon",
+    ["change"] = "NeominimapGitChangeIcon",
+    ["delete"] = "NeominimapGitDeleteIcon",
+}
+
+---@type table<string, string>
 local toLineHighlight = {
     ["add"] = "NeominimapGitAddLine",
     ["change"] = "NeominimapGitChangeLine",
     ["delete"] = "NeominimapGitDeleteLine",
+}
+
+---@type table<string, string>
+local toIcon = {
+    ["add"] = config.git.icon.add,
+    ["change"] = config.git.icon.change,
+    ["delete"] = config.git.icon.delete,
 }
 
 ---@type table<string, integer>
@@ -43,6 +57,10 @@ local toId = {
 api.nvim_set_hl(0, "NeominimapGitAddSign", { fg = colors.add, default = true })
 api.nvim_set_hl(0, "NeominimapGitChangeSign", { fg = colors.change, default = true })
 api.nvim_set_hl(0, "NeominimapGitDeleteSign", { fg = colors.delete, default = true })
+
+api.nvim_set_hl(0, "NeominimapGitAddIcon", { fg = colors.add, default = true })
+api.nvim_set_hl(0, "NeominimapGitChangeIcon", { fg = colors.change, default = true })
+api.nvim_set_hl(0, "NeominimapGitDeleteIcon", { fg = colors.delete, default = true })
 
 api.nvim_set_hl(0, "NeominimapGitAddLine", { bg = colors.add, default = true })
 api.nvim_set_hl(0, "NeominimapGitChangeLine", { bg = colors.change, default = true })
@@ -70,6 +88,7 @@ M.get_annotations = function(bufnr)
             end_lnum = end_,
             priority = config.git.priority,
             id = toId[hunk.type],
+            icon = toIcon[hunk.type],
             line_highlight = toLineHighlight[hunk.type],
             sign_highlight = toSignHighlight[hunk.type],
             icon_highlight = toSignHighlight[hunk.type],

@@ -26,6 +26,11 @@ api.nvim_set_hl(0, "NeominimapWarnSign", { fg = colors.WARN, default = true })
 api.nvim_set_hl(0, "NeominimapInfoSign", { fg = colors.INFO, default = true })
 api.nvim_set_hl(0, "NeominimapHintSign", { fg = colors.HINT, default = true })
 
+api.nvim_set_hl(0, "NeominimapErrorIcon", { fg = colors.ERROR, default = true })
+api.nvim_set_hl(0, "NeominimapWarnIcon", { fg = colors.WARN, default = true })
+api.nvim_set_hl(0, "NeominimapInfoIcon", { fg = colors.INFO, default = true })
+api.nvim_set_hl(0, "NeominimapHintIcon", { fg = colors.HINT, default = true })
+
 api.nvim_set_hl(0, "NeominimapErrorLine", { bg = colors.ERROR, default = true })
 api.nvim_set_hl(0, "NeominimapWarnLine", { bg = colors.WARN, default = true })
 api.nvim_set_hl(0, "NeominimapInfoLine", { bg = colors.INFO, default = true })
@@ -47,6 +52,14 @@ local priority_list = {
     config.diagnostic.priority.HINT,
 }
 
+---@type string[]
+local icon_list = {
+    config.diagnostic.icon.ERROR,
+    config.diagnostic.icon.WARN,
+    config.diagnostic.icon.INFO,
+    config.diagnostic.icon.HINT,
+}
+
 ---@param bufnr integer
 ---@return Annotation[]
 M.get_annotations = function(bufnr)
@@ -64,10 +77,11 @@ M.get_annotations = function(bufnr)
             lnum = diag.lnum + 1,
             end_lnum = diag.end_lnum + 1,
             priority = priority_list[severity],
+            icon = icon_list[severity],
             id = severity,
             line_highlight = colors_name[severity] .. "Line",
             sign_highlight = colors_name[severity] .. "Sign",
-            icon_highlight = colors_name[severity] .. "Sign",
+            icon_highlight = colors_name[severity] .. "Icon",
         }
     end
     return annotation
