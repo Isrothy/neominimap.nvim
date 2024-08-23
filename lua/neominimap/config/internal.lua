@@ -107,7 +107,7 @@ local M = {
 
     diagnostic = {
         enabled = true, ---@type boolean
-        severity = vim.diagnostic.severity.WARN, ---@type integer
+        severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
         mode = "line", ---@type Neominimap.Handler.Annotation
         priority = {
             ERROR = 100, ---@type integer
@@ -115,18 +115,30 @@ local M = {
             INFO = 80, ---@type integer
             HINT = 70, ---@type integer
         },
+        icon = {
+            ERROR = "󰅚 ", ---@type string
+            WARN = "󰀪 ", ---@type string
+            INFO = "󰌶 ", ---@type string
+            HINT = " ", ---@type string
+        },
     },
 
     git = {
         enabled = true, ---@type boolean
         mode = "sign", ---@type Neominimap.Handler.Annotation
         priority = 6, ---@type integer
+        icon = {
+            add = "+ ", ---@type string
+            change = "~ ", ---@type string
+            delete = "- ", ---@type string
+        },
     },
 
     search = {
         enabled = false, ---@type boolean
         mode = "line", ---@type Neominimap.Handler.Annotation
         priority = 20, ---@type integer
+        icon = "󰱽 ", ---@type string
     },
 
     treesitter = {

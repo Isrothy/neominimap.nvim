@@ -161,7 +161,14 @@ The following is the default configuration.
  <summary>Click to expand</summary>
 
 ```lua
-{
+---@enum Neominimap.Handler.Annotation
+local AnnotationMode = {
+    Sign = "sign", -- Show braille signs in the sign column
+    Icon = "icon", -- Show icons in the sign column
+    Line = "line", -- Highlight the background of the line on the minimap
+}
+
+vim.g.neominimap ={
     -- Enable the plugin by default
     auto_enable = true, ---@type boolean
 
@@ -269,7 +276,7 @@ The following is the default configuration.
 
     diagnostic = {
         enabled = true, ---@type boolean
-        severity = vim.diagnostic.severity.WARN, ---@type integer
+        severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
         mode = "line", ---@type Neominimap.Handler.MarkMode
         priority = {
             ERROR = 100, ---@type integer
@@ -494,11 +501,18 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 <details>
  <summary>Click to expand</summary>
 
+### Highlight Groups of Neominimap Windows
+
 | Highlight Group           | Description                                   |
 |---------------------------|-----------------------------------------------|
 | `NeominimapBackground`    | Background color for the minimap.             |
 | `NeominimapBorder`        | Border highlight for the minimap window.      |
 | `NeominimapCursorLine`    | Highlight for the cursor line in the minimap. |
+
+### Highlight Groups of Diagnostic Annotations
+
+| Highlight Group           | Description                                   |
+|---------------------------|-----------------------------------------------|
 | `NeominimapHintLine`      |                                               |
 | `NeominimapInfoLine`      |                                               |
 | `NeominimapWarnLine`      |                                               |
@@ -507,12 +521,32 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `NeominimapInfoSign`      |                                               |
 | `NeominimapWarnSign`      |                                               |
 | `NeominimapErrorSign`     |                                               |
+| `NeominimapHintIcon`      |                                               |
+| `NeominimapInfoIcon`      |                                               |
+| `NeominimapWarnIcon`      |                                               |
+| `NeominimapErrorIcon`     |                                               |
+
+### Highlight Groups of Git Annotations
+
+| Highlight Group           | Description                                   |
+|---------------------------|-----------------------------------------------|
 | `NeominimapGitAddLine`    |                                               |
 | `NeominimapGitChangeLine` |                                               |
 | `NeominimapGitDeleteLine` |                                               |
 | `NeominimapGitAddSign`    |                                               |
 | `NeominimapGitChangeSign` |                                               |
 | `NeominimapGitDeleteSign` |                                               |
+| `NeominimapGitAddIcon`    |                                               |
+| `NeominimapGitChangeIcon` |                                               |
+| `NeominimapGitDeleteIcon` |                                               |
+
+### Highlight Groups of Search Annotations
+
+| Highlight Group           | Description                                   |
+|---------------------------|-----------------------------------------------|
+| `NeominimapSearchLine`    |                                               |
+| `NeominimapSearchSign`    |                                               |
+| `NeominimapSearchIcon`    |                                               |
 
 </details>
 
