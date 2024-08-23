@@ -97,7 +97,12 @@ M.sync_to_minimap = function(swinid, mwinid)
     local line_cnt = api.nvim_buf_line_count(bufnr)
     if row <= line_cnt then
         local util = require("neominimap.util")
-        vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(swinid, { row, 0 })
+        vim.schedule(function()
+            local ok = util.noautocmd(pcall)(vim.api.nvim_win_set_cursor, swinid, { row, 0 })
+            if not ok then
+                logger.notify("Failed to set cursor", vim.log.levels.ERROR)
+            end
+        end)
     end
     logger.log("Source synced with minimap", vim.log.levels.TRACE)
 end
@@ -127,7 +132,12 @@ M.sync_to_source = function(swinid, mwinid)
     local line_cnt = api.nvim_buf_line_count(mbufnr)
     if row <= line_cnt then
         local util = require("neominimap.util")
-        vim.schedule_wrap(util.noautocmd(vim.api.nvim_win_set_cursor))(mwinid, { row, 0 })
+        vim.schedule(function()
+            local ok = util.noautocmd(pcall)(vim.api.nvim_win_set_cursor, mwinid, { row, 0 })
+            if not ok then
+                logger.notify("Failed to set cursor", vim.log.levels.ERROR)
+            end
+        end)
     end
     logger.log("Minimap synced with source", vim.log.levels.TRACE)
 end
