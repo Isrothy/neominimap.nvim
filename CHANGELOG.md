@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.0...v3.3.1) (2024-08-23)
+
+
+### Bug Fixes
+
+* Set cursor line safely ([4a2b09d](https://github.com/Isrothy/neominimap.nvim/commit/4a2b09d4cf62e10b59d077eec2e4a11be95b71c0))
+
 ## [3.3.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.2.0...v3.3.0) (2024-08-22)
 
 
