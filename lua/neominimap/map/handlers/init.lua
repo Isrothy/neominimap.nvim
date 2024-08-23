@@ -32,9 +32,11 @@ local apply_line = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        for i = annotation.lnum, annotation.end_lnum, 1 do
-            local row = fold.substract_fold_lines(cached_folds, i)
-            if row then
+        local start_row = fold.substract_fold_lines(cached_folds, annotation.lnum)
+        local end_row = fold.substract_fold_lines(cached_folds, annotation.end_lnum)
+
+        if start_row and end_row then
+            for row = start_row, end_row do
                 local col = 1
                 local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
                 if not lines[mrow] or lines[mrow].priority < annotation.priority then
@@ -76,9 +78,10 @@ local apply_sign = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        for i = annotation.lnum, annotation.end_lnum, 1 do
-            local row = fold.substract_fold_lines(cached_folds, i)
-            if row then
+        local start_row = fold.substract_fold_lines(cached_folds, annotation.lnum)
+        local end_row = fold.substract_fold_lines(cached_folds, annotation.end_lnum)
+        if start_row and end_row then
+            for row = start_row, end_row do
                 local col = 1
                 local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
                 if
