@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.2...v3.3.3) (2024-08-23)
+
+
+### Bug Fixes
+
+* Handle cases when annotation range starting or ending are hidden in folds ([9d59016](https://github.com/Isrothy/neominimap.nvim/commit/9d59016c99e6ebcac16ddf58f145ae0fd0ee6473))
+
 ## [3.3.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.1...v3.3.2) (2024-08-23)
 
 
