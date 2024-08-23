@@ -16,10 +16,10 @@ local AnnotationMode = {
     Line = "line",
 }
 
----@alias Neominimap.Handler.Apply fun(mbufnr: integer, namespace: integer, annotations: Annotation[])
+---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Annotation[])
 
 ---@type Neominimap.Handler.Apply
-local apply_line = function(mbufnr, namespace, annotations)
+local apply_line = function(bufnr, mbufnr, namespace, annotations)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
 
     ---@class Neominimap.Handler.Line
@@ -29,15 +29,22 @@ local apply_line = function(mbufnr, namespace, annotations)
     ---@type table<integer, Neominimap.Handler.Line>
     local lines = {}
     local coord = require("neominimap.map.coord")
+    local fold = require("neominimap.map.fold")
+    local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        for i = annotation.lnum, annotation.end_lnum, 1 do
-            local row, col = i, 1
-            local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
-            if not lines[mrow] or lines[mrow].priority < annotation.priority then
-                lines[mrow] = {
-                    hl = annotation.line_highlight,
-                    priority = annotation.priority,
-                }
+        local start_row = fold.substract_fold_lines(cached_folds, annotation.lnum)
+        local end_row = fold.substract_fold_lines(cached_folds, annotation.end_lnum)
+
+        if start_row and end_row then
+            for row = start_row, end_row do
+                local col = 1
+                local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
+                if not lines[mrow] or lines[mrow].priority < annotation.priority then
+                    lines[mrow] = {
+                        hl = annotation.line_highlight,
+                        priority = annotation.priority,
+                    }
+                end
             end
         end
     end
@@ -56,7 +63,7 @@ local apply_line = function(mbufnr, namespace, annotations)
 end
 
 ---@type Neominimap.Handler.Apply
-local apply_sign = function(mbufnr, namespace, annotations)
+local apply_sign = function(bufnr, mbufnr, namespace, annotations)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
 
     ---@class Neominimap.Handler.Sign
@@ -68,25 +75,31 @@ local apply_sign = function(mbufnr, namespace, annotations)
     ---@type table<integer, Neominimap.Handler.Sign>
     local signs = {}
     local coord = require("neominimap.map.coord")
+    local fold = require("neominimap.map.fold")
+    local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        for i = annotation.lnum, annotation.end_lnum, 1 do
-            local row, col = i, 1
-            local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
-            if
-                not signs[mrow]
-                or signs[mrow].priority < annotation.priority
-                or (signs[mrow].priority == annotation.priority and signs[mrow].id < annotation.id)
-            then
-                signs[mrow] = {
-                    flag = 0,
-                    id = annotation.id,
-                    hl = annotation.sign_highlight,
-                    priority = annotation.priority,
-                }
-            end
-            if signs[mrow].id == annotation.id then
-                local y, x = coord.codepoint_to_map_point(row, col)
-                signs[mrow].flag = bit.bor(signs[mrow].flag, coord.map_point_to_flag(y, x))
+        local start_row = fold.substract_fold_lines(cached_folds, annotation.lnum)
+        local end_row = fold.substract_fold_lines(cached_folds, annotation.end_lnum)
+        if start_row and end_row then
+            for row = start_row, end_row do
+                local col = 1
+                local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
+                if
+                    not signs[mrow]
+                    or signs[mrow].priority < annotation.priority
+                    or (signs[mrow].priority == annotation.priority and signs[mrow].id < annotation.id)
+                then
+                    signs[mrow] = {
+                        flag = 0,
+                        id = annotation.id,
+                        hl = annotation.sign_highlight,
+                        priority = annotation.priority,
+                    }
+                end
+                if signs[mrow].id == annotation.id then
+                    local y, x = coord.codepoint_to_map_point(row, col)
+                    signs[mrow].flag = bit.bor(signs[mrow].flag, coord.map_point_to_flag(y, x))
+                end
             end
         end
     end
@@ -108,17 +121,19 @@ local fun_tbl = {
     [AnnotationMode.Sign] = apply_sign,
     [AnnotationMode.Line] = apply_line,
 }
+
+---@param bufnr integer
 ---@param mbufnr integer
 ---@param namespace integer
 ---@param annotations Annotation[]
 ---@param mode Neominimap.Handler.Annotation
-M.apply = function(mbufnr, namespace, annotations, mode)
+M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     local logger = require("neominimap.logger")
     logger.log(
         string.format("Applying annotation for minimap buffer %d with namespace %d, mode: %s", mbufnr, namespace, mode),
         vim.log.levels.TRACE
     )
-    fun_tbl[mode](mbufnr, namespace, annotations)
+    fun_tbl[mode](bufnr, mbufnr, namespace, annotations)
     logger.log(
         string.format("Annotation for minimap buffer %d with namespace %d applied successfully", mbufnr, namespace),
         vim.log.levels.TRACE

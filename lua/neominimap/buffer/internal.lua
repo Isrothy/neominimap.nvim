@@ -179,7 +179,13 @@ M.create_minimap_buffer = function(bufnr)
             end
             local handlers = require("neominimap.map.handlers")
             local diagnostic = require("neominimap.map.handlers.diagnostic")
-            handlers.apply(mbufnr_, diagnostic.namespace, diagnostic.get_annotations(bufnr), config.diagnostic.mode)
+            handlers.apply(
+                bufnr,
+                mbufnr_,
+                diagnostic.namespace,
+                diagnostic.get_annotations(bufnr),
+                config.diagnostic.mode
+            )
             logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay
@@ -201,7 +207,7 @@ M.create_minimap_buffer = function(bufnr)
             end
             local handlers = require("neominimap.map.handlers")
             local git = require("neominimap.map.handlers.git")
-            handlers.apply(mbufnr_, git.namespace, git.get_annotations(bufnr), config.git.mode)
+            handlers.apply(bufnr, mbufnr_, git.namespace, git.get_annotations(bufnr), config.git.mode)
             logger.log(string.format("Gitsigns for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay
@@ -223,7 +229,7 @@ M.create_minimap_buffer = function(bufnr)
             end
             local handlers = require("neominimap.map.handlers")
             local search = require("neominimap.map.handlers.search")
-            handlers.apply(mbufnr_, search.namespace, search.get_annotations(bufnr), config.search.mode)
+            handlers.apply(bufnr, mbufnr_, search.namespace, search.get_annotations(bufnr), config.search.mode)
             logger.log(string.format("Search for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
         end),
         config.delay
