@@ -1,11 +1,11 @@
 # Changelog
 
-## [3.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.1...v3.4.0) (2024-08-23)
+## [3.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.1...v3.3.2) (2024-08-23)
 
 
-### Features
+### Bug Fixes
 
-* small optimization on annotations with folds ([f4c3c7b](https://github.com/Isrothy/neominimap.nvim/commit/f4c3c7b5d6ed842479a22dd9375fe8c19b1be2ef))
+*  Correct row of annotations when foldings exist ([565f0c6](https://github.com/Isrothy/neominimap.nvim/commit/565f0c696a0f559b057775b04b4375d75418733c))
 
 ## [3.3.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.0...v3.3.1) (2024-08-23)
 
