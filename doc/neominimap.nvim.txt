@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 23
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 24
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -314,7 +314,14 @@ The default `winopt` is:
 
 >lua
     {
-        winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
+        winhighlight = table.concat({
+            "Normal:NeominimapBackground",
+            "FloatBorder:NeominimapBorder",
+            "CursorLine:NeominimapCursorLine",
+            "CursorLineNr:NeominimapCursorLineNr",
+            "CursorLineSign:NeominimapCursorLineSign",
+            "CursorLineFold:NeominimapCursorLineFold",
+        }, ","),
         wrap = false,
         foldcolumn = "0",
         signcolumn = "auto",
@@ -587,13 +594,19 @@ Click to expand ~
 HIGHLIGHT GROUPS OF NEOMINIMAP WINDOWS ~
 
   -----------------------------------------------------------------------
-  Highlight Group           Description
-  ------------------------- ---------------------------------------------
-  NeominimapBackground      Background color for the minimap.
+  Highlight Group             Description
+  --------------------------- -------------------------------------------
+  NeominimapBackground        Background color for the minimap.
 
-  NeominimapBorder          Border highlight for the minimap window.
+  NeominimapBorder            Border highlight for the minimap window.
 
-  NeominimapCursorLine      Highlight for the cursor line in the minimap.
+  NeominimapCursorLine        Highlight for the cursor line in minimaps.
+
+  NeominimapCursorLineNr      To replace CursorLineNr in minimaps.
+
+  NeominimapCursorLineSign    To replace CursorLineSign in minimaps.
+
+  NeominimapCursorLineFold    To replace CursorLineFold in minimaps.
   -----------------------------------------------------------------------
 
 HIGHLIGHT GROUPS OF DIAGNOSTIC ANNOTATIONS ~
