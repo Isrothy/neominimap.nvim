@@ -1,5 +1,7 @@
+---@alias Neominimap.Command.Impl fun(args:string[], opts: table)
+
 ---@class (exact) Neominimap.Subcommand
----@field impl fun(args:string[], opts: table) The command implementation
+---@field impl Neominimap.Command.Impl  The command implementation
 ---@field complete? fun(subcmd_arg_lead: string): string[] (optional) Command completions callback, taking the lead of the subcommand's arguments
 
 local M = {}
