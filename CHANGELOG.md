@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.4.0...v3.4.1) (2024-08-24)
+
+
+### Bug Fixes
+
+* Correct lua API ([fb8a84c](https://github.com/Isrothy/neominimap.nvim/commit/fb8a84cebffe4f6e667812c37101f78711274e6d))
+
 ## [3.4.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.3.3...v3.4.0) (2024-08-23)
 
 
