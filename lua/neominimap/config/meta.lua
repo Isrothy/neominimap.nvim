@@ -40,7 +40,7 @@ local M = {}
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.Annotation
+---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field severity? vim.diagnostic.SeverityInt
 ---@field priority? Neominimap.DiagnosticPriority
 
@@ -52,13 +52,19 @@ local M = {}
 
 ---@class (exact) Neominimap.GitConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.Annotation
+---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
 
 ---@class (exact) Neominimap.SearchConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.Annotation
+---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
+
+---@class (exact) Neominimap.MarkConfig
+---@field enabled? boolean
+---@field mode? Neominimap.Handler.Annotation.Mode
+---@field priority? integer
+---@field show_builtins? boolean
 
 ---@class (exact) Neominimap.TreesitterConfig
 ---@field enabled? boolean

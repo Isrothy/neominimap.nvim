@@ -139,7 +139,7 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
     end
 end
 
----@type table<Neominimap.Handler.Annotation, Neominimap.Handler.Apply>
+---@type table<Neominimap.Handler.Annotation.Mode, Neominimap.Handler.Apply>
 local fun_tbl = {
     ["sign"] = apply_sign,
     ["icon"] = apply_icon,
@@ -150,7 +150,7 @@ local fun_tbl = {
 ---@param mbufnr integer
 ---@param namespace integer
 ---@param annotations Annotation[]
----@param mode Neominimap.Handler.Annotation
+---@param mode Neominimap.Handler.Annotation.Mode
 M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     local logger = require("neominimap.logger")
     logger.log(
