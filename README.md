@@ -324,7 +324,14 @@ The default `winopt` is:
 
 ```lua
 {
-    winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
+    winhighlight = table.concat({
+        "Normal:NeominimapBackground",
+        "FloatBorder:NeominimapBorder",
+        "CursorLine:NeominimapCursorLine",
+        "CursorLineNr:NeominimapCursorLineNr",
+        "CursorLineSign:NeominimapCursorLineSign",
+        "CursorLineFold:NeominimapCursorLineFold",
+    }, ","),
     wrap = false,
     foldcolumn = "0",
     signcolumn = "auto",
@@ -503,11 +510,14 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 
 ### Highlight Groups of Neominimap Windows
 
-| Highlight Group           | Description                                   |
-|---------------------------|-----------------------------------------------|
-| `NeominimapBackground`    | Background color for the minimap.             |
-| `NeominimapBorder`        | Border highlight for the minimap window.      |
-| `NeominimapCursorLine`    | Highlight for the cursor line in the minimap. |
+| Highlight Group            | Description                                |
+|----------------------------|--------------------------------------------|
+| `NeominimapBackground`     | Background color for the minimap.          |
+| `NeominimapBorder`         | Border highlight for the minimap window.   |
+| `NeominimapCursorLine`     | Highlight for the cursor line in minimaps. |
+| `NeominimapCursorLineNr`   | To replace `CursorLineNr` in minimaps.     |
+| `NeominimapCursorLineSign` | To replace `CursorLineSign` in minimaps.   |
+| `NeominimapCursorLineFold` | To replace `CursorLineFold` in minimaps.   |
 
 ### Highlight Groups of Diagnostic Annotations
 

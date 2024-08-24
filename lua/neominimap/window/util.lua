@@ -48,7 +48,14 @@ end
 
 ---@type vim.wo
 local default_winopt = {
-    winhighlight = "Normal:NeominimapBackground,FloatBorder:NeominimapBorder,CursorLine:NeominimapCursorLine",
+    winhighlight = table.concat({
+        "Normal:NeominimapBackground",
+        "FloatBorder:NeominimapBorder",
+        "CursorLine:NeominimapCursorLine",
+        "CursorLineNr:NeominimapCursorLineNr",
+        "CursorLineSign:NeominimapCursorLineSign",
+        "CursorLineFold:NeominimapCursorLineFold",
+    }, ","),
     wrap = false,
     foldcolumn = "0",
     signcolumn = "auto",
