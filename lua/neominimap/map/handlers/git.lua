@@ -54,9 +54,9 @@ local toId = {
     ["delete"] = 3,
 }
 
-api.nvim_set_hl(0, "NeominimapGitAddSign", { fg = colors.add, default = true })
-api.nvim_set_hl(0, "NeominimapGitChangeSign", { fg = colors.change, default = true })
-api.nvim_set_hl(0, "NeominimapGitDeleteSign", { fg = colors.delete, default = true })
+api.nvim_set_hl(0, "NeominimapGitAddSign", { fg = colors.add, bg = "NONE", default = true })
+api.nvim_set_hl(0, "NeominimapGitChangeSign", { fg = colors.change, bg = "NONE", default = true })
+api.nvim_set_hl(0, "NeominimapGitDeleteSign", { fg = colors.delete, bg = "NONE", default = true })
 
 api.nvim_set_hl(0, "NeominimapGitAddIcon", { fg = colors.add, default = true })
 api.nvim_set_hl(0, "NeominimapGitChangeIcon", { fg = colors.change, default = true })

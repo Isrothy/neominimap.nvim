@@ -88,7 +88,8 @@ M.validate_config = function(cfg)
         mark = { cfg.mark, "table" },
         ["mark.enabled"] = { cfg.mark.enabled, "boolean" },
         ["mark.mode"] = { cfg.mark.mode, "string" },
-        ["mark.priority"] = { cfg.mark.priority, "integer" },
+        ["mark.priority"] = { cfg.mark.priority, "number" },
+        ["mark.key"] = { cfg.mark.key, "string" },
         ["mark.show_builtins"] = { cfg.mark.show_builtins, "boolean" },
 
         click = { cfg.click, "table" },

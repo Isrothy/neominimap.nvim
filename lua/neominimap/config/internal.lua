@@ -150,6 +150,7 @@ local M = {
         enabled = false, ---@type boolean
         mode = "icon", ---@type Neominimap.Handler.Annotation.Mode
         priority = 10, ---@type integer
+        key = "m", ---@type string
         show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
     },
 

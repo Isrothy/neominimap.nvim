@@ -94,7 +94,7 @@ end
 --- @param bufnr integer
 ---@return Annotation[]
 M.get_annotations = function(bufnr)
-    local annotations = get_matches(bufnr)
+    local matches = get_matches(bufnr)
     return vim.tbl_map(function(lnum)
         ---@type Annotation[]
         return {
@@ -107,7 +107,7 @@ M.get_annotations = function(bufnr)
             sign_highlight = "NeominimapSearchSign",
             icon_highlight = "NeominimapSearchIcon",
         }
-    end, annotations)
+    end, matches)
 end
 
 return M

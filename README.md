@@ -302,6 +302,7 @@ vim.g.neominimap ={
         enabled = false, ---@type boolean
         mode = "icon", ---@type Neominimap.Handler.Annotation
         priority = 10, ---@type integer
+        key = "m", ---@type string
         show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
     },
 
