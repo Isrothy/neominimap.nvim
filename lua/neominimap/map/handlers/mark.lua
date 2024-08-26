@@ -58,8 +58,8 @@ M.get_annotations = function(bufnr)
         local lnum = mark.pos[2]
         if config.mark.show_builtins or not is_builtin(mark.mark) then
             annotation[#annotation + 1] = {
-                lnum = lnum + 1,
-                end_lnum = lnum + 1,
+                lnum = lnum,
+                end_lnum = lnum,
                 priority = config.mark.priority,
                 id = 1,
                 icon = string.sub(mark.mark, 2, 3),
