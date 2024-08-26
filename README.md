@@ -60,6 +60,16 @@ Show search results:
 
 </details>
 
+Show marks:
+
+<details>
+ <summary>Click to expand</summary>
+  
+![image](https://github.com/user-attachments/assets/9a3260c3-7930-4f49-9b8d-888b15a760ad)
+
+</details>
+
+
 Show minimaps in float windows:
 
 <details>
@@ -85,6 +95,7 @@ Show minimaps in a split window:
 - ➖  Fold integration
 - 🔀 Git integration
 - 🔎 Search integration
+- 🏷️ Support for marks
 - 🖱️ Mouse click support
 - 🖍️ Support for map annotations in the sign column and line highlight
 - 📐 Support both split window and float window layouts
@@ -657,4 +668,4 @@ Special thanks to [lewis6991](https://github.com/lewis6991) for creating the
 excellent [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) and
 [satellite.nvim](https://github.com/lewis6991/satellite.nvim) plugins. The Git
 integration in Neominimap was made possible by gitsigns.nvim, and the search
-integration was based on satellite.nvim's code.
+and mark integrations are based on satellite.nvim's code.
