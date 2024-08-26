@@ -624,69 +624,50 @@ HIGHLIGHT GROUPS OF NEOMINIMAP WINDOWS ~
 
 HIGHLIGHT GROUPS OF DIAGNOSTIC ANNOTATIONS ~
 
-  -----------------------------------------------------------------------
-  Highlight Group           Description
-  ------------------------- ---------------------------------------------
-  NeominimapHintLine        
-
-  NeominimapInfoLine        
-
-  NeominimapWarnLine        
-
-  NeominimapErrorLine       
-
-  NeominimapHintSign        
-
-  NeominimapInfoSign        
-
-  NeominimapWarnSign        
-
-  NeominimapErrorSign       
-
-  NeominimapHintIcon        
-
-  NeominimapInfoIcon        
-
-  NeominimapWarnIcon        
-
-  NeominimapErrorIcon       
-  -----------------------------------------------------------------------
+  Highlight Group       Description
+  --------------------- -------------
+  NeominimapHintLine    
+  NeominimapInfoLine    
+  NeominimapWarnLine    
+  NeominimapErrorLine   
+  NeominimapHintSign    
+  NeominimapInfoSign    
+  NeominimapWarnSign    
+  NeominimapErrorSign   
+  NeominimapHintIcon    
+  NeominimapInfoIcon    
+  NeominimapWarnIcon    
+  NeominimapErrorIcon   
 
 HIGHLIGHT GROUPS OF GIT ANNOTATIONS ~
 
-  -----------------------------------------------------------------------
   Highlight Group           Description
-  ------------------------- ---------------------------------------------
+  ------------------------- -------------
   NeominimapGitAddLine      
-
   NeominimapGitChangeLine   
-
   NeominimapGitDeleteLine   
-
   NeominimapGitAddSign      
-
   NeominimapGitChangeSign   
-
   NeominimapGitDeleteSign   
-
   NeominimapGitAddIcon      
-
   NeominimapGitChangeIcon   
-
   NeominimapGitDeleteIcon   
-  -----------------------------------------------------------------------
 
 HIGHLIGHT GROUPS OF SEARCH ANNOTATIONS ~
 
-  -----------------------------------------------------------------------
-  Highlight Group           Description
-  ------------------------- ---------------------------------------------
-  NeominimapSearchLine      
+  Highlight Group        Description
+  ---------------------- -------------
+  NeominimapSearchLine   
+  NeominimapSearchSign   
+  NeominimapSearchIcon   
 
-  NeominimapSearchSign      
+HIGHLIGHT GROUPS OF MARK ANNOTATIONS ~
 
-  NeominimapSearchIcon      
-  -----------------------------------------------------------------------
+  Highlight Group      Description
+  -------------------- -------------
+  NeominimapMarkLine   
+  NeominimapMarkSign   
+  NeominimapMarkIcon   
 
 NAMESPACES                             *neominimap.nvim-neominimap-namespaces*
 
@@ -697,6 +678,7 @@ Click to expand ~
   neominimap_git          Git signs and highlights.
   neominimap_diagnostic   Diagnostic signs and highlights.
   neominimap_search       Search signs and highlights.
+  neominimap_mark         Mark signs and highlights.
   neominimap_treesitter   Treesitter highlights.
 
 TODO                                         *neominimap.nvim-neominimap-todo*
