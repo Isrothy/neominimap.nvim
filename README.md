@@ -69,7 +69,6 @@ Show marks:
 
 </details>
 
-
 Show minimaps in float windows:
 
 <details>
@@ -540,42 +539,50 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 
 ### Highlight Groups of Diagnostic Annotations
 
-| Highlight Group           | Description                                   |
-|---------------------------|-----------------------------------------------|
-| `NeominimapHintLine`      |                                               |
-| `NeominimapInfoLine`      |                                               |
-| `NeominimapWarnLine`      |                                               |
-| `NeominimapErrorLine`     |                                               |
-| `NeominimapHintSign`      |                                               |
-| `NeominimapInfoSign`      |                                               |
-| `NeominimapWarnSign`      |                                               |
-| `NeominimapErrorSign`     |                                               |
-| `NeominimapHintIcon`      |                                               |
-| `NeominimapInfoIcon`      |                                               |
-| `NeominimapWarnIcon`      |                                               |
-| `NeominimapErrorIcon`     |                                               |
+| Highlight Group       | Description |
+|-----------------------|-------------|
+| `NeominimapHintLine`  |             |
+| `NeominimapInfoLine`  |             |
+| `NeominimapWarnLine`  |             |
+| `NeominimapErrorLine` |             |
+| `NeominimapHintSign`  |             |
+| `NeominimapInfoSign`  |             |
+| `NeominimapWarnSign`  |             |
+| `NeominimapErrorSign` |             |
+| `NeominimapHintIcon`  |             |
+| `NeominimapInfoIcon`  |             |
+| `NeominimapWarnIcon`  |             |
+| `NeominimapErrorIcon` |             |
 
 ### Highlight Groups of Git Annotations
 
-| Highlight Group           | Description                                   |
-|---------------------------|-----------------------------------------------|
-| `NeominimapGitAddLine`    |                                               |
-| `NeominimapGitChangeLine` |                                               |
-| `NeominimapGitDeleteLine` |                                               |
-| `NeominimapGitAddSign`    |                                               |
-| `NeominimapGitChangeSign` |                                               |
-| `NeominimapGitDeleteSign` |                                               |
-| `NeominimapGitAddIcon`    |                                               |
-| `NeominimapGitChangeIcon` |                                               |
-| `NeominimapGitDeleteIcon` |                                               |
+| Highlight Group           | Description |
+|---------------------------|-------------|
+| `NeominimapGitAddLine`    |             |
+| `NeominimapGitChangeLine` |             |
+| `NeominimapGitDeleteLine` |             |
+| `NeominimapGitAddSign`    |             |
+| `NeominimapGitChangeSign` |             |
+| `NeominimapGitDeleteSign` |             |
+| `NeominimapGitAddIcon`    |             |
+| `NeominimapGitChangeIcon` |             |
+| `NeominimapGitDeleteIcon` |             |
 
 ### Highlight Groups of Search Annotations
 
-| Highlight Group           | Description                                   |
-|---------------------------|-----------------------------------------------|
-| `NeominimapSearchLine`    |                                               |
-| `NeominimapSearchSign`    |                                               |
-| `NeominimapSearchIcon`    |                                               |
+| Highlight Group        | Description |
+|------------------------|-------------|
+| `NeominimapSearchLine` |             |
+| `NeominimapSearchSign` |             |
+| `NeominimapSearchIcon` |             |
+
+### Highlight Groups of Mark Annotations
+
+| Highlight Group      | Description |
+|----------------------|-------------|
+| `NeominimapMarkLine` |             |
+| `NeominimapMarkSign` |             |
+| `NeominimapMarkIcon` |             |
 
 </details>
 
