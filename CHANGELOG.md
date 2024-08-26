@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.0...v3.5.1) (2024-08-26)
+
+
+### Bug Fixes
+
+* Incorrect mark lineNr ([3a23307](https://github.com/Isrothy/neominimap.nvim/commit/3a23307d0bd1519cd5ac95e60630b970e7af186f))
+
 ## [3.5.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.4.1...v3.5.0) (2024-08-26)
 
 
