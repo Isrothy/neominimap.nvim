@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 24
+*neominimap.nvim.txt*       For NVIM v0.10.*       Last change: 2024 August 26
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -286,6 +286,14 @@ Click to expand ~
             enabled = false, ---@type boolean
             mode = "line", ---@type Neominimap.Handler.MarkMode
             priority = 20, ---@type integer
+        },
+    
+        mark = {
+            enabled = false, ---@type boolean
+            mode = "icon", ---@type Neominimap.Handler.Annotation
+            priority = 10, ---@type integer
+            key = "m", ---@type string
+            show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
         },
     
         treesitter = {
