@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.5.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.4.1...v3.5.0) (2024-08-26)
+
+
+### Features
+
+* Implement mark handler ([e24b1f5](https://github.com/Isrothy/neominimap.nvim/commit/e24b1f50238e696b21838809adaf7ed2f0c272fb))
+* More highlights in cursorline ([0f4836a](https://github.com/Isrothy/neominimap.nvim/commit/0f4836a5ebb9d9a0ba7fc5da8bee8bad539edc9a))
+
 ## [3.4.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.4.0...v3.4.1) (2024-08-24)
 
 
