@@ -596,6 +596,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `neominimap_git`        | Git signs and highlights.        |
 | `neominimap_diagnostic` | Diagnostic signs and highlights. |
 | `neominimap_search`     | Search signs and highlights.     |
+| `neominimap_mark`       | Mark signs and highlights.       |
 | `neominimap_treesitter` | Treesitter highlights.           |
 
 </details>
