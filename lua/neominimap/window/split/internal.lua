@@ -206,7 +206,6 @@ M.reset_minimap_width = function()
 
     local width = api.nvim_win_get_width(mwinid)
     local expected_width = config:get_minimap_width()
-    logger.log(string.format("Minimap width %d", width), vim.log.levels.DEBUG)
 
     if width ~= expected_width then
         local util = require("neominimap.util")

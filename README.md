@@ -298,6 +298,14 @@ vim.g.neominimap ={
         priority = 20, ---@type integer
     },
 
+    mark = {
+        enabled = false, ---@type boolean
+        mode = "icon", ---@type Neominimap.Handler.Annotation
+        priority = 10, ---@type integer
+        key = "m", ---@type string
+        show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
+    },
+
     treesitter = {
         enabled = true, ---@type boolean
         priority = 200, ---@type integer

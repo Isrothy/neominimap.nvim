@@ -12,7 +12,7 @@ local M = {}
 
 ---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Annotation[])
 
----@alias Neominimap.Handler.Annotation
+---@alias Neominimap.Handler.Annotation.Mode
 ---|"sign" -- Show braille signs in the sign column
 ---|"icon" -- Show icons in the sign column
 ---|"line" -- Highlight the background of the line on the minimap

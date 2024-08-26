@@ -108,7 +108,7 @@ local M = {
     diagnostic = {
         enabled = true, ---@type boolean
         severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
-        mode = "line", ---@type Neominimap.Handler.Annotation
+        mode = "line", ---@type Neominimap.Handler.Annotation.Mode
         priority = {
             ERROR = 100, ---@type integer
             WARN = 90, ---@type integer
@@ -125,7 +125,7 @@ local M = {
 
     git = {
         enabled = true, ---@type boolean
-        mode = "sign", ---@type Neominimap.Handler.Annotation
+        mode = "sign", ---@type Neominimap.Handler.Annotation.Mode
         priority = 6, ---@type integer
         icon = {
             add = "+ ", ---@type string
@@ -136,7 +136,7 @@ local M = {
 
     search = {
         enabled = false, ---@type boolean
-        mode = "line", ---@type Neominimap.Handler.Annotation
+        mode = "line", ---@type Neominimap.Handler.Annotation.Mode
         priority = 20, ---@type integer
         icon = "󰱽 ", ---@type string
     },
@@ -144,6 +144,14 @@ local M = {
     treesitter = {
         enabled = true, ---@type boolean
         priority = 200, ---@type integer
+    },
+
+    mark = {
+        enabled = false, ---@type boolean
+        mode = "icon", ---@type Neominimap.Handler.Annotation.Mode
+        priority = 10, ---@type integer
+        key = "m", ---@type string
+        show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
     },
 
     fold = {

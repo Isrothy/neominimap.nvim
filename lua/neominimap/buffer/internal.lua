@@ -234,6 +234,27 @@ M.create_minimap_buffer = function(bufnr)
         end),
         config.delay
     )
+    var.b[bufnr].update_mark = util.debounce(
+        vim.schedule_wrap(function()
+            if not api.nvim_buf_is_valid(bufnr) then
+                return
+            end
+            logger.log(string.format("Generating marks for buffer %d", bufnr), vim.log.levels.TRACE)
+            local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
+            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
+                logger.log(
+                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
+                    vim.log.levels.WARN
+                )
+                return
+            end
+            local handlers = require("neominimap.map.handlers")
+            local mark = require("neominimap.map.handlers.mark")
+            handlers.apply(bufnr, mbufnr_, mark.namespace, mark.get_annotations(bufnr), config.mark.mode)
+            logger.log(string.format("Marks for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
+        end),
+        config.delay
+    )
 
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
@@ -276,6 +297,14 @@ M.update_search = function(bufnr)
     local var = require("neominimap.variables")
     if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
         var.b[bufnr].update_search()
+    end
+end
+
+---@param bufnr integer
+M.update_mark = function(bufnr)
+    local var = require("neominimap.variables")
+    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
+        var.b[bufnr].update_mark()
     end
 end
 

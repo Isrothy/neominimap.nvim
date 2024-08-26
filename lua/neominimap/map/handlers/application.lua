@@ -34,7 +34,6 @@ local apply_line = function(bufnr, mbufnr, namespace, annotations)
                 end_col = 0,
                 end_row = lineNr,
                 hl_group = line_annotation.hl,
-                hl_mode = "combine",
                 priority = line_annotation.priority,
             })
         end
@@ -83,7 +82,6 @@ local apply_sign = function(bufnr, mbufnr, namespace, annotations)
     for lineNr, sign_annotation in pairs(signs) do
         if lineNr <= line_count then
             api.nvim_buf_set_extmark(mbufnr, namespace, lineNr - 1, 0, {
-                hl_mode = "combine",
                 sign_text = " " .. coord.bitmap_to_char(sign_annotation.flag),
                 sign_hl_group = sign_annotation.hl,
                 priority = sign_annotation.priority,
@@ -107,6 +105,8 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
     local coord = require("neominimap.map.coord")
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
+
+    local logger = require("neominimap.logger")
     for _, annotation in ipairs(annotations) do
         local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
         for row = start_row, end_row do
@@ -119,7 +119,7 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
             then
                 icons[mrow] = {
                     id = annotation.id,
-                    hl = annotation.sign_highlight,
+                    hl = annotation.icon_highlight,
                     icon = annotation.icon,
                     priority = annotation.priority,
                 }
@@ -130,7 +130,6 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
     for lineNr, icon_annotation in pairs(icons) do
         if lineNr <= line_count then
             api.nvim_buf_set_extmark(mbufnr, namespace, lineNr - 1, 0, {
-                hl_mode = "combine",
                 sign_text = icon_annotation.icon,
                 sign_hl_group = icon_annotation.hl,
                 priority = icon_annotation.priority,
@@ -139,7 +138,7 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
     end
 end
 
----@type table<Neominimap.Handler.Annotation, Neominimap.Handler.Apply>
+---@type table<Neominimap.Handler.Annotation.Mode, Neominimap.Handler.Apply>
 local fun_tbl = {
     ["sign"] = apply_sign,
     ["icon"] = apply_icon,
@@ -150,7 +149,7 @@ local fun_tbl = {
 ---@param mbufnr integer
 ---@param namespace integer
 ---@param annotations Annotation[]
----@param mode Neominimap.Handler.Annotation
+---@param mode Neominimap.Handler.Annotation.Mode
 M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     local logger = require("neominimap.logger")
     logger.log(

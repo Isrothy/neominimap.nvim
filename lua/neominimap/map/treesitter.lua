@@ -213,7 +213,6 @@ M.apply = function(mbufnr, highlights)
         api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
             end_col = hl.end_col,
             hl_group = hl.group,
-            hl_mode = "combine",
         })
     end
 end

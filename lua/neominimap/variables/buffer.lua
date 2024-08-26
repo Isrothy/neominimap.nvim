@@ -7,6 +7,7 @@ local buffer_default = {
     update_diagnostic = function() end, ---@type fun()
     update_git = function() end, ---@type fun()
     update_search = function() end, ---@type fun()
+    update_mark = function() end, ---@type fun()
     cached_folds = {}, ---@type Neominimap.Fold[]
 }
 

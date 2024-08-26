@@ -21,6 +21,7 @@ local M = {}
 ---@field git? Neominimap.GitConfig
 ---@field treesitter? Neominimap.TreesitterConfig
 ---@field search? Neominimap.SearchConfig
+---@field mark? Neominimap.MarkConfig
 ---@field fold? Neominimap.FoldConfig
 ---@field winopt? fun(opt: vim.wo, winid: integer)
 ---@field bufopt? fun(opt: vim.bo, bufnr: integer)
@@ -40,7 +41,7 @@ local M = {}
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.Annotation
+---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field severity? vim.diagnostic.SeverityInt
 ---@field priority? Neominimap.DiagnosticPriority
 
@@ -52,13 +53,20 @@ local M = {}
 
 ---@class (exact) Neominimap.GitConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.Annotation
+---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
 
 ---@class (exact) Neominimap.SearchConfig
 ---@field enabled? boolean
----@field mode? Neominimap.Handler.Annotation
+---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
+
+---@class (exact) Neominimap.MarkConfig
+---@field enabled? boolean
+---@field mode? Neominimap.Handler.Annotation.Mode
+---@field priority? integer
+---@field key? string
+---@field show_builtins? boolean
 
 ---@class (exact) Neominimap.TreesitterConfig
 ---@field enabled? boolean
