@@ -235,7 +235,7 @@ M.refresh_minimap_window = function(winid)
     util.noautocmd(api.nvim_win_set_config)(mwinid, cfg)
 
     if api.nvim_win_get_buf(mwinid) ~= mbufnr then
-        api.nvim_win_set_buf(mwinid, mbufnr)
+        require("neominim.util").noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
     end
 
     M.reset_mwindow_cursor_line(winid)
