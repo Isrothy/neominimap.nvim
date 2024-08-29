@@ -160,11 +160,13 @@ local M = {
     },
 
     ---Overrite the default winopt
+    ---No autocmd should be triggeered in the function body
     ---@param opt vim.wo
     ---@param winid integer the window id of the source window, NOT minimap window
     winopt = function(opt, winid) end,
 
     ---Overrite the default bufopt
+    ---No autocmd should be triggeered in the function body
     ---@param opt vim.bo
     ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
     bufopt = function(opt, bufnr) end,
