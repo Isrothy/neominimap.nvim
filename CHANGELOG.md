@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.1...v3.5.2) (2024-08-29)
+
+
+### Bug Fixes
+
+* Do no trigger autocmd when setting win/buf opt ([8e8f498](https://github.com/Isrothy/neominimap.nvim/commit/8e8f498407ba1f75aa8b0db764bdcd9f8d2b797f))
+
 ## [3.5.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.0...v3.5.1) (2024-08-26)
 
 
