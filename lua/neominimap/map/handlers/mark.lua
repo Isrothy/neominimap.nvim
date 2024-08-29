@@ -54,7 +54,6 @@ M.get_annotations = function(bufnr)
     local annotation = {}
     local logger = require("neominimap.logger")
     for _, mark in ipairs(marks) do
-        logger.log(vim.inspect(mark), vim.log.levels.DEBUG)
         local lnum = mark.pos[2]
         if config.mark.show_builtins or not is_builtin(mark.mark) then
             annotation[#annotation + 1] = {
@@ -69,7 +68,6 @@ M.get_annotations = function(bufnr)
             }
         end
     end
-    logger.log(vim.inspect(annotation), vim.log.levels.DEBUG)
     return annotation
 end
 

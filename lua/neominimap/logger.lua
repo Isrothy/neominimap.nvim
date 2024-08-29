@@ -26,7 +26,10 @@ M.log = function(msg, level)
         local time = os.date("%Y-%m-%d %H:%M:%S")
         local f = io.open(filepath, "a+")
         if f then
-            f:write(string.format("[%s] [%s] %s\n", time, level_names[level], msg))
+            local info = debug.getinfo(2, "Sl")
+            local log_message =
+                string.format("[%s] [%-5s] [%s:%d] %s\n", time, level_names[level], info.short_src, info.currentline, msg)
+            f:write(log_message)
             f:close()
         else
             M.notify("Error: Could not open log file at " .. filepath, levels.ERROR)
@@ -41,13 +44,6 @@ M.notify = function(msg, level)
     if level >= config.notification_level then
         vim.notify(msg, level)
     end
-end
-
----@param msg string
----@param level Neominimap.Log.Levels?
-M.log_and_notify = function(msg, level)
-    M.log(msg, level)
-    M.notify(msg, level)
 end
 
 return M
