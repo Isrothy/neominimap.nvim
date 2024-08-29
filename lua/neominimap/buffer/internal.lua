@@ -16,12 +16,10 @@ local default_bufopt = {
 ---@param opt vim.bo
 ---@param bufnr integer
 local set_bufopt = function(opt, bufnr)
-    require("neominimap.util").noautocmd(function()
-        for k, v in pairs(default_bufopt) do
-            opt[k] = v
-        end
-        config.bufopt(opt, bufnr)
-    end)()
+    for k, v in pairs(default_bufopt) do
+        opt[k] = v
+    end
+    config.bufopt(opt, bufnr)
 end
 
 local noautocmd = require("neominimap.util").noautocmd

@@ -74,12 +74,10 @@ local default_winopt = {
 ---@param opt vim.wo
 ---@param winid integer
 M.set_winopt = function(opt, winid)
-    require("neominimap.util").noautocmd(function()
-        for k, v in pairs(default_winopt) do
-            opt[k] = v
-        end
-        config.winopt(opt, winid)
-    end)()
+    for k, v in pairs(default_winopt) do
+        opt[k] = v
+    end
+    config.winopt(opt, winid)
 end
 
 ---@param swinid integer
