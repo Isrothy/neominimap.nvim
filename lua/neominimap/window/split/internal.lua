@@ -268,10 +268,10 @@ M.refresh_source_in_current_tab = function()
 
     if mbufnr == nil or not api.nvim_buf_is_valid(mbufnr) then
         logger.log("Minimap buffer not available", vim.log.levels.TRACE)
-        require("neominim.util").noautocmd(api.nvim_win_set_buf)(mwinid, buffer.get_empty_buffer())
+        require("neominimap.util").noautocmd(api.nvim_win_set_buf)(mwinid, buffer.get_empty_buffer())
     elseif api.nvim_win_get_buf(mwinid) ~= mbufnr then
         logger.log(string.format("Switching to buffer %d", mbufnr), vim.log.levels.TRACE)
-        require("neominim.util").noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
+        require("neominimap.util").noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
     end
     logger.log(string.format("Minimap buffer set", mbufnr), vim.log.levels.TRACE)
 
