@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.2...v3.5.3) (2024-08-30)
+
+
+### Bug Fixes
+
+* typo ([b97048e](https://github.com/Isrothy/neominimap.nvim/commit/b97048ed09e4286dd4ca2ed8f02cf78c910ccc3b))
+
 ## [3.5.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.1...v3.5.2) (2024-08-29)
 
 
