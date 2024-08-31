@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.3...v3.5.4) (2024-08-31)
+
+
+### Bug Fixes
+
+* Correct module name ([5e8cc1f](https://github.com/Isrothy/neominimap.nvim/commit/5e8cc1faeeddc92c67fd7cc008a1b522e859c6fd))
+
 ## [3.5.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.2...v3.5.3) (2024-08-30)
 
 
