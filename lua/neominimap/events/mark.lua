@@ -3,7 +3,7 @@
 
 --- This module implements a user autocmd for Mark events
 
-local util = require("satellite.util")
+local util = require("neominimap.util")
 
 local api, fn = vim.api, vim.fn
 

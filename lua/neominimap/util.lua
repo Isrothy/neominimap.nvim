@@ -77,6 +77,20 @@ M.noautocmd = function(f)
     end
 end
 
+--- Run callback when command is run
+--- @param cmd string
+--- @param augroup string|integer
+--- @param f function()
+function M.on_cmd(cmd, augroup, f)
+    api.nvim_create_autocmd("CmdlineLeave", {
+        group = augroup,
+        callback = function()
+            if fn.getcmdtype() == ":" and vim.startswith(fn.getcmdline(), cmd) then
+                f()
+            end
+        end,
+    })
+end
 --- @generic F: function
 --- @param f F
 --- @param delay number
