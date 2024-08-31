@@ -1,10 +1,6 @@
-local M = {}
-
 local api = vim.api
 local diagnostic = vim.diagnostic
 local config = require("neominimap.config")
-
-M.namespace = api.nvim_create_namespace("neominimap_diagnostic")
 
 ---@param name string
 ---@return string
@@ -60,31 +56,34 @@ local icon_list = {
     config.diagnostic.icon.HINT,
 }
 
----@param bufnr integer
----@return Annotation[]
-M.get_annotations = function(bufnr)
-    local diags = diagnostic.get(bufnr, {
-        severity = {
-            min = config.diagnostic.severity,
-        },
-    })
-    ---@type Annotation[]
-    local annotation = {}
-    for _, diag in ipairs(diags) do
-        local severity = diag.severity
-        ---@cast severity integer
-        annotation[#annotation + 1] = {
-            lnum = diag.lnum + 1,
-            end_lnum = diag.end_lnum + 1,
-            priority = priority_list[severity],
-            icon = icon_list[severity],
-            id = severity,
-            line_highlight = colors_name[severity] .. "Line",
-            sign_highlight = colors_name[severity] .. "Sign",
-            icon_highlight = colors_name[severity] .. "Icon",
-        }
-    end
-    return annotation
-end
-
-return M
+---@type Neominimap.Handler
+return {
+    mode = config.diagnostic.mode,
+    namespace = api.nvim_create_namespace("neominimap_diagnostic"),
+    events = {},
+    init = function() end,
+    get_annotations = function(bufnr)
+        local diags = diagnostic.get(bufnr, {
+            severity = {
+                min = config.diagnostic.severity,
+            },
+        })
+        ---@type Neominimap.Handler.Annotation[]
+        local annotation = {}
+        for _, diag in ipairs(diags) do
+            local severity = diag.severity
+            ---@cast severity integer
+            annotation[#annotation + 1] = {
+                lnum = diag.lnum + 1,
+                end_lnum = diag.end_lnum + 1,
+                priority = priority_list[severity],
+                icon = icon_list[severity],
+                id = severity,
+                line_highlight = colors_name[severity] .. "Line",
+                sign_highlight = colors_name[severity] .. "Sign",
+                icon_highlight = colors_name[severity] .. "Icon",
+            }
+        end
+        return annotation
+    end,
+}

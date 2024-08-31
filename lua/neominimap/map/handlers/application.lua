@@ -106,7 +106,6 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
 
-    local logger = require("neominimap.logger")
     for _, annotation in ipairs(annotations) do
         local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
         for row = start_row, end_row do
@@ -148,7 +147,7 @@ local fun_tbl = {
 ---@param bufnr integer
 ---@param mbufnr integer
 ---@param namespace integer
----@param annotations Annotation[]
+---@param annotations Neominimap.Handler.Annotation[]
 ---@param mode Neominimap.Handler.Annotation.Mode
 M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     local logger = require("neominimap.logger")

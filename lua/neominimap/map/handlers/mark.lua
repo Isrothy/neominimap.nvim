@@ -1,10 +1,6 @@
 local api, fn = vim.api, vim.fn
 local config = require("neominimap.config")
 
-local M = {}
-
-M.namespace = api.nvim_create_namespace("neominimap_mark")
-
 local builtin_marks = {
     "'.",
     "'^",
@@ -47,28 +43,30 @@ local get_marks = function(bufnr)
     return marks
 end
 
---- @param bufnr integer
----@return Annotation[]
-M.get_annotations = function(bufnr)
-    local marks = get_marks(bufnr)
-    local annotation = {}
-    local logger = require("neominimap.logger")
-    for _, mark in ipairs(marks) do
-        local lnum = mark.pos[2]
-        if config.mark.show_builtins or not is_builtin(mark.mark) then
-            annotation[#annotation + 1] = {
-                lnum = lnum,
-                end_lnum = lnum,
-                priority = config.mark.priority,
-                id = 1,
-                icon = string.sub(mark.mark, 2, 3),
-                line_highlight = "NeominimapMarkLine",
-                sign_highlight = "NeominimapMarkSign",
-                icon_highlight = "NeominimapMarkIcon",
-            }
+---@type Neominimap.Handler
+return {
+    init = function() end,
+    mode = config.mark.mode,
+    namespace = api.nvim_create_namespace("neominimap_mark"),
+    events = {},
+    get_annotations = function(bufnr)
+        local marks = get_marks(bufnr)
+        local annotation = {}
+        for _, mark in ipairs(marks) do
+            local lnum = mark.pos[2]
+            if config.mark.show_builtins or not is_builtin(mark.mark) then
+                annotation[#annotation + 1] = {
+                    lnum = lnum,
+                    end_lnum = lnum,
+                    priority = config.mark.priority,
+                    id = 1,
+                    icon = string.sub(mark.mark, 2, 3),
+                    line_highlight = "NeominimapMarkLine",
+                    sign_highlight = "NeominimapMarkSign",
+                    icon_highlight = "NeominimapMarkIcon",
+                }
+            end
         end
-    end
-    return annotation
-end
-
-return M
+        return annotation
+    end,
+}

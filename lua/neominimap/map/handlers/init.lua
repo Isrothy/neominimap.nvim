@@ -1,6 +1,6 @@
 local M = {}
 
----@class (exact) Annotation
+---@class (exact) Neominimap.Handler.Annotation
 ---@field lnum integer The starting line (1 based)
 ---@field end_lnum integer The ending line (1 based)
 ---@field id integer
@@ -10,7 +10,14 @@ local M = {}
 ---@field sign_highlight string
 ---@field icon_highlight string
 
----@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Annotation[])
+---@class (exact) Neominimap.Handler
+---@field mode Neominimap.Handler.Annotation.Mode
+---@field namespace integer
+---@field events {event: string, pattern: string}[]
+---@field init fun()
+---@field get_annotations fun(bufnr: integer): Neominimap.Handler.Annotation[]
+
+---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Neominimap.Handler.Annotation[])
 
 ---@alias Neominimap.Handler.Annotation.Mode
 ---|"sign" -- Show braille signs in the sign column

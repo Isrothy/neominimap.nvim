@@ -3,10 +3,6 @@ local fn = vim.fn
 
 local config = require("neominimap.config")
 
-local M = {}
-
-M.namespace = api.nvim_create_namespace("neominimap_search")
-
 ---@param name string
 ---@return string
 local get_hl_bg = function(name)
@@ -91,23 +87,26 @@ local get_matches = function(bufnr)
     return matches
 end
 
---- @param bufnr integer
----@return Annotation[]
-M.get_annotations = function(bufnr)
-    local matches = get_matches(bufnr)
-    return vim.tbl_map(function(lnum)
-        ---@type Annotation[]
-        return {
-            lnum = lnum + 1,
-            end_lnum = lnum + 1,
-            priority = config.search.priority,
-            id = 1,
-            icon = config.search.icon,
-            line_highlight = "NeominimapSearchLine",
-            sign_highlight = "NeominimapSearchSign",
-            icon_highlight = "NeominimapSearchIcon",
-        }
-    end, matches)
-end
-
-return M
+---@type Neominimap.Handler
+return {
+    init = function() end,
+    mode = config.search.mode,
+    namespace = api.nvim_create_namespace("neominimap_search"),
+    events = {},
+    get_annotations = function(bufnr)
+        local matches = get_matches(bufnr)
+        return vim.tbl_map(function(lnum)
+            ---@type Neominimap.Handler.Annotation[]
+            return {
+                lnum = lnum + 1,
+                end_lnum = lnum + 1,
+                priority = config.search.priority,
+                id = 1,
+                icon = config.search.icon,
+                line_highlight = "NeominimapSearchLine",
+                sign_highlight = "NeominimapSearchSign",
+                icon_highlight = "NeominimapSearchIcon",
+            }
+        end, matches)
+    end,
+}
