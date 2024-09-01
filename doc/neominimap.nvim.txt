@@ -84,6 +84,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 - 📐 Support both split window and float window layouts
 - 🌐 Respects UTF-8 encoding and tab width
 - 🎯 Focus on the minimap, allowing interaction with it
+- 🔧 Support for customized handlers
 
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
@@ -750,6 +751,8 @@ SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
     - Codewindow.nvim does not consider folds, whereas this plugin does.
     - Codewindow.nvim shows the minimap in a floating window but does not support
         a split window. This plugin supports both.
+    - Codewindow.nvim does not support customized handlers, which this plugin
+        does.
 - mini.map <https://github.com/echasnovski/mini.map>
     - Mini.map allows for encoded symbol customization, while this plugin does not.
     - Mini.map includes a scrollbar, which this plugin does not.
@@ -759,6 +762,7 @@ SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
     - Mini.map does not cache the minimap, but it is still performant.
     - Mini.map shows the minimap in a floating window but does not support a
         split window. This plugin supports both.
+    - Mini.map does not support customized handlers, which this plugin does.
 - minimap.vim <https://github.com/wfxr/minimap.vim>
     - Like Mini.map, Minimap.vim scales the minimap.
     - Minimap.vim uses a Rust program to generate minimaps efficiently, while
@@ -767,6 +771,7 @@ SIMILAR PROJECTS                 *neominimap.nvim-neominimap-similar-projects*
         does.
     - Minimap.vim shows the minimap in a split window but does not support a
         floating window. This plugin supports both.
+    - Minimap.vim does not support customized handlers, which this plugin does.
 
 
 ACKNOWLEDGEMENTS                 *neominimap.nvim-neominimap-acknowledgements*
