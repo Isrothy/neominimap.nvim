@@ -500,6 +500,10 @@ These are the corresponding commands in the Lua API.
 
 </details>
 
+## Customized Handlers
+
+See the [wiki page](https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-Handlers)
+
 ## How it works
 
 ### Caching Minimap Buffers
