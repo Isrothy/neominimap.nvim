@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.5...v3.6.0) (2024-09-01)
+
+
+### Features
+
+* Add customized handler API ([d625b2c](https://github.com/Isrothy/neominimap.nvim/commit/d625b2c3f641b8eb963544e572576c8eaeb99259))
+
 ## [3.5.5](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.4...v3.5.5) (2024-09-01)
 
 
