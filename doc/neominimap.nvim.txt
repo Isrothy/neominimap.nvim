@@ -12,6 +12,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Configuration                   |neominimap.nvim-neominimap-configuration|
   - Commands                             |neominimap.nvim-neominimap-commands|
   - Lua API                               |neominimap.nvim-neominimap-lua-api|
+  - Customized Handlers       |neominimap.nvim-neominimap-customized-handlers|
   - How it works                     |neominimap.nvim-neominimap-how-it-works|
   - Tips                                     |neominimap.nvim-neominimap-tips|
   - Highlights                         |neominimap.nvim-neominimap-highlights|
@@ -576,6 +577,12 @@ These are the corresponding commands in the Lua API.
                                               minimap and the main     
                                               editor window.           
   -------------------------------------------------------------------------------------------------
+
+CUSTOMIZED HANDLERS           *neominimap.nvim-neominimap-customized-handlers*
+
+See the wiki page
+<https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-Handlers>
+
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
 
