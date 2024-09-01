@@ -43,23 +43,20 @@ local M = {}
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field severity? vim.diagnostic.SeverityInt
----@field priority? Neominimap.DiagnosticPriority
-
----@class (exact) Neominimap.DiagnosticPriority
----@field ERROR? integer
----@field WARN? integer
----@field INFO? integer
----@field HINT? integer
+---@field priority? {ERROR?: integer, WARN?: integer, INFO?: integer, HINT?: integer}
+---@field icon? {ERROR?: string, WARN?: string, INFO?: string, HINT?: string}
 
 ---@class (exact) Neominimap.GitConfig
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
+---@field icon? {add?: string, change?: string, delete?: string}
 
 ---@class (exact) Neominimap.SearchConfig
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
+---@field icon? string
 
 ---@class (exact) Neominimap.MarkConfig
 ---@field enabled? boolean
