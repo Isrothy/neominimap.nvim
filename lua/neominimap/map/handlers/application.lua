@@ -147,7 +147,7 @@ local fun_tbl = {
 ---@param bufnr integer
 ---@param mbufnr integer
 ---@param namespace integer
----@param annotations Neominimap.Handler.Annotation[]
+---@param annotations Neominimap.Map.Handler.Annotation[]
 ---@param mode Neominimap.Handler.Annotation.Mode
 M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     local logger = require("neominimap.logger")

@@ -82,7 +82,7 @@ return {
             return {}
         end
         local util = require("neominimap.util")
-        ---@type Neominimap.Handler.Annotation[]
+        ---@type Neominimap.Map.Handler.Annotation[]
         local annotation = {}
         for _, hunk in ipairs(hunks) do
             local start = math.max(1, hunk.added.start)

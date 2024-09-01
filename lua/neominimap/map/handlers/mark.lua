@@ -22,16 +22,16 @@ api.nvim_set_hl(0, "NeominimapMarkSign", { link = "Normal", default = true })
 api.nvim_set_hl(0, "NeominimapMarkIcon", { link = "Normal", default = true })
 api.nvim_set_hl(0, "NeominimapMarkLine", { link = "CursorLine", default = true })
 
----@alias Neominimap.Handler.Mark {mark:string, pos:integer[], file:string}
+---@alias Neominimap.Map.Handler.Mark {mark:string, pos:integer[], file:string}
 
 ---@param bufnr integer
----@return Neominimap.Handler.Mark[]
+---@return Neominimap.Map.Handler.Mark[]
 local get_marks = function(bufnr)
-    ---@type Neominimap.Handler.Mark[]
+    ---@type Neominimap.Map.Handler.Mark[]
     local marks = {}
     local current_file = api.nvim_buf_get_name(bufnr)
     for _, mark in ipairs(fn.getmarklist()) do
-        ---@cast mark Neominimap.Handler.Mark
+        ---@cast mark Neominimap.Map.Handler.Mark
         local mark_file = fn.fnamemodify(mark.file, ":p:a")
         if mark_file == current_file and mark.mark:find("[a-zA-Z]") ~= nil then
             marks[#marks + 1] = mark

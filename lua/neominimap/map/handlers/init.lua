@@ -2,7 +2,7 @@ local M = {}
 local api = vim.api
 local config = require("neominimap.config")
 
----@class (exact) Neominimap.Handler.Annotation
+---@class (exact) Neominimap.Map.Handler.Annotation
 ---@field lnum integer The starting line (1 based)
 ---@field end_lnum integer The ending line (1 based)
 ---@field id integer
@@ -16,12 +16,12 @@ local config = require("neominimap.config")
 ---@field namespace integer | string
 ---@field autocmds {event: (string|string[]), opts?: Neominimap.Map.Handler.Autocmd.Keyset}[]
 ---@field init fun()
----@field get_annotations fun(bufnr: integer): Neominimap.Handler.Annotation[]
+---@field get_annotations fun(bufnr: integer): Neominimap.Map.Handler.Annotation[]
 
 ---@class Neominimap.Map.Handler.Autocmd.Keyset : vim.api.keyset.create_autocmd
 ---@field callback fun(apply: fun(bufnr:integer), args: any)
 
----@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Neominimap.Handler.Annotation[])
+---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Neominimap.Map.Handler.Annotation[])
 
 ---@alias Neominimap.Handler.Annotation.Mode
 ---|"sign" -- Show braille signs in the sign column

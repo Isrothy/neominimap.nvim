@@ -91,7 +91,7 @@ return {
                 min = config.diagnostic.severity,
             },
         })
-        ---@type Neominimap.Handler.Annotation[]
+        ---@type Neominimap.Map.Handler.Annotation[]
         local annotation = {}
         local util = require("neominimap.util")
         for _, diag in ipairs(diags) do

@@ -172,7 +172,7 @@ return {
         local matches = get_matches(bufnr)
         local util = require("neominimap.util")
         return vim.tbl_map(function(lnum)
-            ---@type Neominimap.Handler.Annotation[]
+            ---@type Neominimap.Map.Handler.Annotation[]
             return {
                 lnum = lnum + 1,
                 end_lnum = lnum + 1,
