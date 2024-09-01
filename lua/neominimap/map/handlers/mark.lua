@@ -45,7 +45,7 @@ end
 
 local name = "Built-in Mark"
 
----@type Neominimap.Handler
+---@type Neominimap.Map.Handler
 return {
     name = name,
     mode = config.mark.mode,

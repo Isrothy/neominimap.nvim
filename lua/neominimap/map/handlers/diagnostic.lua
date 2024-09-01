@@ -58,7 +58,7 @@ local icon_list = {
 
 local name = "Built-in Diagnostic"
 
----@type Neominimap.Handler
+---@type Neominimap.Map.Handler
 return {
     name = name,
     mode = config.diagnostic.mode,

@@ -10,10 +10,10 @@ local config = require("neominimap.config")
 ---@field icon? string
 ---@field highlight string
 
----@class (exact) Neominimap.Handler
+---@class (exact) Neominimap.Map.Handler
 ---@field name string
 ---@field mode Neominimap.Handler.Annotation.Mode
----@field namespace integer
+---@field namespace integer | string
 ---@field autocmds {event: (string|string[]), opts?: vim.api.keyset.create_autocmd}[]
 ---@field init fun()
 ---@field get_annotations fun(bufnr: integer): Neominimap.Handler.Annotation[]
@@ -25,14 +25,15 @@ local config = require("neominimap.config")
 ---|"icon" -- Show icons in the sign column
 ---|"line" -- Highlight the background of the line on the minimap
 
----@type Neominimap.Handler[]
+---@type Neominimap.Map.Handler[]
 local handlers = {}
 
----@return Neominimap.Handler[]
+---@return Neominimap.Map.Handler[]
 M.get_handlers = function()
     return handlers
 end
 
+---@param handler Neominimap.Map.Handler
 M.register = function(handler)
     handler.init()
     handlers[#handlers + 1] = handler
@@ -62,6 +63,10 @@ for _, name in ipairs(builtins) do
     if config[name].enabled then
         M.register(require("neominimap.map.handlers." .. name))
     end
+end
+
+for _, handler in ipairs(config.handlers) do
+    M.register(handler)
 end
 
 return M

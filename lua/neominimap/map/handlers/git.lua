@@ -42,7 +42,7 @@ api.nvim_set_hl(0, "NeominimapGitChangeLine", { bg = colors.change, default = tr
 api.nvim_set_hl(0, "NeominimapGitDeleteLine", { bg = colors.delete, default = true })
 
 local name = "Built-in Git Signs"
----@type Neominimap.Handler
+---@type Neominimap.Map.Handler
 return {
     name = name,
     mode = config.git.mode,

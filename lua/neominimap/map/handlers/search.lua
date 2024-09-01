@@ -89,7 +89,7 @@ end
 
 local name = "Built-in Search"
 
----@type Neominimap.Handler
+---@type Neominimap.Map.Handler
 return {
     name = name,
     mode = config.search.mode,
