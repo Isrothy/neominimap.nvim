@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.5](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.4...v3.5.5) (2024-09-01)
+
+
+### Bug Fixes
+
+* Incorrect highlights ([10a033e](https://github.com/Isrothy/neominimap.nvim/commit/10a033e5e2c33bb562748c1b0fa435f6fe954399))
+
 ## [3.5.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.3...v3.5.4) (2024-08-31)
 
 
