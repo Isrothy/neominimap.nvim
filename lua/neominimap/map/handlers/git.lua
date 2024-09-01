@@ -91,7 +91,7 @@ M.get_annotations = function(bufnr)
             icon = toIcon[hunk.type],
             line_highlight = toLineHighlight[hunk.type],
             sign_highlight = toSignHighlight[hunk.type],
-            icon_highlight = toSignHighlight[hunk.type],
+            icon_highlight = toIconHighlight[hunk.type],
         }
     end
     return annotation
