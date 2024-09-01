@@ -53,7 +53,7 @@ return {
             opts = {
                 pattern = "GitSignsUpdate",
                 desc = "Update git annotations when git signs are updated",
-                callback = function(args)
+                callback = function(apply, args)
                     local logger = require("neominimap.logger")
                     logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
                     vim.schedule(function()
@@ -62,9 +62,8 @@ return {
                             logger.log("Buffer ID not found.", vim.log.levels.WARN)
                             return
                         end
-                        local bufnr = tonumber(args.data.buffer)
-                        ---@cast bufnr integer
-                        require("neominimap.buffer").apply_handler(bufnr, name)
+                        local bufnr = tonumber(args.data.buffer) ---@cast bufnr integer
+                        apply(bufnr)
                         logger.log("Git signs updated.", vim.log.levels.TRACE)
                     end)
                 end,

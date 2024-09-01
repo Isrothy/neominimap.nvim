@@ -68,7 +68,7 @@ return {
             event = "DiagnosticChanged",
             opts = {
                 desc = "Update diagnostic annotations when diagnostics are changed",
-                callback = function()
+                callback = function(apply)
                     local logger = require("neominimap.logger")
                     logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
                     vim.schedule(function()
@@ -76,7 +76,7 @@ return {
                         local buffer = require("neominimap.buffer")
                         local util = require("neominimap.util")
                         util.for_all_buffers(function(bufnr)
-                            buffer.apply_handler(bufnr, name)
+                            apply(bufnr)
                         end)
                         logger.log("Diagnostics updated.", vim.log.levels.TRACE)
                     end)

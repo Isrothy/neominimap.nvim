@@ -14,9 +14,12 @@ local config = require("neominimap.config")
 ---@field name string
 ---@field mode Neominimap.Handler.Annotation.Mode
 ---@field namespace integer | string
----@field autocmds {event: (string|string[]), opts?: vim.api.keyset.create_autocmd}[]
+---@field autocmds {event: (string|string[]), opts?: Neominimap.Map.Handler.Autocmd.Keyset}[]
 ---@field init fun()
 ---@field get_annotations fun(bufnr: integer): Neominimap.Handler.Annotation[]
+
+---@class Neominimap.Map.Handler.Autocmd.Keyset : vim.api.keyset.create_autocmd
+---@field callback fun(apply: fun(bufnr:integer), args: any)
 
 ---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Neominimap.Handler.Annotation[])
 
@@ -40,13 +43,19 @@ M.register = function(handler)
 end
 
 M.create_autocmds = function()
-    for _, handler in ipairs(handlers) do
-        for _, autocmd in ipairs(handler.autocmds) do
-            ---@type vim.api.keyset.create_autocmd
+    vim.tbl_map(function(handler)
+        vim.tbl_map(function(autocmd)
+            ---@type Neominimap.Map.Handler.Autocmd.Keyset
             local opts = vim.tbl_extend("force", autocmd.opts or {}, { group = "Neominimap" })
+            local callback = opts.callback
+            opts.callback = function(args)
+                callback(function(bufnr)
+                    require("neominimap.buffer").apply_handler(bufnr, handler.name)
+                end, args)
+            end
             api.nvim_create_autocmd(autocmd.event, opts)
-        end
-    end
+        end, handler.autocmds)
+    end, handlers)
 end
 
 M.apply = require("neominimap.map.handlers.application").apply
@@ -59,14 +68,12 @@ local builtins = {
     "mark",
 }
 
-for _, name in ipairs(builtins) do
+vim.tbl_map(function(name)
     if config[name].enabled then
         M.register(require("neominimap.map.handlers." .. name))
     end
-end
+end, builtins)
 
-for _, handler in ipairs(config.handlers) do
-    M.register(handler)
-end
+vim.tbl_map(M.register, config.handlers)
 
 return M
