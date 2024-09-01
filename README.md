@@ -100,6 +100,7 @@ Show minimaps in a split window:
 - 📐 Support both split window and float window layouts
 - 🌐 Respects UTF-8 encoding and tab width
 - 🎯 Focus on the minimap, allowing interaction with it
+- 🔧 Support for customized handlers
 
 ## Dependencies
 
@@ -664,6 +665,8 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
   - Codewindow.nvim does not consider folds, whereas this plugin does.
   - Codewindow.nvim shows the minimap in a floating window but does not support
     a split window. This plugin supports both.
+  - Codewindow.nvim does not support customized handlers, which this plugin
+    does.
 
 - [mini.map](https://github.com/echasnovski/mini.map)
   - Mini.map allows for encoded symbol customization, while this plugin does not.
@@ -674,6 +677,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
   - Mini.map does not cache the minimap, but it is still performant.
   - Mini.map shows the minimap in a floating window but does not support a
     split window. This plugin supports both.
+  - Mini.map does not support customized handlers, which this plugin does.
 
 - [minimap.vim](https://github.com/wfxr/minimap.vim)
   - Like Mini.map, Minimap.vim scales the minimap.
@@ -683,6 +687,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
     does.
   - Minimap.vim shows the minimap in a split window but does not support a
     floating window. This plugin supports both.
+  - Minimap.vim does not support customized handlers, which this plugin does.
 
 ## Acknowledgements
 
