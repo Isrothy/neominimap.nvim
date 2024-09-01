@@ -147,7 +147,7 @@ M.create_autocmds = function()
                 "User Neominimap event triggered. patter: MinimapBufferCreated or MinimapBufferDeleted",
                 vim.log.levels.TRACE
             )
-            local bufnr = args.data.buf
+            local bufnr = args.data.buffer
             local win_list = require("neominimap.util").get_attached_window(bufnr)
             vim.schedule(function()
                 for _, winid in ipairs(win_list) do
@@ -164,7 +164,7 @@ M.create_autocmds = function()
         desc = "Reset cursor line when buffer text is updated",
         callback = function(args)
             local logger = require("neominimap.logger")
-            local bufnr = args.data.buf
+            local bufnr = args.data.buffer
             logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)
             logger.log(string.format("Buffer ID: %d", bufnr), vim.log.levels.TRACE)
             local win_list = require("neominimap.util").get_attached_window(bufnr)

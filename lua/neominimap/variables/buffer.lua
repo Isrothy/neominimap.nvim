@@ -4,10 +4,7 @@ local M = {}
 local buffer_default = {
     enabled = true, ---@type boolean Enable minimap for this buffer.
     render = function() end, ---@type fun() Render minimap for this buffer. Genarate text and TreeSitter highlights.
-    update_diagnostic = function() end, ---@type fun()
-    update_git = function() end, ---@type fun()
-    update_search = function() end, ---@type fun()
-    update_mark = function() end, ---@type fun()
+    update_handler = {}, ---@type table<string, fun()>
     cached_folds = {}, ---@type Neominimap.Fold[]
 }
 

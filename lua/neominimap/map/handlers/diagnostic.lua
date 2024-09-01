@@ -56,11 +56,34 @@ local icon_list = {
     config.diagnostic.icon.HINT,
 }
 
+local name = "Built-in Diagnostic"
+
 ---@type Neominimap.Handler
 return {
+    name = name,
     mode = config.diagnostic.mode,
     namespace = api.nvim_create_namespace("neominimap_diagnostic"),
-    events = {},
+    autocmds = {
+        {
+            event = "DiagnosticChanged",
+            opts = {
+                desc = "Update diagnostic annotations when diagnostics are changed",
+                callback = function()
+                    local logger = require("neominimap.logger")
+                    logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        logger.log("Updating diagnostics.", vim.log.levels.TRACE)
+                        local buffer = require("neominimap.buffer")
+                        local util = require("neominimap.util")
+                        util.for_all_buffers(function(bufnr)
+                            buffer.apply_handler(bufnr, name)
+                        end)
+                        logger.log("Diagnostics updated.", vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+    },
     init = function() end,
     get_annotations = function(bufnr)
         local diags = diagnostic.get(bufnr, {
@@ -70,6 +93,7 @@ return {
         })
         ---@type Neominimap.Handler.Annotation[]
         local annotation = {}
+        local util = require("neominimap.util")
         for _, diag in ipairs(diags) do
             local severity = diag.severity
             ---@cast severity integer
@@ -79,9 +103,7 @@ return {
                 priority = priority_list[severity],
                 icon = icon_list[severity],
                 id = severity,
-                line_highlight = colors_name[severity] .. "Line",
-                sign_highlight = colors_name[severity] .. "Sign",
-                icon_highlight = colors_name[severity] .. "Icon",
+                highlight = colors_name[severity] .. util.capitalize(config.diagnostic.mode),
             }
         end
         return annotation

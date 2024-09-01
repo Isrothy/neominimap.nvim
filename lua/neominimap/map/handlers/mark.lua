@@ -43,14 +43,76 @@ local get_marks = function(bufnr)
     return marks
 end
 
+local name = "Built-in Mark"
+
 ---@type Neominimap.Handler
 return {
-    init = function() end,
+    name = name,
     mode = config.mark.mode,
+    init = function()
+        require("neominimap.events.mark")(config.mark.key)
+    end,
     namespace = api.nvim_create_namespace("neominimap_mark"),
-    events = {},
+    autocmds = {
+        {
+            event = "BufWinEnter",
+            opts = {
+                desc = "Update mark annotations when entering window",
+                callback = function()
+                    local logger = require("neominimap.logger")
+                    logger.log("BufWinEnter event triggered.", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        local bufnr = api.nvim_get_current_buf()
+                        logger.log(string.format("Updating marks for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        require("neominimap.buffer").apply_handler(bufnr, name)
+                        logger.log(string.format("Marks updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+        {
+            event = "TabEnter",
+            opts = {
+                desc = "Update marks annotations when entering tab",
+                callback = vim.schedule_wrap(function()
+                    local tid = api.nvim_get_current_tabpage()
+                    local logger = require("neominimap.logger")
+                    logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
+                    logger.log("Refreshing search status.", vim.log.levels.TRACE)
+                    local visiable_buffers = require("neominimap.util").get_visible_buffers()
+                    for _, bufnr in ipairs(visiable_buffers) do
+                        logger.log(string.format("Updating marks for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        require("neominimap.buffer").apply_handler(bufnr, name)
+                        logger.log(string.format("Marks updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    end
+                    logger.log("Marks refreshed.", vim.log.levels.TRACE)
+                end),
+            },
+        },
+        {
+            event = "User",
+            opts = {
+                pattern = "Mark",
+                desc = "Update marks annotations when mark event is triggered",
+                callback = function()
+                    local logger = require("neominimap.logger")
+                    logger.log("Mark event triggered", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        local visible_buffers = require("neominimap.util").get_visible_buffers()
+                        for _, bufnr in ipairs(visible_buffers) do
+                            logger.log(string.format("Updating marks for buffer %d.", bufnr), vim.log.levels.TRACE)
+                            require("neominimap.buffer").apply_handler(bufnr, name)
+                            logger.log(string.format("Marks updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        end
+                        logger.log("Marksrefreshed.", vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+    },
     get_annotations = function(bufnr)
         local marks = get_marks(bufnr)
+        local util = require("neominimap.util")
         local annotation = {}
         for _, mark in ipairs(marks) do
             local lnum = mark.pos[2]
@@ -61,9 +123,7 @@ return {
                     priority = config.mark.priority,
                     id = 1,
                     icon = string.sub(mark.mark, 2, 3),
-                    line_highlight = "NeominimapMarkLine",
-                    sign_highlight = "NeominimapMarkSign",
-                    icon_highlight = "NeominimapMarkIcon",
+                    highlight = "NeominimapMark" .. util.capitalize(config.mark.mode),
                 }
             end
         end

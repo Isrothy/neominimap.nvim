@@ -21,7 +21,7 @@ local apply_line = function(bufnr, mbufnr, namespace, annotations)
             local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
             if not lines[mrow] or lines[mrow].priority < annotation.priority then
                 lines[mrow] = {
-                    hl = annotation.line_highlight,
+                    hl = annotation.highlight,
                     priority = annotation.priority,
                 }
             end
@@ -68,7 +68,7 @@ local apply_sign = function(bufnr, mbufnr, namespace, annotations)
                 signs[mrow] = {
                     flag = 0,
                     id = annotation.id,
-                    hl = annotation.sign_highlight,
+                    hl = annotation.highlight,
                     priority = annotation.priority,
                 }
             end
@@ -118,7 +118,7 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
             then
                 icons[mrow] = {
                     id = annotation.id,
-                    hl = annotation.icon_highlight,
+                    hl = annotation.highlight,
                     icon = annotation.icon,
                     priority = annotation.priority,
                 }
