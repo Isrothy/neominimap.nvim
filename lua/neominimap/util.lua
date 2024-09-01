@@ -1,6 +1,12 @@
 local M = {}
 local api, fn = vim.api, vim.fn
 
+---@param word string
+---@return string
+M.capitalize = function(word)
+    return word:sub(1, 1):upper() .. word:sub(2)
+end
+
 --- @return integer[]
 M.get_visible_buffers = function()
     local visible_buffers = {}

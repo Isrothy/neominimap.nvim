@@ -1,9 +1,5 @@
-local M = {}
-
 local api = vim.api
 local config = require("neominimap.config")
-
-M.namespace = api.nvim_create_namespace("neominimap_git")
 
 ---@param name string
 ---@return string
@@ -20,27 +16,6 @@ local colors = {
 }
 
 ---@type table<string, string>
-local toSignHighlight = {
-    ["add"] = "NeominimapGitAddSign",
-    ["change"] = "NeominimapGitChangeSign",
-    ["delete"] = "NeominimapGitDeleteSign",
-}
-
----@type table<string, string>
-local toIconHighlight = {
-    ["add"] = "NeominimapGitAddIcon",
-    ["change"] = "NeominimapGitChangeIcon",
-    ["delete"] = "NeominimapGitDeleteIcon",
-}
-
----@type table<string, string>
-local toLineHighlight = {
-    ["add"] = "NeominimapGitAddLine",
-    ["change"] = "NeominimapGitChangeLine",
-    ["delete"] = "NeominimapGitDeleteLine",
-}
-
----@type table<string, string>
 local toIcon = {
     ["add"] = config.git.icon.add,
     ["change"] = config.git.icon.change,
@@ -54,9 +29,9 @@ local toId = {
     ["delete"] = 3,
 }
 
-api.nvim_set_hl(0, "NeominimapGitAddSign", { fg = colors.add, bg = "NONE", default = true })
-api.nvim_set_hl(0, "NeominimapGitChangeSign", { fg = colors.change, bg = "NONE", default = true })
-api.nvim_set_hl(0, "NeominimapGitDeleteSign", { fg = colors.delete, bg = "NONE", default = true })
+api.nvim_set_hl(0, "NeominimapGitAddSign", { fg = colors.add, default = true })
+api.nvim_set_hl(0, "NeominimapGitChangeSign", { fg = colors.change, default = true })
+api.nvim_set_hl(0, "NeominimapGitDeleteSign", { fg = colors.delete, default = true })
 
 api.nvim_set_hl(0, "NeominimapGitAddIcon", { fg = colors.add, default = true })
 api.nvim_set_hl(0, "NeominimapGitChangeIcon", { fg = colors.change, default = true })
@@ -66,35 +41,61 @@ api.nvim_set_hl(0, "NeominimapGitAddLine", { bg = colors.add, default = true })
 api.nvim_set_hl(0, "NeominimapGitChangeLine", { bg = colors.change, default = true })
 api.nvim_set_hl(0, "NeominimapGitDeleteLine", { bg = colors.delete, default = true })
 
----@param bufnr integer
----@return Annotation[]
-M.get_annotations = function(bufnr)
-    local gitsigns = require("gitsigns")
-    if not gitsigns then
-        return {}
-    end
-    --- @type {type:string, added:{start: integer, count: integer}}[]
-    local hunks = require("gitsigns").get_hunks(bufnr)
-    if not hunks then
-        return {}
-    end
-    ---@type Annotation[]
-    local annotation = {}
-    for _, hunk in ipairs(hunks) do
-        local start = math.max(1, hunk.added.start)
-        local end_ = start + math.max(0, hunk.added.count - 1)
-        annotation[#annotation + 1] = {
-            lnum = start,
-            end_lnum = end_,
-            priority = config.git.priority,
-            id = toId[hunk.type],
-            icon = toIcon[hunk.type],
-            line_highlight = toLineHighlight[hunk.type],
-            sign_highlight = toSignHighlight[hunk.type],
-            icon_highlight = toIconHighlight[hunk.type],
-        }
-    end
-    return annotation
-end
-
-return M
+local name = "Built-in Git Signs"
+---@type Neominimap.Map.Handler
+return {
+    name = name,
+    mode = config.git.mode,
+    namespace = api.nvim_create_namespace("neominimap_git"),
+    autocmds = {
+        {
+            event = "User",
+            opts = {
+                pattern = "GitSignsUpdate",
+                desc = "Update git annotations when git signs are updated",
+                callback = function(apply, args)
+                    local logger = require("neominimap.logger")
+                    logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        logger.log("Updating git signs.", vim.log.levels.TRACE)
+                        if not args.data or not args.data.buffer then
+                            logger.log("Buffer ID not found.", vim.log.levels.WARN)
+                            return
+                        end
+                        local bufnr = tonumber(args.data.buffer) ---@cast bufnr integer
+                        apply(bufnr)
+                        logger.log("Git signs updated.", vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+    },
+    init = function() end,
+    get_annotations = function(bufnr)
+        local gitsigns = require("gitsigns")
+        if not gitsigns then
+            return {}
+        end
+        --- @type {type:string, added:{start: integer, count: integer}}[]
+        local hunks = require("gitsigns").get_hunks(bufnr)
+        if not hunks then
+            return {}
+        end
+        local util = require("neominimap.util")
+        ---@type Neominimap.Map.Handler.Annotation[]
+        local annotation = {}
+        for _, hunk in ipairs(hunks) do
+            local start = math.max(1, hunk.added.start)
+            local end_ = start + math.max(0, hunk.added.count - 1)
+            annotation[#annotation + 1] = {
+                lnum = start,
+                end_lnum = end_,
+                priority = config.git.priority,
+                id = toId[hunk.type],
+                icon = toIcon[hunk.type],
+                highlight = "NeominimapGit" .. util.capitalize(hunk.type) .. util.capitalize(config.git.mode),
+            }
+        end
+        return annotation
+    end,
+}

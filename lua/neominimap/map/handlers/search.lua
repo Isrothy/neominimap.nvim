@@ -3,10 +3,6 @@ local fn = vim.fn
 
 local config = require("neominimap.config")
 
-local M = {}
-
-M.namespace = api.nvim_create_namespace("neominimap_search")
-
 ---@param name string
 ---@return string
 local get_hl_bg = function(name)
@@ -91,23 +87,100 @@ local get_matches = function(bufnr)
     return matches
 end
 
---- @param bufnr integer
----@return Annotation[]
-M.get_annotations = function(bufnr)
-    local matches = get_matches(bufnr)
-    return vim.tbl_map(function(lnum)
-        ---@type Annotation[]
-        return {
-            lnum = lnum + 1,
-            end_lnum = lnum + 1,
-            priority = config.search.priority,
-            id = 1,
-            icon = config.search.icon,
-            line_highlight = "NeominimapSearchLine",
-            sign_highlight = "NeominimapSearchSign",
-            icon_highlight = "NeominimapSearchIcon",
-        }
-    end, matches)
-end
+local name = "Built-in Search"
 
-return M
+---@type Neominimap.Map.Handler
+return {
+    name = name,
+    mode = config.search.mode,
+    init = function()
+        require("neominimap.events.search")
+    end,
+    namespace = api.nvim_create_namespace("neominimap_search"),
+    autocmds = {
+        {
+            event = "BufWinEnter",
+            opts = {
+                desc = "Update search annotations when entering window",
+                callback = function(apply)
+                    local logger = require("neominimap.logger")
+                    logger.log("BufWinEnter event triggered.", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        local bufnr = api.nvim_get_current_buf()
+                        logger.log(string.format("Updating search status for buffer %d.", bufnr), vim.log.levels.TRACE)
+                        apply(bufnr)
+                        logger.log(string.format("Search status updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+        {
+            event = "TabEnter",
+            opts = {
+                desc = "Update search annotations when entering tab",
+                callback = function(apply)
+                    local tid = api.nvim_get_current_tabpage()
+                    local logger = require("neominimap.logger")
+                    logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
+                    logger.log("Refreshing search status.", vim.log.levels.TRACE)
+                    local visiable_buffers = require("neominimap.util").get_visible_buffers()
+                    vim.schedule(function()
+                        vim.tbl_map(function(bufnr)
+                            logger.log(
+                                string.format("Updating search status for buffer %d.", bufnr),
+                                vim.log.levels.TRACE
+                            )
+                            apply(bufnr)
+                            logger.log(
+                                string.format("Search status updated for buffer %d.", bufnr),
+                                vim.log.levels.TRACE
+                            )
+                        end, visiable_buffers)
+                        logger.log("Search status refreshed.", vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+        {
+            event = "User",
+            opts = {
+                pattern = "Search",
+                desc = "Update search annotations when search event is triggered",
+                callback = function(apply)
+                    local logger = require("neominimap.logger")
+                    logger.log("Search event triggered", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        local visible_buffers = require("neominimap.util").get_visible_buffers()
+                        vim.tbl_map(function(bufnr)
+                            logger.log(
+                                string.format("Updating search status for buffer %d.", bufnr),
+                                vim.log.levels.TRACE
+                            )
+                            apply(bufnr)
+                            logger.log(
+                                string.format("Search status updated for buffer %d.", bufnr),
+                                vim.log.levels.TRACE
+                            )
+                        end, visible_buffers)
+                        logger.log("Search status refreshed.", vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+    },
+    get_annotations = function(bufnr)
+        local matches = get_matches(bufnr)
+        local util = require("neominimap.util")
+        return vim.tbl_map(function(lnum)
+            ---@type Neominimap.Map.Handler.Annotation[]
+            return {
+                lnum = lnum + 1,
+                end_lnum = lnum + 1,
+                priority = config.search.priority,
+                id = 1,
+                icon = config.search.icon,
+                highlight = "NeominimapSearch" .. util.capitalize(config.search.mode),
+            }
+        end, matches)
+    end,
+}

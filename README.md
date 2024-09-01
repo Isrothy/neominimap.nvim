@@ -287,38 +287,50 @@ vim.g.neominimap ={
     diagnostic = {
         enabled = true, ---@type boolean
         severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
-        mode = "line", ---@type Neominimap.Handler.MarkMode
+        mode = "line", ---@type Neominimap.Handler.Annotation.Mode
         priority = {
             ERROR = 100, ---@type integer
             WARN = 90, ---@type integer
             INFO = 80, ---@type integer
             HINT = 70, ---@type integer
         },
+        icon = {
+            ERROR = "󰅚 ", ---@type string
+            WARN = "󰀪 ", ---@type string
+            INFO = "󰌶 ", ---@type string
+            HINT = " ", ---@type string
+        },
     },
 
     git = {
         enabled = true, ---@type boolean
-        mode = "sign", ---@type Neominimap.Handler.MarkMode
+        mode = "sign", ---@type Neominimap.Handler.Annotation.Mode
         priority = 6, ---@type integer
+        icon = {
+            add = "+ ", ---@type string
+            change = "~ ", ---@type string
+            delete = "- ", ---@type string
+        },
     },
 
     search = {
         enabled = false, ---@type boolean
-        mode = "line", ---@type Neominimap.Handler.MarkMode
+        mode = "line", ---@type Neominimap.Handler.Annotation.Mode
         priority = 20, ---@type integer
-    },
-
-    mark = {
-        enabled = false, ---@type boolean
-        mode = "icon", ---@type Neominimap.Handler.Annotation
-        priority = 10, ---@type integer
-        key = "m", ---@type string
-        show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
+        icon = "󰱽 ", ---@type string
     },
 
     treesitter = {
         enabled = true, ---@type boolean
         priority = 200, ---@type integer
+    },
+
+    mark = {
+        enabled = false, ---@type boolean
+        mode = "icon", ---@type Neominimap.Handler.Annotation.Mode
+        priority = 10, ---@type integer
+        key = "m", ---@type string
+        show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
     },
 
     fold = {
@@ -335,6 +347,10 @@ vim.g.neominimap ={
     ---@param opt vim.bo
     ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
     bufopt = function(opt, bufnr) end,
+
+    ---@type Neominimap.Map.Handler[]
+    handlers = {},
+}
 }
 ```
 

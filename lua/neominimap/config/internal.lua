@@ -168,6 +168,9 @@ local M = {
     ---@param opt vim.bo
     ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
     bufopt = function(opt, bufnr) end,
+
+    ---@type Neominimap.Map.Handler[]
+    handlers = {},
 }
 
 ---@return integer

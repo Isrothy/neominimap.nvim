@@ -10,6 +10,17 @@ local function validate_path(path, tbl)
     return ok, err and path .. "." .. err
 end
 
+local function is_handler(handler)
+    return validate_path("", {
+        name = { handler.name, "string" },
+        mode = { handler.mode, "string" },
+        namespace = { handler.namespace, { "number", "string" } },
+        autocmds = { handler.autocmds, "table" },
+        init = { handler.init, "function" },
+        get_annotations = { handler.get_annotations, "function" },
+    })
+end
+
 ---@param f fun(x:any):boolean
 ---@return fun(arr:table):boolean
 local function is_array_of(f)
@@ -30,6 +41,9 @@ end
 local is_array_of_strings = is_array_of(function(x)
     return type(x) == "string"
 end)
+
+---@type fun(x:any):boolean
+local is_array_of_handlers = is_array_of(is_handler)
 
 ---@param cfg Neominimap.Internal.Config
 ---@return boolean
@@ -105,6 +119,8 @@ M.validate_config = function(cfg)
 
         winopt = { cfg.winopt, { "table", "function" } },
         bufopt = { cfg.bufopt, { "table", "function" } },
+
+        handlers = { cfg.handlers, is_array_of_handlers, "list of handler" },
     })
 end
 

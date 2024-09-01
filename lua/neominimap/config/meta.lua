@@ -25,6 +25,7 @@ local M = {}
 ---@field fold? Neominimap.FoldConfig
 ---@field winopt? fun(opt: vim.wo, winid: integer)
 ---@field bufopt? fun(opt: vim.bo, bufnr: integer)
+---@field handler? Neominimap.Map.Handler[]
 
 ---@class (exact) Neominimap.SplitConfig
 ---@field minimap_width? integer

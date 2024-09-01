@@ -1,10 +1,6 @@
-local M = {}
-
 local api = vim.api
 local diagnostic = vim.diagnostic
 local config = require("neominimap.config")
-
-M.namespace = api.nvim_create_namespace("neominimap_diagnostic")
 
 ---@param name string
 ---@return string
@@ -60,31 +56,56 @@ local icon_list = {
     config.diagnostic.icon.HINT,
 }
 
----@param bufnr integer
----@return Annotation[]
-M.get_annotations = function(bufnr)
-    local diags = diagnostic.get(bufnr, {
-        severity = {
-            min = config.diagnostic.severity,
-        },
-    })
-    ---@type Annotation[]
-    local annotation = {}
-    for _, diag in ipairs(diags) do
-        local severity = diag.severity
-        ---@cast severity integer
-        annotation[#annotation + 1] = {
-            lnum = diag.lnum + 1,
-            end_lnum = diag.end_lnum + 1,
-            priority = priority_list[severity],
-            icon = icon_list[severity],
-            id = severity,
-            line_highlight = colors_name[severity] .. "Line",
-            sign_highlight = colors_name[severity] .. "Sign",
-            icon_highlight = colors_name[severity] .. "Icon",
-        }
-    end
-    return annotation
-end
+local name = "Built-in Diagnostic"
 
-return M
+---@type Neominimap.Map.Handler
+return {
+    name = name,
+    mode = config.diagnostic.mode,
+    namespace = api.nvim_create_namespace("neominimap_diagnostic"),
+    autocmds = {
+        {
+            event = "DiagnosticChanged",
+            opts = {
+                desc = "Update diagnostic annotations when diagnostics are changed",
+                callback = function(apply)
+                    local logger = require("neominimap.logger")
+                    logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
+                    vim.schedule(function()
+                        logger.log("Updating diagnostics.", vim.log.levels.TRACE)
+                        local buffer = require("neominimap.buffer")
+                        local util = require("neominimap.util")
+                        util.for_all_buffers(function(bufnr)
+                            apply(bufnr)
+                        end)
+                        logger.log("Diagnostics updated.", vim.log.levels.TRACE)
+                    end)
+                end,
+            },
+        },
+    },
+    init = function() end,
+    get_annotations = function(bufnr)
+        local diags = diagnostic.get(bufnr, {
+            severity = {
+                min = config.diagnostic.severity,
+            },
+        })
+        ---@type Neominimap.Map.Handler.Annotation[]
+        local annotation = {}
+        local util = require("neominimap.util")
+        for _, diag in ipairs(diags) do
+            local severity = diag.severity
+            ---@cast severity integer
+            annotation[#annotation + 1] = {
+                lnum = diag.lnum + 1,
+                end_lnum = diag.end_lnum + 1,
+                priority = priority_list[severity],
+                icon = icon_list[severity],
+                id = severity,
+                highlight = colors_name[severity] .. util.capitalize(config.diagnostic.mode),
+            }
+        end
+        return annotation
+    end,
+}

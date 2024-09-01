@@ -117,7 +117,7 @@ M.internal_render = function(bufnr)
         group = "Neominimap",
         pattern = "MinimapBufferTextUpdated",
         data = {
-            buf = bufnr,
+            buffer = bufnr,
         },
     })
 
@@ -163,98 +163,33 @@ M.create_minimap_buffer = function(bufnr)
         config.delay
     )
 
-    var.b[bufnr].update_diagnostic = util.debounce(
-        vim.schedule_wrap(function()
-            if not api.nvim_buf_is_valid(bufnr) then
-                return
-            end
-            logger.log(string.format("Generating diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
-            local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
-            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
+    local handlers = require("neominimap.map.handlers")
+    local fun_list = {} ---@type table<string, fun()>
+    for _, handler in ipairs(handlers.get_handlers()) do
+        fun_list[handler.name] = util.debounce(
+            vim.schedule_wrap(function()
+                if not api.nvim_buf_is_valid(bufnr) then
+                    return
+                end
+                logger.log(string.format("Applying %s for buffer %d", handler.name, bufnr), vim.log.levels.TRACE)
+                local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
+                if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
+                    logger.log(
+                        string.format("Minimap buffer is not valid. Skipping generation of minimap."),
+                        vim.log.levels.WARN
+                    )
+                    return
+                end
+                handlers.apply(bufnr, mbufnr_, handler.namespace, handler.get_annotations(bufnr), handler.mode)
                 logger.log(
-                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
-                    vim.log.levels.WARN
+                    string.format("Diagnostics for buffer %d generated successfully", bufnr),
+                    vim.log.levels.TRACE
                 )
-                return
-            end
-            local handlers = require("neominimap.map.handlers")
-            local diagnostic = require("neominimap.map.handlers.diagnostic")
-            handlers.apply(
-                bufnr,
-                mbufnr_,
-                diagnostic.namespace,
-                diagnostic.get_annotations(bufnr),
-                config.diagnostic.mode
-            )
-            logger.log(string.format("Diagnostics for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
-        end),
-        config.delay
-    )
-
-    var.b[bufnr].update_git = util.debounce(
-        vim.schedule_wrap(function()
-            if not api.nvim_buf_is_valid(bufnr) then
-                return
-            end
-            logger.log(string.format("Generating gitsigns for buffer %d", bufnr), vim.log.levels.TRACE)
-            local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
-            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
-                logger.log(
-                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
-                    vim.log.levels.WARN
-                )
-                return
-            end
-            local handlers = require("neominimap.map.handlers")
-            local git = require("neominimap.map.handlers.git")
-            handlers.apply(bufnr, mbufnr_, git.namespace, git.get_annotations(bufnr), config.git.mode)
-            logger.log(string.format("Gitsigns for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
-        end),
-        config.delay
-    )
-
-    var.b[bufnr].update_search = util.debounce(
-        vim.schedule_wrap(function()
-            if not api.nvim_buf_is_valid(bufnr) then
-                return
-            end
-            logger.log(string.format("Generating search for buffer %d", bufnr), vim.log.levels.TRACE)
-            local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
-            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
-                logger.log(
-                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
-                    vim.log.levels.WARN
-                )
-                return
-            end
-            local handlers = require("neominimap.map.handlers")
-            local search = require("neominimap.map.handlers.search")
-            handlers.apply(bufnr, mbufnr_, search.namespace, search.get_annotations(bufnr), config.search.mode)
-            logger.log(string.format("Search for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
-        end),
-        config.delay
-    )
-    var.b[bufnr].update_mark = util.debounce(
-        vim.schedule_wrap(function()
-            if not api.nvim_buf_is_valid(bufnr) then
-                return
-            end
-            logger.log(string.format("Generating marks for buffer %d", bufnr), vim.log.levels.TRACE)
-            local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
-            if not mbufnr_ or not api.nvim_buf_is_valid(mbufnr_) then
-                logger.log(
-                    string.format("Minimap buffer is not valid. Skipping generation of minimap."),
-                    vim.log.levels.WARN
-                )
-                return
-            end
-            local handlers = require("neominimap.map.handlers")
-            local mark = require("neominimap.map.handlers.mark")
-            handlers.apply(bufnr, mbufnr_, mark.namespace, mark.get_annotations(bufnr), config.mark.mode)
-            logger.log(string.format("Marks for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
-        end),
-        config.delay
-    )
+            end),
+            config.delay
+        )
+    end
+    var.b[bufnr].update_handler = fun_list
 
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
@@ -262,7 +197,7 @@ M.create_minimap_buffer = function(bufnr)
         group = "Neominimap",
         pattern = "MinimapBufferCreated",
         data = {
-            buf = bufnr,
+            buffer = bufnr,
         },
     })
     return mbufnr
@@ -277,34 +212,15 @@ M.render = function(bufnr)
 end
 
 ---@param bufnr integer
-M.update_diagnostics = function(bufnr)
+---@param handler_name string
+M.apply_handler = function(bufnr, handler_name)
     local var = require("neominimap.variables")
     if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
-        var.b[bufnr].update_diagnostic()
-    end
-end
-
----@param bufnr integer
-M.update_git = function(bufnr)
-    local var = require("neominimap.variables")
-    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
-        var.b[bufnr].update_git()
-    end
-end
-
----@param bufnr integer
-M.update_search = function(bufnr)
-    local var = require("neominimap.variables")
-    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
-        var.b[bufnr].update_search()
-    end
-end
-
----@param bufnr integer
-M.update_mark = function(bufnr)
-    local var = require("neominimap.variables")
-    if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
-        var.b[bufnr].update_mark()
+        -- local logger = require("neominimap.logger")
+        local fun = var.b[bufnr].update_handler[handler_name]
+        if fun ~= nil then
+            fun()
+        end
     end
 end
 
@@ -367,17 +283,10 @@ M.delete_minimap_buffer = function(bufnr)
         group = "Neominimap",
         pattern = "MinimapBufferDeleted",
         data = {
-            buf = bufnr,
+            buffer = bufnr,
         },
     })
     return bufnr
-end
-
-M.update_all_diagnostics = function()
-    local logger = require("neominimap.logger")
-    logger.log("Updating all diagnostics", vim.log.levels.TRACE)
-    require("neominimap.util").for_all_buffers(M.update_diagnostics)
-    logger.log("All diagnostics updated", vim.log.levels.TRACE)
 end
 
 M.refresh_all_minimap_buffers = function()
