@@ -1,6 +1,6 @@
 local M = {}
 
----@class Neominimap.Variables.Tab
+---@class Neominimap.Variables.Tabpage
 local tab_default = {
     enabled = true, ---@type boolean Enable minimap for this tab.
 }
@@ -30,7 +30,7 @@ M.tab_get_var = function(tab, name)
 end
 
 ---@param tab integer
----@return Neominimap.Variables.Tab
+---@return Neominimap.Variables.Tabpage
 local get_t = function(tab)
     return setmetatable({}, {
         __index = function(_, k)
@@ -42,7 +42,7 @@ local get_t = function(tab)
     })
 end
 
----@type table<integer, Neominimap.Variables.Tab> | Neominimap.Variables.Tab
+---@type table<integer, Neominimap.Variables.Tabpage> | Neominimap.Variables.Tabpage
 M.t = setmetatable({}, {
     __index = function(_, k)
         if type(k) == "number" then

@@ -4,13 +4,13 @@
 local global = require("neominimap.variables.global")
 local buffer = require("neominimap.variables.buffer")
 local window = require("neominimap.variables.window")
-local tab = require("neominimap.variables.tab")
+local tabpage = require("neominimap.variables.tabpage")
 
 return {
     g = global.g,
     b = buffer.b,
     w = window.w,
-    t = tab.t,
+    t = tabpage.t,
 
     --- Set a global variable
     ---@type fun(name:string, value:any)
@@ -38,9 +38,9 @@ return {
 
     --- Set a tab-scoped variable
     ---@type fun(tab:integer, name:string, value:any)
-    tab_set_var = tab.tab_set_var,
+    tab_set_var = tabpage.tab_set_var,
 
     --- Get a tab-scoped variable
     ---@type fun(tab:integer, name:string):any
-    tab_get_var = tab.tab_get_var,
+    tab_get_var = tabpage.tab_get_var,
 }
