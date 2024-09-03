@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 01
+*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 03
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -46,29 +46,17 @@ Criticisms are welcome.
 
 SCREENSHOTS                           *neominimap.nvim-neominimap-screenshots*
 
-Show diagnostics:
+Show diagnostics: ~
 
-Click to expand ~
+Show git signs: ~
 
-Show git signs:
+Show search results: ~
 
-Click to expand ~
+Show marks: ~
 
-Show search results:
+Show minimaps in float windows: ~
 
-Click to expand ~
-
-Show marks:
-
-Click to expand ~
-
-Show minimaps in float windows:
-
-Click to expand ~
-
-Show minimaps in a split window:
-
-Click to expand ~
+Show minimaps in a split window: ~
 
 
 FEATURES                                 *neominimap.nvim-neominimap-features*
@@ -153,9 +141,7 @@ With Lazy:
 
 CONFIGURATION                       *neominimap.nvim-neominimap-configuration*
 
-The following is the default configuration.
-
-Click to expand ~
+Default configuration ~
 
 >lua
     ---@enum Neominimap.Handler.Annotation
@@ -338,10 +324,9 @@ Click to expand ~
         ---@type Neominimap.Map.Handler[]
         handlers = {},
     }
-    }
 <
 
-The default `winopt` is:
+Default winopt ~
 
 >lua
     {
@@ -369,7 +354,7 @@ The default `winopt` is:
     }
 <
 
-The default `bufopt` is:
+Default bufopt ~
 
 >lua
     {
@@ -498,9 +483,7 @@ To refresh the minimap for windows 3 and 4:
 
 LUA API                                   *neominimap.nvim-neominimap-lua-api*
 
-Click to expand ~
-
-These are the corresponding commands in the Lua API.
+These are the corresponding commands in the Lua API. ~
 
   -------------------------------------------------------------------------------------------------
   Function                                    Description              Arguments
