@@ -33,55 +33,43 @@ Criticisms are welcome.
 
 ![screenshot](https://github.com/user-attachments/assets/029d61c7-94ac-4e68-9308-3c82a3c07fef)
 
-Show diagnostics:
-
 <details>
- <summary>Click to expand</summary>
+ <summary>Show diagnostics:</summary>
 
 ![image](https://github.com/user-attachments/assets/0710873b-bfa8-4102-bd6f-dbd9dd5cb9fd)
 
 </details>
 
-Show git signs:
-
 <details>
- <summary>Click to expand</summary>
+ <summary>Show git signs:</summary>
 
 ![image](https://github.com/user-attachments/assets/383ab582-884d-4fd5-86ab-1324ebedd7c0)
 
 </details>
 
-Show search results:
-
 <details>
- <summary>Click to expand</summary>
+ <summary>Show search results:</summary>
 
 ![image](https://github.com/user-attachments/assets/83a1a5a5-7bc7-48cc-9c01-39de75fada94)
 
 </details>
 
-Show marks:
-
 <details>
- <summary>Click to expand</summary>
+ <summary>Show marks:</summary>
   
 ![image](https://github.com/user-attachments/assets/9a3260c3-7930-4f49-9b8d-888b15a760ad)
 
 </details>
 
-Show minimaps in float windows:
-
 <details>
- <summary>Click to expand</summary>
+ <summary>Show minimaps in float windows:</summary>
 
 ![image](https://github.com/user-attachments/assets/71a14460-e8c0-468f-b7bc-6e991df1f042)
 
 </details>
 
-Show minimaps in a split window:
-
 <details>
- <summary>Click to expand</summary>
+ <summary>Show minimaps in a split window:</summary>
 
 ![image](https://github.com/user-attachments/assets/8a4fc48b-4811-4cee-a964-eccc5fda9a57)
 
@@ -165,8 +153,6 @@ With Lazy:
 ```
 
 ## Configuration
-
-The following is the default configuration.
 
 <details>
  <summary>Click to expand</summary>
