@@ -155,7 +155,7 @@ With Lazy:
 ## Configuration
 
 <details>
- <summary>Click to expand</summary>
+ <summary>Default configuration</summary>
 
 ```lua
 ---@enum Neominimap.Handler.Annotation
@@ -338,10 +338,12 @@ vim.g.neominimap ={
     ---@type Neominimap.Map.Handler[]
     handlers = {},
 }
-}
 ```
 
-The default `winopt` is:
+</details>
+
+<details>
+ <summary>Default winopt</summary>
 
 ```lua
 {
@@ -369,7 +371,10 @@ The default `winopt` is:
 }
 ```
 
-The default `bufopt` is:
+</details>
+
+<details>
+ <summary>Default bufopt</summary>
 
 ```lua
 {
@@ -459,9 +464,7 @@ To refresh the minimap for windows 3 and 4:
 ## Lua API
 
 <details>
- <summary>Click to expand</summary>
-
-These are the corresponding commands in the Lua API.
+ <summary>These are the corresponding commands in the Lua API.</summary>
 
 | Function                                    | Description                                                  | Arguments                                                            |
 |---------------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------|
