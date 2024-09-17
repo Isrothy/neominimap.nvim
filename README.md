@@ -91,9 +91,10 @@ Criticisms are welcome.
 - 🔧 Support for customized handlers
 - 🔣 Statusline Components
 
-## Dependencies
+## Requirements and Dependencies
 
-- Neovim version 0.10+
+- Neovim version 0.10.0 or higher is required.
+  Nightly versions might work, but **NOT** guaranteed or maintained.
 - A font that supports dispalys **Braille Patterns** Unicode block
 - Optional: [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for highlighting
 - Optional: [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for Git integration
