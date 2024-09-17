@@ -500,12 +500,16 @@ See the [wiki page](https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-H
 
 This plugin provides statusline components that integrate with various
 statusline plugins like Lualine.
+<details>
+ <summary>
+ Click to expand
+</summary>
 
 ### Customizable Statusline Components
 
 The plugin offers the following customizable components for your statusline:
 
-- plugin_name - Displays the plugin name, “Neominimap”.
+- plugin_name - Displays the plugin name, "Neominimap".
 - fullname - Shows the full path of the current file.
 - shortname - Displays only the filename (without the path).
 - position - Indicates the current cursor position within the file.
@@ -560,6 +564,8 @@ The default Lualine extension provided by the plugin is structured as follows:
   filetypes = { "neominimap" },
 }
 ```
+
+</details>
 
 ## How it works
 
