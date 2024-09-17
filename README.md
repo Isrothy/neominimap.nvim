@@ -495,6 +495,72 @@ To refresh the minimap for windows 3 and 4:
 
 See the [wiki page](https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-Handlers)
 
+## Statusline
+
+This plugin provides statusline components that integrate with various
+statusline plugins like Lualine.
+
+### Customizable Statusline Components
+
+The plugin offers the following customizable components for your statusline:
+
+-	plugin_name - Displays the plugin name, “Neominimap”.
+-	fullname - Shows the full path of the current file.
+-	shortname - Displays only the filename (without the path).
+-	position - Indicates the current cursor position within the file.
+
+
+#### Example: Customizing Lualine
+
+Here's an example of how you can customize the Lualine statusline using
+neominimap components:
+
+```lua
+local neominimap = require("neominimap.statusline")
+local minimap_extension = {
+    sections = {
+        lualine_c = {
+            neominimap.fullname,
+        },
+        lualine_z = {
+            neominimap.position,
+            "progress",
+        },
+    },
+    filetypes = { "neominimap" },
+}
+require('lualine').setup { extensions = { minimap_extension } }
+```
+
+### Using the Default Lualine Extension
+
+Alternatively, you can use the default settings provided by the plugin:
+
+```lua
+local minimap_extension = require("neominimap.statusline").lualine_default
+require('lualine').setup { extensions = { minimap_extension } }
+```
+
+The default Lualine extension provided by the plugin is structured as follows:
+
+```lua
+{
+  sections = {
+      lualine_a = {
+          M.plugin_name,
+      },
+      lualine_c = {
+          M.shortname,
+      },
+      lualine_z = {
+          M.position,
+          "progress",
+      },
+  },
+  filetypes = { "neominimap" },
+}
+```
+
 ## How it works
 
 ### Caching Minimap Buffers

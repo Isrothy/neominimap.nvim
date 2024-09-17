@@ -1,7 +1,7 @@
 local M = {}
 
 ---@return string
-M.name = function()
+M.plugin_name = function()
     return "Neominimap"
 end
 
@@ -37,10 +37,10 @@ M.position = function()
     return string.format("%d:%d", y, x)
 end
 
-M.default = {
+M.lualine_default = {
     sections = {
         lualine_a = {
-            M.name,
+            M.plugin_name,
         },
         lualine_c = {
             M.shortname,
