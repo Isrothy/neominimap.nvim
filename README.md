@@ -89,6 +89,7 @@ Criticisms are welcome.
 - 🌐 Respects UTF-8 encoding and tab width
 - 🎯 Focus on the minimap, allowing interaction with it
 - 🔧 Support for customized handlers
+- 🔣 Statusline Components
 
 ## Dependencies
 
