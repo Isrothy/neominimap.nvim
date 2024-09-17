@@ -74,6 +74,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 - 🌐 Respects UTF-8 encoding and tab width
 - 🎯 Focus on the minimap, allowing interaction with it
 - 🔧 Support for customized handlers
+- 🔣 Statusline Components
 
 
 DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
