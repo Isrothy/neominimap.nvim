@@ -7,6 +7,18 @@ local api = vim.api
 ---@type table<integer, integer>
 local bufnr_to_mbufnr = {}
 
+--- The buffer number of which the given minimap buffer is attached
+---@param mbufnr integer
+---@return integer?
+M.get_source_bufnr = function(mbufnr)
+    for bufnr, mbufnr_ in pairs(bufnr_to_mbufnr) do
+        if mbufnr_ == mbufnr then
+            return bufnr
+        end
+    end
+    return nil
+end
+
 --- The winid of the minimap attached to the given window
 ---@param bufnr integer
 ---@return integer?
