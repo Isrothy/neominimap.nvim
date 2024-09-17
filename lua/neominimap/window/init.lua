@@ -16,10 +16,15 @@ api.nvim_set_hl(0, "NeominimapCursorLineFold", { link = "CursorLineSign", defaul
 ---@field tab_cmds Neominimap.Command.Tab.Handler
 ---@field focus_cmds Neominimap.Command.Focus.Handler
 
----@type table<Neominimap.Config.LayoutType, Neominimap.Window>
+---@type table<Neominimap.Config.LayoutType,fun():Neominimap.Window>
 local tbl = {
-    ["float"] = require("neominimap.window.float"),
-    ["split"] = require("neominimap.window.split"),
+    ["float"] = function()
+        return require("neominimap.window.float")
+    end,
+    ["split"] = function()
+        return require("neominimap.window.split")
+    end,
 }
 
-return tbl[config.layout]
+---@type Neominimap.Window
+return tbl[config.layout]()
