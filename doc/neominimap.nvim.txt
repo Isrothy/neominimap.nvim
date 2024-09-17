@@ -7,7 +7,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Overview                             |neominimap.nvim-neominimap-overview|
   - Screenshots                       |neominimap.nvim-neominimap-screenshots|
   - Features                             |neominimap.nvim-neominimap-features|
-  - Dependencies                     |neominimap.nvim-neominimap-dependencies|
+  - Requirements and Dependencies|neominimap.nvim-neominimap-requirements-and-dependencies|
   - Installation                     |neominimap.nvim-neominimap-installation|
   - Configuration                   |neominimap.nvim-neominimap-configuration|
   - Commands                             |neominimap.nvim-neominimap-commands|
@@ -77,9 +77,10 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 - 🔣 Statusline Components
 
 
-DEPENDENCIES                         *neominimap.nvim-neominimap-dependencies*
+REQUIREMENTS AND DEPENDENCIES*neominimap.nvim-neominimap-requirements-and-dependencies*
 
-- Neovim version 0.10+
+- Neovim version 0.10.0 or higher is required.
+    Nightly versions might work, but **NOT** guaranteed or maintained.
 - A font that supports dispalys **Braille Patterns** Unicode block
 - Optional: nvim-treesitter <https://github.com/nvim-treesitter/nvim-treesitter> for highlighting
 - Optional: gitsigns.nvim <https://github.com/lewis6991/gitsigns.nvim> for Git integration
