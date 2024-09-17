@@ -504,11 +504,10 @@ statusline plugins like Lualine.
 
 The plugin offers the following customizable components for your statusline:
 
--	plugin_name - Displays the plugin name, “Neominimap”.
--	fullname - Shows the full path of the current file.
--	shortname - Displays only the filename (without the path).
--	position - Indicates the current cursor position within the file.
-
+- plugin_name - Displays the plugin name, “Neominimap”.
+- fullname - Shows the full path of the current file.
+- shortname - Displays only the filename (without the path).
+- position - Indicates the current cursor position within the file.
 
 #### Example: Customizing Lualine
 
