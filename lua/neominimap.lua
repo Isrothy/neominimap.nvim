@@ -102,6 +102,11 @@ M.toggleFocus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.toggleFocus.impl(args, opts)
 end
 
+---@return table
+M.lualine_extension = function()
+    return require("neominimap.lualine").default
+end
+
 M.setup = function()
     api.nvim_create_user_command("Neominimap", function(opts)
         require("neominimap.command").commands(opts)
