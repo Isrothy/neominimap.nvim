@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.6.0...v3.7.0) (2024-09-17)
+
+
+### Features
+
+* Introduce lualine component ([24d3d7e](https://github.com/Isrothy/neominimap.nvim/commit/24d3d7e389d3d354d9959925de353de1fb44d2de))
+
 ## [3.6.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.5.5...v3.6.0) (2024-09-01)
 
 
