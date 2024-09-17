@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.0...v3.7.1) (2024-09-17)
+
+
+### Performance Improvements
+
+* Do not load unnucessary window handler ([e6043ea](https://github.com/Isrothy/neominimap.nvim/commit/e6043eae48b32e18094aba67265f15ae2059891f))
+
 ## [3.7.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.6.0...v3.7.0) (2024-09-17)
 
 
