@@ -574,7 +574,7 @@ See the wiki page
 STATUSLINE                             *neominimap.nvim-neominimap-statusline*
 
 This plugin provides statusline components that integrate with various
-statusline plugins like Lualine.
+statusline plugins like Lualine.Click to expand ~
 
 
 CUSTOMIZABLE STATUSLINE COMPONENTS ~
