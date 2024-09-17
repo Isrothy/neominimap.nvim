@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 03
+*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 17
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -13,6 +13,7 @@ Table of Contents                          *neominimap.nvim-table-of-contents*
   - Commands                             |neominimap.nvim-neominimap-commands|
   - Lua API                               |neominimap.nvim-neominimap-lua-api|
   - Customized Handlers       |neominimap.nvim-neominimap-customized-handlers|
+  - Statusline                         |neominimap.nvim-neominimap-statusline|
   - How it works                     |neominimap.nvim-neominimap-how-it-works|
   - Tips                                     |neominimap.nvim-neominimap-tips|
   - Highlights                         |neominimap.nvim-neominimap-highlights|
@@ -567,6 +568,75 @@ CUSTOMIZED HANDLERS           *neominimap.nvim-neominimap-customized-handlers*
 
 See the wiki page
 <https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-Handlers>
+
+
+STATUSLINE                             *neominimap.nvim-neominimap-statusline*
+
+This plugin provides statusline components that integrate with various
+statusline plugins like Lualine.
+
+
+CUSTOMIZABLE STATUSLINE COMPONENTS ~
+
+The plugin offers the following customizable components for your statusline:
+
+- plugin_name - Displays the plugin name, "Neominimap".
+- fullname - Shows the full path of the current file.
+- shortname - Displays only the filename (without the path).
+- position - Indicates the current cursor position within the file.
+
+
+EXAMPLE: CUSTOMIZING LUALINE
+
+Here’s an example of how you can customize the Lualine statusline using
+neominimap components:
+
+>lua
+    local neominimap = require("neominimap.statusline")
+    local minimap_extension = {
+        sections = {
+            lualine_c = {
+                neominimap.fullname,
+            },
+            lualine_z = {
+                neominimap.position,
+                "progress",
+            },
+        },
+        filetypes = { "neominimap" },
+    }
+    require('lualine').setup { extensions = { minimap_extension } }
+<
+
+
+USING THE DEFAULT LUALINE EXTENSION ~
+
+Alternatively, you can use the default settings provided by the plugin:
+
+>lua
+    local minimap_extension = require("neominimap.statusline").lualine_default
+    require('lualine').setup { extensions = { minimap_extension } }
+<
+
+The default Lualine extension provided by the plugin is structured as follows:
+
+>lua
+    {
+      sections = {
+          lualine_a = {
+              M.plugin_name,
+          },
+          lualine_c = {
+              M.shortname,
+          },
+          lualine_z = {
+              M.position,
+              "progress",
+          },
+      },
+      filetypes = { "neominimap" },
+    }
+<
 
 
 HOW IT WORKS                         *neominimap.nvim-neominimap-how-it-works*
