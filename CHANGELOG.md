@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.1...v3.7.2) (2024-09-18)
+
+
+### Bug Fixes
+
+* Disable winbar for lualine ([c3f3fd2](https://github.com/Isrothy/neominimap.nvim/commit/c3f3fd2abe33e447c35e9857319f7f0afcfa6754))
+
 ## [3.7.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.0...v3.7.1) (2024-09-17)
 
 
