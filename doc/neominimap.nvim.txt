@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 17
+*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 18
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -625,6 +625,7 @@ The default Lualine extension provided by the plugin is structured as follows:
 >lua
     {
       sections = {
+          winbar = {},
           lualine_a = {
               M.plugin_name,
           },
