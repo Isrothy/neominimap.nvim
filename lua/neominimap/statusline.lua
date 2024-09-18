@@ -38,6 +38,7 @@ M.position = function()
 end
 
 M.lualine_default = {
+    winbar = {},
     sections = {
         lualine_a = {
             M.plugin_name,

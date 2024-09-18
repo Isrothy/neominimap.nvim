@@ -551,6 +551,7 @@ The default Lualine extension provided by the plugin is structured as follows:
 ```lua
 {
   sections = {
+      winbar = {},
       lualine_a = {
           M.plugin_name,
       },
