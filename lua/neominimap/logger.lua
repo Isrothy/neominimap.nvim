@@ -27,8 +27,14 @@ M.log = function(msg, level)
         local f = io.open(filepath, "a+")
         if f then
             local info = debug.getinfo(2, "Sl")
-            local log_message =
-                string.format("[%s] [%-5s] [%s:%d] %s\n", time, level_names[level], info.short_src, info.currentline, msg)
+            local log_message = string.format(
+                "[%s] [%-5s] [%s:%d] %s\n",
+                time,
+                level_names[level],
+                info.short_src,
+                info.currentline,
+                msg
+            )
             f:write(log_message)
             f:close()
         else

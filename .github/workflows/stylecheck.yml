@@ -1,9 +1,9 @@
 name: Integration
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
+  pull_request: ~
   schedule:
     - cron: '0 7 * * 1'
 jobs:
