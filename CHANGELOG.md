@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.7.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.2...v3.7.3) (2024-10-05)
+
+
+### Bug Fixes
+
+* Add permissions to workflow ([29d52ce](https://github.com/Isrothy/neominimap.nvim/commit/29d52ce9e0d6a650b1e89db605fc4be1b88d2f50))
+* Use pcall in noautocmd ([1ebe37f](https://github.com/Isrothy/neominimap.nvim/commit/1ebe37f754bdd0df6589b86a251cc27008cda21e))
+* Use secrets.GITHUB_TOKEN ([233d05f](https://github.com/Isrothy/neominimap.nvim/commit/233d05f4c0663805c1dcf7afa006f176e0a46d55))
+
 ## [3.7.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.1...v3.7.2) (2024-09-18)
 
 
