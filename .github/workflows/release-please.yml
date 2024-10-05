@@ -6,6 +6,11 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      workflows: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
