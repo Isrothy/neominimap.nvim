@@ -1,7 +1,8 @@
 local M = {}
 
-M.create_autocmds = function() -- To lazy load
-    require("neominimap.buffer.autocmds").create_autocmds()
+---@param group string | integer
+M.create_autocmds = function(group) -- To lazy load
+    require("neominimap.buffer.autocmds").create_autocmds(group)
 end
 
 M.get_minimap_bufnr = require("neominimap.buffer.buffer_map").get_minimap_bufnr

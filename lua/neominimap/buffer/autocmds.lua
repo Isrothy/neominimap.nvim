@@ -2,9 +2,10 @@ local M = {}
 
 local api = vim.api
 
-M.create_autocmds = function()
+---@param group string | integer
+M.create_autocmds = function(group)
     api.nvim_create_autocmd({ "BufNew", "BufRead" }, {
-        group = "Neominimap",
+        group = group,
         desc = "Create minimap buffer when buffer is opened",
         callback = function(args)
             local logger = require("neominimap.logger")
@@ -23,7 +24,7 @@ M.create_autocmds = function()
     })
 
     api.nvim_create_autocmd("BufUnload", {
-        group = "Neominimap",
+        group = group,
         desc = "Wipe out minimap buffer when buffer is closed",
         callback = function(args)
             local logger = require("neominimap.logger")
@@ -38,7 +39,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
-        group = "Neominimap",
+        group = group,
         desc = "Update minimap buffer when text is changed",
         callback = function(args)
             local logger = require("neominimap.logger")
@@ -56,7 +57,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("User", {
-        group = "Neominimap",
+        group = group,
         pattern = "MinimapBufferTextUpdated",
         desc = "Update annotations when buffer text is updated",
         callback = function(args)

@@ -10,7 +10,7 @@ api.nvim_set_hl(0, "NeominimapCursorLineNr", { link = "CursorLineSign", default 
 api.nvim_set_hl(0, "NeominimapCursorLineFold", { link = "CursorLineSign", default = true })
 
 ---@class Neominimap.Window
----@field create_autocmds fun()
+---@field create_autocmds fun(group: string | integer)
 ---@field global_cmds Neominimap.Command.Global.Handler
 ---@field win_cmds Neominimap.Command.Win.Handler
 ---@field tab_cmds Neominimap.Command.Tab.Handler

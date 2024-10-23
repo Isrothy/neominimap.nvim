@@ -2,10 +2,11 @@ local api = vim.api
 local config = require("neominimap.config")
 local M = {}
 
-M.create_autocmds = function()
+---@param group string | integer
+M.create_autocmds = function(group)
     if config.click.enabled and not config.click.auto_switch_focus then
         api.nvim_create_autocmd("WinEnter", {
-            group = "Neominimap",
+            group = group,
             callback = function()
                 local winid = api.nvim_get_current_win()
                 local logger = require("neominimap.logger")
@@ -23,7 +24,7 @@ M.create_autocmds = function()
     end
 
     api.nvim_create_autocmd("BufWinEnter", {
-        group = "Neominimap",
+        group = group,
         callback = function()
             local logger = require("neominimap.logger")
             local winid = api.nvim_get_current_win()
@@ -36,7 +37,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("WinNew", {
-        group = "Neominimap",
+        group = group,
         callback = function()
             local logger = require("neominimap.logger")
             local winid = api.nvim_get_current_win()
@@ -49,7 +50,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("WinClosed", {
-        group = "Neominimap",
+        group = group,
         callback = function(args)
             local logger = require("neominimap.logger")
             logger.log(
@@ -66,7 +67,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("TabEnter", {
-        group = "Neominimap",
+        group = group,
         callback = vim.schedule_wrap(function()
             local logger = require("neominimap.logger")
             local tid = api.nvim_get_current_tabpage()
@@ -77,7 +78,7 @@ M.create_autocmds = function()
         end),
     })
     api.nvim_create_autocmd("WinResized", {
-        group = "Neominimap",
+        group = group,
         callback = function()
             local logger = require("neominimap.logger")
             logger.log("WinResized event triggered.", vim.log.levels.TRACE)
@@ -93,7 +94,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("WinScrolled", {
-        group = "Neominimap",
+        group = group,
         callback = function()
             local logger = require("neominimap.logger")
             logger.log("WinScrolled event triggered.", vim.log.levels.TRACE)
@@ -114,7 +115,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        group = "Neominimap",
+        group = group,
         callback = function()
             local logger = require("neominimap.logger")
             logger.log("CursorMoved event triggered.", vim.log.levels.TRACE)
@@ -139,7 +140,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("User", {
-        group = "Neominimap",
+        group = group,
         pattern = { "MinimapBufferCreated", "MinimapBufferDeleted" },
         callback = function(args)
             local logger = require("neominimap.logger")
@@ -159,7 +160,7 @@ M.create_autocmds = function()
         end,
     })
     api.nvim_create_autocmd("User", {
-        group = "Neominimap",
+        group = group,
         pattern = "MinimapBufferTextUpdated",
         desc = "Reset cursor line when buffer text is updated",
         callback = function(args)

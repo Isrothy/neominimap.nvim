@@ -42,13 +42,14 @@ M.register = function(handler)
     handlers[#handlers + 1] = handler
 end
 
-M.create_autocmds = function()
+---@param group string | integer
+M.create_autocmds = function(group)
     ---@param handler Neominimap.Map.Handler
     vim.tbl_map(function(handler)
         ---@param autocmd {event: string|string[], opts: Neominimap.Map.Handler.Autocmd.Keyset}
         vim.tbl_map(function(autocmd)
             ---@type Neominimap.Map.Handler.Autocmd.Keyset
-            local opts = vim.tbl_extend("force", autocmd.opts or {}, { group = "Neominimap" })
+            local opts = vim.tbl_extend("force", autocmd.opts or {}, { group = group })
             local callback = opts.callback
             opts.callback = function(args)
                 callback(function(bufnr)
