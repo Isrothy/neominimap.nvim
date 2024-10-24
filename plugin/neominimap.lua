@@ -12,5 +12,7 @@ end, {
     bang = false,
 })
 if config.auto_enable then
-    require("neominimap").on({}, {})
+    require("neominimap.autocmds").create_autocmds()
+    local logger = require("neominimap.logger")
+    logger.log(vim.inspect(package.loaded), vim.log.levels.DEBUG)
 end

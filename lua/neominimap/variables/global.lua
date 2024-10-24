@@ -1,8 +1,10 @@
 local M = {}
 
+local config = require("neominimap.config")
+
 ---@class Neominimap.Variables.Global
 local global_default = {
-    enabled = false, ---@type boolean Enable minimap globally
+    enabled = config.auto_enable, ---@type boolean Enable minimap globally
 }
 
 vim.g.neominimap_var = vim.deepcopy(global_default)

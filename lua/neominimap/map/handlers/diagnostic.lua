@@ -73,7 +73,6 @@ return {
                     logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
                     vim.schedule(function()
                         logger.log("Updating diagnostics.", vim.log.levels.TRACE)
-                        local buffer = require("neominimap.buffer")
                         local util = require("neominimap.util")
                         util.for_all_buffers(function(bufnr)
                             apply(bufnr)
