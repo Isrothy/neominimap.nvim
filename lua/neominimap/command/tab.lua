@@ -4,7 +4,7 @@ local api = vim.api
 ---@field tabRefresh fun(tabid:integer)
 ---@field tabOn fun(tabid:integer)
 ---@field tabOff fun(tabid:integer)
----
+
 local M = {}
 
 ---@param args string[]
@@ -33,14 +33,14 @@ end
 local function tabOn(tabid)
     local var = require("neominimap.variables")
     var.t[tabid].enabled = true
-    require("neominimap.window").tab_cmds.tabOn(tabid)
+    require("neominimap.window").get_tab_cmds().tabOn(tabid)
 end
 
 ---@param tabid integer
 local function tabOff(tabid)
     local var = require("neominimap.variables")
     var.t[tabid].enabled = false
-    require("neominimap.window").tab_cmds.tabOff(tabid)
+    require("neominimap.window").get_tab_cmds().tabOff(tabid)
 end
 
 ---@param tabid integer
@@ -55,10 +55,10 @@ end
 
 ---@param tabid integer
 local function tabRefresh(tabid)
-    require("neominimap.window").tab_cmds.tabRefresh(tabid)
+    require("neominimap.window").get_tab_cmds().tabRefresh(tabid)
 end
 
----@type table<string, Neominimap.Subcommand>
+---@type table<string, Neominimap.Subcommand>type table<Neominimap.Command.Tab, Neominimap.Subcommand>
 M.subcommand_tbl = {
     ["tabOn"] = {
         impl = function(args)

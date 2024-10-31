@@ -33,14 +33,14 @@ end
 local winOn = function(winid)
     local var = require("neominimap.variables")
     var.w[winid].enabled = true
-    require("neominimap.window").win_cmds.winOn(winid)
+    require("neominimap.window").get_win_cmds().winOn(winid)
 end
 
 ---@param winid integer
 local winOff = function(winid)
     local var = require("neominimap.variables")
     var.w[winid].enabled = false
-    require("neominimap.window").win_cmds.winOff(winid)
+    require("neominimap.window").get_win_cmds().winOff(winid)
 end
 
 ---@param winid integer
@@ -55,7 +55,7 @@ end
 
 ---@param winid integer
 local function winRefresh(winid)
-    require("neominimap.window").win_cmds.winRefresh(winid)
+    require("neominimap.window").get_win_cmds().winRefresh(winid)
 end
 
 ---@type table<string, Neominimap.Subcommand>

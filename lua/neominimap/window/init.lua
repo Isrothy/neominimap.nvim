@@ -11,10 +11,10 @@ api.nvim_set_hl(0, "NeominimapCursorLineFold", { link = "CursorLineSign", defaul
 
 ---@class Neominimap.Window
 ---@field create_autocmds fun(group: string | integer)
----@field global_cmds Neominimap.Command.Global.Handler
----@field win_cmds Neominimap.Command.Win.Handler
----@field tab_cmds Neominimap.Command.Tab.Handler
----@field focus_cmds Neominimap.Command.Focus.Handler
+---@field get_global_cmds fun():Neominimap.Command.Global.Handler
+---@field get_win_cmds fun():Neominimap.Command.Win.Handler
+---@field get_tab_cmds fun():Neominimap.Command.Tab.Handler
+---@field get_focus_cmds fun():Neominimap.Command.Focus.Handler
 
 ---@type table<Neominimap.Config.LayoutType,fun():Neominimap.Window>
 local tbl = {

@@ -33,14 +33,14 @@ end
 local function bufOn(bufnr)
     local var = require("neominimap.variables")
     var.b[bufnr].enabled = true
-    require("neominimap.buffer").buf_cmds.bufOn(bufnr)
+    require("neominimap.buffer").get_buf_cmds().bufOn(bufnr)
 end
 
 ---@param bufnr integer
 local function bufOff(bufnr)
     local var = require("neominimap.variables")
     var.b[bufnr].enabled = false
-    require("neominimap.buffer").buf_cmds.bufOff(bufnr)
+    require("neominimap.buffer").get_buf_cmds().bufOff(bufnr)
 end
 
 ---@param bufnr integer
@@ -55,7 +55,7 @@ end
 
 ---@param bufnr integer
 local function bufRefresh(bufnr)
-    require("neominimap.buffer").buf_cmds.bufRefresh(bufnr)
+    require("neominimap.buffer").get_buf_cmds().bufRefresh(bufnr)
 end
 
 ---@type table<string, Neominimap.Subcommand>

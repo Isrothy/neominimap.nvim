@@ -15,8 +15,8 @@ local function open_minimap()
     require("neominimap.autocmds").create_autocmds()
 
     logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
-    require("neominimap.buffer").global_cmds.on()
-    require("neominimap.window").global_cmds.on()
+    require("neominimap.buffer").get_global_cmds().on()
+    require("neominimap.window").get_global_cmds().on()
     logger.log("Minimap has been successfully opened.", vim.log.levels.INFO)
 end
 
@@ -31,7 +31,7 @@ local function close_minimap()
     local logger = require("neominimap.logger")
     logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
     require("neominimap.buffer").global_cmds.off()
-    require("neominimap.window").global_cmds.off()
+    require("neominimap.window").get_global_cmds().off()
     logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
 end
 
@@ -45,8 +45,8 @@ local function toggle_minimap()
 end
 
 local function refresh_minimap()
-    require("neominimap.window").global_cmds.refresh()
-    require("neominimap.buffer").global_cmds.refresh()
+    require("neominimap.window").get_global_cmds().refresh()
+    require("neominimap.buffer").get_global_cmds().refresh()
 end
 
 ---@type table<string, Neominimap.Subcommand>
