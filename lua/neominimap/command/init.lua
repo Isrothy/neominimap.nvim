@@ -16,5 +16,5 @@ local subcommand_tbl = vim.tbl_deep_extend(
 )
 
 return {
-    subcommand_tbl = subcommand_tbl
+    subcommand_tbl = subcommand_tbl,
 }
