@@ -46,7 +46,8 @@ end)
 local is_array_of_handlers = is_array_of(is_handler)
 
 ---@param cfg Neominimap.Internal.Config
----@return boolean
+---@return boolean is_valid
+---@return string|nil error_message
 M.validate_config = function(cfg)
     return validate_path("vim.g.neominimap", {
         auto_enable = { cfg.auto_enable, "boolean" },
