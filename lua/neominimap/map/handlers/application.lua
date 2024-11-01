@@ -161,4 +161,5 @@ M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
         vim.log.levels.TRACE
     )
 end
+
 return M

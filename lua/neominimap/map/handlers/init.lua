@@ -72,19 +72,14 @@ M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     require("neominimap.map.handlers.application").apply(bufnr, mbufnr, namespace, annotations, mode)
 end
 
----@type string[]
-local builtins = {
-    "git",
-    "diagnostic",
-    "search",
-    "mark",
-}
+---@type table<string, Neominimap.Map.Handler>
+local builtins = require("neominimap.map.handlers.builtins")
 
-vim.tbl_map(function(name)
+for name, handler in pairs(builtins) do
     if config[name].enabled then
-        M.register(require("neominimap.map.handlers." .. name))
+        M.register(handler)
     end
-end, builtins)
+end
 
 vim.tbl_map(M.register, config.handlers)
 
