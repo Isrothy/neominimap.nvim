@@ -13,13 +13,15 @@ local config = require("neominimap.config")
 ---@class (exact) Neominimap.Map.Handler
 ---@field name string
 ---@field mode Neominimap.Handler.Annotation.Mode
----@field namespace integer | string
+---@field namespace integer
 ---@field autocmds {event: (string|string[]), opts?: Neominimap.Map.Handler.Autocmd.Keyset}[]
 ---@field init fun()
 ---@field get_annotations fun(bufnr: integer): Neominimap.Map.Handler.Annotation[]
 
+---@alias Neominimap.Map.Handler.Autocmd.Callback fun(apply: fun(bufnr:integer), args: any)
+
 ---@class Neominimap.Map.Handler.Autocmd.Keyset : vim.api.keyset.create_autocmd
----@field callback fun(apply: fun(bufnr:integer), args: any)
+---@field callback Neominimap.Map.Handler.Autocmd.Callback
 
 ---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Neominimap.Map.Handler.Annotation[])
 
@@ -61,7 +63,14 @@ M.create_autocmds = function(group)
     end, handlers)
 end
 
-M.apply = require("neominimap.map.handlers.application").apply
+---@param bufnr integer
+---@param mbufnr integer
+---@param namespace integer
+---@param annotations Neominimap.Map.Handler.Annotation[]
+---@param mode Neominimap.Handler.Annotation.Mode
+M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
+    require("neominimap.map.handlers.application").apply(bufnr, mbufnr, namespace, annotations, mode)
+end
 
 ---@type string[]
 local builtins = {

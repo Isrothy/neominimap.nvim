@@ -2,7 +2,37 @@ local M = {}
 
 ---@param group string | integer
 M.create_autocmds = function(group) -- To lazy load
-    require("neominimap.buffer.autocmds").create_autocmds(group)
+    local api = vim.api
+    api.nvim_create_autocmd({ "BufNew", "BufRead" }, {
+        group = group,
+        desc = "Create minimap buffer when buffer is opened",
+        callback = function(args)
+            require("neominimap.buffer.autocmds").onBufNew(args)
+        end,
+    })
+
+    api.nvim_create_autocmd("BufUnload", {
+        group = group,
+        desc = "Wipe out minimap buffer when buffer is closed",
+        callback = function(args)
+            require("neominimap.buffer.autocmds").onBufUnload(args)
+        end,
+    })
+    api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+        group = group,
+        desc = "Update minimap buffer when text is changed",
+        callback = function(args)
+            require("neominimap.buffer.autocmds").onTextChange(args)
+        end,
+    })
+    api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "MinimapBufferTextUpdated",
+        desc = "Update annotations when buffer text is updated",
+        callback = function(args)
+            require("neominimap.buffer.autocmds").onMinimapTextUpdate(args)
+        end,
+    })
 end
 
 --- The winid of the minimap attached to the given window
