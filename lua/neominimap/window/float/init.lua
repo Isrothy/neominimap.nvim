@@ -7,7 +7,7 @@ return {
             api.nvim_create_autocmd("WinEnter", {
                 group = group,
                 callback = function()
-                    require("neominimap.window.float.autocmds").focusOnWinNew()
+                    require("neominimap.window.float.autocmds").focus_on_win_new()
                 end,
             })
         end
@@ -15,50 +15,50 @@ return {
         api.nvim_create_autocmd("BufWinEnter", {
             group = group,
             callback = function()
-                require("neominimap.window.float.autocmds").onBufWinEnter()
+                require("neominimap.window.float.autocmds").on_buf_win_enter()
             end,
         })
         api.nvim_create_autocmd("WinNew", {
             group = group,
             callback = function()
-                require("neominimap.window.float.autocmds").onWinNew()
+                require("neominimap.window.float.autocmds").on_win_new()
             end,
         })
         api.nvim_create_autocmd("WinClosed", {
             group = group,
             callback = function(args)
-                require("neominimap.window.float.autocmds").onwinClosed(args)
+                require("neominimap.window.float.autocmds").on_win_closed(args)
             end,
         })
         api.nvim_create_autocmd("TabEnter", {
             group = group,
             callback = function()
-                require("neominimap.window.float.autocmds").onTabEnter()
+                require("neominimap.window.float.autocmds").on_tab_enter()
             end,
         })
         api.nvim_create_autocmd("WinResized", {
             group = group,
             callback = function()
-                require("neominimap.window.float.autocmds").onWinResized()
+                require("neominimap.window.float.autocmds").on_win_resized()
             end,
         })
         api.nvim_create_autocmd("WinScrolled", {
             group = group,
             callback = function()
-                require("neominimap.window.float.autocmds").onWinScrolled()
+                require("neominimap.window.float.autocmds").on_win_scrolled()
             end,
         })
         api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
             group = group,
             callback = function()
-                require("neominimap.window.float.autocmds").onCursorMoved()
+                require("neominimap.window.float.autocmds").on_cursor_moved()
             end,
         })
         api.nvim_create_autocmd("User", {
             group = group,
             pattern = { "MinimapBufferCreated", "MinimapBufferDeleted" },
             callback = function(args)
-                require("neominimap.window.float.autocmds").onMinimapBufferCreatedOrDeleted(args)
+                require("neominimap.window.float.autocmds").on_minimap_buffer_created_or_deleted(args)
             end,
         })
         api.nvim_create_autocmd("User", {
@@ -66,7 +66,7 @@ return {
             pattern = "MinimapBufferTextUpdated",
             desc = "Reset cursor line when buffer text is updated",
             callback = function(args)
-                require("neominimap.window.float.autocmds").onMinimapBufferTextChanged(args)
+                require("neominimap.window.float.autocmds").on_minimap_buffer_text_changed(args)
             end,
         })
     end,

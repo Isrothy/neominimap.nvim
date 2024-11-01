@@ -74,7 +74,7 @@ M.get_annotations = function(bufnr)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onGitsignsUpdate = function(apply, args)
+M.on_gitsigns_update = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
     vim.schedule(function()

@@ -14,7 +14,7 @@ return {
                     pattern = "GitSignsUpdate",
                     desc = "Update git annotations when git signs are updated",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.git").onGitsignsUpdate(apply, args)
+                        require("neominimap.map.handlers.builtins.git").on_gitsigns_update(apply, args)
                     end,
                 },
             },
@@ -34,7 +34,7 @@ return {
                 opts = {
                     desc = "Update diagnostic annotations when diagnostics are changed",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.diagnostic").onDiagnosticChanged(apply, args)
+                        require("neominimap.map.handlers.builtins.diagnostic").on_diagnostic_changed(apply, args)
                     end,
                 },
             },
@@ -57,7 +57,7 @@ return {
                 opts = {
                     desc = "Update search annotations when entering window",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.search").onBufWinEnter(apply, args)
+                        require("neominimap.map.handlers.builtins.search").on_buf_win_enter(apply, args)
                     end,
                 },
             },
@@ -66,7 +66,7 @@ return {
                 opts = {
                     desc = "Update search annotations when entering tab",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.search").onTabEnter(apply, args)
+                        require("neominimap.map.handlers.builtins.search").on_tab_enter(apply, args)
                     end,
                 },
             },
@@ -76,7 +76,7 @@ return {
                     pattern = "Search",
                     desc = "Update search annotations when search event is triggered",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.search").onSearchEvent(apply, args)
+                        require("neominimap.map.handlers.builtins.search").on_search(apply, args)
                     end,
                 },
             },
@@ -98,7 +98,7 @@ return {
                 opts = {
                     desc = "Update mark annotations when entering window",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.mark").onBufWinEnter(apply, args)
+                        require("neominimap.map.handlers.builtins.mark").on_buf_win_enter(apply, args)
                     end,
                 },
             },
@@ -107,7 +107,7 @@ return {
                 opts = {
                     desc = "Update marks annotations when entering tab",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.mark").onTabEnter(apply, args)
+                        require("neominimap.map.handlers.builtins.mark").on_tab_enter(apply, args)
                     end,
                 },
             },
@@ -117,7 +117,7 @@ return {
                     pattern = "Mark",
                     desc = "Update marks annotations when mark event is triggered",
                     callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.mark").onMarkEvnet(apply, args)
+                        require("neominimap.map.handlers.builtins.mark").on_mark(apply, args)
                     end,
                 },
             },

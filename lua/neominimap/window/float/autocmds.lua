@@ -2,7 +2,7 @@ local api = vim.api
 local config = require("neominimap.config")
 local M = {}
 
-M.focusOnWinNew = function()
+M.focus_on_win_new = function()
     local winid = api.nvim_get_current_win()
     local logger = require("neominimap.logger")
     logger.log(string.format("WinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
@@ -16,7 +16,7 @@ M.focusOnWinNew = function()
     end)
 end
 
-M.onBufWinEnter = function()
+M.on_buf_win_enter = function()
     local logger = require("neominimap.logger")
     local winid = api.nvim_get_current_win()
     logger.log(string.format("BufWinEnter event triggered for window %d.", winid), vim.log.levels.TRACE)
@@ -27,7 +27,7 @@ M.onBufWinEnter = function()
     end)
 end
 
-M.onWinNew = function()
+M.on_win_new = function()
     local logger = require("neominimap.logger")
     local winid = api.nvim_get_current_win()
     logger.log(string.format("WinNew event triggered for window %d.", winid), vim.log.levels.TRACE)
@@ -38,7 +38,7 @@ M.onWinNew = function()
     end)
 end
 
-M.onwinClosed = function(args)
+M.on_win_closed = function(args)
     local logger = require("neominimap.logger")
     logger.log(string.format("WinClosed event triggered for window %d.", tonumber(args.match)), vim.log.levels.TRACE)
     local winid = tonumber(args.match)
@@ -50,7 +50,7 @@ M.onwinClosed = function(args)
     end)
 end
 
-M.onTabEnter = function()
+M.on_tab_enter = function()
     local logger = require("neominimap.logger")
     local tid = api.nvim_get_current_tabpage()
     logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
@@ -61,7 +61,7 @@ M.onTabEnter = function()
     end)
 end
 
-M.onWinResized = function()
+M.on_win_resized = function()
     local logger = require("neominimap.logger")
     logger.log("WinResized event triggered.", vim.log.levels.TRACE)
     local win_list = vim.deepcopy(vim.v.event.windows)
@@ -75,7 +75,7 @@ M.onWinResized = function()
     end
 end
 
-M.onWinScrolled = function()
+M.on_win_scrolled = function()
     local logger = require("neominimap.logger")
     logger.log("WinScrolled event triggered.", vim.log.levels.TRACE)
     local win_list = {}
@@ -94,7 +94,7 @@ M.onWinScrolled = function()
     end)
 end
 
-M.onCursorMoved = function()
+M.on_cursor_moved = function()
     local logger = require("neominimap.logger")
     logger.log("CursorMoved event triggered.", vim.log.levels.TRACE)
     local winid = api.nvim_get_current_win()
@@ -117,7 +117,7 @@ M.onCursorMoved = function()
     end)
 end
 
-M.onMinimapBufferCreatedOrDeleted = function(args)
+M.on_minimap_buffer_created_or_deleted = function(args)
     local logger = require("neominimap.logger")
     logger.log(
         "User Neominimap event triggered. patter: MinimapBufferCreated or MinimapBufferDeleted",
@@ -134,7 +134,7 @@ M.onMinimapBufferCreatedOrDeleted = function(args)
     end)
 end
 
-M.onMinimapBufferTextChanged = function(args)
+M.on_minimap_buffer_text_changed = function(args)
     local logger = require("neominimap.logger")
     local bufnr = args.data.buffer
     logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)

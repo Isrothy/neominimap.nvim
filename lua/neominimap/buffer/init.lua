@@ -7,7 +7,7 @@ M.create_autocmds = function(group) -- To lazy load
         group = group,
         desc = "Create minimap buffer when buffer is opened",
         callback = function(args)
-            require("neominimap.buffer.autocmds").onBufNew(args)
+            require("neominimap.buffer.autocmds").on_buf_new(args)
         end,
     })
 
@@ -15,14 +15,14 @@ M.create_autocmds = function(group) -- To lazy load
         group = group,
         desc = "Wipe out minimap buffer when buffer is closed",
         callback = function(args)
-            require("neominimap.buffer.autocmds").onBufUnload(args)
+            require("neominimap.buffer.autocmds").on_buf_unload(args)
         end,
     })
     api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
         group = group,
         desc = "Update minimap buffer when text is changed",
         callback = function(args)
-            require("neominimap.buffer.autocmds").onTextChange(args)
+            require("neominimap.buffer.autocmds").on_text_change(args)
         end,
     })
     api.nvim_create_autocmd("User", {
@@ -30,7 +30,7 @@ M.create_autocmds = function(group) -- To lazy load
         pattern = "MinimapBufferTextUpdated",
         desc = "Update annotations when buffer text is updated",
         callback = function(args)
-            require("neominimap.buffer.autocmds").onMinimapTextUpdate(args)
+            require("neominimap.buffer.autocmds").on_minimap_text_update(args)
         end,
     })
 end

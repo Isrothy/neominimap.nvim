@@ -1,6 +1,6 @@
 local M = {}
 
-M.onBufNew = function(args)
+M.on_buf_new = function(args)
     local logger = require("neominimap.logger")
     logger.log(string.format("BufNew or BufRead event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
     local bufnr = tonumber(args.buf)
@@ -12,7 +12,7 @@ M.onBufNew = function(args)
     end)
 end
 
-M.onBufUnload = function(args)
+M.on_buf_unload = function(args)
     local logger = require("neominimap.logger")
     logger.log(string.format("BufUnload event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
     local bufnr = tonumber(args.buf)
@@ -24,7 +24,7 @@ M.onBufUnload = function(args)
     end)
 end
 
-M.onTextChange = function(args)
+M.on_text_change = function(args)
     local logger = require("neominimap.logger")
     logger.log(string.format("TextChanged event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
     local bufnr = tonumber(args.buf)
@@ -36,7 +36,7 @@ M.onTextChange = function(args)
     end)
 end
 
-M.onMinimapTextUpdate = function(args)
+M.on_minimap_text_update = function(args)
     local bufnr = args.data.buffer
     local logger = require("neominimap.logger")
     logger.log("User Neominimap event triggered. patter: BufferTextUpdated", vim.log.levels.TRACE)

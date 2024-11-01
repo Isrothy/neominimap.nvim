@@ -90,7 +90,7 @@ local get_matches = function(bufnr)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onBufWinEnter = function(apply, args)
+M.on_buf_win_enter = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log("BufWinEnter event triggered.", vim.log.levels.TRACE)
     vim.schedule(function()
@@ -102,7 +102,7 @@ M.onBufWinEnter = function(apply, args)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onTabEnter = function(apply, args)
+M.on_tab_enter = function(apply, args)
     local tid = api.nvim_get_current_tabpage()
     local logger = require("neominimap.logger")
     logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
@@ -119,7 +119,7 @@ M.onTabEnter = function(apply, args)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onSearchEvent = function(apply, args)
+M.on_search = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log("Search event triggered", vim.log.levels.TRACE)
     vim.schedule(function()

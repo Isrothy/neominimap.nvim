@@ -59,7 +59,7 @@ local icon_list = {
 }
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onDiagnosticChanged = function(apply, args)
+M.on_diagnostic_changed = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
     vim.schedule(function()

@@ -45,7 +45,7 @@ local get_marks = function(bufnr)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onBufWinEnter = function(apply, args)
+M.on_buf_win_enter = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log("BufWinEnter event triggered.", vim.log.levels.TRACE)
     vim.schedule(function()
@@ -57,7 +57,7 @@ M.onBufWinEnter = function(apply, args)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onTabEnter = function(apply, args)
+M.on_tab_enter = function(apply, args)
     local tid = api.nvim_get_current_tabpage()
     local logger = require("neominimap.logger")
     logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
@@ -74,7 +74,7 @@ M.onTabEnter = function(apply, args)
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
-M.onMarkEvnet = function(apply, args)
+M.on_mark = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log("Mark event triggered", vim.log.levels.TRACE)
     vim.schedule(function()
