@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.5](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.4...v3.7.5) (2024-11-01)
+
+
+### Performance Improvements
+
+* Lazy create autocmds for split window ([bf5107f](https://github.com/Isrothy/neominimap.nvim/commit/bf5107f393f1d8ed943161753ab326da58117608))
+
 ## [3.7.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.3...v3.7.4) (2024-11-01)
 
 
