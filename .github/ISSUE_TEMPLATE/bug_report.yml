@@ -1,0 +1,85 @@
+name: Bug Report
+description: File a bug/issue
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before** reporting an issue, make sure to read the [documentation](https://github.com/Isrothy/neominimap.nvim)
+        and search [existing issues](https://github.com/Isrothy/neominimap.nvim/issues) (even the [closed issues](https://github.com/Isrothy/neominimap.nvim/issues?q=is%3Aissue+is%3Aclosed))
+
+        Usage questions such as ***"How do I...?"*** belong in [Discussions](https://github.com/Isrothy/neominimap.nvim/discussions) and will be closed.
+  - type: checkboxes
+    attributes:
+      label: Did you read the documentation and check existing issues?
+      description: Make sure you checked and all of the below before submitting an issue
+      options:
+        - label: I have read all the [`:help plugin-template`](https://github.com/Isrothy/neominimap.nvim/blob/main/doc/neominimap.nvim.txt) documentation
+          required: true
+        - label: I have updated the plugin to the latest version before submitting this issue
+          required: true
+        - label: I have searched the [existing issues](https://github.com/Isrothy/neominimap.nvim/issues) and [closed issues](https://github.com/Isrothy/neominimap.nvim/issues?q=is%3Aissue+is%3Aclosed) issues
+          required: true
+  - type: input
+    attributes:
+      label: "Neovim version (nvim -v)"
+      placeholder: "0.8.0 commit db1b0ee3b30f"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Operating system/version"
+      placeholder: "Rocky 9"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. Please include any related errors you see in Neovim.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Health
+      description: Attach the output of `:checkhealth plugin_template` here
+      render: log
+  - type: textarea
+    attributes:
+      label: Log
+      description: Please enable logging with `vim.g.neominimap = {log_level = vim.log.levels.TRACE}` and attach the contents of `~/.local/share/nvim/neominimap.log` here
+      render: log
+  - type: textarea
+    attributes:
+      label: Repro
+      description: Minimal `init.lua` to reproduce this issue. Save as `repro.lua` and run with `nvim -u repro.lua`
+      value: |
+        vim.env.LAZY_STDPATH = ".repro"
+        load(vim.fn.system("curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua"))()
+
+        require("lazy.minit").repro({
+            spec = {
+            {
+                -- Add anything you need here (configuration, other plugins, etc)
+                "Isrothy/neominimap.nvim",
+            },
+        })
+      render: lua
+    validations:
+      required: false
