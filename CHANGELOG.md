@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.7.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.3...v3.7.4) (2024-11-01)
+
+
+### Performance Improvements
+
+* Lazy load commands ([4d3e56a](https://github.com/Isrothy/neominimap.nvim/commit/4d3e56a1691478a2418bcc8d0cb9c64c99433861))
+* Validate configuration in checkhealth ([9b21120](https://github.com/Isrothy/neominimap.nvim/commit/9b21120fae860f1ec22ae9ea347dd4a9a0db66ba))
+
 ## [3.7.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.2...v3.7.3) (2024-10-05)
 
 
