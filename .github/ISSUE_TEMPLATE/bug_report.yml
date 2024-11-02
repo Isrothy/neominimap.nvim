@@ -15,7 +15,7 @@ body:
       label: Did you read the documentation and check existing issues?
       description: Make sure you checked and all of the below before submitting an issue
       options:
-        - label: I have read all the [`:help plugin-template`](https://github.com/Isrothy/neominimap.nvim/blob/main/doc/neominimap.nvim.txt) documentation
+        - label: I have read all the [`:help neominimap`](https://github.com/Isrothy/neominimap.nvim/blob/main/doc/neominimap.nvim.txt) documentation
           required: true
         - label: I have updated the plugin to the latest version before submitting this issue
           required: true
@@ -58,7 +58,7 @@ body:
   - type: textarea
     attributes:
       label: Health
-      description: Attach the output of `:checkhealth plugin_template` here
+      description: Attach the output of `:checkhealth neominimap` here
       render: log
   - type: textarea
     attributes:
