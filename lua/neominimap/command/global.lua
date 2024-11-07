@@ -30,7 +30,7 @@ local function close_minimap()
 
     local logger = require("neominimap.logger")
     logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
-    require("neominimap.buffer").global_cmds.off()
+    require("neominimap.buffer").get_global_cmds().off()
     require("neominimap.window").get_global_cmds().off()
     logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
 end
