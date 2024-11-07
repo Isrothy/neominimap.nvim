@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.6](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.5...v3.7.6) (2024-11-07)
+
+
+### Bug Fixes
+
+* fix-178 ([e490be9](https://github.com/Isrothy/neominimap.nvim/commit/e490be90776cede01868634142f4eab1b0ba32c8))
+
 ## [3.7.5](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.4...v3.7.5) (2024-11-01)
 
 
