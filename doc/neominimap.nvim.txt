@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*     Last change: 2024 September 18
+*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 November 22
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -172,6 +172,7 @@ Default configuration ~
         ---@type string[]
         exclude_filetypes = {
             "help",
+            "bigfile", -- For Snacks.nvim
         },
     
         -- Minimap will not be created for buffers of these types
@@ -376,72 +377,72 @@ COMMANDS                                 *neominimap.nvim-neominimap-commands*
 
 Click to expand ~
 
-  ----------------------------------------------------------------------------------------------
-  Command                               Description                                  Arguments
-  ------------------------------------- -------------------------------------------- -----------
-  Neominimap on                         Turn on minimaps globally.                   None
+  -----------------------------------------------------------------------------------------------
+  Command                               Description                                   Arguments
+  ------------------------------------- --------------------------------------------- -----------
+  Neominimap on                         Turn on minimaps globally.                    None
 
-  Neominimap off                        Turn off minimaps globally.                  None
+  Neominimap off                        Turn off minimaps globally.                   None
 
-  Neominimap toggle                     Toggle minimaps globally.                    None
+  Neominimap toggle                     Toggle minimaps globally.                     None
 
-  Neominimap refresh                    Refresh minimaps globally.                   None
+  Neominimap refresh                    Refresh minimaps globally.                    None
 
-  Neominimap bufOn [buffer_list]        Enable the minimap for specified buffers. If Optional:
-                                        no buffers are specified, enable for the     List of
-                                        current buffer.                              buffers
+  Neominimap bufOn [buffer_list]        Enable the minimap for specified buffers. If  Optional:
+                                        no buffers are specified, enable for the      List of
+                                        current buffer.                               buffers
 
-  Neominimap bufOff [buffer_list]       Disable the minimap for specified buffers.   Optional:
-                                        If no buffers are specified, disable for the List of
-                                        current buffer.                              buffers
+  Neominimap bufOff [buffer_list]       Disable the minimap for specified buffers. If Optional:
+                                        no buffers are specified, disable for the     List of
+                                        current buffer.                               buffers
 
-  Neominimap bufToggle [buffer_list]    Toggle the minimap for specified buffers. If Optional:
-                                        no buffers are specified, toggle for the     List of
-                                        current buffer.                              buffers
+  Neominimap bufToggle [buffer_list]    Toggle the minimap for specified buffers. If  Optional:
+                                        no buffers are specified, toggle for the      List of
+                                        current buffer.                               buffers
 
-  Neominimap bufRefresh [buffer_list]   Refresh the minimap buffers for specified    Optional:
-                                        buffers. If no buffers are specified,        List of
-                                        refresh for the current buffer.              buffers
+  Neominimap bufRefresh [buffer_list]   Refresh the minimap buffers for specified     Optional:
+                                        buffers. If no buffers are specified, refresh List of
+                                        for the current buffer.                       buffers
 
-  Neominimap TabOn [tab_list]           Enable the minimap for specified tabspage.   Optional:
-                                        If no tabpages are specified, enable for the List of
-                                        current tab.                                 tabpages
+  Neominimap TabOn [tab_list]           Enable the minimap for specified tabspage. If Optional:
+                                        no tabpages are specified, enable for the     List of
+                                        current tab.                                  tabpages
 
-  Neominimap TabOff [tab_list]          Disable the minimap for specified tabpages.  Optional:
-                                        If no tabpages are specified, disable for    List of
-                                        the current tab.                             tabpages
+  Neominimap TabOff [tab_list]          Disable the minimap for specified tabpages.   Optional:
+                                        If no tabpages are specified, disable for the List of
+                                        current tab.                                  tabpages
 
-  Neominimap TabToggle [tab_list]       Toggle the minimap for specified tabpages.   Optional:
-                                        If no tabpages are specified, toggle for the List of
-                                        current tab.                                 tabpages
+  Neominimap TabToggle [tab_list]       Toggle the minimap for specified tabpages. If Optional:
+                                        no tabpages are specified, toggle for the     List of
+                                        current tab.                                  tabpages
 
-  Neominimap TabRefresh [tab_list]      Refresh the minimap tabs for specified tabs. Optional:
-                                        If no tabs are specified, refresh for the    List of
-                                        current tab.                                 tabpages
+  Neominimap TabRefresh [tab_list]      Refresh the minimap tabs for specified tabs.  Optional:
+                                        If no tabs are specified, refresh for the     List of
+                                        current tab.                                  tabpages
 
-  Neominimap winOn [window_list]        Enable the minimap for specified windows. If Optional:
-                                        no windows are specified, enable for the     List of
-                                        current window.                              windows
+  Neominimap winOn [window_list]        Enable the minimap for specified windows. If  Optional:
+                                        no windows are specified, enable for the      List of
+                                        current window.                               windows
 
-  Neominimap winOff [window_list]       Disable the minimap for specified windows.   Optional:
-                                        If no windows are specified, disable for the List of
-                                        current window.                              windows
+  Neominimap winOff [window_list]       Disable the minimap for specified windows. If Optional:
+                                        no windows are specified, disable for the     List of
+                                        current window.                               windows
 
-  Neominimap winToggle [window_list]    Toggle the minimap for specified windows. If Optional:
-                                        no windows are specified, toggle for the     List of
-                                        current window.                              windows
+  Neominimap winToggle [window_list]    Toggle the minimap for specified windows. If  Optional:
+                                        no windows are specified, toggle for the      List of
+                                        current window.                               windows
 
-  Neominimap winRefresh [window_list]   Refresh the minimap windows for specified    Optional:
-                                        windows. If no windows are specified,        List of
-                                        refresh for the current window.              windows
+  Neominimap winRefresh [window_list]   Refresh the minimap windows for specified     Optional:
+                                        windows. If no windows are specified, refresh List of
+                                        for the current window.                       windows
 
-  Neominimap focus                      Focus on the minimap. Set cursor to the      None
-                                        minimap window.                              
+  Neominimap focus                      Focus on the minimap. Set cursor to the       None
+                                        minimap window.                               
 
-  Neominimap unfocus                    Unfocus the minimap. Set cursor back.        None
+  Neominimap unfocus                    Unfocus the minimap. Set cursor back.         None
 
-  Neominimap toggleFocus                Toggle minimap focus                         None
-  ----------------------------------------------------------------------------------------------
+  Neominimap toggleFocus                Toggle minimap focus                          None
+  -----------------------------------------------------------------------------------------------
 `Neominimap bufRefresh` does the following:
 
 - Creating or wiping out buffers as needed.
@@ -575,7 +576,9 @@ See the wiki page
 STATUSLINE                             *neominimap.nvim-neominimap-statusline*
 
 This plugin provides statusline components that integrate with various
-statusline plugins like Lualine.Click to expand ~
+statusline plugins like Lualine.
+
+Click to expand ~
 
 
 CUSTOMIZABLE STATUSLINE COMPONENTS ~
