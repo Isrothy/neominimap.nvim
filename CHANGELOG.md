@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.6...v3.8.0) (2024-11-22)
+
+
+### Features
+
+* Ignore bigfile when snacks.bigfile is enabled ([cf240d0](https://github.com/Isrothy/neominimap.nvim/commit/cf240d03514c6100ed8c1d3b4d2a698a207bc978))
+
 ## [3.7.6](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.5...v3.7.6) (2024-11-07)
 
 
