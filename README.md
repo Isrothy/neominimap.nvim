@@ -7,7 +7,7 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/Isrothy/neominimap.nvim)
 ![GitHub contributors](https://img.shields.io/github/contributors/Isrothy/neominimap.nvim)
 <a href="https://dotfyle.com/plugins/Isrothy/neominimap.nvim">
-  <img src="https://dotfyle.com/plugins/Isrothy/neominimap.nvim/shield" />
+<img src="https://dotfyle.com/plugins/Isrothy/neominimap.nvim/shield" />
 </a>
 
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Isrothy/neominimap.nvim)
@@ -79,7 +79,7 @@ Criticisms are welcome.
 
 - 🖥️ LSP integration
 - 🌳 TreeSitter integration
-- ➖  Fold integration
+- ➖ Fold integration
 - 🔀 Git integration
 - 🔎 Search integration
 - 🏷️ Support for marks
@@ -185,6 +185,7 @@ vim.g.neominimap ={
     ---@type string[]
     exclude_filetypes = {
         "help",
+        "bigfile", -- For Snacks.nvim
     },
 
     -- Minimap will not be created for buffers of these types
@@ -398,7 +399,7 @@ vim.g.neominimap ={
  <summary>Click to expand</summary>
 
 | Command                               | Description                                                                                                     | Arguments                  |
-|---------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------|
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | `Neominimap on`                       | Turn on minimaps globally.                                                                                      | None                       |
 | `Neominimap off`                      | Turn off minimaps globally.                                                                                     | None                       |
 | `Neominimap toggle`                   | Toggle minimaps globally.                                                                                       | None                       |
@@ -470,7 +471,7 @@ To refresh the minimap for windows 3 and 4:
  <summary>These are the corresponding commands in the Lua API.</summary>
 
 | Function                                    | Description                                                  | Arguments                                                            |
-|---------------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------|
+| ------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------- |
 | `require('neominimap').on()`                | Enable the minimap globally across all buffers and windows.  | None                                                                 |
 | `require('neominimap').off()`               | Disable the minimap globally.                                | None                                                                 |
 | `require('neominimap').toggle()`            | Toggle the minimap on or off globally.                       | None                                                                 |
@@ -501,6 +502,7 @@ See the [wiki page](https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-H
 
 This plugin provides statusline components that integrate with various
 statusline plugins like Lualine.
+
 <details>
  <summary>
  Click to expand
@@ -593,8 +595,8 @@ and displays it.
 If multiple highlights occur the same number of times,
 all of them are displayed.
 
-Note that the plugin considers which highlights are *applied*,
-rather than which highlights are *shown*.
+Note that the plugin considers which highlights are _applied_,
+rather than which highlights are _shown_.
 Specifically, when many highlights are applied to a codepoint,
 it is possible that only some of them are visible.
 However, all applied highlights are considered in the calculation.
@@ -614,7 +616,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 ### Highlight Groups of Neominimap Windows
 
 | Highlight Group            | Description                                |
-|----------------------------|--------------------------------------------|
+| -------------------------- | ------------------------------------------ |
 | `NeominimapBackground`     | Background color for the minimap.          |
 | `NeominimapBorder`         | Border highlight for the minimap window.   |
 | `NeominimapCursorLine`     | Highlight for the cursor line in minimaps. |
@@ -625,7 +627,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 ### Highlight Groups of Diagnostic Annotations
 
 | Highlight Group       | Description |
-|-----------------------|-------------|
+| --------------------- | ----------- |
 | `NeominimapHintLine`  |             |
 | `NeominimapInfoLine`  |             |
 | `NeominimapWarnLine`  |             |
@@ -642,7 +644,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 ### Highlight Groups of Git Annotations
 
 | Highlight Group           | Description |
-|---------------------------|-------------|
+| ------------------------- | ----------- |
 | `NeominimapGitAddLine`    |             |
 | `NeominimapGitChangeLine` |             |
 | `NeominimapGitDeleteLine` |             |
@@ -656,7 +658,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 ### Highlight Groups of Search Annotations
 
 | Highlight Group        | Description |
-|------------------------|-------------|
+| ---------------------- | ----------- |
 | `NeominimapSearchLine` |             |
 | `NeominimapSearchSign` |             |
 | `NeominimapSearchIcon` |             |
@@ -664,7 +666,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 ### Highlight Groups of Mark Annotations
 
 | Highlight Group      | Description |
-|----------------------|-------------|
+| -------------------- | ----------- |
 | `NeominimapMarkLine` |             |
 | `NeominimapMarkSign` |             |
 | `NeominimapMarkIcon` |             |
@@ -677,7 +679,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
  <summary>Click to expand</summary>
 
 | Namespace               | Description                      |
-|-------------------------|----------------------------------|
+| ----------------------- | -------------------------------- |
 | `neominimap_git`        | Git signs and highlights.        |
 | `neominimap_diagnostic` | Diagnostic signs and highlights. |
 | `neominimap_search`     | Search signs and highlights.     |
@@ -702,7 +704,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 
 - Scrollbar.
   Use [satellite.nvim](https://github.com/lewis6991/satellite.nvim),
-      [nvim-scrollview](https://github.com/dstein64/nvim-scrollview)
+  [nvim-scrollview](https://github.com/dstein64/nvim-scrollview)
   or other plugins.
 - Display screen bounds like
   [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim).
@@ -719,6 +721,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 ## Similar projects
 
 - [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim)
+
   - Codewindow.nvim renders the minimap whenever focus is switched to a
     different window or the buffer is switched. In contrast, this plugin caches
     the minimap, so it only renders when the text is changed. Therefore, this
@@ -733,6 +736,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
     does.
 
 - [mini.map](https://github.com/echasnovski/mini.map)
+
   - Mini.map allows for encoded symbol customization, while this plugin does not.
   - Mini.map includes a scrollbar, which this plugin does not.
   - Mini.map does not have Treesitter integration, whereas this plugin does.

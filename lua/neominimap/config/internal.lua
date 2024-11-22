@@ -16,6 +16,7 @@ local M = {
     ---@type string[]
     exclude_filetypes = {
         "help",
+        "bigfile", -- For Snacks.nvim
     },
 
     -- Minimap will not be created for buffers of these types
