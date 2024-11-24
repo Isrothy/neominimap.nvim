@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.0...v3.8.1) (2024-11-24)
+
+
+### Bug Fixes
+
+* **search:** respect "search" in "foldopen" ([d283dd7](https://github.com/Isrothy/neominimap.nvim/commit/d283dd73d67cab8f2a4526e5b5b8fea06daba35f))
+
 ## [3.8.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.7.6...v3.8.0) (2024-11-22)
 
 
