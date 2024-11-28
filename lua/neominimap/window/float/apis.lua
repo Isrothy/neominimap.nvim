@@ -12,29 +12,29 @@ local refresh_all_in_tab = vim.schedule_wrap(function(tabid)
     require("neominimap.window.float.internal").refresh_minimaps_in_tab(tabid)
 end)
 
----@type Neominimap.Command.Global.Handler
-M.global_cmds = {
+---@type Neominimap.Api.Global.Handler
+M.global_apis = {
     ["on"] = refresh_all,
     ["off"] = refresh_all,
     ["refresh"] = refresh_all,
 }
 
----@type Neominimap.Command.Tab.Handler
-M.tab_cmds = {
-    ["tabRefresh"] = refresh_all_in_tab,
-    ["tabOn"] = refresh_all_in_tab,
-    ["tabOff"] = refresh_all_in_tab,
+---@type Neominimap.Api.Tab.Handler
+M.tab_apis = {
+    ["refresh"] = refresh_all_in_tab,
+    ["on"] = refresh_all_in_tab,
+    ["off"] = refresh_all_in_tab,
 }
 
----@type Neominimap.Command.Win.Handler
-M.win_cmds = {
-    ["winRefresh"] = refresh,
-    ["winOn"] = refresh,
-    ["winOff"] = refresh,
+---@type Neominimap.Api.Win.Handler
+M.win_apis = {
+    ["refresh"] = refresh,
+    ["on"] = refresh,
+    ["off"] = refresh,
 }
 
----@type Neominimap.Command.Focus.Handler
-M.focus_cmds = {
+---@type Neominimap.Api.Focus.Handler
+M.focus_apis = {
     ["focus"] = vim.schedule_wrap(function(winid)
         local ok = require("neominimap.window.float.internal").focus(winid)
         if not ok then
@@ -49,12 +49,12 @@ M.focus_cmds = {
             logger.notify("Minimap can not be unfocused for current window", vim.log.levels.ERROR)
         end
     end),
-    ["toggleFocus"] = function(winid)
+    ["toggle_focus"] = function(winid)
         local window_map = require("neominimap.window.float.window_map")
         if window_map.is_minimap_window(winid) then
-            M.focus_cmds.unfocus(winid)
+            M.focus_apis.unfocus(winid)
         else
-            M.focus_cmds.focus(winid)
+            M.focus_apis.focus(winid)
         end
     end,
 }
