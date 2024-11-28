@@ -70,20 +70,20 @@ return {
             end,
         })
     end,
-    get_global_cmds = function()
-        local cmds = require("neominimap.window.float.cmds")
-        return cmds.global_cmds
+    get_global_apis = function()
+        local cmds = require("neominimap.window.float.apis")
+        return cmds.global_apis
     end,
-    get_win_cmds = function()
-        local cmds = require("neominimap.window.float.cmds")
-        return cmds.win_cmds
+    get_win_apis = function()
+        local cmds = require("neominimap.window.float.apis")
+        return cmds.win_apis
     end,
-    get_tab_cmds = function()
-        local cmds = require("neominimap.window.float.cmds")
-        return cmds.tab_cmds
+    get_tab_apis = function()
+        local cmds = require("neominimap.window.float.apis")
+        return cmds.tab_apis
     end,
-    get_focus_cmds = function()
-        local cmds = require("neominimap.window.float.cmds")
-        return cmds.focus_cmds
+    get_focus_apis = function()
+        local cmds = require("neominimap.window.float.apis")
+        return cmds.focus_apis
     end,
 }
