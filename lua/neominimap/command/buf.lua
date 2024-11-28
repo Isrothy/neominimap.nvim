@@ -1,62 +1,4 @@
-local api = vim.api
-
----@class Neominimap.Command.Buf.Handler
----@field bufRefresh fun(bufnr:integer)
----@field bufOn fun(bufnr:integer)
----@field bufOff fun(bufnr:integer)
-
 local M = {}
-
----@param args string[]
----@return integer[]
-local args_to_list = function(args)
-    if #args == 0 then
-        return { vim.api.nvim_get_current_buf() }
-    else
-        local bufnr = {}
-        for _, arg in ipairs(args) do
-            local nr = tonumber(arg)
-            local logger = require("neominimap.logger")
-            if not nr then
-                logger.notify(string.format("Buffer number %s is not a number.", arg), vim.log.levels.ERROR)
-            elseif not api.nvim_buf_is_valid(nr) then
-                logger.notify(string.format("Buffer %d is not valid.", nr), vim.log.levels.ERROR)
-            else
-                table.insert(bufnr, tonumber(arg))
-            end
-        end
-        return bufnr
-    end
-end
-
----@param bufnr integer
-local function bufOn(bufnr)
-    local var = require("neominimap.variables")
-    var.b[bufnr].enabled = true
-    require("neominimap.buffer").get_buf_cmds().bufOn(bufnr)
-end
-
----@param bufnr integer
-local function bufOff(bufnr)
-    local var = require("neominimap.variables")
-    var.b[bufnr].enabled = false
-    require("neominimap.buffer").get_buf_cmds().bufOff(bufnr)
-end
-
----@param bufnr integer
-local function bufToggle(bufnr)
-    local var = require("neominimap.variables")
-    if var.b[bufnr].enabled then
-        bufOff(bufnr)
-    else
-        bufOn(bufnr)
-    end
-end
-
----@param bufnr integer
-local function bufRefresh(bufnr)
-    require("neominimap.buffer").get_buf_cmds().bufRefresh(bufnr)
-end
 
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
@@ -64,36 +6,28 @@ M.subcommand_tbl = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command bufOn triggered.", vim.log.levels.INFO)
-
-            local buf_list = args_to_list(args)
-            vim.tbl_map(bufOn, buf_list)
+            require("neominimap.api").buf.enable(#args ~= 0 and vim.tbl_map(tonumber, args) or nil)
         end,
     },
     ["bufOff"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command bufOff triggered.", vim.log.levels.INFO)
-
-            local buf_list = args_to_list(args)
-            vim.tbl_map(bufOff, buf_list)
+            require("neominimap.api").buf.disable(#args ~= 0 and vim.tbl_map(tonumber, args) or nil)
         end,
     },
     ["bufToggle"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command bufToggle triggered.", vim.log.levels.INFO)
-
-            local buf_list = args_to_list(args)
-            vim.tbl_map(bufToggle, buf_list)
+            require("neominimap.api").buf.toggle(#args ~= 0 and vim.tbl_map(tonumber, args) or nil)
         end,
     },
     ["bufRefresh"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
             logger.log("Command bufRefresh triggered.", vim.log.levels.INFO)
-
-            local bufnr = args_to_list(args)
-            vim.tbl_map(bufRefresh, bufnr)
+            require("neominimap.api").buf.refresh(#args ~= 0 and vim.tbl_map(tonumber, args) or nil)
         end,
     },
 }

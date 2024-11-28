@@ -8,17 +8,17 @@ local refresh = vim.schedule_wrap(function(bufnr)
     require("neominimap.buffer.internal").refresh_minimap_buffer(bufnr)
 end)
 
----@type Neominimap.Command.Buf.Handler
-M.buf_cmds = {
-    ["bufOn"] = refresh,
-    ["bufOff"] = refresh,
-    ["bufRefresh"] = refresh,
+---@type Neominimap.Api.Buf.Handler
+M.buf_apis = {
+    ["enable"] = refresh,
+    ["disable"] = refresh,
+    ["refresh"] = refresh,
 }
 
----@type Neominimap.Command.Global.Handler
-M.global_cmds = {
-    ["on"] = refresh_all,
-    ["off"] = refresh_all,
+---@type Neominimap.Api.Global.Handler
+M.global_apis = {
+    ["enable"] = refresh_all,
+    ["disable"] = refresh_all,
     ["refresh"] = refresh_all,
 }
 
