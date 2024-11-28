@@ -1,82 +1,33 @@
 local M = {}
 
----@class Neominimap.Command.Global.Handler
----@field on fun()
----@field off fun()
----@field refresh fun()
-
-local function open_minimap()
-    local var = require("neominimap.variables")
-    local logger = require("neominimap.logger")
-    if var.g.enabled then
-        return
-    end
-    var.g.enabled = true
-    require("neominimap.autocmds").create_autocmds()
-
-    logger.log("Minimap is being opened. Initializing buffers and windows.", vim.log.levels.INFO)
-    require("neominimap.buffer").get_global_cmds().on()
-    require("neominimap.window").get_global_cmds().on()
-    logger.log("Minimap has been successfully opened.", vim.log.levels.INFO)
-end
-
-local function close_minimap()
-    local var = require("neominimap.variables")
-    if not var.g.enabled then
-        return
-    end
-    var.g.enabled = false
-    require("neominimap.autocmds").clear_autocmds()
-
-    local logger = require("neominimap.logger")
-    logger.log("Minimap is being closed. Cleaning up buffers and windows.", vim.log.levels.INFO)
-    require("neominimap.buffer").get_global_cmds().off()
-    require("neominimap.window").get_global_cmds().off()
-    logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
-end
-
-local function toggle_minimap()
-    local var = require("neominimap.variables")
-    if var.g.enabled then
-        close_minimap()
-    else
-        open_minimap()
-    end
-end
-
-local function refresh_minimap()
-    require("neominimap.window").get_global_cmds().refresh()
-    require("neominimap.buffer").get_global_cmds().refresh()
-end
-
 ---@type table<string, Neominimap.Subcommand>
 M.subcommand_tbl = {
     ["on"] = {
         impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command on triggered.", vim.log.levels.INFO)
-            open_minimap()
+            require("neominimap.api").on()
         end,
     },
     ["off"] = {
         impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command off triggered.", vim.log.levels.INFO)
-            close_minimap()
+            require("neominimap.api").off()
         end,
     },
     ["toggle"] = {
         impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command toggle triggered.", vim.log.levels.INFO)
-            toggle_minimap()
+            require("neominimap.api").toggle()
         end,
     },
     ["refresh"] = {
         impl = function()
             local logger = require("neominimap.logger")
             logger.log("Command refresh triggered.", vim.log.levels.INFO)
-            refresh_minimap()
+            require("neominimap.api").refresh()
         end,
     },
 }

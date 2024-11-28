@@ -46,14 +46,14 @@ M.list_buffers = function()
     return require("neominimap.buffer.buffer_map").list_buffers()
 end
 
---- @return Neominimap.Command.Buf.Handler
-M.get_buf_cmds = function()
-    return require("neominimap.buffer.cmds").buf_cmds
+--- @return Neominimap.Api.Buf.Handler
+M.get_buf_apis = function()
+    return require("neominimap.buffer.apis").buf_apis
 end
 
---- @return Neominimap.Command.Global.Handler
-M.get_global_cmds = function()
-    return require("neominimap.buffer.cmds").global_cmds
+--- @return Neominimap.Api.Global.Handler
+M.get_global_apis = function()
+    return require("neominimap.buffer.apis").global_apis
 end
 
 ---@param bufnr integer
