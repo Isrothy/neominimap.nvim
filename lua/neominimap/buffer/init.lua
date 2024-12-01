@@ -3,6 +3,15 @@ local M = {}
 ---@param group string | integer
 M.create_autocmds = function(group) -- To lazy load
     local api = vim.api
+
+    api.nvim_create_autocmd("VimEnter", {
+        group = group,
+        desc = "Create minimap buffer on VimEnter",
+        callback = function()
+            require("neominimap.buffer.autocmds").on_vim_enter()
+        end,
+    })
+
     api.nvim_create_autocmd({ "BufNew", "BufRead" }, {
         group = group,
         desc = "Create minimap buffer when buffer is opened",

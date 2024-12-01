@@ -1,5 +1,15 @@
 local M = {}
 
+M.on_vim_enter = function()
+    local logger = require("neominimap.logger")
+    logger.log("VimEnter event triggered.", vim.log.levels.TRACE)
+    vim.schedule(function()
+        logger.log("Refreshing minimaps.", vim.log.levels.TRACE)
+        require("neominimap.buffer.internal").refresh_all_minimap_buffers()
+        logger.log("Minimaps refreshed.", vim.log.levels.TRACE)
+    end)
+end
+
 M.on_buf_new = function(args)
     local logger = require("neominimap.logger")
     logger.log(string.format("BufNew or BufRead event triggered for buffer %d.", args.buf), vim.log.levels.TRACE)
