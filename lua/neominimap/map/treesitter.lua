@@ -75,7 +75,7 @@ local get_buffer_highlights_co = function(bufnr)
         return {}
     end
 
-    local co = require("neominimap.coroutine")
+    local co = require("neominimap.cooperative.init")
 
     ---@type Neominimap.BufferHighlight[]
     local highlights = {}
@@ -93,7 +93,7 @@ local get_buffer_highlights_co = function(bufnr)
 
         local iter = query:iter_captures(root, buf_highlighter.bufnr, 0, line_count + 1)
 
-        co.for_in_co(iter, nil, nil, 5000, function(capture_id, node)
+        co.for_in_co(iter)(5000, function(capture_id, node)
             local hl_group = query.captures[capture_id]
             local start_row, start_col, end_row, end_col =
                 ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
@@ -144,7 +144,7 @@ M.extract_highlights_co = function(bufnr)
         return code_point_idx
     end
 
-    local co = require("neominimap.coroutine")
+    local co = require("neominimap.cooperative.init")
 
     local highlights = {}
     co.for_co(1, minimap_height, 1, 10000, function(row)
@@ -159,7 +159,7 @@ M.extract_highlights_co = function(bufnr)
     local fold = require("neominimap.map.fold")
     local coord = require("neominimap.map.coord")
     local folds = fold.get_cached_folds(bufnr)
-    co.for_ipairs_co(get_buffer_highlights_co(bufnr), 2000, function(_, h)
+    co.for_in_co(ipairs(get_buffer_highlights_co(bufnr)))(2000, function(_, h)
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
@@ -221,8 +221,8 @@ end
 ---@param highlights Neominimap.MinimapHighlight[]
 M.apply_co = function(mbufnr, highlights)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
-    local co = require("neominimap.coroutine")
-    co.for_ipairs_co(highlights, 5000, function(_, hl)
+    local co = require("neominimap.cooperative.init")
+    co.for_in_co(ipairs(highlights))(5000, function(_, hl)
         api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
             end_col = hl.end_col,
             hl_group = hl.group,

@@ -80,7 +80,7 @@ end
 ---@param bufnr integer
 M.internal_render_co = function(bufnr)
     local logger = require("neominimap.logger")
-    local co_api = require("neominimap.coroutine.api")
+    local co_api = require("neominimap.cooperative.api")
     logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     local buffer_map = require("neominimap.buffer.buffer_map")
     local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
@@ -165,7 +165,7 @@ M.create_minimap_buffer = function(bufnr)
 
     local var = require("neominimap.variables")
 
-    local scheduler = require("neominimap.coroutine.scheduler"):new()
+    local scheduler = require("neominimap.cooperative.scheduler"):new()
     var.b[bufnr].render = util.debounce(
         vim.schedule_wrap(function()
             if not api.nvim_buf_is_valid(bufnr) then
