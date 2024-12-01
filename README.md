@@ -90,6 +90,7 @@ Criticisms are welcome.
 - 🎯 Focus on the minimap, allowing interaction with it
 - 🔧 Support for customized handlers
 - 🔣 Statusline Components
+- ⏳ Cooperative Scheduling
 
 ## Requirements and Dependencies
 
@@ -604,6 +605,19 @@ As a result, unshown highlights may be displayed in the minimap,
 leading to potential inconsistencies
 between the highlights in the minimap and those in the buffer.
 
+### Cooperative Scheduling
+
+When a buffer is exceptionally large, calculating and setting up the minimap can
+take a significant amount of time, potentially blocking the UI. To address this,
+the plugin employs cooperative scheduling, as Lua operates in a single-threaded
+environment.
+
+Most CPU-intensive tasks are executed within coroutines, which periodically
+yield control back to the Neovim event loop. This allows the event loop to
+decide when to resume the coroutine. By releasing CPU resources intermittently,
+the plugin ensures that the UI remains responsive and unblocked during these
+operations.
+
 ## Tips
 
 Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neominimap.nvim/wiki/Tips)
@@ -697,7 +711,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 - [x] Support for window relative to editor
 - [x] Validate user configuration
 - [x] Documentation
-- [ ] Performance improvements
+- [x] Performance improvements
 - [ ] More test cases
 
 ## Non-Goals

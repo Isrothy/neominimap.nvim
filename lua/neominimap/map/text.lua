@@ -76,20 +76,24 @@ end
 --- @param lines string[]
 --- @param tabwidth integer
 --- @return string[]
-M.gen = function(lines, tabwidth)
+M.gen_co = function(lines, tabwidth)
     local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
     local width = config:get_minimap_width()
 
+    local co = require("neominimap.coroutine")
+
     local map = {}
-    for i = 1, height, 1 do
+    co.for_co(1, height, 1, 10000, function(i)
         map[i] = {}
         for j = 1, width, 1 do
             map[i][j] = 0
         end
-    end
+    end)
+    coroutine.yield()
 
     local coord = require("neominimap.map.coord")
-    for row, line in ipairs(lines) do
+
+    co.for_ipairs_co(lines, 10000, function(row, line)
         local view_points = M.str_to_visible_codepoints(line, tabwidth)
         for _, col in ipairs(view_points) do
             local y, x = coord.codepoint_to_map_point(row, col)
@@ -100,14 +104,30 @@ M.gen = function(lines, tabwidth)
             local flag = coord.map_point_to_flag(y, x)
             map[mrow][mcol] = bit.bor(map[mrow][mcol], flag)
         end
-    end
+    end)
+    coroutine.yield()
 
-    for i, line in ipairs(map) do
+    co.for_ipairs_co(lines, 10000, function(row, line)
+        local view_points = M.str_to_visible_codepoints(line, tabwidth)
+        for _, col in ipairs(view_points) do
+            local y, x = coord.codepoint_to_map_point(row, col)
+            local mrow, mcol = coord.map_point_to_mcodepoint(y, x)
+            if mcol > width then
+                break
+            end
+            local flag = coord.map_point_to_flag(y, x)
+            map[mrow][mcol] = bit.bor(map[mrow][mcol], flag)
+        end
+    end)
+    coroutine.yield()
+
+    co.for_ipairs_co(map, 10000, function(i, line)
         for j, _ in ipairs(line) do
             line[j] = coord.bitmap_to_code(line[j])
         end
         map[i] = vim.fn.list2str(map[i])
-    end
+    end)
+    coroutine.yield()
 
     return map
 end
