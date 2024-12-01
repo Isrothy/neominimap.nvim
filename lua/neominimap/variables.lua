@@ -2,7 +2,7 @@
 -- Facilitates better integration with static analysis tools
 
 ---@class Neominimap.VariableManager
----@field scope table The scope (`vim.b`, `vim.t`, `vim.w` or `vim.g`).
+---@field scope vim.var_accessor The scope (`vim.b`, `vim.t`, `vim.w` or `vim.g`).
 ---@field default table The default values for variables in this scope.
 
 local VariableManager = {}
@@ -102,22 +102,25 @@ local window = VariableManager.new(vim.w, window_default)
 local tabpage = VariableManager.new(vim.t, tabpage_default)
 
 return {
+    ---@type Neominimap.Variables.Global
     g = global:global_table(),
+
+    ---@type Neominimap.Variables.Buffer | Neominimap.Variables.Buffer[]
     b = buffer:global_table(),
+
+    ---@type Neominimap.Variables.Window | Neominimap.Variables.Window[]
     w = window:global_table(),
+
+    ---@type Neominimap.Variables.Tabpage | Neominimap.Variables.Tabpage[]
     t = tabpage:global_table(),
 
     --- Set a global variable
     ---@type fun(name:string, value:any)
-    set_var = function(name, value)
-        global:set_var(nil, name, value)
-    end,
+    set_var = global.set_var,
 
     --- Get a global variable
     ---@type fun(name:string):any
-    get_var = function(name)
-        return global:get_var(nil, name)
-    end,
+    get_var = global.get_var,
 
     --- Set a buffer-scoped variable
     ---@type fun(buffer:integer, name:string, value:any)
