@@ -80,6 +80,7 @@ end
 ---@param bufnr integer
 M.internal_render_co = function(bufnr)
     local logger = require("neominimap.logger")
+    local co_api = require("neominimap.coroutine.api")
     logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     local buffer_map = require("neominimap.buffer.buffer_map")
     local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
@@ -89,7 +90,7 @@ M.internal_render_co = function(bufnr)
     end
 
     logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
-    local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local lines = co_api.buf_get_lines_co(bufnr, 0, -1)
 
     if config.fold.enabled then
         logger.log(string.format("Applying fold for buffer %d", bufnr), vim.log.levels.TRACE)
@@ -112,8 +113,7 @@ M.internal_render_co = function(bufnr)
     vim.bo[mbufnr_].modifiable = true
 
     logger.log(string.format("Setting lines for buffer %d", mbufnr_), vim.log.levels.TRACE)
-    local util = require("neominimap.util")
-    util.noautocmd(api.nvim_buf_set_lines)(mbufnr_, 0, -1, true, minimap)
+    co_api.buf_set_lines_co(mbufnr_, 0, -1, minimap)
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
     vim.bo[mbufnr_].modifiable = false
