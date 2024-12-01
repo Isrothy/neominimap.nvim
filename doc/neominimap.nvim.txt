@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 November 22
+*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 December 01
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -75,6 +75,7 @@ FEATURES                                 *neominimap.nvim-neominimap-features*
 - 🎯 Focus on the minimap, allowing interaction with it
 - 🔧 Support for customized handlers
 - 🔣 Statusline Components
+- ⏳ Cooperative Scheduling
 
 
 REQUIREMENTS AND DEPENDENCIES*neominimap.nvim-neominimap-requirements-and-dependencies*
@@ -677,6 +678,20 @@ highlights may be displayed in the minimap, leading to potential
 inconsistencies between the highlights in the minimap and those in the buffer.
 
 
+COOPERATIVE SCHEDULING ~
+
+When a buffer is exceptionally large, calculating and setting up the minimap
+can take a significant amount of time, potentially blocking the UI. To address
+this, the plugin employs cooperative scheduling, as Lua operates in a
+single-threaded environment.
+
+Most CPU-intensive tasks are executed within coroutines, which periodically
+yield control back to the Neovim event loop. This allows the event loop to
+decide when to resume the coroutine. By releasing CPU resources intermittently,
+the plugin ensures that the UI remains responsive and unblocked during these
+operations.
+
+
 TIPS                                         *neominimap.nvim-neominimap-tips*
 
 Checkout the wiki page for more details. wiki
@@ -774,7 +789,7 @@ TODO                                         *neominimap.nvim-neominimap-todo*
 - ☒ Support for window relative to editor
 - ☒ Validate user configuration
 - ☒ Documentation
-- ☐ Performance improvements
+- ☒ Performance improvements
 - ☐ More test cases
 
 
