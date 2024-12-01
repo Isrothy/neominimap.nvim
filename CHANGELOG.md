@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.1...v3.8.2) (2024-12-01)
+
+
+### Performance Improvements
+
+* Use cooperative scheduling to make it non-blocking ([98ad591](https://github.com/Isrothy/neominimap.nvim/commit/98ad591ec10a424ecfcef061a2cb083eb6e71a27))
+
 ## [3.8.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.0...v3.8.1) (2024-11-24)
 
 
