@@ -93,7 +93,7 @@ local get_buffer_highlights_co = function(bufnr)
 
         local iter = query:iter_captures(root, buf_highlighter.bufnr, 0, line_count + 1)
 
-        co.for_in_co(iter, nil, nil, 10000, function(capture_id, node)
+        co.for_in_co(iter, nil, nil, 5000, function(capture_id, node)
             local hl_group = query.captures[capture_id]
             local start_row, start_col, end_row, end_col =
                 ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
@@ -147,7 +147,7 @@ M.extract_highlights_co = function(bufnr)
     local co = require("neominimap.coroutine")
 
     local highlights = {}
-    co.for_co(1, minimap_height, 1, 1000000, function(row)
+    co.for_co(1, minimap_height, 1, 10000, function(row)
         local line = {}
         for col = 1, minimap_width do
             line[col] = {}
@@ -159,7 +159,7 @@ M.extract_highlights_co = function(bufnr)
     local fold = require("neominimap.map.fold")
     local coord = require("neominimap.map.coord")
     local folds = fold.get_cached_folds(bufnr)
-    co.for_ipairs_co(get_buffer_highlights_co(bufnr), 10000, function(_, h)
+    co.for_ipairs_co(get_buffer_highlights_co(bufnr), 2000, function(_, h)
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
@@ -183,7 +183,7 @@ M.extract_highlights_co = function(bufnr)
     end)
     coroutine.yield()
 
-    co.for_co(1, minimap_height, 1, 100000, function(y)
+    co.for_co(1, minimap_height, 1, 5000, function(y)
         for x = 1, minimap_width do
             highlights[y][x] = most_commons(highlights[y][x])
         end
@@ -192,7 +192,7 @@ M.extract_highlights_co = function(bufnr)
 
     ---@type Neominimap.MinimapHighlight[]
     local ret = {}
-    co.for_co(1, minimap_height, 1, 100000, function(y)
+    co.for_co(1, minimap_height, 1, 5000, function(y)
         for x = 1, minimap_width do
             for group in pairs(highlights[y][x]) do
                 -- For performance reasons, consecutive highlights are merged into one.
@@ -222,7 +222,7 @@ end
 M.apply_co = function(mbufnr, highlights)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
     local co = require("neominimap.coroutine")
-    co.for_ipairs_co(highlights, 100000, function(_, hl)
+    co.for_ipairs_co(highlights, 5000, function(_, hl)
         api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
             end_col = hl.end_col,
             hl_group = hl.group,

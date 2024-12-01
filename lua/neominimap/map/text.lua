@@ -93,7 +93,7 @@ M.gen_co = function(lines, tabwidth)
 
     local coord = require("neominimap.map.coord")
 
-    co.for_ipairs_co(lines, 10000, function(row, line)
+    co.for_ipairs_co(lines, 3000, function(row, line)
         local view_points = M.str_to_visible_codepoints(line, tabwidth)
         for _, col in ipairs(view_points) do
             local y, x = coord.codepoint_to_map_point(row, col)
@@ -107,7 +107,7 @@ M.gen_co = function(lines, tabwidth)
     end)
     coroutine.yield()
 
-    co.for_ipairs_co(lines, 10000, function(row, line)
+    co.for_ipairs_co(lines, 3000, function(row, line)
         local view_points = M.str_to_visible_codepoints(line, tabwidth)
         for _, col in ipairs(view_points) do
             local y, x = coord.codepoint_to_map_point(row, col)
@@ -121,7 +121,7 @@ M.gen_co = function(lines, tabwidth)
     end)
     coroutine.yield()
 
-    co.for_ipairs_co(map, 10000, function(i, line)
+    co.for_ipairs_co(map, 5000, function(i, line)
         for j, _ in ipairs(line) do
             line[j] = coord.bitmap_to_code(line[j])
         end
