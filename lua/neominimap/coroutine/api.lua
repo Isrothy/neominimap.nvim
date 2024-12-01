@@ -8,9 +8,9 @@ local M = {}
 ---@param chunk_size integer? The number of lines to fetch before yielding
 ---@return string[] lines A list of lines from the buffer
 M.buf_get_lines_co = function(bufnr, start, stop, chunk_size)
-	if stop == -1 then
-		stop = vim.api.nvim_buf_line_count(bufnr)
-	end
+    if stop == -1 then
+        stop = vim.api.nvim_buf_line_count(bufnr)
+    end
     chunk_size = chunk_size or 200
     local result = {}
 
