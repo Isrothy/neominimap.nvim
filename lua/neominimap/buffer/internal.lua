@@ -76,8 +76,9 @@ M.should_generate_minimap = function(bufnr)
     return true
 end
 
+---@async
 ---@param bufnr integer
-M.internal_render = function(bufnr)
+M.internal_render_co = function(bufnr)
     local logger = require("neominimap.logger")
     logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     local buffer_map = require("neominimap.buffer.buffer_map")
@@ -98,11 +99,15 @@ M.internal_render = function(bufnr)
         logger.log(string.format("Fold for buffer %d applied successfully", bufnr), vim.log.levels.TRACE)
     end
 
+    coroutine.yield()
+
     local tabwidth = vim.bo[bufnr].tabstop
 
     logger.log(string.format("Generating minimap text for buffer %d", bufnr), vim.log.levels.TRACE)
     local text = require("neominimap.map.text")
-    local minimap = text.gen(lines, tabwidth)
+    local minimap = text.gen_co(lines, tabwidth)
+
+    coroutine.yield()
 
     vim.bo[mbufnr_].modifiable = true
 
@@ -113,6 +118,8 @@ M.internal_render = function(bufnr)
 
     vim.bo[mbufnr_].modifiable = false
 
+    coroutine.yield()
+
     vim.api.nvim_exec_autocmds("User", {
         group = "Neominimap",
         pattern = "MinimapBufferTextUpdated",
@@ -121,11 +128,16 @@ M.internal_render = function(bufnr)
         },
     })
 
+    coroutine.yield()
+
     if config.treesitter.enabled then
         logger.log(string.format("Generating treesitter diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
         local treesitter = require("neominimap.map.treesitter")
-        local highlights = treesitter.extract_highlights(bufnr)
-        treesitter.apply(mbufnr_, highlights)
+        local highlights = treesitter.extract_highlights_co(bufnr)
+
+        coroutine.yield()
+
+        treesitter.apply_co(mbufnr_, highlights)
         logger.log(
             string.format("Treesitter diagnostics for buffer %d generated successfully", bufnr),
             vim.log.levels.TRACE
@@ -153,12 +165,16 @@ M.create_minimap_buffer = function(bufnr)
 
     local var = require("neominimap.variables")
 
+    local scheduler = require("neominimap.coroutine.scheduler"):new()
     var.b[bufnr].render = util.debounce(
         vim.schedule_wrap(function()
             if not api.nvim_buf_is_valid(bufnr) then
                 return
             end
-            M.internal_render(bufnr)
+            scheduler:add_coroutine(coroutine.create(function()
+                M.internal_render_co(bufnr)
+            end))
+            scheduler:run_coroutine()
         end),
         config.delay
     )

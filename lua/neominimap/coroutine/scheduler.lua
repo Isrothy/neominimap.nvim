@@ -5,21 +5,22 @@
 --- This scheduler allows only **one** coroutine to run at a time.
 --- If multiple coroutines are added, **the previous ones will be discarded.**
 ---@class Neominimap.Coroutine.Scheduler
----@field current_task table|nil Holds the current coroutine task
+---@field current_task {co:thread, handlers:Neominimap.Coroutine.Scheduler.TaskHandlers}? Holds the current coroutine task
 local Scheduler = {}
-Scheduler.__index = Scheduler
 
--- Constructor
+--- Constructor
 ---@return Neominimap.Coroutine.Scheduler
 function Scheduler:new()
     local instance = {
         current_task = nil, -- Holds the current coroutine task
+        wtf = 1,
     }
-    setmetatable(instance, Scheduler)
+    setmetatable(instance, self)
+    self.__index = self
     return instance
 end
 
--- Run the coroutine task
+--- Run the coroutine task
 function Scheduler:run_coroutine()
     if not self.current_task or not self.current_task.co then
         return
@@ -60,7 +61,7 @@ end
 
 --- Add a new coroutine task
 --- If currently running a task, it will be cleared
----@param worker fun(): thread The function that creates the coroutine
+---@param worker thread The coroutine to run
 ---@param handlers Neominimap.Coroutine.Scheduler.TaskHandlers? Optional handlers for the task
 function Scheduler:add_coroutine(worker, handlers)
     if self.current_task then
@@ -68,7 +69,7 @@ function Scheduler:add_coroutine(worker, handlers)
     end
 
     self.current_task = {
-        co = worker(),
+        co = worker,
         handlers = handlers or {}, -- Expect a table containing on_yield, on_complete, on_error
     }
 end

@@ -76,7 +76,7 @@ end
 --- @param lines string[]
 --- @param tabwidth integer
 --- @return string[]
-M.gen = function(lines, tabwidth)
+M.gen_co = function(lines, tabwidth)
     local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
     local width = config:get_minimap_width()
 

@@ -116,7 +116,7 @@ end
 ---If there are multiple groups with the same number of occurrences, all will be chosen.
 ---@param bufnr integer
 ---@return Neominimap.MinimapHighlight[]
-M.extract_highlights = function(bufnr)
+M.extract_highlights_co = function(bufnr)
     local text = require("neominimap.map.text")
     local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local tabwidth = vim.bo[bufnr].tabstop
@@ -207,7 +207,7 @@ end
 --- If there are multiple highlights for the same position, all of them will be applied.
 ---@param mbufnr integer
 ---@param highlights Neominimap.MinimapHighlight[]
-M.apply = function(mbufnr, highlights)
+M.apply_co = function(mbufnr, highlights)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
     for _, hl in ipairs(highlights) do
         api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
