@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.2...v3.8.3) (2024-12-01)
+
+
+### Bug Fixes
+
+* Minimap not showing up for start page ([6102528](https://github.com/Isrothy/neominimap.nvim/commit/6102528eb54598a86de6c934447de03af1ab56b9))
+
 ## [3.8.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.1...v3.8.2) (2024-12-01)
 
 
