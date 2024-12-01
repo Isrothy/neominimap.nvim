@@ -61,9 +61,10 @@ end
 ---@field end_col integer
 ---@field group string
 
+---@async
 ---@param bufnr integer
 ---@return Neominimap.BufferHighlight[]
-local get_buffer_highlights = function(bufnr)
+local get_buffer_highlights_co = function(bufnr)
     local ts_utils = require("nvim-treesitter.ts_utils")
     if not ts_utils then
         return {}
@@ -73,6 +74,9 @@ local get_buffer_highlights = function(bufnr)
     if buf_highlighter == nil then
         return {}
     end
+
+    local co = require("neominimap.coroutine")
+
     ---@type Neominimap.BufferHighlight[]
     local highlights = {}
     buf_highlighter.tree:for_each_tree(function(tstree, tree)
@@ -89,7 +93,7 @@ local get_buffer_highlights = function(bufnr)
 
         local iter = query:iter_captures(root, buf_highlighter.bufnr, 0, line_count + 1)
 
-        for capture_id, node in iter do
+        co.for_in_co(iter, nil, nil, 10000, function(capture_id, node)
             local hl_group = query.captures[capture_id]
             local start_row, start_col, end_row, end_col =
                 ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
@@ -100,7 +104,8 @@ local get_buffer_highlights = function(bufnr)
                 end_col = end_col,
                 group = hl_group,
             }
-        end
+        end)
+        coroutine.yield()
     end)
     return highlights
 end
@@ -114,6 +119,7 @@ end
 ---Extracts the highlighting from the given buffer using treesitter.
 ---For any codepoint, the most common group will be chosen.
 ---If there are multiple groups with the same number of occurrences, all will be chosen.
+---@async
 ---@param bufnr integer
 ---@return Neominimap.MinimapHighlight[]
 M.extract_highlights_co = function(bufnr)
@@ -138,19 +144,22 @@ M.extract_highlights_co = function(bufnr)
         return code_point_idx
     end
 
+    local co = require("neominimap.coroutine")
+
     local highlights = {}
-    for row = 1, minimap_height do
+    co.for_co(1, minimap_height, 1, 1000000, function(row)
         local line = {}
         for col = 1, minimap_width do
             line[col] = {}
         end
         highlights[row] = line
-    end
+    end)
+    coroutine.yield()
 
     local fold = require("neominimap.map.fold")
     local coord = require("neominimap.map.coord")
     local folds = fold.get_cached_folds(bufnr)
-    for _, h in ipairs(get_buffer_highlights(bufnr)) do
+    co.for_ipairs_co(get_buffer_highlights_co(bufnr), 10000, function(_, h)
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
@@ -171,17 +180,19 @@ M.extract_highlights_co = function(bufnr)
                 end
             end
         end
-    end
+    end)
+    coroutine.yield()
 
-    for y = 1, minimap_height do
+    co.for_co(1, minimap_height, 1, 100000, function(y)
         for x = 1, minimap_width do
             highlights[y][x] = most_commons(highlights[y][x])
         end
-    end
+    end)
+    coroutine.yield()
 
     ---@type Neominimap.MinimapHighlight[]
     local ret = {}
-    for y = 1, minimap_height do
+    co.for_co(1, minimap_height, 1, 100000, function(y)
         for x = 1, minimap_width do
             for group in pairs(highlights[y][x]) do
                 -- For performance reasons, consecutive highlights are merged into one.
@@ -198,23 +209,25 @@ M.extract_highlights_co = function(bufnr)
                 }
             end
         end
-    end
+    end)
 
     return ret
 end
 
 --- Applies the given highlights to the given buffer.
 --- If there are multiple highlights for the same position, all of them will be applied.
+---@async
 ---@param mbufnr integer
 ---@param highlights Neominimap.MinimapHighlight[]
 M.apply_co = function(mbufnr, highlights)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
-    for _, hl in ipairs(highlights) do
+    local co = require("neominimap.coroutine")
+    co.for_ipairs_co(highlights, 100000, function(_, hl)
         api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
             end_col = hl.end_col,
             hl_group = hl.group,
         })
-    end
+    end)
 end
 
 return M
