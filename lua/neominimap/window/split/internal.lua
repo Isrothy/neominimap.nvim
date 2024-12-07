@@ -110,10 +110,6 @@ M.create_minimap_window_in_current_tab = function()
 
     logger.log(string.format("Minimap window %d created", mwinid), vim.log.levels.TRACE)
 
-    logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
-    require("neominimap.window.util").set_winopt(vim.wo[mwinid], mwinid)
-    logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
-
     logger.log(string.format("Attaching a buffer to window %d", mwinid), vim.log.levels.TRACE)
     local mbufnr = (function()
         if not M.should_show_minimap_for_window(winid) then
@@ -133,14 +129,17 @@ M.create_minimap_window_in_current_tab = function()
     end)()
     if not mbufnr then
         local empty_buffer = require("neominimap.buffer").get_empty_buffer()
-        util.noautocmd(api.nvim_win_set_buf)(mwinid, empty_buffer)
+        api.nvim_win_set_buf(mwinid, empty_buffer)
     else
-        util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
+        api.nvim_win_set_buf(mwinid, mbufnr)
         window_map.set_source_winid(tabid, winid)
-
-        logger.log("Setting cursor line for minimap", vim.log.levels.TRACE)
         M.reset_mwindow_cursor_line()
     end
+
+    -- nvim_win_set_buf overwrites scrolloff and I don't know why
+    logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
+    require("neominimap.window.util").set_winopt(vim.wo[mwinid], mwinid)
+    logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
 
     logger.log(string.format("Minimap window %d created and set up.", mwinid), vim.log.levels.TRACE)
     return mwinid
@@ -268,12 +267,16 @@ M.refresh_source_in_current_tab = function()
 
     if mbufnr == nil or not api.nvim_buf_is_valid(mbufnr) then
         logger.log("Minimap buffer not available", vim.log.levels.TRACE)
-        require("neominimap.util").noautocmd(api.nvim_win_set_buf)(mwinid, buffer.get_empty_buffer())
+        api.nvim_win_set_buf(mwinid, buffer.get_empty_buffer())
     elseif api.nvim_win_get_buf(mwinid) ~= mbufnr then
         logger.log(string.format("Switching to buffer %d", mbufnr), vim.log.levels.TRACE)
-        require("neominimap.util").noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
+        api.nvim_win_set_buf(mwinid, mbufnr)
     end
     logger.log(string.format("Minimap buffer set", mbufnr), vim.log.levels.TRACE)
+
+    logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
+    require("neominimap.window.util").set_winopt(vim.wo[mwinid], mwinid)
+    logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
 
     logger.log("Minimap refreshed", vim.log.levels.TRACE)
 end

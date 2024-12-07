@@ -231,12 +231,15 @@ M.refresh_minimap_window = function(winid)
     end
 
     local cfg = get_window_config(winid)
-    local util = require("neominimap.util")
-    util.noautocmd(api.nvim_win_set_config)(mwinid, cfg)
+    api.nvim_win_set_config(mwinid, cfg)
 
     if api.nvim_win_get_buf(mwinid) ~= mbufnr then
-        util.noautocmd(api.nvim_win_set_buf)(mwinid, mbufnr)
+        api.nvim_win_set_buf(mwinid, mbufnr)
     end
+
+    logger.log(string.format("Setting up window options %d", mwinid), vim.log.levels.TRACE)
+    require("neominimap.window.util").set_winopt(vim.wo[mwinid], mwinid)
+    logger.log(string.format("Minimap window options set.", mwinid), vim.log.levels.TRACE)
 
     M.reset_mwindow_cursor_line(winid)
 
