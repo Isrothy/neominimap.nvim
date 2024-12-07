@@ -3,7 +3,6 @@ local M = {}
 local api = vim.api
 local config = require("neominimap.config")
 
----@type vim.bo
 local default_bufopt = {
     buftype = "nofile",
     filetype = "neominimap",
