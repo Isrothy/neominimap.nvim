@@ -2,6 +2,16 @@ local api = vim.api
 local config = require("neominimap.config")
 local M = {}
 
+M.on_vim_enter = function()
+    local logger = require("neominimap.logger")
+    logger.log("VimEnter event triggered.", vim.log.levels.TRACE)
+    vim.schedule(function()
+        logger.log("Refreshing minimaps.", vim.log.levels.TRACE)
+        require("neominimap.window.split.internal").refresh_current_tab()
+        logger.log("Minimaps refreshed.", vim.log.levels.TRACE)
+    end)
+end
+
 M.on_buf_win_enter = function(args)
     local logger = require("neominimap.logger")
     local winid = api.nvim_get_current_win()

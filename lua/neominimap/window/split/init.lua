@@ -3,6 +3,12 @@ return {
     create_autocmds = function(group)
         local api = vim.api
         local config = require("neominimap.config")
+        api.nvim_create_autocmd("VimEnter", {
+            group = group,
+            callback = function()
+                require("neominimap.window.split.autocmds").on_vim_enter()
+            end,
+        })
         api.nvim_create_autocmd("BufWinEnter", {
             group = group,
             callback = function(args)
