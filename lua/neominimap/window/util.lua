@@ -46,7 +46,6 @@ M.win_get_true_height = function(winid)
     return winheight
 end
 
----@type vim.wo
 local default_winopt = {
     winhighlight = table.concat({
         "Normal:NeominimapBackground",
