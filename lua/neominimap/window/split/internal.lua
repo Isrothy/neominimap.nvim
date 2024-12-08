@@ -288,9 +288,15 @@ M.refresh_current_tab = function()
     local tabid = api.nvim_get_current_tabpage()
 
     if config.split.close_if_last_window then
-        logger.log("Checking if tab has no window", vim.log.levels.TRACE)
-        local win_count = #api.nvim_tabpage_list_wins(tabid)
-        if win_count == 0 or (win_count == 1 and window_map.get_minimap_winid(tabid) ~= nil) then
+        logger.log("Checking if tab has window", vim.log.levels.TRACE)
+        local win_list = api.nvim_tabpage_list_wins(tabid)
+        local none_floating_count = 0
+        for _, winid in pairs(win_list) do
+            if not require("neominimap.util").is_floating(winid) then
+                none_floating_count = none_floating_count + 1
+            end
+        end
+        if none_floating_count == 0 or (none_floating_count == 1 and window_map.get_minimap_winid(tabid) ~= nil) then
             logger.log("Tab has no window", vim.log.levels.TRACE)
             vim.cmd("noau quit")
             return
