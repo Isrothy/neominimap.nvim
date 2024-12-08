@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.8.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.3...v3.8.4) (2024-12-08)
+
+
+### Bug Fixes
+
+* Display minimap on start screen when layout is split ([691a251](https://github.com/Isrothy/neominimap.nvim/commit/691a251130782640251944d7971826799b87c7ba))
+* Quit when only floating windows exist ([11ec72a](https://github.com/Isrothy/neominimap.nvim/commit/11ec72a1bd56694eda41c94f21220e8db89c2e14))
+* Scrolloff overwritten when buffer is set ([dc576af](https://github.com/Isrothy/neominimap.nvim/commit/dc576afed82d7f2bd9e961dbfee36a1bc29df195))
+* Type check ([d8913b4](https://github.com/Isrothy/neominimap.nvim/commit/d8913b412ecc9bc91c31ed2997395eecea652d8e))
+
 ## [3.8.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.2...v3.8.3) (2024-12-01)
 
 
