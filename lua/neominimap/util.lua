@@ -33,6 +33,10 @@ M.get_attached_window = function(bufnr)
     return attachec_windod
 end
 
+M.is_floating = function(winid)
+    return api.nvim_win_get_config(winid).relative ~= ""
+end
+
 --- @param f fun(bufnr: integer)
 M.for_all_buffers = function(f)
     local buffer_list = api.nvim_list_bufs()
