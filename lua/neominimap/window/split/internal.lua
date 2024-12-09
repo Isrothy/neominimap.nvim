@@ -291,7 +291,7 @@ M.refresh_current_tab = function()
         logger.log("Checking if tab has window", vim.log.levels.TRACE)
         local win_list = api.nvim_tabpage_list_wins(tabid)
         local none_floating_count = 0
-        for _, winid in pairs(win_list) do
+        for _, winid in ipairs(win_list) do
             if not require("neominimap.util").is_floating(winid) then
                 none_floating_count = none_floating_count + 1
             end
