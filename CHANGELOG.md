@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.4...v3.9.0) (2024-12-11)
+
+
+### Features
+
+* Add tab filter ([898614d](https://github.com/Isrothy/neominimap.nvim/commit/898614d24d1160195645ee36d778f79540914b36))
+
 ## [3.8.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.3...v3.8.4) (2024-12-08)
 
 
