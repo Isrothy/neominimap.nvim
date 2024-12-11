@@ -58,6 +58,7 @@ M.validate_config = function(cfg)
         exclude_buftypes = { cfg.exclude_buftypes, is_array_of_strings, "list of string" },
         buf_filter = { cfg.buf_filter, "function" },
         win_filter = { cfg.win_filter, "function" },
+        tab_filter = { cfg.tab_filter, "function" },
         x_multiplier = { cfg.x_multiplier, "number" },
         y_multiplier = { cfg.y_multiplier, "number" },
         sync_cursor = { cfg.sync_cursor, "boolean" },

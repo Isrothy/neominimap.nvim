@@ -114,6 +114,11 @@ M.should_show_minimap = function(winid)
         return false
     end
 
+    if not config.tab_filter(tabid) then
+        logger.log(string.format("Window %d should not be shown due to tab_filter", winid), vim.log.levels.TRACE)
+        return false
+    end
+
     logger.log(string.format("Minimap can be shown for window %d", winid), vim.log.levels.TRACE)
     return true
 end

@@ -83,7 +83,33 @@ M.should_show_minimap_for_tab = function(tabid)
         logger.log(string.format("Tab %d is not enabled. Skipping generation of minimap", tabid), vim.log.levels.TRACE)
         return false
     end
+
+    if config.split.close_if_last_window then
+        logger.log("Checking if tab has window", vim.log.levels.TRACE)
+        local win_list = api.nvim_tabpage_list_wins(tabid)
+        local none_floating_count = 0
+        for _, winid in ipairs(win_list) do
+            if not require("neominimap.util").is_floating(winid) then
+                none_floating_count = none_floating_count + 1
+            end
+        end
+        local window_map = require("neominimap.window.split.window_map")
+        if none_floating_count == 0 or (none_floating_count == 1 and window_map.get_minimap_winid(tabid) ~= nil) then
+            logger.log(
+                "Tab has no window, or only one non-floating window. Skipping generation of minimap",
+                vim.log.levels.TRACE
+            )
+            return false
+        end
+    end
+
+    if not config.tab_filter(tabid) then
+        logger.log(string.format("Tab %d should not be shown due to tab_filter", tabid), vim.log.levels.TRACE)
+        return false
+    end
+
     logger.log(string.format("Minimap can be shown for tab %d", tabid), vim.log.levels.TRACE)
+
     return true
 end
 
@@ -158,7 +184,10 @@ M.close_minimap_window = function(tabid)
         logger.log(string.format("No minimap window found for tab %d", tabid), vim.log.levels.TRACE)
         return nil
     end
-    api.nvim_win_close(mwinid, true)
+    local ok, _ = pcall(require("neominimap.util").noautocmd(api.nvim_win_close), mwinid, true)
+    if not ok then
+        vim.cmd("noau qa!")
+    end
     logger.log(string.format("Minimap window %d closed", mwinid), vim.log.levels.TRACE)
     return mwinid
 end
@@ -287,21 +316,6 @@ M.refresh_current_tab = function()
     local window_map = require("neominimap.window.split.window_map")
     local tabid = api.nvim_get_current_tabpage()
 
-    if config.split.close_if_last_window then
-        logger.log("Checking if tab has window", vim.log.levels.TRACE)
-        local win_list = api.nvim_tabpage_list_wins(tabid)
-        local none_floating_count = 0
-        for _, winid in ipairs(win_list) do
-            if not require("neominimap.util").is_floating(winid) then
-                none_floating_count = none_floating_count + 1
-            end
-        end
-        if none_floating_count == 0 or (none_floating_count == 1 and window_map.get_minimap_winid(tabid) ~= nil) then
-            logger.log("Tab has no window", vim.log.levels.TRACE)
-            vim.cmd("noau quit")
-            return
-        end
-    end
     if M.should_show_minimap_for_tab(tabid) then
         local mwinid = window_map.get_minimap_winid(tabid)
         if mwinid == nil or not api.nvim_win_is_valid(mwinid) then
