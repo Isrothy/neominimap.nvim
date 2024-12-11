@@ -211,6 +211,13 @@ vim.g.neominimap ={
         return true
     end,
 
+    -- When false is returned, the minimap will not be created for this tab
+    ---@type fun(tabid: integer): boolean
+    tab_filter = function()
+        return true
+    end,
+
+
     -- How many columns a dot should span
     x_multiplier = 4, ---@type integer
 

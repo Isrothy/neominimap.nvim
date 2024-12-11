@@ -9,6 +9,7 @@ local M = {}
 ---@field exclude_buftypes? string[]
 ---@field buf_filter? fun(bufnr: integer): boolean
 ---@field win_filter? fun(winid: integer): boolean
+---@field tab_filter? fun(tabid: integer): boolean
 ---@field x_multiplier? integer
 ---@field y_multiplier? integer
 ---@field sync_cursor? boolean
