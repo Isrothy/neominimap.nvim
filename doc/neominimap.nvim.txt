@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 December 01
+*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 December 11
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -197,6 +197,13 @@ Default configuration ~
         win_filter = function()
             return true
         end,
+    
+        -- When false is returned, the minimap will not be created for this tab
+        ---@type fun(tabid: integer): boolean
+        tab_filter = function()
+            return true
+        end,
+    
     
         -- How many columns a dot should span
         x_multiplier = 4, ---@type integer
