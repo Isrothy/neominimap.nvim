@@ -106,7 +106,7 @@ M.sync_to_minimap = function(swinid, mwinid)
         vim.schedule(function()
             local ok = util.noautocmd(pcall)(vim.api.nvim_win_set_cursor, swinid, { row, 0 })
             if not ok then
-                logger.notify("Failed to set cursor", vim.log.levels.ERROR)
+                logger.notify("Failed to set cursor", vim.log.levels.WARN)
             end
         end)
     end
