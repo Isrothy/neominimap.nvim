@@ -75,7 +75,7 @@ local get_buffer_highlights_co = function(bufnr)
         return {}
     end
 
-    local co = require("neominimap.cooperative.init")
+    local co = require("neominimap.cooperative")
 
     ---@type Neominimap.BufferHighlight[]
     local highlights = {}
@@ -144,7 +144,7 @@ M.extract_highlights_co = function(bufnr)
         return code_point_idx
     end
 
-    local co = require("neominimap.cooperative.init")
+    local co = require("neominimap.cooperative")
 
     local highlights = {}
     co.for_co(1, minimap_height, 1, 10000, function(row)
@@ -221,7 +221,7 @@ end
 ---@param highlights Neominimap.MinimapHighlight[]
 M.apply_co = function(mbufnr, highlights)
     api.nvim_buf_clear_namespace(mbufnr, namespace, 0, -1)
-    local co = require("neominimap.cooperative.init")
+    local co = require("neominimap.cooperative")
     co.for_in_co(ipairs(highlights))(5000, function(_, hl)
         api.nvim_buf_set_extmark(mbufnr, namespace, hl.line, hl.col, {
             end_col = hl.end_col,

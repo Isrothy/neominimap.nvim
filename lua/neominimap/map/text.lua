@@ -80,7 +80,7 @@ M.gen_co = function(lines, tabwidth)
     local height = math.ceil(#lines / 4 / config.y_multiplier) -- In minimap, one char has 4 * 2 dots
     local width = config:get_minimap_width()
 
-    local co = require("neominimap.cooperative.init")
+    local co = require("neominimap.cooperative")
 
     local map = {}
     co.for_co(1, height, 1, 10000, function(i)

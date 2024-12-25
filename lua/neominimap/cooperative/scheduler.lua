@@ -1,7 +1,12 @@
 --- Manages coroutine tasks in Neovim, ensuring non-blocking execution, particularly for CPU-intensive tasks.
 --- Implements cooperative multitasking, requiring coroutines to **explicitly** yield and resume execution.
 --- When a coroutine yields, the scheduler schedules its resumption in the event loop, maintaining non-blocking behavior.
----
+
+---@class Neominimap.Coroutine.Scheduler.TaskHandlers
+---@field on_yield fun(value: any)? Called when the coroutine yields
+---@field on_complete fun(result: any)? Called when the coroutine completes
+---@field on_error fun(error: any)? Called when the coroutine encounters an error
+
 --- This scheduler allows only **one** coroutine to run at a time.
 --- If multiple coroutines are added, **the previous ones will be discarded.**
 ---@class Neominimap.Coroutine.Scheduler
@@ -13,7 +18,6 @@ local Scheduler = {}
 function Scheduler:new()
     local instance = {
         current_task = nil, -- Holds the current coroutine task
-        wtf = 1,
     }
     setmetatable(instance, self)
     self.__index = self
@@ -53,11 +57,6 @@ function Scheduler:run_coroutine()
         end, 0)
     end
 end
-
----@class Neominimap.Coroutine.Scheduler.TaskHandlers
----@field on_yield fun(value: any)? Called when the coroutine yields
----@field on_complete fun(result: any)? Called when the coroutine completes
----@field on_error fun(error: any)? Called when the coroutine encounters an error
 
 --- Add a new coroutine task
 --- If currently running a task, it will be cleared

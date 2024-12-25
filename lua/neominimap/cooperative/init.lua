@@ -9,9 +9,8 @@ local M = {}
 ---@param func fun(i: number) The function to execute for each iteration
 M.for_co = function(start, stop, step, batch_size, func)
     for i = start, stop, step do
-        func(i) -- Execute the provided function
+        func(i)
 
-        -- Yield after every `batch_size` iterations
         if (i - start) % batch_size == 0 then
             coroutine.yield()
         end
@@ -19,7 +18,6 @@ M.for_co = function(start, stop, step, batch_size, func)
 end
 
 ---A wrapper for `for_co` that returns a coroutine.
----@async
 ---@param start number The starting value of the loop
 ---@param stop number The ending value of the loop
 ---@param step number The step size for the loop
@@ -58,7 +56,6 @@ M.for_in_co = function(iterator, invariant, start_index)
 end
 
 ---A wrapper for `for_in_co` that returns a coroutine.
----@async
 ---@generic I
 ---@generic K
 ---@generic V
@@ -83,18 +80,17 @@ end
 M.while_co = function(condition, batch_size, func)
     local count = 0
     while condition() do
-        func() -- Execute the loop body
+        func()
 
         count = count + 1
         if count == batch_size then
-            coroutine.yield() -- Yield to release CPU resources
-            count = 0 -- Reset the batch counter
+            coroutine.yield()
+            count = 0
         end
     end
 end
 
 --- A wrapper for `while_co` that returns a coroutine.
----@async
 ---@param condition fun(): boolean The condition function that determines whether the loop continues
 ---@param batch_size integer The number of iterations before yielding
 ---@param func fun() The function to execute in each iteration
