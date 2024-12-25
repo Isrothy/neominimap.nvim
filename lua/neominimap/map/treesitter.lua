@@ -69,9 +69,13 @@ local get_buffer_highlights_co = function(bufnr)
     if not ts_utils then
         return {}
     end
-    local buf_highlighter = treesitter.highlighter.active[bufnr]
-    local line_count = api.nvim_buf_line_count(bufnr)
-    if buf_highlighter == nil then
+    local parser = treesitter.get_parser(bufnr)
+    if not parser then
+        return {}
+    end
+
+    local root_tree = parser:parse()
+    if not root_tree then
         return {}
     end
 
@@ -79,20 +83,15 @@ local get_buffer_highlights_co = function(bufnr)
 
     ---@type Neominimap.BufferHighlight[]
     local highlights = {}
-    buf_highlighter.tree:for_each_tree(function(tstree, tree)
-        if not tstree then
-            return
-        end
 
-        local root = tstree:root()
-        local lang = tree:lang()
+    co.for_in_co(ipairs(root_tree))(1, function(_, tree)
+        local root = tree:root()
+        local lang = parser:lang()
         local query = treesitter.query.get(lang, "highlights")
         if not query then
             return
         end
-
-        local iter = query:iter_captures(root, buf_highlighter.bufnr, 0, line_count + 1)
-
+        local iter = query:iter_captures(root, bufnr, 0, -1)
         co.for_in_co(iter)(5000, function(capture_id, node)
             local hl_group = query.captures[capture_id]
             local start_row, start_col, end_row, end_col =
@@ -105,7 +104,6 @@ local get_buffer_highlights_co = function(bufnr)
                 group = hl_group,
             }
         end)
-        coroutine.yield()
     end)
     return highlights
 end
