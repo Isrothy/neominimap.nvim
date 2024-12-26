@@ -76,9 +76,9 @@ local get_buffer_highlights_co = function(bufnr)
     ---@param parser vim.treesitter.LanguageTree
     ---@param level integer
     local function traverse(parser, level)
-        local root_tree = parser:trees()
+        local trees = parser:trees()
 
-        co.for_in_co(pairs(root_tree))(1, function(_, tree) ---@cast tree TSTree
+        co.for_in_co(pairs(trees))(100, function(_, tree) ---@cast tree TSTree
             local root = tree:root()
             local query = treesitter.query.get(parser:lang(), "highlights")
             if not query then
