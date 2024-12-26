@@ -35,7 +35,6 @@ end
 ---@generic I
 ---@generic K
 ---@generic V
----@vararg V
 ---@param iterator fun(invariant:I?,key:K?):K,V The iterator function
 ---@param invariant I? The initial control variable
 ---@param start_index K? The initial state for the iterator
@@ -59,7 +58,6 @@ end
 ---@generic I
 ---@generic K
 ---@generic V
----@vararg V
 ---@param iterator fun(invariant:I?,key:K?):K,V The iterator function
 ---@param invariant I? The initial control variable
 ---@param start_index K? The initial state for the iterator

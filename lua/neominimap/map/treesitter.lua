@@ -60,6 +60,7 @@ end
 ---@field start_col integer
 ---@field end_col integer
 ---@field group string
+---@field level integer The level on the language tree. 0 = root
 
 ---@async
 ---@param bufnr integer
@@ -69,42 +70,48 @@ local get_buffer_highlights_co = function(bufnr)
     if not ts_utils then
         return {}
     end
-    local parser = treesitter.get_parser(bufnr)
-    if not parser then
-        return {}
-    end
-
-    local root_tree = parser:parse()
-    if not root_tree then
-        return {}
-    end
-
     local co = require("neominimap.cooperative")
+    local highlights = {} ---@type Neominimap.BufferHighlight[]
 
-    ---@type Neominimap.BufferHighlight[]
-    local highlights = {}
+    ---@param parser vim.treesitter.LanguageTree
+    ---@param level integer
+    local function traverse(parser, level)
+        local root_tree = parser:trees()
 
-    co.for_in_co(ipairs(root_tree))(1, function(_, tree)
-        local root = tree:root()
-        local lang = parser:lang()
-        local query = treesitter.query.get(lang, "highlights")
-        if not query then
-            return
-        end
-        local iter = query:iter_captures(root, bufnr, 0, -1)
-        co.for_in_co(iter)(5000, function(capture_id, node)
-            local hl_group = query.captures[capture_id]
-            local start_row, start_col, end_row, end_col =
-                ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
-            highlights[#highlights + 1] = {
-                start_row = start_row,
-                start_col = start_col,
-                end_row = end_row,
-                end_col = end_col,
-                group = hl_group,
-            }
+        co.for_in_co(pairs(root_tree))(1, function(_, tree) ---@cast tree TSTree
+            local root = tree:root()
+            local query = treesitter.query.get(parser:lang(), "highlights")
+            if not query then
+                return
+            end
+            local iter = query:iter_captures(root, bufnr)
+            co.for_in_co(iter)(5000, function(capture_id, node)
+                local hl_group = query.captures[capture_id]
+                local start_row, start_col, end_row, end_col =
+                    ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
+                highlights[#highlights + 1] = {
+                    start_row = start_row,
+                    start_col = start_col,
+                    end_row = end_row,
+                    end_col = end_col,
+                    group = hl_group,
+                    level = level,
+                }
+            end)
         end)
-    end)
+
+        co.for_in_co(pairs(parser:children()))(1, function(_, child_parser)
+            traverse(child_parser, level + 1)
+        end)
+    end
+
+    local ok, parser = pcall(treesitter.get_parser, bufnr)
+    if not ok then
+        return {}
+    end
+
+    traverse(parser, 0)
+
     return highlights
 end
 
@@ -148,7 +155,7 @@ M.extract_highlights_co = function(bufnr)
     co.for_co(1, minimap_height, 1, 10000, function(row)
         local line = {}
         for col = 1, minimap_width do
-            line[col] = {}
+            line[col] = { level = 0, groups = {} }
         end
         highlights[row] = line
     end)
@@ -157,7 +164,7 @@ M.extract_highlights_co = function(bufnr)
     local fold = require("neominimap.map.fold")
     local coord = require("neominimap.map.coord")
     local folds = fold.get_cached_folds(bufnr)
-    co.for_in_co(ipairs(get_buffer_highlights_co(bufnr)))(2000, function(_, h)
+    co.for_in_co(ipairs(get_buffer_highlights_co(bufnr)))(2000, function(_, h) ---@cast h Neominimap.BufferHighlight
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
@@ -173,7 +180,14 @@ M.extract_highlights_co = function(bufnr)
                         if mcol > minimap_width then
                             break
                         end
-                        highlights[mrow][mcol][minimap_hl] = (highlights[mrow][mcol][minimap_hl] or 0) + 1
+                        local ceil = highlights[mrow][mcol]
+                        if ceil.level < h.level then
+                            ceil.level = h.level
+                            ceil.groups = {}
+                        end
+                        if ceil.level == h.level then
+                            ceil.groups[minimap_hl] = (ceil.groups[minimap_hl] or 0) + 1
+                        end
                     end
                 end
             end
@@ -183,7 +197,7 @@ M.extract_highlights_co = function(bufnr)
 
     co.for_co(1, minimap_height, 1, 5000, function(y)
         for x = 1, minimap_width do
-            highlights[y][x] = most_commons(highlights[y][x])
+            highlights[y][x] = most_commons(highlights[y][x].groups)
         end
     end)
     coroutine.yield()
