@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.0...v3.9.1) (2024-12-26)
+
+
+### Bug Fixes
+
+* Highlight of injected languages should have higher priority ([3c8d9d8](https://github.com/Isrothy/neominimap.nvim/commit/3c8d9d8790fc4b1f9e64e378d23c8d813cbaf63a))
+
 ## [3.9.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.8.4...v3.9.0) (2024-12-11)
 
 
