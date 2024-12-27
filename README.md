@@ -31,6 +31,8 @@ Criticisms are welcome.
 
 ## Screenshots
 
+The color scheme used for these screenshots is [nord](https://github.com/gbprod/nord.nvim)
+
 ![screenshot](https://github.com/user-attachments/assets/029d61c7-94ac-4e68-9308-3c82a3c07fef)
 
 <details>
