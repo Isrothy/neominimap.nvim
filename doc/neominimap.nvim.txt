@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 December 11
+*neominimap.nvim.txt*      For NVIM v0.10.*      Last change: 2024 December 27
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -46,6 +46,9 @@ Criticisms are welcome.
 
 
 SCREENSHOTS                           *neominimap.nvim-neominimap-screenshots*
+
+The color scheme used for these screenshots is nord
+<https://github.com/gbprod/nord.nvim>
 
 Show diagnostics: ~
 
