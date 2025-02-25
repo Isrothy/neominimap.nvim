@@ -32,6 +32,10 @@ end
 ---@param replacement string[] The lines to set
 ---@param chunk_size integer? The number of lines to set before yielding
 M.buf_set_lines_co = function(bufnr, start, stop, replacement, chunk_size)
+    local sbufnr = require("neominimap.buffer.buffer_map").get_source_bufnr(bufnr)
+    local swinid = vim.fn.bufwinid(sbufnr)
+    local mwinid = vim.fn.bufwinid(bufnr)
+
     chunk_size = chunk_size or 200
     local total_lines = #replacement
     local chunks = math.ceil(total_lines / chunk_size)
@@ -45,6 +49,11 @@ M.buf_set_lines_co = function(bufnr, start, stop, replacement, chunk_size)
         -- Set the chunk of lines
         vim.api.nvim_buf_set_lines(bufnr, start, start, false, lines)
         start = start + #lines -- Update start for the next chunk
+
+        -- This hack sets the cursor right away to avoid visual "jumps" to the end of the minimap buffer and back
+        if start >= i then
+            require("neominimap.window.util").sync_to_source(swinid, mwinid)
+        end
 
         coroutine.yield() -- Yield after setting a chunk
     end
