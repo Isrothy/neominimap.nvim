@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.1...v3.9.2) (2025-02-27)
+
+
+### Bug Fixes
+
+* minimap jump to the end of buffer on source buffer change ([62ddce5](https://github.com/Isrothy/neominimap.nvim/commit/62ddce5bc8483088b86b4a972b837c9fe8fa7bdc))
+
 ## [3.9.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.0...v3.9.1) (2024-12-26)
 
 
