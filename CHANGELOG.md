@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.2...v3.9.3) (2025-03-02)
+
+
+### Reverts
+
+* "Merge pull request [#212](https://github.com/Isrothy/neominimap.nvim/issues/212) from 0xFishbyte/fix-buffer-jump" ([09de58b](https://github.com/Isrothy/neominimap.nvim/commit/09de58bc6b62abfe7c679093139b6e669003508c))
+
 ## [3.9.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.1...v3.9.2) (2025-02-27)
 
 
