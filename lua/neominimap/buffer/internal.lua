@@ -80,7 +80,6 @@ end
 M.internal_render_co = function(bufnr)
     local logger = require("neominimap.logger")
     local co_api = require("neominimap.cooperative.api")
-    local util = require("neominimap.window.util")
     logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     local buffer_map = require("neominimap.buffer.buffer_map")
     local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
@@ -88,8 +87,6 @@ M.internal_render_co = function(bufnr)
         logger.log("Minimap buffer is not valid. Skipping generation of minimap.", vim.log.levels.WARN)
         return
     end
-    local swinid = vim.fn.bufwinid(bufnr)
-    local mwinid = vim.fn.bufwinid(mbufnr_)
 
     logger.log(string.format("Getting lines for buffer %d", bufnr), vim.log.levels.TRACE)
     local lines = co_api.buf_get_lines_co(bufnr, 0, -1)
@@ -115,9 +112,7 @@ M.internal_render_co = function(bufnr)
     vim.bo[mbufnr_].modifiable = true
 
     logger.log(string.format("Setting lines for buffer %d", mbufnr_), vim.log.levels.TRACE)
-    util.sync_to_source(swinid, mwinid)
     co_api.buf_set_lines_co(mbufnr_, 0, -1, minimap)
-    util.sync_to_source(swinid, mwinid)
     logger.log(string.format("Minimap for buffer %d generated successfully", bufnr), vim.log.levels.TRACE)
 
     vim.bo[mbufnr_].modifiable = false
