@@ -28,25 +28,37 @@ end
 ---@async
 ---@param bufnr integer The buffer number
 ---@param start integer The start line (0-indexed)
----@param stop integer The end line (0-indexed, exclusive)
+---@param end_ integer The end line (0-indexed, exclusive)
 ---@param replacement string[] The lines to set
 ---@param chunk_size integer? The number of lines to set before yielding
-M.buf_set_lines_co = function(bufnr, start, stop, replacement, chunk_size)
+M.buf_set_lines_co = function(bufnr, start, end_, replacement, chunk_size)
     chunk_size = chunk_size or 200
-    local total_lines = #replacement
-    local chunks = math.ceil(total_lines / chunk_size)
-    vim.api.nvim_buf_set_lines(bufnr, start, stop, false, {})
+    local replacement_line_count = #replacement
+    local original_line_count = vim.api.nvim_buf_line_count(bufnr)
+    local chunks = math.ceil(replacement_line_count / chunk_size)
+    if start < 0 then
+        start = original_line_count + start + 1
+    end
+    if end_ < 0 then
+        end_ = original_line_count + end_ + 1
+    end
+    if start >= end_ then
+        return
+    end
 
     for i = 1, chunks do
         local chunk_start = (i - 1) * chunk_size + 1
-        local chunk_stop = math.min(i * chunk_size, total_lines)
+        local chunk_stop = math.min(i * chunk_size, replacement_line_count)
         local lines = vim.list_slice(replacement, chunk_start, chunk_stop)
 
-        -- Set the chunk of lines
-        vim.api.nvim_buf_set_lines(bufnr, start, start, false, lines)
-        start = start + #lines -- Update start for the next chunk
+        vim.api.nvim_buf_set_lines(bufnr, start, math.min(start + #lines, math.max(start, end_)), false, lines)
+        start = start + #lines
 
-        coroutine.yield() -- Yield after setting a chunk
+        coroutine.yield()
+    end
+
+    if start < end_ then
+        vim.api.nvim_buf_set_lines(bufnr, start, end_, false, {})
     end
 end
 
