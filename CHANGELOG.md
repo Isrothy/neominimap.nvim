@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.3...v3.9.4) (2025-03-02)
+
+
+### Bug Fixes
+
+* Buffer refresh do not affact cursor position ([4d3ba82](https://github.com/Isrothy/neominimap.nvim/commit/4d3ba8244eac49ca41708d752ebb93534f1e76aa))
+
 ## [3.9.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.2...v3.9.3) (2025-03-02)
 
 
