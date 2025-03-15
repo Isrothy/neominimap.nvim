@@ -123,7 +123,7 @@ M.create_minimap_window_in_current_tab = function()
 
     ---@type table<Neominimap.Config.SplitDirection, string>
     local dir_tbl = {
-        ["right"] = "botright",
+        ["right"] = "rightbelow",
         ["left"] = "topleft",
     }
     vim.cmd(string.format("noau vertical %s %dsplit", dir_tbl[config.split.direction], config:get_minimap_width()))
