@@ -123,14 +123,20 @@ M.create_minimap_window_in_current_tab = function()
 
     ---@type table<Neominimap.Config.SplitDirection, string>
     local dir_tbl = {
-        ["left"]        = "topleft",
-        ["right"]       = "botright",
-        ["topleft"]     = "topleft",
-        ["botright"]    = "botright",
-        ["aboveleft"]   = "aboveleft",
-        ["rightbelow"]  = "rightbelow"
+        ["left"] = "topleft",
+        ["right"] = "botright",
+        ["topleft"] = "topleft",
+        ["botright"] = "botright",
+        ["aboveleft"] = "aboveleft",
+        ["rightbelow"] = "rightbelow",
     }
-    vim.cmd(string.format("noau vertical %s %dsplit", dir_tbl[config.split.direction] or "botright", config:get_minimap_width()))
+    vim.cmd(
+        string.format(
+            "noau vertical %s %dsplit",
+            dir_tbl[config.split.direction] or "botright",
+            config:get_minimap_width()
+        )
+    )
     local mwinid = vim.api.nvim_get_current_win()
     util.noautocmd(api.nvim_set_current_win)(winid)
 
