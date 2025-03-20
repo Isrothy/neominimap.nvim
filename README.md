@@ -242,7 +242,13 @@ vim.g.neominimap ={
         -- Always fix the width of the split window
         fix_width = false, ---@type boolean
 
-        ---@alias Neominimap.Config.SplitDirection "left" | "right"
+        -- split mode:
+        -- left is an alias for topleft   - leftmost vertical split, full height
+        -- right is an alias for botright - rightmost vertical split, full height
+        -- aboveleft -  left split in current window
+        -- rightbelow - right split in current window
+        ---@alias Neominimap.Config.SplitDirection "left" | "right" | 
+        ---       "topleft" | "botright" | "aboveleft" | "rightbelow"
         direction = "right", ---@type Neominimap.Config.SplitDirection
 
         ---Automatically close the split window when it is the last window

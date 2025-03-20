@@ -69,7 +69,7 @@ local M = {
         -- Always fix the width of the split window
         fix_width = false, ---@type boolean
 
-        ---@alias Neominimap.Config.SplitDirection "left" | "right"
+        ---@alias Neominimap.Config.SplitDirection "left" | "right" | "topleft" | "botright" | "aboveleft" | "rightbelow"
         direction = "right", ---@type Neominimap.Config.SplitDirection
 
         ---Automatically close the split window when it is the last window
