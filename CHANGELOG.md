@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.10.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.4...v3.10.0) (2025-03-20)
+
+
+### Features
+
+* Support split layout for botright, rightbelow, topleft and aboveleft ([f2bd8f3](https://github.com/Isrothy/neominimap.nvim/commit/f2bd8f3827a659dcc89aeefe7b9ed60093314e06))
+
+
+### Bug Fixes
+
+* Buffer refresh do not affact cursor position ([503d8f7](https://github.com/Isrothy/neominimap.nvim/commit/503d8f72d41b6cd8a08fb5b6f5c7b3868844e369))
+
 ## [3.9.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.3...v3.9.4) (2025-03-02)
 
 
