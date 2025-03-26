@@ -80,11 +80,6 @@ M.tabRefresh = function(args, opts)
     require("neominimap.command.tab").subcommand_tbl.tabRefresh.impl(args, opts)
 end
 
--- ---@type Neominimap.Command.Impl
--- M.perf = function(args, opts)
---     require("neominimap.command.perf").subcommand_tbl.perf.impl(args, opts)
--- end
-
 ---@type Neominimap.Command.Impl
 M.focus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.focus.impl(args, opts)
@@ -98,6 +93,38 @@ end
 ---@type Neominimap.Command.Impl
 M.toggleFocus = function(args, opts)
     require("neominimap.command.focus").subcommand_tbl.toggleFocus.impl(args, opts)
+end
+
+--- Minimap is enabled globally
+M.enabled = function()
+    return require("neominimap.variables").g.enabled
+end
+
+--- Minimap is enabled for the given buffer
+---@param bufnr integer? If nil, check for the current buffer
+M.bufEnabled = function(bufnr)
+    if bufnr == nil then
+        bufnr = 0
+    end
+    return require("neominimap.variables").b[bufnr].enabled
+end
+
+--- Minimap is enabled for the given window
+---@param winid integer? If nil, check for the current window
+M.winEnabled = function(winid)
+    if winid == nil then
+        winid = 0
+    end
+    return require("neominimap.variables").w[winid].enabled
+end
+
+--- Minimap is enabled for the given tab page
+---@param tabid integer? If nil, check for the current tab page
+M.tabEnabled = function(tabid)
+    if tabid == nil then
+        tabid = 0
+    end
+    return require("neominimap.variables").t[tabid].enabled
 end
 
 return M
