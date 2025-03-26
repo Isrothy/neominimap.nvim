@@ -98,10 +98,9 @@ With Lazy:
     ---@module "neominimap.config.meta"
     {
         "Isrothy/neominimap.nvim",
-      version = "v3.*.",
-      enabled = true,
+      version = "v3.x.x",
       lazy = false, -- NOTE: NO NEED to Lazy load
-      -- Optional
+      -- Optional. You can alse set your own keybindings
       keys = {
         -- Global Minimap Controls
         { "<leader>nm", "<cmd>Neominimap toggle<cr>", desc = "Toggle global minimap" },
@@ -154,9 +153,9 @@ Default configuration ~
 >lua
     ---@enum Neominimap.Handler.Annotation
     local AnnotationMode = {
-    Sign = "sign", -- Show braille signs in the sign column
-    Icon = "icon", -- Show icons in the sign column
-    Line = "line", -- Highlight the background of the line on the minimap
+      Sign = "sign", -- Show braille signs in the sign column
+      Icon = "icon", -- Show icons in the sign column
+      Line = "line", -- Highlight the background of the line on the minimap
     }
     
     vim.g.neominimap ={
