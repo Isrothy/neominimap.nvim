@@ -44,8 +44,9 @@ M.create_autocmds = function(group) -- To lazy load
     })
 end
 
---- The winid of the minimap attached to the given window
+--- Return the minimap buffer number attached to the given buffer
 ---@param bufnr integer
+---@return integer?
 M.get_minimap_bufnr = function(bufnr)
     return require("neominimap.buffer.buffer_map").get_minimap_bufnr(bufnr)
 end

@@ -13,7 +13,7 @@ local args_to_list = function(args)
     if #args == 0 then
         return { api.nvim_get_current_tabpage() }
     else
-        local tabnr = {}
+        local tabid = {}
         for _, arg in ipairs(args) do
             local nr = tonumber(arg)
             local logger = require("neominimap.logger")
@@ -22,10 +22,10 @@ local args_to_list = function(args)
             elseif not api.nvim_tabpage_is_valid(nr) then
                 logger.notify(string.format("Tab %d is not valid.", nr), vim.log.levels.ERROR)
             else
-                table.insert(tabnr, tonumber(arg))
+                table.insert(tabid, tonumber(arg))
             end
         end
-        return tabnr
+        return tabid
     end
 end
 
@@ -92,8 +92,8 @@ M.subcommand_tbl = {
             local logger = require("neominimap.logger")
             logger.log("Command tabRefresh triggered.", vim.log.levels.INFO)
 
-            local tabnr = args_to_list(args)
-            vim.tbl_map(tabRefresh, tabnr)
+            local tabid = args_to_list(args)
+            vim.tbl_map(tabRefresh, tabid)
         end,
     },
 }

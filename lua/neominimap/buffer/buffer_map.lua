@@ -19,7 +19,7 @@ M.get_source_bufnr = function(mbufnr)
     return nil
 end
 
---- The winid of the minimap attached to the given window
+--- Return the minimap buffer number attached to the given buffer
 ---@param bufnr integer
 ---@return integer?
 M.get_minimap_bufnr = function(bufnr)
@@ -31,7 +31,7 @@ M.get_minimap_bufnr = function(bufnr)
     return mbufnr
 end
 
---- Set the winid of the minimap attached to the given window
+--- Set the minimap buffer number attached to the given buffer
 ---@param bufnr integer
 ---@param mbufnr integer?
 M.set_minimap_bufnr = function(bufnr, mbufnr)
