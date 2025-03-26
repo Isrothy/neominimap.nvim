@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.10.0...v3.11.0) (2025-03-26)
+
+
+### Features
+
+* Implment api for the status of minimap ([dc83e0d](https://github.com/Isrothy/neominimap.nvim/commit/dc83e0d388c111187f2b3d4a07aedab65729be89))
+
 ## [3.10.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.4...v3.10.0) (2025-03-20)
 
 
