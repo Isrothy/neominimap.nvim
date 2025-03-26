@@ -508,62 +508,58 @@ LUA API                                   *neominimap.nvim-neominimap-lua-api*
 These are the Lua API. ~
 
 - Global API
-- `require('neominimap').on()`
-- **Description:** Enable the minimap globally across all buffers and windows.
-- **Arguments:** None
-- `require('neominimap').off()`
-- **Description:** Disable the minimap globally.
-- **Arguments:** None
-- `require('neominimap').toggle()`
-- **Description:** Toggle the minimap on or off globally.
-- **Arguments:** None
-- `require('neominimap').refresh()`
-- **Description:** Refresh the minimap globally.
-- **Arguments:** None
-- `require('neominimap').enabled()`
-- **Description:** Check if the minimap is enabled globally.
-- **Arguments:** None
-- **Returns:** `true` if the minimap is enabled, `false` otherwise
+    - `require('neominimap').on()`
+        - **Description:** Enable the minimap globally across all buffers and windows.
+        - **Arguments:** None
+    - `require('neominimap').off()`
+        - **Description:** Disable the minimap globally.
+        - **Arguments:** None
+    - `require('neominimap').toggle()`
+        - **Description:** Toggle the minimap on or off globally.
+        - **Arguments:** None
+    - `require('neominimap').refresh()`
+        - **Description:** Refresh the minimap globally.
+        - **Arguments:** None
+    - `require('neominimap').enabled()`
+        - **Description:** Check if the minimap is enabled globally.
+        - **Arguments:** None
+        - **Returns:** `true` if the minimap is enabled, `false` otherwise
 - Buffer API
-- `require('neominimap').bufOn(<bufnr>)`
-- **Description:** Enable the minimap for specified buffers.
-- **Arguments:** List of buffer numbers (defaults to current buffer if list is
-    empty)
-- `require('neominimap').bufOff(<bufnr>)`
-- **Description:** Disable the minimap for specified buffers.
-- **Arguments:** List of buffer numbers (defaults to current buffer if list is
-    empty)
-- `require('neominimap').bufToggle(<bufnr>)`
-- **Description:** Toggle the minimap for specified buffers.
-- **Arguments:** List of buffer numbers (defaults to current buffer if list is
-    empty)
-- `require('neominimap').bufRefresh(<bufnr>)`
-- **Description:** Refresh the minimap buffers for specified buffers.
-- **Arguments:** List of buffer numbers (defaults to current buffer if list is
-    empty)
-- `require('neominimap').bufEnabled(bufnr)`
-- **Description:** Check if the minimap is enabled for specified buffers.
-- **Arguments:** A buffer number. If no buffer is specified, check for the
-    current buffer.
-- **Returns:** `true` if the minimap is enabled, `false` otherwise
+    - `require('neominimap').bufOn(<bufnr>)`
+        - **Description:** Enable the minimap for specified buffers.
+        - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - `require('neominimap').bufOff(<bufnr>)`
+        - **Description:** Disable the minimap for specified buffers.
+        - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - `require('neominimap').bufToggle(<bufnr>)`
+        - **Description:** Toggle the minimap for specified buffers.
+        - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - `require('neominimap').bufRefresh(<bufnr>)`
+        - **Description:** Refresh the minimap buffers for specified buffers.
+        - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - `require('neominimap').bufEnabled(bufnr)`
+        - **Description:** Check if the minimap is enabled for specified buffers.
+        - **Arguments:** A buffer number. If no buffer is specified, check for the
+            current buffer.
+        - **Returns:** `true` if the minimap is enabled, `false` otherwise
 - Tabpage API
-- `require('neominimap').tabOn(<tabid>)`*
-    - **Description:** Enable the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
-- `require('neominimap').tabOff(<tabid>)`
-    - **Description:** Disable the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
-- `require('neominimap').tabToggle(<tabid>)`
-    - **Description:** Toggle the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
-- `require('neominimap').tabRefresh(tabid)`
-    - **Description:** Refresh the minimap tabs for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
-- `require('neominimap').tabEnabled(tabid)`
-    - **Description:** Check if the minimap is enabled for specified tabpages.
-    - **Arguments:** A tabpage ID. If no tabpage is specified, check for the
-        current tabpage.
-    - **Returns:** `true` if the minimap is enabled, `false` otherwise
+    - `require('neominimap').tabOn(<tabid>)`*
+        - **Description:** Enable the minimap for specified tabpages.
+        - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - `require('neominimap').tabOff(<tabid>)`
+        - **Description:** Disable the minimap for specified tabpages.
+        - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - `require('neominimap').tabToggle(<tabid>)`
+        - **Description:** Toggle the minimap for specified tabpages.
+        - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - `require('neominimap').tabRefresh(tabid)`
+        - **Description:** Refresh the minimap tabs for specified tabpages.
+        - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - `require('neominimap').tabEnabled(tabid)`
+        - **Description:** Check if the minimap is enabled for specified tabpages.
+        - **Arguments:** A tabpage ID. If no tabpage is specified, check for the
+            current tabpage.
+        - **Returns:** `true` if the minimap is enabled, `false` otherwise
 - Window API
     - `require('neominimap').winOn(<winid>)`
         - **Description:** Enable the minimap for specified windows.
