@@ -81,7 +81,7 @@ local global_default = {
 ---@class Neominimap.Variables.Buffer
 local buffer_default = {
     enabled = true, ---@type boolean Enable minimap for this buffer.
-    render = function() end, ---@type fun() Render minimap for this buffer. Genarate text and TreeSitter highlights.
+    render = function() end, ---@type fun() Render minimap for this buffer. Generate text and TreeSitter highlights.
     update_handler = {}, ---@type table<string, fun()>
     cached_folds = {}, ---@type Neominimap.Fold[]
 }
