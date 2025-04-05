@@ -109,7 +109,7 @@ With Lazy:
 ```lua
 ---@module "neominimap.config.meta"
 {
-    "Isrothy/neominimap.nvim",
+  "Isrothy/neominimap.nvim",
   version = "v3.x.x",
   lazy = false, -- NOTE: NO NEED to Lazy load
   -- Optional. You can alse set your own keybindings
@@ -171,191 +171,191 @@ local AnnotationMode = {
 }
 
 vim.g.neominimap ={
--- Enable the plugin by default
-auto_enable = true, ---@type boolean
+  -- Enable the plugin by default
+  auto_enable = true, ---@type boolean
 
--- Log level
-log_level = vim.log.levels.OFF, ---@type Neominimap.Log.Levels
+  -- Log level
+  log_level = vim.log.levels.OFF, ---@type Neominimap.Log.Levels
 
--- Notification level
-notification_level = vim.log.levels.INFO, ---@type Neominimap.Log.Levels
+  -- Notification level
+  notification_level = vim.log.levels.INFO, ---@type Neominimap.Log.Levels
 
--- Path to the log file
-log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string
+  -- Path to the log file
+  log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string
 
--- Minimap will not be created for buffers of these types
----@type string[]
-exclude_filetypes = {
-  "help",
-  "bigfile", -- For Snacks.nvim
-},
-
--- Minimap will not be created for buffers of these types
----@type string[]
-exclude_buftypes = {
-  "nofile",
-  "nowrite",
-  "quickfix",
-  "terminal",
-  "prompt",
-},
-
--- When false is returned, the minimap will not be created for this buffer
----@type fun(bufnr: integer): boolean
-buf_filter = function()
-  return true
-end,
-
--- When false is returned, the minimap will not be created for this window
----@type fun(winid: integer): boolean
-win_filter = function()
-  return true
-end,
-
--- When false is returned, the minimap will not be created for this tab
----@type fun(tabid: integer): boolean
-tab_filter = function()
-  return true
-end,
-
-
--- How many columns a dot should span
-x_multiplier = 4, ---@type integer
-
--- How many rows a dot should span
-y_multiplier = 1, ---@type integer
-
----@alias Neominimap.Config.LayoutType "split" | "float"
-
---- Either `split` or `float`
---- When layout is set to `float`,
---- the minimap will be created in floating windows attached to all suitable windows
---- When layout is set to `split`,
---- the minimap will be created in one split window
-layout = "float", ---@type Neominimap.Config.LayoutType
-
---- Used when `layout` is set to `split`
-split = {
-  minimap_width = 20, ---@type integer
-
-  -- Always fix the width of the split window
-  fix_width = false, ---@type boolean
-
-  -- split mode:
-  -- left is an alias for topleft   - leftmost vertical split, full height
-  -- right is an alias for botright - rightmost vertical split, full height
-  -- aboveleft -  left split in current window
-  -- rightbelow - right split in current window
-  ---@alias Neominimap.Config.SplitDirection "left" | "right" |
-  ---       "topleft" | "botright" | "aboveleft" | "rightbelow"
-  direction = "right", ---@type Neominimap.Config.SplitDirection
-
-  ---Automatically close the split window when it is the last window
-  close_if_last_window = false, ---@type boolean
-},
-
---- Used when `layout` is set to `float`
-float = {
-  minimap_width = 20, ---@type integer
-
-  --- If set to nil, there is no maximum height restriction
-  --- @type integer
-  max_minimap_height = nil,
-
-  margin = {
-    right = 0, ---@type integer
-    top = 0, ---@type integer
-    bottom = 0, ---@type integer
+  -- Minimap will not be created for buffers of these types
+  ---@type string[]
+  exclude_filetypes = {
+    "help",
+    "bigfile", -- For Snacks.nvim
   },
-  z_index = 1, ---@type integer
 
-  --- Border style of the floating window.
-  --- Accepts all usual border style options (e.g., "single", "double")
-  --- @type string | string[] | [string, string][]
-  window_border = vim.g.winborder,
-},
-
--- For performance issue, when text changed,
--- minimap is refreshed after a certain delay
--- Set the delay in milliseconds
-delay = 200, ---@type integer
-
--- Sync the cursor position with the minimap
-sync_cursor = true, ---@type boolean
-
-click = {
-  -- Enable mouse click on minimap
-  enabled = false, ---@type boolean
-  -- Automatically switch focus to minimap when clicked
-  auto_switch_focus = true, ---@type boolean
-},
-
-diagnostic = {
-  enabled = true, ---@type boolean
-  severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
-  mode = "line", ---@type Neominimap.Handler.Annotation.Mode
-  priority = {
-    ERROR = 100, ---@type integer
-    WARN = 90, ---@type integer
-    INFO = 80, ---@type integer
-    HINT = 70, ---@type integer
+  -- Minimap will not be created for buffers of these types
+  ---@type string[]
+  exclude_buftypes = {
+    "nofile",
+    "nowrite",
+    "quickfix",
+    "terminal",
+    "prompt",
   },
-  icon = {
-    ERROR = "󰅚 ", ---@type string
-    WARN = "󰀪 ", ---@type string
-    INFO = "󰌶 ", ---@type string
-    HINT = " ", ---@type string
+
+  -- When false is returned, the minimap will not be created for this buffer
+  ---@type fun(bufnr: integer): boolean
+  buf_filter = function()
+    return true
+  end,
+
+  -- When false is returned, the minimap will not be created for this window
+  ---@type fun(winid: integer): boolean
+  win_filter = function()
+    return true
+  end,
+
+  -- When false is returned, the minimap will not be created for this tab
+  ---@type fun(tabid: integer): boolean
+  tab_filter = function()
+    return true
+  end,
+
+
+  -- How many columns a dot should span
+  x_multiplier = 4, ---@type integer
+
+  -- How many rows a dot should span
+  y_multiplier = 1, ---@type integer
+
+  ---@alias Neominimap.Config.LayoutType "split" | "float"
+
+  --- Either `split` or `float`
+  --- When layout is set to `float`,
+  --- the minimap will be created in floating windows attached to all suitable windows
+  --- When layout is set to `split`,
+  --- the minimap will be created in one split window
+  layout = "float", ---@type Neominimap.Config.LayoutType
+
+  --- Used when `layout` is set to `split`
+  split = {
+    minimap_width = 20, ---@type integer
+
+    -- Always fix the width of the split window
+    fix_width = false, ---@type boolean
+
+    -- split mode:
+    -- left is an alias for topleft   - leftmost vertical split, full height
+    -- right is an alias for botright - rightmost vertical split, full height
+    -- aboveleft -  left split in current window
+    -- rightbelow - right split in current window
+    ---@alias Neominimap.Config.SplitDirection "left" | "right" |
+    ---       "topleft" | "botright" | "aboveleft" | "rightbelow"
+    direction = "right", ---@type Neominimap.Config.SplitDirection
+
+    ---Automatically close the split window when it is the last window
+    close_if_last_window = false, ---@type boolean
   },
-},
 
-git = {
-  enabled = true, ---@type boolean
-  mode = "sign", ---@type Neominimap.Handler.Annotation.Mode
-  priority = 6, ---@type integer
-  icon = {
-    add = "+ ", ---@type string
-    change = "~ ", ---@type string
-    delete = "- ", ---@type string
+  --- Used when `layout` is set to `float`
+  float = {
+    minimap_width = 20, ---@type integer
+
+    --- If set to nil, there is no maximum height restriction
+    --- @type integer
+    max_minimap_height = nil,
+
+    margin = {
+      right = 0, ---@type integer
+      top = 0, ---@type integer
+      bottom = 0, ---@type integer
+    },
+    z_index = 1, ---@type integer
+
+    --- Border style of the floating window.
+    --- Accepts all usual border style options (e.g., "single", "double")
+    --- @type string | string[] | [string, string][]
+    window_border = vim.opt.winborder,
   },
-},
 
-search = {
-  enabled = false, ---@type boolean
-  mode = "line", ---@type Neominimap.Handler.Annotation.Mode
-  priority = 20, ---@type integer
-  icon = "󰱽 ", ---@type string
-},
+  -- For performance issue, when text changed,
+  -- minimap is refreshed after a certain delay
+  -- Set the delay in milliseconds
+  delay = 200, ---@type integer
 
-treesitter = {
-  enabled = true, ---@type boolean
-  priority = 200, ---@type integer
-},
+  -- Sync the cursor position with the minimap
+  sync_cursor = true, ---@type boolean
 
-mark = {
-  enabled = false, ---@type boolean
-  mode = "icon", ---@type Neominimap.Handler.Annotation.Mode
-  priority = 10, ---@type integer
-  key = "m", ---@type string
-  show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
-},
+  click = {
+    -- Enable mouse click on minimap
+    enabled = false, ---@type boolean
+    -- Automatically switch focus to minimap when clicked
+    auto_switch_focus = true, ---@type boolean
+  },
 
-fold = {
-  -- Considering fold when rendering minimap
-  enabled = true, ---@type boolean
-},
+  diagnostic = {
+    enabled = true, ---@type boolean
+    severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
+    mode = "line", ---@type Neominimap.Handler.Annotation.Mode
+    priority = {
+      ERROR = 100, ---@type integer
+      WARN = 90, ---@type integer
+      INFO = 80, ---@type integer
+      HINT = 70, ---@type integer
+    },
+    icon = {
+      ERROR = "󰅚 ", ---@type string
+      WARN = "󰀪 ", ---@type string
+      INFO = "󰌶 ", ---@type string
+      HINT = " ", ---@type string
+    },
+  },
 
----Overrite the default winopt
----@param opt vim.wo
----@param winid integer the window id of the source window, NOT minimap window
-winopt = function(opt, winid) end,
+  git = {
+    enabled = true, ---@type boolean
+    mode = "sign", ---@type Neominimap.Handler.Annotation.Mode
+    priority = 6, ---@type integer
+    icon = {
+      add = "+ ", ---@type string
+      change = "~ ", ---@type string
+      delete = "- ", ---@type string
+    },
+  },
 
----Overrite the default bufopt
----@param opt vim.bo
----@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
-bufopt = function(opt, bufnr) end,
+  search = {
+    enabled = false, ---@type boolean
+    mode = "line", ---@type Neominimap.Handler.Annotation.Mode
+    priority = 20, ---@type integer
+    icon = "󰱽 ", ---@type string
+  },
 
----@type Neominimap.Map.Handler[]
-handlers = {},
+  treesitter = {
+    enabled = true, ---@type boolean
+    priority = 200, ---@type integer
+  },
+
+  mark = {
+    enabled = false, ---@type boolean
+    mode = "icon", ---@type Neominimap.Handler.Annotation.Mode
+    priority = 10, ---@type integer
+    key = "m", ---@type string
+    show_builtins = false, ---@type boolean -- shows the builtin marks like [ ] < >
+  },
+
+  fold = {
+    -- Considering fold when rendering minimap
+    enabled = true, ---@type boolean
+  },
+
+  ---Overrite the default winopt
+  ---@param opt vim.wo
+  ---@param winid integer the window id of the source window, NOT minimap window
+  winopt = function(opt, winid) end,
+
+  ---Overrite the default bufopt
+  ---@param opt vim.bo
+  ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
+  bufopt = function(opt, bufnr) end,
+
+  ---@type Neominimap.Map.Handler[]
+  handlers = {},
 }
 ```
 
@@ -366,27 +366,27 @@ handlers = {},
 
 ```lua
 {
-winhighlight = table.concat({
-  "Normal:NeominimapBackground",
-  "FloatBorder:NeominimapBorder",
-  "CursorLine:NeominimapCursorLine",
-  "CursorLineNr:NeominimapCursorLineNr",
-  "CursorLineSign:NeominimapCursorLineSign",
-  "CursorLineFold:NeominimapCursorLineFold",
-}, ","),
-wrap = false,
-foldcolumn = "0",
-signcolumn = "auto",
-number = false,
-relativenumber = false,
-scrolloff = 99999, -- To center minimap
-sidescrolloff = 0,
-winblend = 0,
-cursorline = true,
-spell = false,
-list = false,
-fillchars = "eob: ",
-winfixwidth = true,
+  winhighlight = table.concat({
+    "Normal:NeominimapBackground",
+    "FloatBorder:NeominimapBorder",
+    "CursorLine:NeominimapCursorLine",
+    "CursorLineNr:NeominimapCursorLineNr",
+    "CursorLineSign:NeominimapCursorLineSign",
+    "CursorLineFold:NeominimapCursorLineFold",
+  }, ","),
+  wrap = false,
+  foldcolumn = "0",
+  signcolumn = "auto",
+  number = false,
+  relativenumber = false,
+  scrolloff = 99999, -- To center minimap
+  sidescrolloff = 0,
+  winblend = 0,
+  cursorline = true,
+  spell = false,
+  list = false,
+  fillchars = "eob: ",
+  winfixwidth = true,
 }
 ```
 
@@ -397,12 +397,12 @@ winfixwidth = true,
 
 ```lua
 {
-buftype = "nofile",
-filetype = "neominimap",
-swapfile = false,
-bufhidden = "hide",
-undolevels = -1,
-modifiable = false,
+  buftype = "nofile",
+  filetype = "neominimap",
+  swapfile = false,
+  bufhidden = "hide",
+  undolevels = -1,
+  modifiable = false,
 }
 ```
 
@@ -487,27 +487,26 @@ To refresh the minimap for windows 3 and 4:
 
 - Global API
 
-  - `require('neominimap').on()`
+  - `require('neominimap.api').enable()`
 
     - **Description:** Enable the minimap globally across all buffers and windows.
     - **Arguments:** None
 
-  - `require('neominimap').off()`
+  - `require('neominimap.api').disable()`
 
     - **Description:** Disable the minimap globally.
     - **Arguments:** None
 
-  - `require('neominimap').toggle()`
+  - `require('neominimap.api').toggle()`
 
     - **Description:** Toggle the minimap on or off globally.
     - **Arguments:** None
 
-  - `require('neominimap').refresh()`
-
+  - `require('neominimap.api').refresh()`
     - **Description:** Refresh the minimap globally.
     - **Arguments:** None
 
-  - `require('neominimap').enabled()`
+  - `require('neominimap.api').enabled()`
 
     - **Description:** Check if the minimap is enabled globally.
     - **Arguments:** None
@@ -515,56 +514,56 @@ To refresh the minimap for windows 3 and 4:
 
 - Buffer API
 
-  - `require('neominimap').bufOn(<bufnr>)`
+  - `require('neominimap.api').buf.enable(<bufnr>)`
 
     - **Description:** Enable the minimap for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufOff(<bufnr>)`
+  - `require('neominimap.api').buf.disable(<bufnr>)`
 
     - **Description:** Disable the minimap for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufToggle(<bufnr>)`
+  - `require('neominimap.api').buf.toggle(<bufnr>)`
 
     - **Description:** Toggle the minimap for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufRefresh(<bufnr>)`
+  - `require('neominimap.api').buf.refresh(<bufnr>)`
 
     - **Description:** Refresh the minimap buffers for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufEnabled(bufnr)`
+  - `require('neominimap').buf_enabled(bufnr)`
 
     - **Description:** Check if the minimap is enabled for specified buffers.
     - **Arguments:** A buffer number. If no buffer is specified, check for the
       current buffer.
     - **Returns:** `true` if the minimap is enabled, `false` otherwise
 
-- Tabpage API
+- Tab API
 
-  - `require('neominimap').tabOn(<tabid>)`\*
+  - `require('neominimap.api').tab.enable(<tabid>)`
 
     - **Description:** Enable the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabOff(<tabid>)`
+  - `require('neominimap.api').tab.disable(<tabid>)`
 
     - **Description:** Disable the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabToggle(<tabid>)`
+  - `require('neominimap.api').tab.toggle(<tabid>)`
 
     - **Description:** Toggle the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabRefresh(tabid)`
+  - `require('neominimap.api').tab.refresh(<tabid>)`
 
     - **Description:** Refresh the minimap tabs for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabEnabled(tabid)`
+  - `require('neominimap').tab.enabled(tabid)`
 
     - **Description:** Check if the minimap is enabled for specified tabpages.
     - **Arguments:** A tabpage ID. If no tabpage is specified, check for the
@@ -573,27 +572,27 @@ To refresh the minimap for windows 3 and 4:
 
 - Window API
 
-  - `require('neominimap').winOn(<winid>)`
+  - `require('neominimap.api').win.enable(<winid>)`
 
     - **Description:** Enable the minimap for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winOff(<winid>)`
+  - `require('neominimap.api').win.disable(<winid>)`
 
     - **Description:** Disable the minimap for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winToggle(<winid>)`
+  - `require('neominimap.api').win.toggle(<winid>)`
 
     - **Description:** Toggle the minimap for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winRefresh(<winid>)`
+  - `require('neominimap.api').win.refresh(<winid>)`
 
     - **Description:** Refresh the minimap windows for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winEnabled(winid)`
+  - `require('neominimap').win.enable(winid)`
 
     - **Description:** Check if the minimap is enabled for specified windows.
     - **Arguments:** A window ID. If no window is specified, check for the
@@ -602,20 +601,80 @@ To refresh the minimap for windows 3 and 4:
 
 - Focus Control
 
-  - `require('neominimap').focus()`
+  - `require('neominimap.api').focus.enable()`
 
     - **Description:** Focus the minimap window, allowing interaction with it.
     - **Arguments:** None
 
-  - `require('neominimap').unfocus()`
+  - `require('neominimap.api').focus.disable()`
 
     - **Description:** Unfocus the minimap window, returning focus to the editor.
     - **Arguments:** None
 
-  - `require('neominimap').toggleFocus()`
+  - `require('neominimap.api').focus.toggle()`
     - **Description:** Toggle focus between the minimap and the main editor window.
     - **Arguments:** None
-    </details>
+
+### Migration Guide
+
+<details>
+ <summary> Click to expand </summary>
+
+The neominimap API has been updated to provide a more intuitive and flexible interface.
+The old API is now deprecated and will eventually be removed.
+This guide will help you transition to the new neominimap.api.
+
+| Old Function                        | New Function                              |
+| ----------------------------------- | ----------------------------------------- |
+| `require('neominimap').on`          | `require('neominimap.api').enable`        |
+| `require('neominimap').off`         | `require('neominimap.api').disable`       |
+| `require('neominimap').toggle`      | `require('neominimap.api').toggle`        |
+| `require('neominimap').refresh`     | `require('neominimap.api').refresh`       |
+| `require('neominimap').enabled`     | `require('neominimap.api').enabled`       |
+| `require('neominimap').bufOn`       | `require('neominimap.api').buf.enable`    |
+| `require('neominimap').bufOff`      | `require('neominimap.api').buf.disable`   |
+| `require('neominimap').bufToggle`   | `require('neominimap.api').buf.toggle`    |
+| `require('neominimap').bufRefresh`  | `require('neominimap.api').buf.refresh`   |
+| `require('neominimap').bufEnabled`  | `require('neominimap.api').buf.enabled`   |
+| `require('neominimap').tabOn`       | `require('neominimap.api').tab.disable`   |
+| `require('neominimap').tabOff`      | `require('neominimap.api').tab.disable`   |
+| `require('neominimap').tabToggle`   | `require('neominimap.api').tab.toggle`    |
+| `require('neominimap').tabRefresh`  | `require('neominimap.api').tab.refresh`   |
+| `require('neominimap').tabEnabled`  | `require('neominimap.api').tab.enabled`   |
+| `require('neominimap').winOn`       | `require('neominimap.api').win.enable`    |
+| `require('neominimap').winOff`      | `require('neominimap.api').win.disable`   |
+| `require('neominimap').winToggle`   | `require('neominimap.api').win.toggle`    |
+| `require('neominimap').winEnabled`  | `require('neominimap.api').win.enabled`   |
+| `require('neominimap').winRefresh`  | `require('neominimap.api').win.refresh`   |
+| `require('neominimap').focus`       | `require('neominimap.api').focus.enable`  |
+| `require('neominimap').unfocus`     | `require('neominimap.api').focus.disable` |
+| `require('neominimap').toggleFocus` | `require('neominimap.api').focus.toggle`  |
+
+#### Key Differences Between the Old and New API
+
+| Aspect            | Old API (`neominimap`).doSomeThing                                                  | New API (`neominimap.api`).do_some_thing()                                          |
+| ----------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Input Type        | Expects a list of integers.                                                         | Accepts `nil`, a single integer, or a list of integers. An empty list does nothing. |
+| Default Behavior  | Automatically defaults to the current buffer/tab/window if the input list is empty. | Explicitly requires omitted input to default to the current buffer/tab/window.      |
+| Design Philosophy | A wrapper for Vim commands, with implicit behaviors.                                | Independent of Vim commands.                                                        |
+
+#### Handle Input Changes
+
+- **Old Behavior:** Passing an empty list (`{}`) defaulted to the current buffer, tab, or window.
+- **New Behavior:** Passing an empty list does nothing.
+  To default to the current context, pass `nil` or omit the argument.
+
+Here is an example:
+
+```lua
+-- Old API
+require('neominimap').bufOn({}) -- Defaults to current buffer
+-- New API
+require('neominimap.api').buf.enable() -- Explicitly defaults to current buffer
+require('neominimap.api').buf.enable({}) -- Does nothing
+```
+
+</details>
 
 ## Customized Handlers
 
