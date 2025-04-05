@@ -94,7 +94,7 @@ local M = {
         --- Border style of the floating window.
         --- Accepts all usual border style options (e.g., "single", "double")
         --- @type string | string[] | [string, string][]
-        window_border = "single",
+        window_border = vim.opt.winborder,
     },
 
     -- For performance issue, when text changed,
