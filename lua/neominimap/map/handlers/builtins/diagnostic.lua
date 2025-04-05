@@ -64,10 +64,13 @@ M.on_diagnostic_changed = function(apply, args)
     logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
     vim.schedule(function()
         logger.log("Updating diagnostics.", vim.log.levels.TRACE)
-        local util = require("neominimap.util")
-        util.for_all_buffers(function(bufnr)
-            apply(bufnr)
-        end)
+        local bufnr = args.buf
+        local diagnostics = args.data.diagnostics
+        if config.diagnostic.use_event_diagnostics then
+            local var = require("neominimap.variables")
+            var.b[bufnr].diagnostics = diagnostics
+        end
+        apply(bufnr)
         logger.log("Diagnostics updated.", vim.log.levels.TRACE)
     end)
 end
@@ -75,11 +78,15 @@ end
 ---@param bufnr integer
 ---@return Neominimap.Map.Handler.Annotation[]
 M.get_annotations = function(bufnr)
-    local diags = diagnostic.get(bufnr, {
-        severity = {
-            min = config.diagnostic.severity,
-        },
-    })
+    --- @type vim.Diagnostic[]
+    local diags = (function()
+        if config.diagnostic.use_event_diagnostics then
+            return require("neominimap.variables").b[bufnr].diagnostics
+        else
+            return diagnostic.get(bufnr, { severity = config.diagnostic.severity })
+        end
+    end)()
+
     ---@type Neominimap.Map.Handler.Annotation[]
     local annotation = {}
     local util = require("neominimap.util")
