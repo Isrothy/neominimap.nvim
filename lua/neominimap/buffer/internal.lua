@@ -211,7 +211,6 @@ end
 M.apply_handler = function(bufnr, handler_name)
     local var = require("neominimap.variables")
     if api.nvim_buf_is_valid(bufnr) and var.b[bufnr].enabled then
-        -- local logger = require("neominimap.logger")
         local fun = var.b[bufnr].update_handler[handler_name]
         if fun ~= nil then
             fun()

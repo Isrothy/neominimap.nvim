@@ -61,11 +61,15 @@ local icon_list = {
 ---@param bufnr integer
 ---@return Neominimap.Map.Handler.Annotation[]
 M.get_annotations = function(bufnr)
-    local diags = diagnostic.get(bufnr, {
-        severity = {
-            min = config.diagnostic.severity,
-        },
-    })
+    --- @type vim.Diagnostic[]
+    local diags = (function()
+        if config.diagnostic.use_event_diagnostics then
+            return require("neominimap.variables").b[bufnr].diagnostics
+        else
+            return diagnostic.get(bufnr, { severity = config.diagnostic.severity })
+        end
+    end)()
+
     ---@type Neominimap.Map.Handler.Annotation[]
     local annotation = {}
     local util = require("neominimap.util")

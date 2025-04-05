@@ -84,6 +84,7 @@ local buffer_default = {
     render = function() end, ---@type fun() Render minimap for this buffer. Generate text and TreeSitter highlights.
     update_handler = {}, ---@type table<string, fun()>
     cached_folds = {}, ---@type Neominimap.Fold[]
+    diagnostics = {}, ---@type vim.Diagnostic[]
 }
 
 ---@class Neominimap.Variables.Window

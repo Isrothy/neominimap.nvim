@@ -45,6 +45,38 @@ end)
 ---@type fun(x:any):boolean
 local is_array_of_handlers = is_array_of(is_handler)
 
+--- Validates that x is a valid vim.diagnostic.SeverityFilter value.
+--- It can be a single number, an array of numbers, or a table with min and max keys.
+---@param x any
+---@return boolean
+local function is_severity_filter(x)
+    if x == nil then
+        return true
+    elseif type(x) == "number" then
+        return true
+    elseif type(x) == "table" then
+        local is_array = true
+        for k, v in pairs(x) do
+            if type(k) ~= "number" then
+                is_array = false
+                break
+            end
+        end
+        if is_array then
+            for _, v in ipairs(x) do
+                if type(v) ~= "number" then
+                    return false
+                end
+            end
+            return true
+        end
+        if x.min ~= nil and x.max ~= nil and type(x.min) == "number" and type(x.max) == "number" then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param cfg Neominimap.Internal.Config
 ---@return boolean is_valid
 ---@return string|nil error_message
@@ -89,7 +121,7 @@ M.validate_config = function(cfg)
 
         diagnostic = { cfg.diagnostic, "table" },
         ["diagnostic.enabled"] = { cfg.diagnostic.enabled, "boolean" },
-        ["diagnostic.severity"] = { cfg.diagnostic.severity, "number" },
+        ["diagnostic.severity"] = { cfg.diagnostic.severity, is_severity_filter, "vim.diagnostic.SeverityFilter?" },
         ["diagnostic.mode"] = { cfg.diagnostic.mode, "string" },
         ["diagnostic.priority.ERROR"] = { cfg.diagnostic.priority.ERROR, "number" },
         ["diagnostic.priority.WARN"] = { cfg.diagnostic.priority.WARN, "number" },
