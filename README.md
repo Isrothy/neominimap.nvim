@@ -272,7 +272,7 @@ vim.g.neominimap ={
     --- Border style of the floating window.
     --- Accepts all usual border style options (e.g., "single", "double")
     --- @type string | string[] | [string, string][]
-    window_border = vim.opt.winborder,
+    window_border = vim.fn.has("nvim-0.11") == 1 and vim.opt.winborder:get() or "single",
   },
 
   -- For performance issue, when text changed,
@@ -503,6 +503,7 @@ To refresh the minimap for windows 3 and 4:
     - **Arguments:** None
 
   - `require('neominimap.api').refresh()`
+
     - **Description:** Refresh the minimap globally.
     - **Arguments:** None
 
