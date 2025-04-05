@@ -66,12 +66,14 @@ M.on_win_resized = function()
     logger.log("WinResized event triggered.", vim.log.levels.TRACE)
     local win_list = vim.deepcopy(vim.v.event.windows)
     logger.log(string.format("Windows to be resized: %s", vim.inspect(win_list)), vim.log.levels.TRACE)
-    for _, winid in ipairs(win_list) do
-        vim.schedule(function()
-            logger.log(string.format("Refreshing minimaps for window: %d", winid), vim.log.levels.TRACE)
-            require("neominimap.window.float.internal").refresh_minimap_window(winid)
-            logger.log(string.format("Minimaps refreshed for window: %d", winid), vim.log.levels.TRACE)
-        end)
+    if win_list then
+        for _, winid in ipairs(win_list) do
+            vim.schedule(function()
+                logger.log(string.format("Refreshing minimaps for window: %d", winid), vim.log.levels.TRACE)
+                require("neominimap.window.float.internal").refresh_minimap_window(winid)
+                logger.log(string.format("Minimaps refreshed for window: %d", winid), vim.log.levels.TRACE)
+            end)
+        end
     end
 end
 
