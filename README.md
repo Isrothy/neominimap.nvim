@@ -273,7 +273,13 @@ vim.g.neominimap = {
     --- Border style of the floating window.
     --- Accepts all usual border style options (e.g., "single", "double")
     --- @type string | string[] | [string, string][]
+<<<<<<< HEAD
     window_border = "single",
+||||||| parent of f036222 (fix: Capability for older neovim version)
+    window_border = vim.fn.has("nvim-0.11") == 1 and vim.opt.winborder or "single",
+=======
+    window_border = vim.fn.has("nvim-0.11") == 1 and vim.opt.winborder:get() or "single",
+>>>>>>> f036222 (fix: Capability for older neovim version)
   },
 
   -- For performance issue, when text changed,
