@@ -89,7 +89,7 @@ M.gen_co = function(lines, tabwidth)
             map[i][j] = 0
         end
     end)
-    coroutine.yield()
+    co.defer_co()
 
     local coord = require("neominimap.map.coord")
 
@@ -105,7 +105,7 @@ M.gen_co = function(lines, tabwidth)
             map[mrow][mcol] = bit.bor(map[mrow][mcol], flag)
         end
     end)
-    coroutine.yield()
+    co.defer_co()
 
     co.for_in_co(ipairs(lines))(3000, function(row, line)
         local view_points = M.str_to_visible_codepoints(line, tabwidth)
@@ -119,7 +119,7 @@ M.gen_co = function(lines, tabwidth)
             map[mrow][mcol] = bit.bor(map[mrow][mcol], flag)
         end
     end)
-    coroutine.yield()
+    co.defer_co()
 
     co.for_in_co(ipairs(map))(5000, function(i, line)
         for j, _ in ipairs(line) do
@@ -127,7 +127,7 @@ M.gen_co = function(lines, tabwidth)
         end
         map[i] = vim.fn.list2str(map[i])
     end)
-    coroutine.yield()
+    co.defer_co()
 
     return map
 end

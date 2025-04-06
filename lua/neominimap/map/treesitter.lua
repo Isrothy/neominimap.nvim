@@ -71,12 +71,23 @@ local get_buffer_highlights_co = function(bufnr)
         return {}
     end
     local co = require("neominimap.cooperative")
+    local co_api = require("neominimap.cooperative.api")
     local highlights = {} ---@type Neominimap.BufferHighlight[]
 
     ---@param parser vim.treesitter.LanguageTree
     ---@param level integer
     local function traverse(parser, level)
-        local trees = parser:trees()
+        local trees = (function()
+            if vim.fn.has("0.11") then
+                return co_api.parse_language_tree_co(parser)
+            else
+                parser:parse()
+                return parser:trees()
+            end
+        end)()
+
+        -- local logger = require("neominimap.logger")
+        -- logger.notify("Traversing " .. trees, vim.log.levels.DEBUG)
 
         co.for_in_co(pairs(trees))(100, function(_, tree) ---@cast tree TSTree
             local root = tree:root()
@@ -106,7 +117,7 @@ local get_buffer_highlights_co = function(bufnr)
     end
 
     local ok, parser = pcall(treesitter.get_parser, bufnr)
-    if not ok then
+    if not ok or not parser then
         return {}
     end
 
@@ -159,7 +170,7 @@ M.extract_highlights_co = function(bufnr)
         end
         highlights[row] = line
     end)
-    coroutine.yield()
+    co.defer_co()
 
     local fold = require("neominimap.map.fold")
     local coord = require("neominimap.map.coord")
@@ -193,14 +204,14 @@ M.extract_highlights_co = function(bufnr)
             end
         end
     end)
-    coroutine.yield()
+    co.defer_co()
 
     co.for_co(1, minimap_height, 1, 5000, function(y)
         for x = 1, minimap_width do
             highlights[y][x] = most_commons(highlights[y][x].groups)
         end
     end)
-    coroutine.yield()
+    co.defer_co()
 
     ---@type Neominimap.MinimapHighlight[]
     local ret = {}

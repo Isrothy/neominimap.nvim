@@ -80,6 +80,7 @@ end
 M.internal_render_co = function(bufnr)
     local logger = require("neominimap.logger")
     local co_api = require("neominimap.cooperative.api")
+    local co = require("neominimap.cooperative")
     logger.log(string.format("Generating minimap for buffer %d", bufnr), vim.log.levels.TRACE)
     local buffer_map = require("neominimap.buffer.buffer_map")
     local mbufnr_ = buffer_map.get_minimap_bufnr(bufnr)
@@ -99,7 +100,7 @@ M.internal_render_co = function(bufnr)
         logger.log(string.format("Fold for buffer %d applied successfully", bufnr), vim.log.levels.TRACE)
     end
 
-    coroutine.yield()
+    co.defer_co()
 
     local tabwidth = vim.bo[bufnr].tabstop
 
@@ -107,7 +108,7 @@ M.internal_render_co = function(bufnr)
     local text = require("neominimap.map.text")
     local minimap = text.gen_co(lines, tabwidth)
 
-    coroutine.yield()
+    co.defer_co()
 
     vim.bo[mbufnr_].modifiable = true
 
@@ -117,7 +118,7 @@ M.internal_render_co = function(bufnr)
 
     vim.bo[mbufnr_].modifiable = false
 
-    coroutine.yield()
+    co.defer_co()
 
     vim.api.nvim_exec_autocmds("User", {
         group = "Neominimap",
@@ -127,14 +128,12 @@ M.internal_render_co = function(bufnr)
         },
     })
 
-    coroutine.yield()
-
     if config.treesitter.enabled then
         logger.log(string.format("Generating treesitter diagnostics for buffer %d", bufnr), vim.log.levels.TRACE)
         local treesitter = require("neominimap.map.treesitter")
         local highlights = treesitter.extract_highlights_co(bufnr)
 
-        coroutine.yield()
+        co.defer_co()
 
         treesitter.apply_co(mbufnr_, highlights)
         logger.log(
@@ -164,16 +163,21 @@ M.create_minimap_buffer = function(bufnr)
 
     local var = require("neominimap.variables")
 
-    local scheduler = require("neominimap.cooperative.scheduler"):new()
+    local worker = nil ---@type thread?
     var.b[bufnr].render = util.debounce(
         vim.schedule_wrap(function()
             if not api.nvim_buf_is_valid(bufnr) then
                 return
             end
-            scheduler:add_coroutine(coroutine.create(function()
+            local thread_table = require("neominimap.cooperative.thread_table")
+            if worker and coroutine.status(worker) ~= "dead" then
+                thread_table[worker] = nil
+            end
+            worker = coroutine.create(function()
                 M.internal_render_co(bufnr)
-            end))
-            scheduler:run_coroutine()
+            end)
+            thread_table[worker] = true
+            require("neominimap.cooperative").resume(worker)
         end),
         config.delay
     )

@@ -13,13 +13,12 @@ M.buf_get_lines_co = function(bufnr, start, stop, chunk_size)
     end
     chunk_size = chunk_size or 200
     local result = {}
-
-    for i = start, stop, chunk_size do
+    local coop = require("neominimap.cooperative")
+    coop.for_co(start, stop, chunk_size, 1, function(i)
         local chunk_stop = math.min(i + chunk_size, stop)
         local lines = vim.api.nvim_buf_get_lines(bufnr, i, chunk_stop, false)
         vim.list_extend(result, lines) -- Append lines to result
-        coroutine.yield() -- Yield after processing a chunk
-    end
+    end)
 
     return result
 end
@@ -46,19 +45,41 @@ M.buf_set_lines_co = function(bufnr, start, end_, replacement, chunk_size)
         return
     end
 
-    for i = 1, chunks do
+    local coop = require("neominimap.cooperative")
+    coop.for_co(1, chunks, 1, 1, function(i)
         local chunk_start = (i - 1) * chunk_size + 1
         local chunk_stop = math.min(i * chunk_size, replacement_line_count)
         local lines = vim.list_slice(replacement, chunk_start, chunk_stop)
 
         vim.api.nvim_buf_set_lines(bufnr, start, math.min(start + #lines, math.max(start, end_)), false, lines)
         start = start + #lines
-
-        coroutine.yield()
-    end
+    end)
 
     if start < end_ then
         vim.api.nvim_buf_set_lines(bufnr, start, end_, false, {})
+    end
+end
+
+---@async
+---@param parser vim.treesitter.LanguageTree
+---@param range boolean|Range?
+---@return table<integer, TSTree>
+M.parse_language_tree_co = function(parser, range)
+    local co = coroutine.running()
+    local trees = parser:parse(range, function(err, trees)
+        local logger = require("neominimap.logger")
+        if err then
+            logger.notify(err, vim.log.levels.ERROR)
+            return
+        end
+        if coroutine.status(co) == "suspended" then
+            require("neominimap.cooperative").resume(co, trees)
+        end
+    end)
+    if trees then
+        return trees
+    else
+        return coroutine.yield()
     end
 end
 

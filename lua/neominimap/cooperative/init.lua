@@ -1,5 +1,32 @@
 local M = {}
 
+---@param co thread
+M.resume = function(co, ...)
+    local thread_table = require("neominimap.cooperative.thread_table")
+    if not thread_table[co] then
+        return
+    end
+    local status, result = coroutine.resume(co, ...)
+    if not status then
+        local logger = require("neominimap.logger")
+        logger.notify("Error in coroutine: " .. result, vim.log.levels.ERROR)
+        thread_table[co] = nil
+        return
+    end
+    if coroutine.status(co) == "dead" then
+        thread_table[co] = nil
+    end
+end
+
+---@async
+M.defer_co = function()
+    local co = coroutine.running()
+    vim.defer_fn(function()
+        M.resume(co)
+    end, 0)
+    return coroutine.yield()
+end
+
 --- A for-loop that yields after a specified number of iterations to release CPU resources.
 ---@async
 ---@param start number The starting value of the loop
@@ -12,7 +39,7 @@ M.for_co = function(start, stop, step, batch_size, func)
         func(i)
 
         if (i - start) % batch_size == 0 then
-            coroutine.yield()
+            M.defer_co()
         end
     end
 end
@@ -47,7 +74,7 @@ M.for_in_co = function(iterator, invariant, start_index)
 
             count = count + 1
             if count == batch_size then
-                coroutine.yield()
+                M.defer_co()
                 count = 0
             end
         end
@@ -82,7 +109,7 @@ M.while_co = function(condition, batch_size, func)
 
         count = count + 1
         if count == batch_size then
-            coroutine.yield()
+            M.defer_co()
             count = 0
         end
     end
