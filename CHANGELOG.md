@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.11.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.10.0...v3.11.0) (2025-04-08)
+
+
+### Features
+
+* Apply async tree parsing for neovim 0.11 ([abffb9f](https://github.com/Isrothy/neominimap.nvim/commit/abffb9f68e17d686d3a1314294e0fea203cf5362))
+* Implment api for the status of minimap ([dc83e0d](https://github.com/Isrothy/neominimap.nvim/commit/dc83e0d388c111187f2b3d4a07aedab65729be89))
+* Support mini-diff ([5e984da](https://github.com/Isrothy/neominimap.nvim/commit/5e984da911c73ce7482ffe2287aeeb4c827faa28))
+* Support mini-diff ([f3cb8bf](https://github.com/Isrothy/neominimap.nvim/commit/f3cb8bff7a731883942e6b2e593d1c81c4707cbc))
+
 ## [3.10.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.9.4...v3.10.0) (2025-03-20)
 
 
