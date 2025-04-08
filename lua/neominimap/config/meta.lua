@@ -20,6 +20,7 @@ local M = {}
 ---@field delay? integer
 ---@field diagnostic? Neominimap.DiagnosticConfig
 ---@field git? Neominimap.GitConfig
+---@field mini_diff? Neominimap.MiniDiffConfig
 ---@field treesitter? Neominimap.TreesitterConfig
 ---@field search? Neominimap.SearchConfig
 ---@field mark? Neominimap.MarkConfig
@@ -49,6 +50,12 @@ local M = {}
 ---@field icon? {ERROR?: string, WARN?: string, INFO?: string, HINT?: string}
 
 ---@class (exact) Neominimap.GitConfig
+---@field enabled? boolean
+---@field mode? Neominimap.Handler.Annotation.Mode
+---@field priority? integer
+---@field icon? {add?: string, change?: string, delete?: string}
+
+---@class (exact) Neominimap.MiniDiffconfig
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer

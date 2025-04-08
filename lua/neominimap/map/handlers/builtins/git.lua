@@ -51,7 +51,7 @@ M.get_annotations = function(bufnr)
         return {}
     end
     --- @type {type:string, added:{start: integer, count: integer}}[]
-    local hunks = require("gitsigns").get_hunks(bufnr)
+    local hunks = gitsigns.get_hunks(bufnr)
     if not hunks then
         return {}
     end

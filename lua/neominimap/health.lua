@@ -65,6 +65,19 @@ local check_git = function(health)
     end
 end
 
+local check_mini_diff = function(health)
+    if config.mini_diff.enabled then
+        health.info("MiniDiff integration is enabled")
+        if lualib_available("mini.diff") then
+            health.ok("MiniDiff is installed")
+        else
+            health.warn("MiniDiff is not installed")
+        end
+    else
+        health.info("MiniDiff integration is disabled")
+    end
+end
+
 M.check = function()
     local health = vim.health or require("health")
 
@@ -86,6 +99,7 @@ M.check = function()
     check_configuration(health)
     check_treesitter(health)
     check_git(health)
+    check_mini_diff(health)
 end
 
 return M
