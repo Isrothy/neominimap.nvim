@@ -55,7 +55,7 @@ local M = {}
 ---@field priority? integer
 ---@field icon? {add?: string, change?: string, delete?: string}
 
----@class (exact) Neominimap.MiniDiffconfig
+---@class (exact) Neominimap.MiniDiffConfig
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation.Mode
 ---@field priority? integer
