@@ -141,6 +141,17 @@ local M = {
         },
     },
 
+    mini_diff = {
+        enabled = false, ---@type boolean
+        mode = "sign", ---@type Neominimap.Handler.Annotation.Mode
+        priority = 6, ---@type integer
+        icon = {
+            add = "+ ", ---@type string
+            change = "~ ", ---@type string
+            delete = "- ", ---@type string
+        },
+    },
+
     search = {
         enabled = false, ---@type boolean
         mode = "line", ---@type Neominimap.Handler.Annotation.Mode

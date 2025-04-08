@@ -24,6 +24,27 @@ return {
             return require("neominimap.map.handlers.builtins.git").get_annotations(bufnr)
         end,
     },
+    mini_diff = {
+        name = "Built-in Mini Diff",
+        mode = config.mini_diff.mode,
+        namespace = api.nvim_create_namespace("neominimap_minidiff"),
+        autocmds = {
+            {
+                event = "User",
+                opts = {
+                    pattern = "MiniDiffUpdated",
+                    desc = "Update mini diff annotations when mini diff signs are updated",
+                    callback = function(apply, args)
+                        require("neominimap.map.handlers.builtins.mini_diff").on_mini_diff_update(apply, args)
+                    end,
+                },
+            },
+        },
+        init = function() end,
+        get_annotations = function(bufnr)
+            return require("neominimap.map.handlers.builtins.mini_diff").get_annotations(bufnr)
+        end,
+    },
     diagnostic = {
         name = "Built-in Diagnostic",
         mode = config.diagnostic.mode,

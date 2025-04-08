@@ -96,6 +96,11 @@ M.validate_config = function(cfg)
         ["git.mode"] = { cfg.git.mode, "string" },
         ["git.priority"] = { cfg.git.priority, "number" },
 
+        mini_diff = { cfg.mini_diff, "table" },
+        ["mini_diff.enabled"] = { cfg.git.enabled, "boolean" },
+        ["mini_diff.mode"] = { cfg.git.mode, "string" },
+        ["mini_diff.priority"] = { cfg.git.priority, "number" },
+
         search = { cfg.search, "table" },
         ["search.enabled"] = { cfg.search.enabled, "boolean" },
         ["search.mode"] = { cfg.search.mode, "string" },
