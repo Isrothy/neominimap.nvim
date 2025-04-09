@@ -1,4 +1,4 @@
-*neominimap.nvim.txt*        For NVIM v0.10.*       Last change: 2025 April 08
+*neominimap.nvim.txt*        For NVIM v0.10.*       Last change: 2025 April 09
 
 ==============================================================================
 Table of Contents                          *neominimap.nvim-table-of-contents*
@@ -88,6 +88,7 @@ REQUIREMENTS AND DEPENDENCIES*neominimap.nvim-neominimap-requirements-and-depend
 - A font that supports displaying **Braille Patterns** Unicode block
 - Optional: nvim-treesitter <https://github.com/nvim-treesitter/nvim-treesitter> for highlighting
 - Optional: gitsigns.nvim <https://github.com/lewis6991/gitsigns.nvim> for Git integration
+- Optional: mini.diff <https://github.com/echasnovski/mini.diff> for mini diff integration
 
 
 INSTALLATION                         *neominimap.nvim-neominimap-installation*
@@ -783,6 +784,20 @@ HIGHLIGHT GROUPS OF GIT ANNOTATIONS ~
   NeominimapGitAddIcon      
   NeominimapGitChangeIcon   
   NeominimapGitDeleteIcon   
+
+HIGHLIGHT GROUPS OF MINI DIFF ANNOTATIONS ~
+
+  Highlight Group                Description
+  ------------------------------ -------------
+  NeominimapMiniDiffAddLine      
+  NeominimapMiniDiffChangeLine   
+  NeominimapMiniDiffDeleteLine   
+  NeominimapMiniDiffAddSign      
+  NeominimapMiniDiffChangeSign   
+  NeominimapMiniDiffDeleteSign   
+  NeominimapMiniDiffAddIcon      
+  NeominimapMiniDiffChangeIcon   
+  NeominimapMiniDiffDeleteIcon   
 
 HIGHLIGHT GROUPS OF SEARCH ANNOTATIONS ~
 
