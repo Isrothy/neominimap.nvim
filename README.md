@@ -101,6 +101,7 @@ The color scheme used for these screenshots is [nord](https://github.com/gbprod/
 - A font that supports displaying **Braille Patterns** Unicode block
 - Optional: [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for highlighting
 - Optional: [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for Git integration
+- Optional: [mini.diff](https://github.com/echasnovski/mini.diff) for mini diff integration
 
 ## Installation
 
@@ -801,6 +802,20 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `NeominimapGitAddIcon`    |             |
 | `NeominimapGitChangeIcon` |             |
 | `NeominimapGitDeleteIcon` |             |
+
+### Highlight Groups of Mini Diff Annotations
+
+| Highlight Group                | Description |
+| ------------------------------ | ----------- |
+| `NeominimapMiniDiffAddLine`    |             |
+| `NeominimapMiniDiffChangeLine` |             |
+| `NeominimapMiniDiffDeleteLine` |             |
+| `NeominimapMiniDiffAddSign`    |             |
+| `NeominimapMiniDiffChangeSign` |             |
+| `NeominimapMiniDiffDeleteSign` |             |
+| `NeominimapMiniDiffAddIcon`    |             |
+| `NeominimapMiniDiffChangeIcon` |             |
+| `NeominimapMiniDiffDeleteIcon` |             |
 
 ### Highlight Groups of Search Annotations
 
