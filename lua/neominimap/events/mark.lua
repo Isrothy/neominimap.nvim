@@ -7,11 +7,14 @@ local util = require("neominimap.util")
 
 local api, fn = vim.api, vim.fn
 
+local group = api.nvim_create_augroup("NeominimapMark", {})
+
 --- @param data any
 local function exec_autocmd(data)
     api.nvim_exec_autocmds("User", {
         pattern = "Mark",
         data = data,
+        group = group,
     })
 end
 
@@ -36,8 +39,6 @@ return function(key)
     for code = string.byte("a"), string.byte("z") do
         mark_set_keymap(key, string.char(code))
     end
-
-    local group = api.nvim_create_augroup("NeominimapMark", {})
 
     for _, cmd in ipairs({ "k", "mar", "delm" }) do
         util.on_cmd(cmd, group, function()

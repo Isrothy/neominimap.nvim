@@ -45,8 +45,6 @@ vim.on_key(function(key)
     end
 end)
 
-local group = api.nvim_create_augroup("NeominimapSearch", {})
-
 api.nvim_create_autocmd({ "CmdlineEnter", "CmdLineChanged", "CmdlineLeave" }, {
     group = group,
     callback = function()
