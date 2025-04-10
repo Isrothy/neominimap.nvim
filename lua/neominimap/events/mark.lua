@@ -3,8 +3,6 @@
 
 --- This module implements a user autocmd for Mark events
 
-local util = require("neominimap.util")
-
 local api, fn = vim.api, vim.fn
 
 local group = api.nvim_create_augroup("NeominimapMark", {})
@@ -14,7 +12,6 @@ local function exec_autocmd(data)
     api.nvim_exec_autocmds("User", {
         pattern = "Mark",
         data = data,
-        group = group,
     })
 end
 
@@ -30,6 +27,21 @@ local function mark_set_keymap(key, m)
     end
 end
 
+--- Run callback when command is run
+--- @param cmd string
+--- @param augroup string|integer
+--- @param f function()
+local on_cmd = function(cmd, augroup, f)
+    api.nvim_create_autocmd("CmdlineLeave", {
+        group = augroup,
+        callback = function()
+            if fn.getcmdtype() == ":" and vim.startswith(fn.getcmdline(), cmd) then
+                f()
+            end
+        end,
+    })
+end
+
 --- @param key string
 return function(key)
     for code = string.byte("A"), string.byte("Z") do
@@ -41,7 +53,7 @@ return function(key)
     end
 
     for _, cmd in ipairs({ "k", "mar", "delm" }) do
-        util.on_cmd(cmd, group, function()
+        on_cmd(cmd, group, function()
             exec_autocmd({ cmd = cmd })
         end)
     end

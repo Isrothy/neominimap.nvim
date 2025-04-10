@@ -16,8 +16,7 @@ local group = api.nvim_create_augroup("NeominimapSearch", {})
 --- @param data any
 local function exec_autocmd(data)
     api.nvim_exec_autocmds("User", {
-        group = group,
-        pattern = "",
+        pattern = "Search",
         data = data,
     })
 end

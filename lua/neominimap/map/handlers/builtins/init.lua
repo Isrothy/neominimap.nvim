@@ -95,7 +95,6 @@ return {
                 event = "User",
                 opts = {
                     pattern = "Search",
-                    group = "NeominimapSearch",
                     desc = "Update search annotations when search event is triggered",
                     callback = function(apply, args)
                         require("neominimap.map.handlers.builtins.search").on_search(apply, args)
@@ -137,7 +136,6 @@ return {
                 event = "User",
                 opts = {
                     pattern = "Mark",
-                    group = "NeominimapMark",
                     desc = "Update marks annotations when mark event is triggered",
                     callback = function(apply, args)
                         require("neominimap.map.handlers.builtins.mark").on_mark(apply, args)
