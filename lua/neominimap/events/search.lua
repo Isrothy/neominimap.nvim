@@ -11,13 +11,12 @@
 
 local api, fn = vim.api, vim.fn
 
-local group = api.nvim_create_augroup("NeominimapSearch", {})
-
 --- @param data any
 local function exec_autocmd(data)
     api.nvim_exec_autocmds("User", {
         pattern = "Search",
         data = data,
+        group = "Neominimap",
     })
 end
 
@@ -45,7 +44,7 @@ vim.on_key(function(key)
 end)
 
 api.nvim_create_autocmd({ "CmdlineEnter", "CmdLineChanged", "CmdlineLeave" }, {
-    group = group,
+    group = api.nvim_create_augroup("NeominimapSearch", {}),
     callback = function()
         if require("neominimap.util").is_search_mode() then
             exec_autocmd({ pattern = fn.getcmdline() })

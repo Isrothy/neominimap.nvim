@@ -136,8 +136,10 @@ return {
                 event = "User",
                 opts = {
                     pattern = "Mark",
+                    group = "NeominimapMark",
                     desc = "Update marks annotations when mark event is triggered",
                     callback = function(apply, args)
+                        local logger = require("neominimap.logger")
                         require("neominimap.map.handlers.builtins.mark").on_mark(apply, args)
                     end,
                 },
