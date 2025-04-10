@@ -11,31 +11,33 @@
 
 local api, fn = vim.api, vim.fn
 
+local group = api.nvim_create_augroup("NeominimapSearch", {})
+
 --- @param data any
 local function exec_autocmd(data)
     api.nvim_exec_autocmds("User", {
-        group = "Neominimap",
-        pattern = "Search",
+        group = group,
+        pattern = "",
         data = data,
     })
 end
 
 local last_hlsearch = vim.v.hlsearch
 
-local timer = assert(vim.loop.new_timer())
-
 -- default value of 'updatetime' is too long (4s). Make it 1s at most.
 local interval = math.min(vim.o.updatetime, 1000)
 
-timer:start(0, interval, function()
-    -- Regularly check v:hlsearch
+local function check_hlsearch()
     if vim.v.hlsearch ~= last_hlsearch then
         last_hlsearch = vim.v.hlsearch
         vim.schedule(function()
             exec_autocmd({ hlsearch = last_hlsearch })
         end)
     end
-end)
+    vim.defer_fn(check_hlsearch, interval)
+end
+
+vim.defer_fn(check_hlsearch, interval)
 
 vim.on_key(function(key)
     if api.nvim_get_mode().mode == "n" and key:match("[nN&*]") then
