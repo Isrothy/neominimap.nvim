@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.11.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.11.0...v3.11.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* Use correct group for user events ([90da838](https://github.com/Isrothy/neominimap.nvim/commit/90da838c631882a3080bd267e45b0eadd6d61dee))
+* Use correct group for user events ([8bacc1b](https://github.com/Isrothy/neominimap.nvim/commit/8bacc1bd3d1b2090071b4759ef9c2c99a1c8e303))
+
 ## [3.11.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.10.0...v3.11.0) (2025-04-08)
 
 
