@@ -378,27 +378,27 @@ vim.g.neominimap = {
 
 ```lua
 {
-winhighlight = table.concat({
-  "Normal:NeominimapBackground",
-  "FloatBorder:NeominimapBorder",
-  "CursorLine:NeominimapCursorLine",
-  "CursorLineNr:NeominimapCursorLineNr",
-  "CursorLineSign:NeominimapCursorLineSign",
-  "CursorLineFold:NeominimapCursorLineFold",
-}, ","),
-wrap = false,
-foldcolumn = "0",
-signcolumn = "auto",
-number = false,
-relativenumber = false,
-scrolloff = 99999, -- To center minimap
-sidescrolloff = 0,
-winblend = 0,
-cursorline = true,
-spell = false,
-list = false,
-fillchars = "eob: ",
-winfixwidth = true,
+  winhighlight = table.concat({
+    "Normal:NeominimapBackground",
+    "FloatBorder:NeominimapBorder",
+    "CursorLine:NeominimapCursorLine",
+    "CursorLineNr:NeominimapCursorLineNr",
+    "CursorLineSign:NeominimapCursorLineSign",
+    "CursorLineFold:NeominimapCursorLineFold",
+  }, ","),
+  wrap = false,
+  foldcolumn = "0",
+  signcolumn = "auto",
+  number = false,
+  relativenumber = false,
+  scrolloff = 99999, -- To center minimap
+  sidescrolloff = 0,
+  winblend = 0,
+  cursorline = true,
+  spell = false,
+  list = false,
+  fillchars = "eob: ",
+  winfixwidth = true,
 }
 ```
 
@@ -409,12 +409,12 @@ winfixwidth = true,
 
 ```lua
 {
-buftype = "nofile",
-filetype = "neominimap",
-swapfile = false,
-bufhidden = "hide",
-undolevels = -1,
-modifiable = false,
+  buftype = "nofile",
+  filetype = "neominimap",
+  swapfile = false,
+  bufhidden = "hide",
+  undolevels = -1,
+  modifiable = false,
 }
 ```
 
@@ -660,16 +660,16 @@ neominimap components:
 ```lua
 local neominimap = require("neominimap.statusline")
 local minimap_extension = {
-    sections = {
-        lualine_c = {
-            neominimap.fullname,
-        },
-        lualine_z = {
-            neominimap.position,
-            "progress",
-        },
+  sections = {
+    lualine_c = {
+      neominimap.fullname,
     },
-    filetypes = { "neominimap" },
+    lualine_z = {
+      neominimap.position,
+      "progress",
+    },
+  },
+  filetypes = { "neominimap" },
 }
 require('lualine').setup { extensions = { minimap_extension } }
 ```
@@ -688,17 +688,17 @@ The default Lualine extension provided by the plugin is structured as follows:
 ```lua
 {
   sections = {
-      winbar = {},
-      lualine_a = {
-          M.plugin_name,
-      },
-      lualine_c = {
-          M.shortname,
-      },
-      lualine_z = {
-          M.position,
-          "progress",
-      },
+    winbar = {},
+    lualine_a = {
+      M.plugin_name,
+    },
+    lualine_c = {
+      M.shortname,
+    },
+    lualine_z = {
+      M.position,
+      "progress",
+    },
   },
   filetypes = { "neominimap" },
 }
