@@ -83,7 +83,7 @@ end
 ---@param mwinid integer
 M.sync_to_minimap = function(swinid, mwinid)
     local logger = require("neominimap.logger")
-    logger.log("Syncing source with minimap", vim.log.levels.TRACE)
+    logger.log.trace("Syncing source with minimap")
     local bufnr = api.nvim_win_get_buf(swinid)
     local rowCol = vim.api.nvim_win_get_cursor(mwinid)
     local row = rowCol[1]
@@ -94,7 +94,7 @@ M.sync_to_minimap = function(swinid, mwinid)
         local fold = require("neominimap.map.fold")
         local vrow = fold.add_fold_lines(fold.get_cached_folds(bufnr), row)
         if not vrow then
-            logger.log("Failed to find the line number considering folded lines", vim.log.levels.WARN)
+            logger.log.warn("Failed to find the line number considering folded lines")
             row = 1
         else
             row = vrow
@@ -106,18 +106,18 @@ M.sync_to_minimap = function(swinid, mwinid)
         vim.schedule(function()
             local ok = util.noautocmd(pcall)(vim.api.nvim_win_set_cursor, swinid, { row, 0 })
             if not ok then
-                logger.log("Failed to set cursor", vim.log.levels.WARN)
+                logger.log.warn("Failed to set cursor")
             end
         end)
     end
-    logger.log("Source synced with minimap", vim.log.levels.TRACE)
+    logger.log.trace("Source synced with minimap")
 end
 
 ---@param swinid integer
 ---@param mwinid integer
 M.sync_to_source = function(swinid, mwinid)
     local logger = require("neominimap.logger")
-    logger.log("Syncing minimap with source", vim.log.levels.TRACE)
+    logger.log.trace("Syncing minimap with source")
     local rowCol = vim.api.nvim_win_get_cursor(swinid)
     local row = rowCol[1]
     local col = rowCol[2] + 1
@@ -126,7 +126,7 @@ M.sync_to_source = function(swinid, mwinid)
         local fold = require("neominimap.map.fold")
         local vrow, hidden = fold.substract_fold_lines(fold.get_cached_folds(bufnr), row)
         if hidden then
-            logger.log("failed to find the line number considering folded lines", vim.log.levels.WARN)
+            logger.log.warn("failed to find the line number considering folded lines")
             row = 1
         else
             row = vrow
@@ -141,11 +141,11 @@ M.sync_to_source = function(swinid, mwinid)
         vim.schedule(function()
             local ok = util.noautocmd(pcall)(vim.api.nvim_win_set_cursor, mwinid, { row, 0 })
             if not ok then
-                logger.log("Failed to set cursor", vim.log.levels.ERROR)
+                logger.log.error("Failed to set cursor")
             end
         end)
     end
-    logger.log("Minimap synced with source", vim.log.levels.TRACE)
+    logger.log.trace("Minimap synced with source")
 end
 
 return M

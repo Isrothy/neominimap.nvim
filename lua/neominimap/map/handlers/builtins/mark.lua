@@ -47,12 +47,12 @@ end
 ---@type Neominimap.Map.Handler.Autocmd.Callback
 M.on_buf_win_enter = function(apply, args)
     local logger = require("neominimap.logger")
-    logger.log("BufWinEnter event triggered.", vim.log.levels.TRACE)
+    logger.log.trace("BufWinEnter event triggered.")
     vim.schedule(function()
         local bufnr = api.nvim_get_current_buf()
-        logger.log(string.format("Updating marks for buffer %d.", bufnr), vim.log.levels.TRACE)
+        logger.log.trace("Updating marks for buffer %d.", bufnr)
         apply(bufnr)
-        logger.log(string.format("Marks updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+        logger.log.trace("Marks updated for buffer %d.", bufnr)
     end)
 end
 
@@ -60,31 +60,31 @@ end
 M.on_tab_enter = function(apply, args)
     local tid = api.nvim_get_current_tabpage()
     local logger = require("neominimap.logger")
-    logger.log(string.format("TabEnter event triggered for tab %d.", tid), vim.log.levels.TRACE)
-    logger.log("Refreshing search status.", vim.log.levels.TRACE)
+    logger.log.trace("TabEnter event triggered for tab %d.", tid)
+    logger.log.trace("Refreshing search status.")
     local visiable_buffers = require("neominimap.util").get_visible_buffers()
     vim.schedule(function()
         vim.tbl_map(function(bufnr)
-            logger.log(string.format("Updating marks for buffer %d.", bufnr), vim.log.levels.TRACE)
+            logger.log.trace("Updating marks for buffer %d.", bufnr)
             apply(bufnr)
-            logger.log(string.format("Marks updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+            logger.log.trace("Marks updated for buffer %d.", bufnr)
         end, visiable_buffers)
     end)
-    logger.log("Marks refreshed.", vim.log.levels.TRACE)
+    logger.log.trace("Marks refreshed.")
 end
 
 ---@type Neominimap.Map.Handler.Autocmd.Callback
 M.on_mark = function(apply, args)
     local logger = require("neominimap.logger")
-    logger.log("Mark event triggered", vim.log.levels.TRACE)
+    logger.log.trace("Mark event triggered")
     vim.schedule(function()
         local visible_buffers = require("neominimap.util").get_visible_buffers()
         for _, bufnr in ipairs(visible_buffers) do
-            logger.log(string.format("Updating marks for buffer %d.", bufnr), vim.log.levels.TRACE)
+            logger.log.trace("Updating marks for buffer %d.", bufnr)
             apply(bufnr)
-            logger.log(string.format("Marks updated for buffer %d.", bufnr), vim.log.levels.TRACE)
+            logger.log.trace("Marks updated for buffer %d.", bufnr)
         end
-        logger.log("Marksrefreshed.", vim.log.levels.TRACE)
+        logger.log.trace("Marksrefreshed.")
     end)
 end
 

@@ -80,16 +80,16 @@ end
 ---@type Neominimap.Map.Handler.Autocmd.Callback
 M.on_mini_diff_update = function(apply, args)
     local logger = require("neominimap.logger")
-    logger.log("MiniDiffSignsUpdate event triggered.", vim.log.levels.TRACE)
+    logger.log.trace("MiniDiffSignsUpdate event triggered.")
     vim.schedule(function()
-        logger.log("Updating mini diff signs.", vim.log.levels.TRACE)
+        logger.log.trace("Updating mini diff signs.")
         if not args.data or not args.data.buffer then
-            logger.log("Buffer ID not found.", vim.log.levels.WARN)
+            logger.log.warn("Buffer ID not found.")
             return
         end
         local bufnr = tonumber(args.data.buffer) ---@cast bufnr integer
         apply(bufnr)
-        logger.log("MiniDiff signs updated.", vim.log.levels.TRACE)
+        logger.log.trace("MiniDiff signs updated.")
     end)
 end
 

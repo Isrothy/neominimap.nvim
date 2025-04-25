@@ -61,14 +61,14 @@ local icon_list = {
 ---@type Neominimap.Map.Handler.Autocmd.Callback
 M.on_diagnostic_changed = function(apply, args)
     local logger = require("neominimap.logger")
-    logger.log("DiagnosticChanged event triggered.", vim.log.levels.TRACE)
+    logger.log.trace("DiagnosticChanged event triggered.")
     vim.schedule(function()
-        logger.log("Updating diagnostics.", vim.log.levels.TRACE)
+        logger.log.trace("Updating diagnostics.")
         local util = require("neominimap.util")
         util.for_all_buffers(function(bufnr)
             apply(bufnr)
         end)
-        logger.log("Diagnostics updated.", vim.log.levels.TRACE)
+        logger.log.trace("Diagnostics updated.")
     end)
 end
 

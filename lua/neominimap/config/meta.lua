@@ -3,8 +3,8 @@ local M = {}
 ---@class (exact) Neominimap.UserConfig
 ---@field auto_enable? boolean
 ---@field log_path? string
----@field log_level? Neominimap.Log.Levels
----@field notification_level? Neominimap.Log.Levels
+---@field log_level? vim.log.levels
+---@field notification_level? vim.log.levels
 ---@field exclude_filetypes? string[]
 ---@field exclude_buftypes? string[]
 ---@field buf_filter? fun(bufnr: integer): boolean

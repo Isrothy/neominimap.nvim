@@ -63,7 +63,7 @@ M.subcommand_tbl = {
     ["tabOn"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
-            logger.log("Command tabOn triggered.", vim.log.levels.INFO)
+            logger.log.info("Command tabOn triggered.")
 
             local tab_list = args_to_list(args)
             vim.tbl_map(tabOn, tab_list)
@@ -72,7 +72,7 @@ M.subcommand_tbl = {
     ["tabOff"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
-            logger.log("Command tabOff triggered.", vim.log.levels.INFO)
+            logger.log.info("Command tabOff triggered.")
 
             local tab_list = args_to_list(args)
             vim.tbl_map(tabOff, tab_list)
@@ -81,7 +81,7 @@ M.subcommand_tbl = {
     ["tabToggle"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
-            logger.log("Command tabToggle triggered.", vim.log.levels.INFO)
+            logger.log.info("Command tabToggle triggered.")
 
             local tab_list = args_to_list(args)
             vim.tbl_map(tabToggle, tab_list)
@@ -90,7 +90,7 @@ M.subcommand_tbl = {
     ["tabRefresh"] = {
         impl = function(args)
             local logger = require("neominimap.logger")
-            logger.log("Command tabRefresh triggered.", vim.log.levels.INFO)
+            logger.log.info("Command tabRefresh triggered.")
 
             local tabid = args_to_list(args)
             vim.tbl_map(tabRefresh, tabid)
