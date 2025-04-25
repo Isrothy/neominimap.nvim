@@ -225,6 +225,13 @@ vim.g.neominimap = {
   -- How many rows a dot should span
   y_multiplier = 1, ---@type integer
 
+  buffer = {
+    -- When true, the minimap will be recreated when you delete the buffer.
+    -- When false, the minimap will be disabled for the current buffer when you delete the minimap buffer.
+    persist = true, ---@type boolean
+  },
+
+
   ---@alias Neominimap.Config.LayoutType "split" | "float"
 
   --- Either `split` or `float`
