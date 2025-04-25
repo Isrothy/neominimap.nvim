@@ -12,14 +12,14 @@ local M = {
     -- Path to the log file
     log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string
 
-    -- Minimap will not be created for buffers of these types
+    -- Minimaps will not be created for buffers of these filetypes
     ---@type string[]
     exclude_filetypes = {
         "help",
         "bigfile", -- For Snacks.nvim
     },
 
-    -- Minimap will not be created for buffers of these types
+    -- Minimaps will not be created for buffers of these buftypes
     ---@type string[]
     exclude_buftypes = {
         "nofile",
@@ -29,19 +29,19 @@ local M = {
         "prompt",
     },
 
-    -- When false is returned, the minimap will not be created for this buffer
+    -- When this function returns false, the minimap will not be created for this buffer.
     ---@type fun(bufnr: integer): boolean
     buf_filter = function()
         return true
     end,
 
-    -- When false is returned, the minimap will not be created for this window
+    -- When this function returns false, the minimap will not be created for this window.
     ---@type fun(winid: integer): boolean
     win_filter = function()
         return true
     end,
 
-    -- When false is returned, the minimap will not be created for this tab
+    -- When this function returns false, the minimap will not be created for this tab.
     ---@type fun(tabid: integer): boolean
     tab_filter = function()
         return true
@@ -56,10 +56,8 @@ local M = {
     ---@alias Neominimap.Config.LayoutType "split" | "float"
 
     --- Either `split` or `float`
-    --- When layout is set to `float`,
-    --- the minimap will be created in floating windows attached to all suitable windows
-    --- When layout is set to `split`,
-    --- the minimap will be created in one split window
+    --- When layout is set to `float`, minimaps will be created in floating windows attached to all suitable windows.
+    --- When layout is set to `split`, the minimap will be created in one split window per tab.
     layout = "float", ---@type Neominimap.Config.LayoutType
 
     --- Used when `layout` is set to `split`
@@ -72,8 +70,12 @@ local M = {
         ---@alias Neominimap.Config.SplitDirection "left" | "right" | "topleft" | "botright" | "aboveleft" | "rightbelow"
         direction = "right", ---@type Neominimap.Config.SplitDirection
 
-        ---Automatically close the split window when it is the last window
+        --- Automatically close the split window when it is the last window.
         close_if_last_window = false, ---@type boolean
+
+        --- When true, the split window will be recreated when you close it.
+        --- When false, the minimap will be disabled for the current tab when you close the minimap window.
+        persist = true, ---@type boolean
     },
 
     --- Used when `layout` is set to `float`
@@ -95,10 +97,13 @@ local M = {
         --- Accepts all usual border style options (e.g., "single", "double")
         --- @type string | string[] | [string, string][]
         window_border = "single",
+
+        -- When true, the floating window will be recreated when you close it.
+        -- When false, the minimap will be disabled for the current tab when you close the minimap window.
+        persist = true, ---@type boolean
     },
 
-    -- For performance issue, when text changed,
-    -- minimap is refreshed after a certain delay
+    -- For performance, when text changes, the minimap is refreshed after a certain delay.
     -- Set the delay in milliseconds
     delay = 200, ---@type integer
 
@@ -106,9 +111,9 @@ local M = {
     sync_cursor = true, ---@type boolean
 
     click = {
-        -- Enable mouse click on minimap
+        -- Enable mouse click on the minimap
         enabled = false, ---@type boolean
-        -- Automatically switch focus to minimap when clicked
+        -- Automatically switch focus to the minimap when clicked
         auto_switch_focus = true, ---@type boolean
     },
 
@@ -173,18 +178,18 @@ local M = {
     },
 
     fold = {
-        -- Considering fold when rendering minimap
+        -- Consider folds when rendering the minimap
         enabled = true, ---@type boolean
     },
 
-    ---Overrite the default winopt
+    --- Override the default window options
     ---@param opt vim.wo
-    ---@param winid integer the window id of the source window, NOT minimap window
+    ---@param winid integer the window id of the source window, NOT the minimap window
     winopt = function(opt, winid) end,
 
-    ---Overrite the default bufopt
+    --- Override the default buffer options
     ---@param opt vim.bo
-    ---@param bufnr integer the buffer id of the source buffer, NOT minimap buffer
+    ---@param bufnr integer the buffer id of the source buffer, NOT the minimap buffer
     bufopt = function(opt, bufnr) end,
 
     ---@type Neominimap.Map.Handler[]
