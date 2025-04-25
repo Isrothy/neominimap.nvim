@@ -64,6 +64,9 @@ M.validate_config = function(cfg)
         sync_cursor = { cfg.sync_cursor, "boolean" },
         delay = { cfg.delay, "number" },
 
+        buffer = { cfg.buffer, "table" },
+        ["buffer.persist"] = { cfg.buffer.persist, "boolean" },
+
         layout = { cfg.layout, "string" },
 
         split = { cfg.split, "table" },
@@ -71,6 +74,7 @@ M.validate_config = function(cfg)
         ["split.minimap_width"] = { cfg.split.minimap_width, "number" },
         ["split.fix_width"] = { cfg.split.fix_width, "boolean" },
         ["split.close_if_last_window"] = { cfg.split.close_if_last_window, "boolean" },
+        ["split.persist"] = { cfg.split.persist, "boolean" },
 
         float = { cfg.float, "table" },
         ["float.minimap_width"] = { cfg.float.minimap_width, "number" },
@@ -81,6 +85,7 @@ M.validate_config = function(cfg)
         ["float.margin.bottom"] = { cfg.float.margin.bottom, "number" },
         ["float.z_index"] = { cfg.float.z_index, "number" },
         ["float.window_border"] = { cfg.float.window_border, { "string", "table" } },
+        ["float.persist"] = { cfg.float.persist, "boolean" },
 
         diagnostic = { cfg.diagnostic, "table" },
         ["diagnostic.enabled"] = { cfg.diagnostic.enabled, "boolean" },

@@ -19,6 +19,13 @@ M.get_source_bufnr = function(mbufnr)
     return nil
 end
 
+--- Check if current buffer is a minimap buffer
+---@param bufnr integer
+---@return boolean
+M.is_minimap_buffer = function(bufnr)
+    return M.get_source_bufnr[bufnr] ~= nil
+end
+
 --- Return the minimap buffer number attached to the given buffer
 ---@param bufnr integer
 ---@return integer?

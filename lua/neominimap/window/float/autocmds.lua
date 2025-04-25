@@ -40,11 +40,22 @@ end
 
 M.on_win_closed = function(args)
     local logger = require("neominimap.logger")
-    logger.log(string.format("WinClosed event triggered for window %d.", tonumber(args.match)), vim.log.levels.TRACE)
     local winid = tonumber(args.match)
+    logger.log(string.format("WinClosed event triggered for window %d.", winid), vim.log.levels.TRACE)
+    if not winid then
+        return
+    end
+    local window_map = require("neominimap.window.float.window_map")
+    if window_map.is_minimap_window(winid) and not config.float.persist then
+        logger.log("This is a minimap window. Close minimap for current window", vim.log.levels.TRACE)
+        local var = require("neominimap.variables")
+        local swinid = window_map.get_parent_winid(winid)
+        if swinid then
+            var.w[swinid].enabled = false
+        end
+    end
     vim.schedule(function()
         logger.log(string.format("Refreshing minimap for window %d.", winid), vim.log.levels.TRACE)
-        ---@cast winid integer
         require("neominimap.window.float.internal").refresh_minimap_window(winid)
         logger.log(string.format("Minimap window refreshed for window %d.", winid), vim.log.levels.TRACE)
     end)

@@ -13,6 +13,7 @@ local M = {}
 ---@field x_multiplier? integer
 ---@field y_multiplier? integer
 ---@field sync_cursor? boolean
+---@field buffer? Neominimap.BufferConfig
 ---@field layout? Neominimap.Config.LayoutType
 ---@field float? Neominimap.FloatConfig
 ---@field split? Neominimap.SplitConfig
@@ -29,11 +30,15 @@ local M = {}
 ---@field bufopt? fun(opt: vim.bo, bufnr: integer)
 ---@field handler? Neominimap.Map.Handler[]
 
+---@class (exact) Neominimap.BufferConfig
+---@field persist? boolean
+
 ---@class (exact) Neominimap.SplitConfig
 ---@field minimap_width? integer
 ---@field fix_width? boolean
 ---@field direction? Neominimap.Config.SplitDirection
 ---@field close_if_last_window? boolean
+---@field persist? boolean
 
 ---@class (exact) Neominimap.FloatConfig
 ---@field max_minimap_height? integer
@@ -41,6 +46,7 @@ local M = {}
 ---@field margin? {right?: integer, top?: integer, bottom?: integer}
 ---@field z_index? integer
 ---@field window_border? string | string[] | [string, string][]
+---@field persist? boolean
 
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean

@@ -38,7 +38,18 @@ end
 
 M.on_win_closed = function(args)
     local logger = require("neominimap.logger")
-    logger.log(string.format("WinClosed event triggered for window %d.", tonumber(args.match)), vim.log.levels.TRACE)
+    local winid = tonumber(args.match)
+    logger.log(string.format("WinClosed event triggered for window %d.", winid), vim.log.levels.TRACE)
+    if winid == nil then
+        return
+    end
+    local window_map = require("neominimap.window.split.window_map")
+    local tabid = api.nvim_win_get_tabpage(winid)
+    if window_map.is_minimap_window(tabid, winid) and not config.split.persist then
+        logger.log("This is a minimap window. Close minimap for current tab", vim.log.levels.TRACE)
+        local var = require("neominimap.variables")
+        var.t[tabid].enabled = false
+    end
     vim.schedule(function()
         logger.log("Refreshing minimap window", vim.log.levels.TRACE)
         require("neominimap.window.split.internal").refresh_current_tab()
