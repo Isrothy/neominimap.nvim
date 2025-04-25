@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.12.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.11.1...v3.12.0) (2025-04-25)
+
+
+### Features
+
+* Add persist options to both float and split layout ([16fe4b0](https://github.com/Isrothy/neominimap.nvim/commit/16fe4b0988b8a6308e77b430dda20faf7f385f33))
+* Add persist options to buffer ([f831a6f](https://github.com/Isrothy/neominimap.nvim/commit/f831a6f21f36154fb99e82cc9c5f2c4fdc174766))
+
 ## [3.11.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.11.0...v3.11.1) (2025-04-10)
 
 
