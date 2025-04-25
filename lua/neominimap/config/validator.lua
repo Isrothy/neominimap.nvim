@@ -64,7 +64,7 @@ M.validate_config = function(cfg)
         sync_cursor = { cfg.sync_cursor, "boolean" },
         delay = { cfg.delay, "number" },
 
-        buffer = {cfg.buffer, "table"},
+        buffer = { cfg.buffer, "table" },
         ["buffer.persist"] = { cfg.buffer.persist, "boolean" },
 
         layout = { cfg.layout, "string" },
