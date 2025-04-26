@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.12.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.12.1...v3.12.2) (2025-04-26)
+
+
+### Bug Fixes
+
+* notification level should be info ([c9d5377](https://github.com/Isrothy/neominimap.nvim/commit/c9d53773cb0ae8be92f8016db9ccd39cf5a1a0fc))
+
 ## [3.12.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.12.0...v3.12.1) (2025-04-26)
 
 
