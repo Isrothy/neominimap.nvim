@@ -12,7 +12,7 @@ M.subcommand_tbl = {
     ["focus"] = {
         impl = function()
             local logger = require("neominimap.logger")
-            logger.log("Command focus triggered.", vim.log.levels.INFO)
+            logger.log.info("Command focus triggered.")
 
             local winid = api.nvim_get_current_win()
             require("neominimap.window").get_focus_cmds().focus(winid)
@@ -21,7 +21,7 @@ M.subcommand_tbl = {
     ["unfocus"] = {
         impl = function()
             local logger = require("neominimap.logger")
-            logger.log("Command unfocus triggered.", vim.log.levels.INFO)
+            logger.log.info("Command unfocus triggered.")
 
             local winid = api.nvim_get_current_win()
             require("neominimap.window").get_focus_cmds().unfocus(winid)
@@ -30,7 +30,7 @@ M.subcommand_tbl = {
     ["toggleFocus"] = {
         impl = function()
             local logger = require("neominimap.logger")
-            logger.log("Command toggleFocus triggered.", vim.log.levels.INFO)
+            logger.log.info("Command toggleFocus triggered.")
 
             local winid = api.nvim_get_current_win()
             require("neominimap.window").get_focus_cmds().toggleFocus(winid)

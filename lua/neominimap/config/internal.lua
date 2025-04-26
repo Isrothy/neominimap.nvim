@@ -4,10 +4,10 @@ local M = {
     auto_enable = true, ---@type boolean
 
     -- Log level
-    log_level = vim.log.levels.OFF, ---@type Neominimap.Log.Levels
+    log_level = vim.log.levels.OFF, ---@type vim.log.levels
 
     -- Notification level
-    notification_level = vim.log.levels.INFO, ---@type Neominimap.Log.Levels
+    notification_level = vim.log.levels.INFO, ---@type vim.log.levels
 
     -- Path to the log file
     log_path = vim.fn.stdpath("data") .. "/neominimap.log", ---@type string

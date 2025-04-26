@@ -151,15 +151,9 @@ local fun_tbl = {
 ---@param mode Neominimap.Handler.Annotation.Mode
 M.apply = function(bufnr, mbufnr, namespace, annotations, mode)
     local logger = require("neominimap.logger")
-    logger.log(
-        string.format("Applying annotation for minimap buffer %d with namespace %d, mode: %s", mbufnr, namespace, mode),
-        vim.log.levels.TRACE
-    )
+    logger.log.trace("Applying annotation for minimap buffer %d with namespace %d, mode: %s", mbufnr, namespace, mode)
     fun_tbl[mode](bufnr, mbufnr, namespace, annotations)
-    logger.log(
-        string.format("Annotation for minimap buffer %d with namespace %d applied successfully", mbufnr, namespace),
-        vim.log.levels.TRACE
-    )
+    logger.log.trace("Annotation for minimap buffer %d with namespace %d applied successfully", mbufnr, namespace)
 end
 
 return M

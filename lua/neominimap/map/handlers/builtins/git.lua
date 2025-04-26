@@ -76,16 +76,16 @@ end
 ---@type Neominimap.Map.Handler.Autocmd.Callback
 M.on_gitsigns_update = function(apply, args)
     local logger = require("neominimap.logger")
-    logger.log("GitSignsUpdate event triggered.", vim.log.levels.TRACE)
+    logger.log.trace("GitSignsUpdate event triggered.")
     vim.schedule(function()
-        logger.log("Updating git signs.", vim.log.levels.TRACE)
+        logger.log.trace("Updating git signs.")
         if not args.data or not args.data.buffer then
-            logger.log("Buffer ID not found.", vim.log.levels.WARN)
+            logger.log.warn("Buffer ID not found.")
             return
         end
         local bufnr = tonumber(args.data.buffer) ---@cast bufnr integer
         apply(bufnr)
-        logger.log("Git signs updated.", vim.log.levels.TRACE)
+        logger.log.trace("Git signs updated.")
     end)
 end
 
