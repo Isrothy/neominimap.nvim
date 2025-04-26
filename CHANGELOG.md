@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.12.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.12.0...v3.12.1) (2025-04-26)
+
+
+### Performance Improvements
+
+* Better log ([851ec1b](https://github.com/Isrothy/neominimap.nvim/commit/851ec1bfef29240d6d1b29044249ff207da3ea03))
+* Better log ([e56ae38](https://github.com/Isrothy/neominimap.nvim/commit/e56ae3804a1bebacc0fe91031455dd87b37f8779))
+
 ## [3.12.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.11.1...v3.12.0) (2025-04-25)
 
 
