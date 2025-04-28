@@ -46,8 +46,8 @@ api.nvim_set_hl(0, "NeominimapGitDeleteLine", { bg = colors.delete, default = tr
 ---@param bufnr integer
 ---@return Neominimap.Map.Handler.Annotation[]
 M.get_annotations = function(bufnr)
-    local gitsigns = require("gitsigns")
-    if not gitsigns then
+    local ok, gitsigns = pcall(require, "gitsigns")
+    if not ok or not gitsigns then
         return {}
     end
     --- @type {type:string, added:{start: integer, count: integer}}[]

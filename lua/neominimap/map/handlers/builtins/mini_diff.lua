@@ -46,8 +46,8 @@ api.nvim_set_hl(0, "NeominimapMiniDiffDeleteLine", { bg = colors.delete, default
 ---@param bufnr integer
 ---@return Neominimap.Map.Handler.Annotation[]
 M.get_annotations = function(bufnr)
-    local minidif = require("mini.diff")
-    if not minidif then
+    local ok, minidif = pcall(require, "mini.diff")
+    if not ok or not minidif then
         return {}
     end
     local data = minidif.get_buf_data(bufnr)
