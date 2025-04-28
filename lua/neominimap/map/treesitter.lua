@@ -66,8 +66,8 @@ end
 ---@param bufnr integer
 ---@return Neominimap.BufferHighlight[]
 local get_buffer_highlights_co = function(bufnr)
-    local ts_utils = require("nvim-treesitter.ts_utils")
-    if not ts_utils then
+    local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
+    if not ok or not ts_utils then
         return {}
     end
     local co = require("neominimap.cooperative")
