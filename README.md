@@ -572,7 +572,7 @@ To refresh the minimap for windows 3 and 4:
   - `require('neominimap').buf.enabled(bufnr)`
 
     - **Description:** Check if the minimap is enabled for specified buffers.
-    - **Arguments:** A buffer number. If no buffer is specified, check for the
+    - **Arguments:** A buffer number (optional). If no buffer is specified, check for the
       current buffer.
     - **Returns:** `true` if the minimap is enabled, `false` otherwise
 
@@ -601,7 +601,7 @@ To refresh the minimap for windows 3 and 4:
   - `require('neominimap').tab.enabled(tabid)`
 
     - **Description:** Check if the minimap is enabled for specified tabpages.
-    - **Arguments:** A tabpage ID. If no tabpage is specified, check for the
+    - **Arguments:** A tabpage ID (optional). If no tabpage is specified, check for the
       current tabpage.
     - **Returns:** `true` if the minimap is enabled, `false` otherwise
 
@@ -627,10 +627,10 @@ To refresh the minimap for windows 3 and 4:
     - **Description:** Refresh the minimap windows for specified windows.
     - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').win.enable(winid)`
+  - `require('neominimap').win.enabled(winid)`
 
     - **Description:** Check if the minimap is enabled for specified windows.
-    - **Arguments:** A window ID. If no window is specified, check for the
+    - **Arguments:** A window ID (optional). If no window is specified, check for the
       current window.
     - **Returns:** `true` if the minimap is enabled, `false` otherwise
 

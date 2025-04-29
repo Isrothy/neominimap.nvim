@@ -9,6 +9,11 @@ return {
         require("neominimap.api.internal.global").disable()
     end,
 
+    --- Checks if Neominimap is enabled globally
+    enabled = function()
+        return require("neominimap.api.internal.global").enabled()
+    end,
+
     --- Toggles Neominimap globally
     toggle = function()
         require("neominimap.api.internal.global").toggle()
@@ -30,6 +35,12 @@ return {
         ---@param buf_list integer|integer[]|nil
         disable = function(buf_list)
             require("neominimap.api.internal.buf").disable(buf_list)
+        end,
+
+        ---Checks if Neominimap is enabled for the given buffer.
+        ---@param bufnr integer?
+        enabled = function(bufnr)
+            return require("neominimap.api.internal.buf").enabled(bufnr)
         end,
 
         ---Toggles Neominimap for the given buffers. If no buffers are provided, it will be applied to the current buffer.
@@ -58,6 +69,12 @@ return {
             require("neominimap.api.internal.win").disable(win_list)
         end,
 
+        --- Checks if Neominimap is enabled for the given window.
+        ---@param winid integer?
+        enabled = function(winid)
+            return require("neominimap.api.internal.win").enabled(winid)
+        end,
+
         --- Toggles Neominimap for the given windows. If no windows are provided, it will be applied to the current window.
         ---@param win_list integer|integer[]|nil
         toggle = function(win_list)
@@ -82,6 +99,12 @@ return {
         ---@param tab_list integer|integer[]|nil
         disable = function(tab_list)
             require("neominimap.api.internal.tab").disable(tab_list)
+        end,
+
+        --- Checks if Neominimap is enabled for the given tab.
+        ---@param tabid integer?
+        enabled = function(tabid)
+            return require("neominimap.api.internal.tab").enabled(tabid)
         end,
 
         --- Toggles Neominimap for the given tabs. If no tabs are provided, it will be applied to the current tab.

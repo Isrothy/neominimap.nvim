@@ -18,6 +18,15 @@ local disable = function(winid)
 end
 
 ---@param winid integer
+local function enabled(winid)
+    local var = require("neominimap.variables")
+    if not winid then
+        winid = vim.api.nvim_get_current_win()
+    end
+    return var.w[winid].enabled
+end
+
+---@param winid integer
 local toggle = function(winid)
     local var = require("neominimap.variables")
     if var.w[winid].enabled then
@@ -68,6 +77,7 @@ end
 return {
     enable = wrap_win_function(enable),
     disable = wrap_win_function(disable),
+    enabled = enabled,
     toggle = wrap_win_function(toggle),
     refresh = wrap_win_function(refresh),
 }

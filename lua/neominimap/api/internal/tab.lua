@@ -19,6 +19,14 @@ local function disable(tabid)
     require("neominimap.window").get_tab_apis().disable(tabid)
 end
 
+local function enabled(tabid)
+    local var = require("neominimap.variables")
+    if not tabid then
+        tabid = api.nvim_get_current_tabpage()
+    end
+    return var.t[tabid].enabled
+end
+
 ---@param tabid integer
 local function toggle(tabid)
     local var = require("neominimap.variables")
@@ -70,6 +78,7 @@ end
 return {
     enable = wrap_tab_function(enable),
     disable = wrap_tab_function(disable),
+    enabled = enabled,
     toggle = wrap_tab_function(toggle),
     refresh = wrap_tab_function(refresh),
 }

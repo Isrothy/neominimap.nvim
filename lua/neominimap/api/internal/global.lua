@@ -33,6 +33,11 @@ local function disable()
     logger.log("Minimap has been successfully closed.", vim.log.levels.INFO)
 end
 
+local enabled = function()
+    local var = require("neominimap.variables")
+    return var.g.enabled
+end
+
 local function toggle()
     local var = require("neominimap.variables")
     if var.g.enabled then
@@ -50,6 +55,7 @@ end
 return {
     enable = enable,
     disable = disable,
+    enabled = enabled,
     toggle = toggle,
     refresh = refresh,
 }

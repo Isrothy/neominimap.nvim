@@ -17,6 +17,14 @@ local disable = function(bufnr)
     require("neominimap.buffer").get_buf_apis().disable(bufnr)
 end
 
+local function enabled(bufnr)
+    local var = require("neominimap.variables")
+    if not bufnr then
+        bufnr = vim.api.nvim_get_current_buf()
+    end
+    return var.b[bufnr].enabled
+end
+
 ---@param bufnr integer
 local toggle = function(bufnr)
     local var = require("neominimap.variables")
@@ -68,6 +76,7 @@ end
 return {
     enable = wrap_buf_function(enable),
     disable = wrap_buf_function(disable),
+    enabled = enabled,
     toggle = wrap_buf_function(toggle),
     refresh = wrap_buf_function(refresh),
 }
