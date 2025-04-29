@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.14.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.13.0...v3.14.0) (2025-04-29)
+
+
+### Features
+
+* New command to keep consistent with vim command style; Deprecate old command ([f86ceaf](https://github.com/Isrothy/neominimap.nvim/commit/f86ceaf1a2d6f9da1180cf0f6da4bd2d2f43339d))
+* New lua api ([168a6d8](https://github.com/Isrothy/neominimap.nvim/commit/168a6d8176ae541d6de402bc71f83afef34728f2))
+
+
+### Bug Fixes
+
+* Capability for older neovim version ([9de43e4](https://github.com/Isrothy/neominimap.nvim/commit/9de43e4c118066257db7a52e3aa32aadabaed666))
+* Correct is_minimap_buffer function with function call instead of table look up ([1d4a8f7](https://github.com/Isrothy/neominimap.nvim/commit/1d4a8f79fd3cd9c040b99322bedd4b8eb2856b07))
+* Get buffer safely in git plugins ([4e602c4](https://github.com/Isrothy/neominimap.nvim/commit/4e602c49f7f29bb4300f0b23c4ecf9edfa994400))
+* Safe set diagnostic info ([766932f](https://github.com/Isrothy/neominimap.nvim/commit/766932f686923f828d347d73a6e2d6fa6ef5386f))
+
 ## [3.13.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.12.2...v3.13.0) (2025-04-29)
 
 
