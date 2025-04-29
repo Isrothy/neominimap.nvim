@@ -128,7 +128,7 @@ local M = {
         -- When enabled, diagnostics will be sourced directly from the DiagnosticChanged event,
         -- meaning they will follow the settings from vim.diagnostic.config.
         -- In this mode, the `severity` filter is ignored.
-        use_event_diagnostics = true, ---@type boolean
+        use_event_diagnostics = false, ---@type boolean
 
         -- The `severity` option specifies which diagnostics to include based on their severity.
         -- Note: This option is ignored when `use_event_diagnostics` is enabled.

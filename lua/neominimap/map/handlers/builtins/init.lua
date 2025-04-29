@@ -56,8 +56,8 @@ return {
                 event = "DiagnosticChanged",
                 opts = {
                     desc = "Update diagnostic annotations when diagnostics are changed",
-                    get_buffers = function(_)
-                        return api.nvim_list_bufs()
+                    callback = function(apply, args)
+                        require("neominimap.map.handlers.builtins.diagnostic").on_diagnostic_changed(apply, args)
                     end,
                 },
             },
