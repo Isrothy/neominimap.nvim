@@ -636,7 +636,63 @@ To refresh the minimap for windows 3 and 4:
 
 ## Customized Handlers
 
-See the [wiki page](https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-Handlers)
+<details>
+  <summary>This section explains the handler API and provides a guide on creating your own.</summary>
+
+### Handler Structure
+
+A handler is defined as a Lua table with the following fields:
+
+- **`name`** (`string`): A unique identifier for your handler (e.g., `"my_todo_handler"`).
+- **`mode`** (`"sign" | "icon" | "line"`): Determines how annotations are
+  displayed on the minimap:
+  - `"sign"`: Shows small braille characters in the sign column.
+  - `"icon"`: Shows a single character/icon (potentially from an icon font) in
+    the sign column.
+  - `"line"`: Highlights the background of the corresponding line(s) on the
+    minimap.
+- **`namespace`** (`integer`): A Neovim namespace ID used internally by Neovim
+  to manage virtual text or signs. This should be created using
+  `vim.api.nvim_create_namespace`.
+- **`autocmds`** (`{event: string|string[], opts?: table}[]`): A list of
+  autocommand specifications. Whenever one of these autocommands fires, the
+  handler will be triggered to update the minimap for the relevant buffer(s).
+  The `opts` table can contain standard autocommand options like `pattern`,
+  `desc`, and importantly, either `callback` or `get_buffers`.
+  - If `opts.callback` is defined (`fun(apply: fun(bufnr:integer), args: any)`),
+    it receives a function `apply(bufnr)` to manually trigger the handler for a
+    specific buffer and the autocommand arguments. You are responsible for
+    calling `apply(bufnr)` for the buffer(s) you want to update.
+  - If `opts.callback` is _not_ defined, you must provide `opts.get_buffers`
+    (`fun(data: vim.api.keyset.create_autocmd.callback_args): integer[] |
+integer`). This function receives the autocommand arguments and must return
+    the buffer number(s) that the handler should be applied to.
+- **`init`** (`fun()`): A function called once when the handler is registered.
+- **`get_annotations`** (`fun(bufnr: integer): Neominimap.Map.Handler.Annotation[]`):
+  This is the core logic of your handler. It takes a buffer number (`bufnr`) as
+  input, and returns an array of `Neominimap.Map.Handler.Annotation` objects.
+
+### Annotation Structure
+
+Each object returned by `get_annotations` must conform to the
+`Neominimap.Map.Handler.Annotation` structure:
+
+- **`lnum`** (`integer`): The starting line number (1-based) in the main buffer
+  that this annotation refers to.
+- **`end_lnum`** (`integer`): The ending line number (1-based). For single-line
+  annotations, this is the same as `lnum`.
+- **`id`** (`integer`): An id for a specific _kind_ of annotation. For example,
+  all `git add` should have the same id but `git add` and `git change` have
+  different ids. This is used to group annotations together like vertical
+  braille dots.
+- **`priority`** (`integer`): Determines display order when annotations overlap.
+- **`icon?`** (`string`, optional): A single character or icon string to display
+  if the handler's `mode` is `"icon"`.
+- **`highlight`** (`string`): The name of a Neovim highlight group.
+
+See the [wiki page](https://github.com/Isrothy/neominimap.nvim/wiki/Custimized-Handlers) for examples.
+
+</details>
 
 ## Statusline
 
