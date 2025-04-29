@@ -14,6 +14,10 @@ return {
                     pattern = "GitSignsUpdate",
                     desc = "Update git annotations when git signs are updated",
                     get_buffers = function(args)
+                        local data = args.data
+                        if not data then
+                            return nil
+                        end
                         ---@type integer
                         return tonumber(args.data.buffer)
                     end,
@@ -36,6 +40,10 @@ return {
                     pattern = "MiniDiffUpdated",
                     desc = "Update mini diff annotations when mini diff signs are updated",
                     get_buffers = function(args)
+                        local data = args.data
+                        if not data then
+                            return nil
+                        end
                         ---@type integer
                         return tonumber(args.data.buffer)
                     end,
@@ -56,8 +64,8 @@ return {
                 event = "DiagnosticChanged",
                 opts = {
                     desc = "Update diagnostic annotations when diagnostics are changed",
-                    get_buffers = function(_)
-                        return api.nvim_list_bufs()
+                    callback = function(apply, args)
+                        require("neominimap.map.handlers.builtins.diagnostic").on_diagnostic_changed(apply, args)
                     end,
                 },
             },

@@ -102,7 +102,7 @@ local M = {
         --- Border style of the floating window.
         --- Accepts all usual border style options (e.g., "single", "double")
         --- @type string | string[] | [string, string][]
-        window_border = "single",
+        window_border = vim.fn.has("nvim-0.11") == 1 and vim.opt.winborder:get() or "single",
 
         -- When true, the floating window will be recreated when you close it.
         -- When false, the minimap will be disabled for the current window when you close the minimap window.
@@ -125,7 +125,23 @@ local M = {
 
     diagnostic = {
         enabled = true, ---@type boolean
-        severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
+        -- When enabled, diagnostics will be sourced directly from the DiagnosticChanged event,
+        -- meaning they will follow the settings from vim.diagnostic.config.
+        -- In this mode, the `severity` filter is ignored.
+        use_event_diagnostics = false, ---@type boolean
+
+        -- The `severity` option specifies which diagnostics to include based on their severity.
+        -- Note: This option is ignored when `use_event_diagnostics` is enabled.
+        --
+        -- Allowed formats for the `severity` filter:
+        -- 1. A single severity level:
+        --      eg: severity = vim.diagnostic.severity.WARN
+        -- 2. A table with a "min" and/or "max" key:
+        --      eg: severity = { min = vim.diagnostic.severity.WARN, max = vim.diagnostic.severity.ERROR }
+        -- 3. A list-like table of severity values:
+        --      eg: severity = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR }
+        ---@see vim.diagnostic.severity
+        severity = nil, ---@type vim.diagnostic.SeverityFilter?
         mode = "line", ---@type Neominimap.Handler.Annotation.Mode
         priority = {
             ERROR = 100, ---@type integer

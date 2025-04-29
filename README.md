@@ -110,7 +110,7 @@ With Lazy:
 ```lua
 ---@module "neominimap.config.meta"
 {
-    "Isrothy/neominimap.nvim",
+  "Isrothy/neominimap.nvim",
   version = "v3.x.x",
   lazy = false, -- NOTE: NO NEED to Lazy load
   -- Optional. You can alse set your own keybindings
@@ -275,7 +275,7 @@ vim.g.neominimap = {
     --- Border style of the floating window.
     --- Accepts all usual border style options (e.g., "single", "double")
     --- @type string | string[] | [string, string][]
-    window_border = "single",
+    window_border = vim.fn.has("nvim-0.11") == 1 and vim.opt.winborder:get() or "single",
 
     -- When true, the floating window will be recreated when you close it.
     -- When false, the minimap will be disabled for the current tab when you close the minimap window.
@@ -298,7 +298,24 @@ vim.g.neominimap = {
 
   diagnostic = {
     enabled = true, ---@type boolean
-    severity = vim.diagnostic.severity.WARN, ---@type vim.diagnostic.SeverityInt
+
+    -- When enabled, diagnostics will be sourced directly from the DiagnosticChanged event,
+    -- meaning they will follow the settings from vim.diagnostic.config.
+    -- In this mode, the `severity` filter is ignored.
+    use_event_diagnostics = false, ---@type boolean
+
+    -- The `severity` option specifies which diagnostics to include based on their severity.
+    -- Note: This option is ignored when `use_event_diagnostics` is enabled.
+    --
+    -- Allowed formats for the `severity` filter:
+    -- 1. A single severity level:
+    --      eg: severity = vim.diagnostic.severity.WARN
+    -- 2. A table with a "min" and/or "max" key:
+    --      eg: severity = { min = vim.diagnostic.severity.WARN, max = vim.diagnostic.severity.ERROR }
+    -- 3. A list-like table of severity values:
+    --      eg: severity = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR }
+    ---@see vim.diagnostic.severity
+    severity = nil, ---@type vim.diagnostic.SeverityFilter?
     mode = "line", ---@type Neominimap.Handler.Annotation.Mode
     priority = {
       ERROR = 100, ---@type integer
@@ -504,27 +521,27 @@ To refresh the minimap for windows 3 and 4:
 
 - Global API
 
-  - `require('neominimap').on()`
+  - `require('neominimap.api').enable()`
 
     - **Description:** Enable the minimap globally across all buffers and windows.
     - **Arguments:** None
 
-  - `require('neominimap').off()`
+  - `require('neominimap.api').disable()`
 
     - **Description:** Disable the minimap globally.
     - **Arguments:** None
 
-  - `require('neominimap').toggle()`
+  - `require('neominimap.api').toggle()`
 
     - **Description:** Toggle the minimap on or off globally.
     - **Arguments:** None
 
-  - `require('neominimap').refresh()`
+  - `require('neominimap.api').refresh()`
 
     - **Description:** Refresh the minimap globally.
     - **Arguments:** None
 
-  - `require('neominimap').enabled()`
+  - `require('neominimap.api').enabled()`
 
     - **Description:** Check if the minimap is enabled globally.
     - **Arguments:** None
@@ -532,56 +549,56 @@ To refresh the minimap for windows 3 and 4:
 
 - Buffer API
 
-  - `require('neominimap').bufOn(<bufnr>)`
+  - `require('neominimap.api').buf.enable(<bufnr>)`
 
     - **Description:** Enable the minimap for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufOff(<bufnr>)`
+  - `require('neominimap.api').buf.disable(<bufnr>)`
 
     - **Description:** Disable the minimap for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufToggle(<bufnr>)`
+  - `require('neominimap.api').buf.toggle(<bufnr>)`
 
     - **Description:** Toggle the minimap for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufRefresh(<bufnr>)`
+  - `require('neominimap.api').buf.refresh(<bufnr>)`
 
     - **Description:** Refresh the minimap buffers for specified buffers.
-    - **Arguments:** List of buffer numbers (defaults to current buffer if list is empty)
+    - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').bufEnabled(bufnr)`
+  - `require('neominimap').buf.enabled(bufnr)`
 
     - **Description:** Check if the minimap is enabled for specified buffers.
     - **Arguments:** A buffer number. If no buffer is specified, check for the
       current buffer.
     - **Returns:** `true` if the minimap is enabled, `false` otherwise
 
-- Tabpage API
+- Tab API
 
-  - `require('neominimap').tabOn(<tabid>)`\*
+  - `require('neominimap.api').tab.enable(<tabid>)`
 
     - **Description:** Enable the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabOff(<tabid>)`
+  - `require('neominimap.api').tab.disable(<tabid>)`
 
     - **Description:** Disable the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabToggle(<tabid>)`
+  - `require('neominimap.api').tab.toggle(<tabid>)`
 
     - **Description:** Toggle the minimap for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabRefresh(tabid)`
+  - `require('neominimap.api').tab.refresh(<tabid>)`
 
     - **Description:** Refresh the minimap tabs for specified tabpages.
-    - **Arguments:** List of tabpage IDs (defaults to current tabpage if list is empty)
+    - **Arguments:** None (defaults to current tabage), or an integer or a list of tabpage IDs
 
-  - `require('neominimap').tabEnabled(tabid)`
+  - `require('neominimap').tab.enabled(tabid)`
 
     - **Description:** Check if the minimap is enabled for specified tabpages.
     - **Arguments:** A tabpage ID. If no tabpage is specified, check for the
@@ -590,27 +607,27 @@ To refresh the minimap for windows 3 and 4:
 
 - Window API
 
-  - `require('neominimap').winOn(<winid>)`
+  - `require('neominimap.api').win.enable(<winid>)`
 
     - **Description:** Enable the minimap for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winOff(<winid>)`
+  - `require('neominimap.api').win.disable(<winid>)`
 
     - **Description:** Disable the minimap for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winToggle(<winid>)`
+  - `require('neominimap.api').win.toggle(<winid>)`
 
     - **Description:** Toggle the minimap for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winRefresh(<winid>)`
+  - `require('neominimap.api').win.refresh(<winid>)`
 
     - **Description:** Refresh the minimap windows for specified windows.
-    - **Arguments:** List of window IDs (defaults to current window if list is empty)
+    - **Arguments:** None (defaults to current window), or an integer or a list of window IDs
 
-  - `require('neominimap').winEnabled(winid)`
+  - `require('neominimap').win.enable(winid)`
 
     - **Description:** Check if the minimap is enabled for specified windows.
     - **Arguments:** A window ID. If no window is specified, check for the
@@ -619,20 +636,80 @@ To refresh the minimap for windows 3 and 4:
 
 - Focus Control
 
-  - `require('neominimap').focus()`
+  - `require('neominimap.api').focus.enable()`
 
     - **Description:** Focus the minimap window, allowing interaction with it.
     - **Arguments:** None
 
-  - `require('neominimap').unfocus()`
+  - `require('neominimap.api').focus.disable()`
 
     - **Description:** Unfocus the minimap window, returning focus to the editor.
     - **Arguments:** None
 
-  - `require('neominimap').toggleFocus()`
+  - `require('neominimap.api').focus.toggle()`
     - **Description:** Toggle focus between the minimap and the main editor window.
     - **Arguments:** None
-    </details>
+
+### Migration Guide
+
+<details>
+ <summary> Click to expand </summary>
+
+The neominimap API has been updated to provide a more intuitive and flexible interface.
+The old API is now deprecated and will eventually be removed.
+This guide will help you transition to the new neominimap.api.
+
+| Old Function                        | New Function                              |
+| ----------------------------------- | ----------------------------------------- |
+| `require('neominimap').on`          | `require('neominimap.api').enable`        |
+| `require('neominimap').off`         | `require('neominimap.api').disable`       |
+| `require('neominimap').toggle`      | `require('neominimap.api').toggle`        |
+| `require('neominimap').refresh`     | `require('neominimap.api').refresh`       |
+| `require('neominimap').enabled`     | `require('neominimap.api').enabled`       |
+| `require('neominimap').bufOn`       | `require('neominimap.api').buf.enable`    |
+| `require('neominimap').bufOff`      | `require('neominimap.api').buf.disable`   |
+| `require('neominimap').bufToggle`   | `require('neominimap.api').buf.toggle`    |
+| `require('neominimap').bufRefresh`  | `require('neominimap.api').buf.refresh`   |
+| `require('neominimap').bufEnabled`  | `require('neominimap.api').buf.enabled`   |
+| `require('neominimap').tabOn`       | `require('neominimap.api').tab.disable`   |
+| `require('neominimap').tabOff`      | `require('neominimap.api').tab.disable`   |
+| `require('neominimap').tabToggle`   | `require('neominimap.api').tab.toggle`    |
+| `require('neominimap').tabRefresh`  | `require('neominimap.api').tab.refresh`   |
+| `require('neominimap').tabEnabled`  | `require('neominimap.api').tab.enabled`   |
+| `require('neominimap').winOn`       | `require('neominimap.api').win.enable`    |
+| `require('neominimap').winOff`      | `require('neominimap.api').win.disable`   |
+| `require('neominimap').winToggle`   | `require('neominimap.api').win.toggle`    |
+| `require('neominimap').winEnabled`  | `require('neominimap.api').win.enabled`   |
+| `require('neominimap').winRefresh`  | `require('neominimap.api').win.refresh`   |
+| `require('neominimap').focus`       | `require('neominimap.api').focus.enable`  |
+| `require('neominimap').unfocus`     | `require('neominimap.api').focus.disable` |
+| `require('neominimap').toggleFocus` | `require('neominimap.api').focus.toggle`  |
+
+#### Key Differences Between the Old and New API
+
+| Aspect            | Old API (`neominimap`).doSomeThing                                                  | New API (`neominimap.api`).do_some_thing()                                          |
+| ----------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Input Type        | Expects a list of integers.                                                         | Accepts `nil`, a single integer, or a list of integers. An empty list does nothing. |
+| Default Behavior  | Automatically defaults to the current buffer/tab/window if the input list is empty. | Explicitly requires omitted input to default to the current buffer/tab/window.      |
+| Design Philosophy | A wrapper for Vim commands, with implicit behaviors.                                | Independent of Vim commands.                                                        |
+
+#### Handle Input Changes
+
+- **Old Behavior:** Passing an empty list (`{}`) defaulted to the current buffer, tab, or window.
+- **New Behavior:** Passing an empty list does nothing.
+  To default to the current context, pass `nil` or omit the argument.
+
+Here is an example:
+
+```lua
+-- Old API
+require('neominimap').bufOn({}) -- Defaults to current buffer
+-- New API
+require('neominimap.api').buf.enable() -- Explicitly defaults to current buffer
+require('neominimap.api').buf.enable({}) -- Does nothing
+```
+
+</details>
 
 ## Customized Handlers
 

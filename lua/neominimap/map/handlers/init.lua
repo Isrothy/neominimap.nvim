@@ -25,7 +25,7 @@ local config = require("neominimap.config")
 ---@field desc? string
 ---If callback is set, then get_buffers is ignored
 ---@field callback? Neominimap.Map.Handler.Autocmd.Callback
----@field get_buffers? fun(data:vim.api.keyset.create_autocmd.callback_args): integer[] | integer
+---@field get_buffers? fun(data:vim.api.keyset.create_autocmd.callback_args): integer[] | integer | nil
 
 ---@class Neominimap.Map.Handler.Autocmd
 ---@field event string|string[]
@@ -75,7 +75,7 @@ M.create_autocmds = function(group)
                             vim.tbl_map(function(bufnr)
                                 apply(bufnr, handler.name)
                             end, target)
-                        else
+                        elseif target then
                             apply(target, handler.name)
                         end
                     end
