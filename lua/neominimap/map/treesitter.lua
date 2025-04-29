@@ -179,7 +179,7 @@ M.extract_highlights_co = function(bufnr)
         local minimap_hl = get_or_create_hl_info("@" .. h.group)
 
         for row = h.start_row, h.end_row do
-            local vrow, hide = fold.substract_fold_lines(folds, row)
+            local vrow, hide = fold.subtract_fold_lines(folds, row)
             if not hide then
                 local from = row == h.start_row and h.start_col or 1
                 local to = row == h.end_row and h.end_col or string.len(lines[row])

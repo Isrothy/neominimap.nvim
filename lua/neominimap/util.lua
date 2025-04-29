@@ -23,14 +23,14 @@ M.get_attached_window = function(bufnr)
     local win_list = api.nvim_list_wins()
 
     ---@type integer[]
-    local attachec_windod = {}
+    local attached_window = {}
     for _, w in ipairs(win_list) do
         if api.nvim_win_get_buf(w) == bufnr then
-            attachec_windod[#attachec_windod + 1] = w
+            attached_window[#attached_window + 1] = w
         end
     end
 
-    return attachec_windod
+    return attached_window
 end
 
 M.is_floating = function(winid)

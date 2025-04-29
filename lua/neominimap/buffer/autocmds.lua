@@ -75,7 +75,7 @@ end
 M.on_minimap_text_update = function(args)
     local bufnr = args.data.buffer
     local logger = require("neominimap.logger")
-    logger.log.trace("User Neominimap event triggered. patter: BufferTextUpdated")
+    logger.log.trace("User Neominimap event triggered. pattern: BufferTextUpdated")
     logger.log.trace("Buffer ID: %d", bufnr)
     vim.schedule(function()
         local buffer = require("neominimap.buffer")

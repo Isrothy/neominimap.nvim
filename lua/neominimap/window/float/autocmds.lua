@@ -116,7 +116,7 @@ M.on_cursor_moved = function()
         local window_map = require("neominimap.window.float.window_map")
         local internal = require("neominimap.window.float.internal")
         if not window_map.is_minimap_window(winid) then
-            logger.log.trace("Resettting cursor line for window %d.", winid)
+            logger.log.trace("Resetting cursor line for window %d.", winid)
             internal.reset_mwindow_cursor_line(winid)
             logger.log.trace("Cursor line reset for window %d.", winid)
         elseif config.sync_cursor then
@@ -129,7 +129,7 @@ end
 
 M.on_minimap_buffer_created_or_deleted = function(args)
     local logger = require("neominimap.logger")
-    logger.log.trace("User Neominimap event triggered. patter: MinimapBufferCreated or MinimapBufferDeleted")
+    logger.log.trace("User Neominimap event triggered. pattern: MinimapBufferCreated or MinimapBufferDeleted")
     local bufnr = args.data.buffer
     local win_list = require("neominimap.util").get_attached_window(bufnr)
     vim.schedule(function()
@@ -144,7 +144,7 @@ end
 M.on_minimap_buffer_text_changed = function(args)
     local logger = require("neominimap.logger")
     local bufnr = args.data.buffer
-    logger.log.trace("User Neominimap event triggered. patter: BufferTextUpdated")
+    logger.log.trace("User Neominimap event triggered. pattern: BufferTextUpdated")
     logger.log.trace("Buffer ID: %d", bufnr)
     local win_list = require("neominimap.util").get_attached_window(bufnr)
     vim.schedule(function()

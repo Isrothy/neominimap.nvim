@@ -59,7 +59,7 @@ end
 ---@param lineNr integer
 ---@return integer
 ---@return boolean hidden
-M.substract_fold_lines = function(folds, lineNr)
+M.subtract_fold_lines = function(folds, lineNr)
     local acc = 0
     for _, f in ipairs(folds) do
         if lineNr <= f.start then
@@ -78,9 +78,9 @@ end
 ---@param end_row integer
 ---@return integer v_start
 ---@return integer v_end
-M.get_visiable_range = function(folds, start_row, end_row)
-    local v_start, hidden_start = M.substract_fold_lines(folds, start_row)
-    local v_end, _ = M.substract_fold_lines(folds, end_row)
+M.get_visible_range = function(folds, start_row, end_row)
+    local v_start, hidden_start = M.subtract_fold_lines(folds, start_row)
+    local v_end, _ = M.subtract_fold_lines(folds, end_row)
 
     if hidden_start then
         v_start = v_start + 1

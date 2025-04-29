@@ -157,7 +157,7 @@ M.create_minimap_window = function(winid)
 
     logger.log.trace("Creating minimap window for window %d", winid)
     local win_cfg = get_window_config(winid)
-    win_cfg.noautocmd = true --Set noautocmd here for noautocmd can only set for none existing window
+    win_cfg.noautocmd = true -- Set noautocmd here because it can only be set for a non-existing window
     local mwinid = util.noautocmd(api.nvim_open_win)(mbufnr, false, win_cfg)
     local window_map = require("neominimap.window.float.window_map")
     window_map.set_minimap_winid(winid, mwinid)

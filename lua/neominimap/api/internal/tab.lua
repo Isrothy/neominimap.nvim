@@ -13,7 +13,7 @@ local function enable(tabid)
 end
 
 ---@param tabid integer
-local function disalbe(tabid)
+local function disable(tabid)
     local var = require("neominimap.variables")
     var.t[tabid].enabled = false
     require("neominimap.window").get_tab_apis().disable(tabid)
@@ -23,7 +23,7 @@ end
 local function toggle(tabid)
     local var = require("neominimap.variables")
     if var.t[tabid].enabled then
-        disalbe(tabid)
+        disable(tabid)
     else
         enable(tabid)
     end
@@ -69,7 +69,7 @@ end
 
 return {
     enable = wrap_tab_function(enable),
-    disable = wrap_tab_function(disalbe),
+    disable = wrap_tab_function(disable),
     toggle = wrap_tab_function(toggle),
     refresh = wrap_tab_function(refresh),
 }

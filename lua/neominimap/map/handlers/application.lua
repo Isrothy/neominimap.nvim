@@ -15,7 +15,7 @@ local apply_line = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
+        local start_row, end_row = fold.get_visible_range(cached_folds, annotation.lnum, annotation.end_lnum)
         for row = start_row, end_row do
             local col = 1
             local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
@@ -56,7 +56,7 @@ local apply_sign = function(bufnr, mbufnr, namespace, annotations)
     local fold = require("neominimap.map.fold")
     local cached_folds = fold.get_cached_folds(bufnr)
     for _, annotation in ipairs(annotations) do
-        local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
+        local start_row, end_row = fold.get_visible_range(cached_folds, annotation.lnum, annotation.end_lnum)
         for row = start_row, end_row do
             local col = 1
             local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
@@ -107,7 +107,7 @@ local apply_icon = function(bufnr, mbufnr, namespace, annotations)
     local cached_folds = fold.get_cached_folds(bufnr)
 
     for _, annotation in ipairs(annotations) do
-        local start_row, end_row = fold.get_visiable_range(cached_folds, annotation.lnum, annotation.end_lnum)
+        local start_row, end_row = fold.get_visible_range(cached_folds, annotation.lnum, annotation.end_lnum)
         for row = start_row, end_row do
             local col = 1
             local mrow, _ = coord.codepoint_to_mcodepoint(row, col)
