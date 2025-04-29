@@ -23,7 +23,7 @@ end
 ---@param bufnr integer
 ---@return boolean
 M.is_minimap_buffer = function(bufnr)
-    return M.get_source_bufnr[bufnr] ~= nil
+    return M.get_source_bufnr(bufnr) ~= nil
 end
 
 --- Return the minimap buffer number attached to the given buffer
