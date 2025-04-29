@@ -104,33 +104,33 @@ With Lazy:
       -- Optional. You can alse set your own keybindings
       keys = {
         -- Global Minimap Controls
-        { "<leader>nm", "<cmd>Neominimap toggle<cr>", desc = "Toggle global minimap" },
-        { "<leader>no", "<cmd>Neominimap on<cr>", desc = "Enable global minimap" },
-        { "<leader>nc", "<cmd>Neominimap off<cr>", desc = "Disable global minimap" },
-        { "<leader>nr", "<cmd>Neominimap refresh<cr>", desc = "Refresh global minimap" },
+        { "<leader>nm", "<cmd>Neominimap Toggle<cr>", desc = "Toggle global minimap" },
+        { "<leader>no", "<cmd>Neominimap Enable<cr>", desc = "Enable global minimap" },
+        { "<leader>nc", "<cmd>Neominimap Disable<cr>", desc = "Disable global minimap" },
+        { "<leader>nr", "<cmd>Neominimap Refresh<cr>", desc = "Refresh global minimap" },
     
         -- Window-Specific Minimap Controls
-        { "<leader>nwt", "<cmd>Neominimap winToggle<cr>", desc = "Toggle minimap for current window" },
-        { "<leader>nwr", "<cmd>Neominimap winRefresh<cr>", desc = "Refresh minimap for current window" },
-        { "<leader>nwo", "<cmd>Neominimap winOn<cr>", desc = "Enable minimap for current window" },
-        { "<leader>nwc", "<cmd>Neominimap winOff<cr>", desc = "Disable minimap for current window" },
+        { "<leader>nwt", "<cmd>Neominimap WinToggle<cr>", desc = "Toggle minimap for current window" },
+        { "<leader>nwr", "<cmd>Neominimap WinRefresh<cr>", desc = "Refresh minimap for current window" },
+        { "<leader>nwo", "<cmd>Neominimap WinEnable<cr>", desc = "Enable minimap for current window" },
+        { "<leader>nwc", "<cmd>Neominimap WinDisable<cr>", desc = "Disable minimap for current window" },
     
         -- Tab-Specific Minimap Controls
-        { "<leader>ntt", "<cmd>Neominimap tabToggle<cr>", desc = "Toggle minimap for current tab" },
-        { "<leader>ntr", "<cmd>Neominimap tabRefresh<cr>", desc = "Refresh minimap for current tab" },
-        { "<leader>nto", "<cmd>Neominimap tabOn<cr>", desc = "Enable minimap for current tab" },
-        { "<leader>ntc", "<cmd>Neominimap tabOff<cr>", desc = "Disable minimap for current tab" },
+        { "<leader>ntt", "<cmd>Neominimap TabToggle<cr>", desc = "Toggle minimap for current tab" },
+        { "<leader>ntr", "<cmd>Neominimap TabRefresh<cr>", desc = "Refresh minimap for current tab" },
+        { "<leader>nto", "<cmd>Neominimap TabEnable<cr>", desc = "Enable minimap for current tab" },
+        { "<leader>ntc", "<cmd>Neominimap TabDisable<cr>", desc = "Disable minimap for current tab" },
     
         -- Buffer-Specific Minimap Controls
-        { "<leader>nbt", "<cmd>Neominimap bufToggle<cr>", desc = "Toggle minimap for current buffer" },
-        { "<leader>nbr", "<cmd>Neominimap bufRefresh<cr>", desc = "Refresh minimap for current buffer" },
-        { "<leader>nbo", "<cmd>Neominimap bufOn<cr>", desc = "Enable minimap for current buffer" },
-        { "<leader>nbc", "<cmd>Neominimap bufOff<cr>", desc = "Disable minimap for current buffer" },
+        { "<leader>nbt", "<cmd>Neominimap BufToggle<cr>", desc = "Toggle minimap for current buffer" },
+        { "<leader>nbr", "<cmd>Neominimap BufRefresh<cr>", desc = "Refresh minimap for current buffer" },
+        { "<leader>nbo", "<cmd>Neominimap BufEnable<cr>", desc = "Enable minimap for current buffer" },
+        { "<leader>nbc", "<cmd>Neominimap BufDisable<cr>", desc = "Disable minimap for current buffer" },
     
         ---Focus Controls
-        { "<leader>nf", "<cmd>Neominimap focus<cr>", desc = "Focus on minimap" },
-        { "<leader>nu", "<cmd>Neominimap unfocus<cr>", desc = "Unfocus minimap" },
-        { "<leader>ns", "<cmd>Neominimap toggleFocus<cr>", desc = "Switch focus on minimap" },
+        { "<leader>nf", "<cmd>Neominimap Focus<cr>", desc = "Focus on minimap" },
+        { "<leader>nu", "<cmd>Neominimap Unfocus<cr>", desc = "Unfocus minimap" },
+        { "<leader>ns", "<cmd>Neominimap ToggleFocus<cr>", desc = "Switch focus on minimap" },
       },
       init = function()
         -- The following options are recommended when layout == "float"
@@ -427,86 +427,74 @@ COMMANDS                                 *neominimap.nvim-neominimap-commands*
 
 Click to expand ~
 
-  -----------------------------------------------------------------------------------------------
-  Command                               Description                                   Arguments
-  ------------------------------------- --------------------------------------------- -----------
-  Neominimap on                         Turn on minimaps globally.                    None
-
-  Neominimap off                        Turn off minimaps globally.                   None
-
-  Neominimap toggle                     Toggle minimaps globally.                     None
-
-  Neominimap refresh                    Refresh minimaps globally.                    None
-
-  Neominimap bufOn [buffer_list]        Enable the minimap for specified buffers. If  Optional:
-                                        no buffers are specified, enable for the      List of
-                                        current buffer.                               buffers
-
-  Neominimap bufOff [buffer_list]       Disable the minimap for specified buffers. If Optional:
-                                        no buffers are specified, disable for the     List of
-                                        current buffer.                               buffers
-
-  Neominimap bufToggle [buffer_list]    Toggle the minimap for specified buffers. If  Optional:
-                                        no buffers are specified, toggle for the      List of
-                                        current buffer.                               buffers
-
-  Neominimap bufRefresh [buffer_list]   Refresh the minimap buffers for specified     Optional:
-                                        buffers. If no buffers are specified, refresh List of
-                                        for the current buffer.                       buffers
-
-  Neominimap TabOn [tab_list]           Enable the minimap for specified tabpage. If  Optional:
-                                        no tabpages are specified, enable for the     List of
-                                        current tab.                                  tabpages
-
-  Neominimap TabOff [tab_list]          Disable the minimap for specified tabpages.   Optional:
-                                        If no tabpages are specified, disable for the List of
-                                        current tab.                                  tabpages
-
-  Neominimap TabToggle [tab_list]       Toggle the minimap for specified tabpages. If Optional:
-                                        no tabpages are specified, toggle for the     List of
-                                        current tab.                                  tabpages
-
-  Neominimap TabRefresh [tab_list]      Refresh the minimap tabs for specified tabs.  Optional:
-                                        If no tabs are specified, refresh for the     List of
-                                        current tab.                                  tabpages
-
-  Neominimap winOn [window_list]        Enable the minimap for specified windows. If  Optional:
-                                        no windows are specified, enable for the      List of
-                                        current window.                               windows
-
-  Neominimap winOff [window_list]       Disable the minimap for specified windows. If Optional:
-                                        no windows are specified, disable for the     List of
-                                        current window.                               windows
-
-  Neominimap winToggle [window_list]    Toggle the minimap for specified windows. If  Optional:
-                                        no windows are specified, toggle for the      List of
-                                        current window.                               windows
-
-  Neominimap winRefresh [window_list]   Refresh the minimap windows for specified     Optional:
-                                        windows. If no windows are specified, refresh List of
-                                        for the current window.                       windows
-
-  Neominimap focus                      Focus on the minimap. Set cursor to the       None
-                                        minimap window.                               
-
-  Neominimap unfocus                    Unfocus the minimap. Set cursor back.         None
-
-  Neominimap toggleFocus                Toggle minimap focus                          None
-  -----------------------------------------------------------------------------------------------
-`Neominimap bufRefresh` does the following:
-
-- Creating or wiping out buffers as needed.
-- Rendering minimap text and applying highlights.
-
-`Neominimap tabRefresh` does the following:
-
-- Creating or wiping out windows in tabpages as needed.
-
-`Neominimap winRefresh` does the following:
-
-- Opening or closing windows as needed.
-- Updating window configurations, such as positions and sizes.
-- Attaching windows to the correct buffers.
+- **Global Commands:**
+    - `Neominimap Enable`
+        - **Description:** Enable minimaps globally.
+        - **Arguments:** None
+    - `Neominimap Disable`
+        - **Description:** Disable minimaps globally.
+        - **Arguments:** None
+    - `Neominimap Toggle`
+        - **Description:** Toggle minimaps globally.
+        - **Arguments:** None
+    - `Neominimap Refresh`
+        - **Description:** Refresh minimaps globally.
+        - **Arguments:** None
+- **Buffer Commands:**
+    - `Neominimap BufEnable [buffer_list]`
+        - **Description:** Enable the minimap for specified buffers. If no buffers are specified, enable for the current buffer.
+        - **Arguments:** Optional: List of buffers
+    - `Neominimap BufDisable [buffer_list]`
+        - **Description:** Disable the minimap for specified buffers. If no buffers are specified, disable for the current buffer.
+        - **Arguments:** Optional: List of buffers
+    - `Neominimap BufToggle [buffer_list]`
+        - **Description:** Toggle the minimap for specified buffers. If no buffers are specified, toggle for the current buffer.
+        - **Arguments:** Optional: List of buffers
+    - `Neominimap BufRefresh [buffer_list]`
+        - **Description:** Refresh the minimap buffers for specified buffers. If no buffers are specified, refresh for the current buffer. It does the following:
+            1. Creating or wiping out buffers as needed.
+            2. Rendering minimap text and applying highlights.
+        - **Arguments:** Optional: List of buffers
+- **Tab Commands:**
+    - `Neominimap TabEnable [tab_list]`
+        - **Description:** Enable the minimap for specified tabpage. If no tabpages are specified, enable for the current tab.
+        - **Arguments:** Optional: List of tabpages
+    - `Neominimap TabDisable [tab_list]`
+        - **Description:** Disable the minimap for specified tabpages. If no tabpages are specified, disable for the current tab.
+        - **Arguments:** Optional: List of tabpages
+    - `Neominimap TabToggle [tab_list]`
+        - **Description:** Toggle the minimap for specified tabpages. If no tabpages are specified, toggle for the current tab.
+        - **Arguments:** Optional: List of tabpages
+    - `Neominimap TabRefresh [tab_list]`
+        - **Description:** Refresh the minimap tabs for specified tabs. If no tabs are specified, refresh for the current tab. It does the following:
+            1. Creating or wiping out windows in tabpages as needed.
+        - **Arguments:** Optional: List of tabpages
+- **Window Commands:**
+    - `Neominimap WinEnable [window_list]`
+        - **Description:** Enable the minimap for specified windows. If no windows are specified, enable for the current window.
+        - **Arguments:** Optional: List of windows
+    - `Neominimap WinDisable [window_list]`
+        - **Description:** Disable the minimap for specified windows. If no windows are specified, disable for the current window.
+        - **Arguments:** Optional: List of windows
+    - `Neominimap WinToggle [window_list]`
+        - **Description:** Toggle the minimap for specified windows. If no windows are specified, toggle for the current window.
+        - **Arguments:** Optional: List of windows
+    - `Neominimap WinRefresh [window_list]`
+        - **Description:** Refresh the minimap windows for specified windows. If no windows are specified, refresh for the current window. It does the following:
+            1. Opening or closing windows as needed.
+            2. Updating window configurations, such as positions and sizes.
+            3. Attaching windows to the correct buffers.
+        - **Arguments:** Optional: List of windows
+- **Focus Commands:**
+    - `Neominimap Focus`
+        - **Description:** Focus on the minimap. Set cursor to the minimap window.
+        - **Arguments:** None
+    - `Neominimap Unfocus`
+        - **Description:** Unfocus the minimap. Set cursor back.
+        - **Arguments:** None
+    - `Neominimap ToggleFocus`
+        - **Description:** Toggle minimap focus.
+        - **Arguments:** None
 
 
 USAGE EXAMPLES ~
@@ -520,13 +508,13 @@ To turn on the minimap globally:
 To disable the minimap for the current buffer:
 
 >vim
-    :Neominimap bufOff
+    :Neominimap BufOff
 <
 
 To refresh the minimap for windows 3 and 4:
 
 >vim
-    :Neominimap winRefresh 3 4
+    :Neominimap WinRefresh 3 4
 <
 
 
