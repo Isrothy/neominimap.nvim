@@ -650,6 +650,8 @@ To refresh the minimap for windows 3 and 4:
     - **Description:** Toggle focus between the minimap and the main editor window.
     - **Arguments:** None
 
+</details>
+
 ### Migration Guide
 
 <details>
