@@ -569,7 +569,7 @@ To refresh the minimap for windows 3 and 4:
     - **Description:** Refresh the minimap buffers for specified buffers.
     - **Arguments:** None (defaults to current buffer), or an integer or a list of buffer numbers
 
-  - `require('neominimap').buf_enabled(bufnr)`
+  - `require('neominimap').buf.enabled(bufnr)`
 
     - **Description:** Check if the minimap is enabled for specified buffers.
     - **Arguments:** A buffer number. If no buffer is specified, check for the
