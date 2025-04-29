@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.13.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.12.2...v3.13.0) (2025-04-29)
+
+
+### Features
+
+* Better handler api ([41c6108](https://github.com/Isrothy/neominimap.nvim/commit/41c61081e48381e781c369fcd9c4283e7f6b3415))
+
+
+### Bug Fixes
+
+* Use pcall to safely load external dependencies ([2be105c](https://github.com/Isrothy/neominimap.nvim/commit/2be105c74d0a2576de49a70eddff5a32cf6f0ede))
+* Use pcall to safely load external dependencies ([632ebf0](https://github.com/Isrothy/neominimap.nvim/commit/632ebf0bc5f07ecc54ce02b52f70733892f20f2a))
+
 ## [3.12.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.12.1...v3.12.2) (2025-04-26)
 
 
