@@ -20,8 +20,16 @@ local config = require("neominimap.config")
 
 ---@alias Neominimap.Map.Handler.Autocmd.Callback fun(apply: fun(bufnr:integer), args: any)
 
----@class Neominimap.Map.Handler.Autocmd.Keyset : vim.api.keyset.create_autocmd
----@field callback Neominimap.Map.Handler.Autocmd.Callback
+---@class Neominimap.Map.Handler.Autocmd.Keyset
+---@field pattern? string|string[]
+---@field desc? string
+---If callback is set, then get_buffers is ignored
+---@field callback? Neominimap.Map.Handler.Autocmd.Callback
+---@field get_buffers? fun(data:vim.api.keyset.create_autocmd.callback_args): integer[] | integer
+
+---@class Neominimap.Map.Handler.Autocmd
+---@field event string|string[]
+---@field opts Neominimap.Map.Handler.Autocmd.Keyset
 
 ---@alias Neominimap.Handler.Apply fun(bufnr: integer, mbufnr: integer, namespace: integer, annotations: Neominimap.Map.Handler.Annotation[])
 
@@ -50,15 +58,35 @@ M.create_autocmds = function(group)
     vim.tbl_map(function(handler)
         ---@param autocmd {event: string|string[], opts: Neominimap.Map.Handler.Autocmd.Keyset}
         vim.tbl_map(function(autocmd)
-            ---@type Neominimap.Map.Handler.Autocmd.Keyset
-            local opts = vim.tbl_extend("force", autocmd.opts or {}, { group = group })
-            local callback = opts.callback
-            opts.callback = function(args)
-                callback(function(bufnr)
-                    require("neominimap.buffer").apply_handler(bufnr, handler.name)
-                end, args)
+            local opts = autocmd.opts
+            ---@type fun(args: vim.api.keyset.create_autocmd.callback_args): boolean?
+            local callback = function(args)
+                vim.schedule(function()
+                    local apply = require("neominimap.buffer").apply_handler
+                    if opts.callback then
+                        opts.callback(function(bufnr)
+                            apply(bufnr, handler.name)
+                        end, args)
+                    else
+                        local target = opts.get_buffers(args)
+                        local logger = require("neominimap.logger")
+                        logger.log.trace("Applying handler {} to buffer(s) %s", handler.name, vim.inspect(target))
+                        if type(target) == "table" then
+                            vim.tbl_map(function(bufnr)
+                                apply(bufnr, handler.name)
+                            end, target)
+                        else
+                            apply(target, handler.name)
+                        end
+                    end
+                end)
             end
-            api.nvim_create_autocmd(autocmd.event, opts)
+            api.nvim_create_autocmd(autocmd.event, {
+                group = group,
+                pattern = opts.pattern,
+                desc = opts.desc,
+                callback = callback,
+            })
         end, handler.autocmds)
     end, handlers)
 end

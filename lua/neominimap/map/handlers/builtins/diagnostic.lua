@@ -58,20 +58,6 @@ local icon_list = {
     config.diagnostic.icon.HINT,
 }
 
----@type Neominimap.Map.Handler.Autocmd.Callback
-M.on_diagnostic_changed = function(apply, args)
-    local logger = require("neominimap.logger")
-    logger.log.trace("DiagnosticChanged event triggered.")
-    vim.schedule(function()
-        logger.log.trace("Updating diagnostics.")
-        local util = require("neominimap.util")
-        util.for_all_buffers(function(bufnr)
-            apply(bufnr)
-        end)
-        logger.log.trace("Diagnostics updated.")
-    end)
-end
-
 ---@param bufnr integer
 ---@return Neominimap.Map.Handler.Annotation[]
 M.get_annotations = function(bufnr)

@@ -13,8 +13,9 @@ return {
                 opts = {
                     pattern = "GitSignsUpdate",
                     desc = "Update git annotations when git signs are updated",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.git").on_gitsigns_update(apply, args)
+                    get_buffers = function(args)
+                        ---@type integer
+                        return tonumber(args.data.buffer)
                     end,
                 },
             },
@@ -34,8 +35,9 @@ return {
                 opts = {
                     pattern = "MiniDiffUpdated",
                     desc = "Update mini diff annotations when mini diff signs are updated",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.mini_diff").on_mini_diff_update(apply, args)
+                    get_buffers = function(args)
+                        ---@type integer
+                        return tonumber(args.data.buffer)
                     end,
                 },
             },
@@ -54,8 +56,8 @@ return {
                 event = "DiagnosticChanged",
                 opts = {
                     desc = "Update diagnostic annotations when diagnostics are changed",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.diagnostic").on_diagnostic_changed(apply, args)
+                    get_buffers = function(_)
+                        return api.nvim_list_bufs()
                     end,
                 },
             },
@@ -77,8 +79,8 @@ return {
                 event = "BufWinEnter",
                 opts = {
                     desc = "Update search annotations when entering window",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.search").on_buf_win_enter(apply, args)
+                    get_buffers = function(_)
+                        return api.nvim_get_current_buf()
                     end,
                 },
             },
@@ -86,8 +88,8 @@ return {
                 event = "TabEnter",
                 opts = {
                     desc = "Update search annotations when entering tab",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.search").on_tab_enter(apply, args)
+                    get_buffers = function(_)
+                        return require("neominimap.util").get_visible_buffers()
                     end,
                 },
             },
@@ -96,8 +98,8 @@ return {
                 opts = {
                     pattern = "Search",
                     desc = "Update search annotations when search event is triggered",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.search").on_search(apply, args)
+                    get_buffers = function(_)
+                        return require("neominimap.util").get_visible_buffers()
                     end,
                 },
             },
@@ -118,8 +120,8 @@ return {
                 event = "BufWinEnter",
                 opts = {
                     desc = "Update mark annotations when entering window",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.mark").on_buf_win_enter(apply, args)
+                    get_buffers = function(_)
+                        return api.nvim_get_current_buf()
                     end,
                 },
             },
@@ -127,8 +129,8 @@ return {
                 event = "TabEnter",
                 opts = {
                     desc = "Update marks annotations when entering tab",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.mark").on_tab_enter(apply, args)
+                    get_buffers = function(_)
+                        return require("neominimap.util").get_visible_buffers()
                     end,
                 },
             },
@@ -136,11 +138,9 @@ return {
                 event = "User",
                 opts = {
                     pattern = "Mark",
-                    group = "NeominimapMark",
                     desc = "Update marks annotations when mark event is triggered",
-                    callback = function(apply, args)
-                        local logger = require("neominimap.logger")
-                        require("neominimap.map.handlers.builtins.mark").on_mark(apply, args)
+                    get_buffers = function(_)
+                        return require("neominimap.util").get_visible_buffers()
                     end,
                 },
             },

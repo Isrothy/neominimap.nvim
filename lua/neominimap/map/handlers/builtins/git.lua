@@ -73,20 +73,4 @@ M.get_annotations = function(bufnr)
     return annotation
 end
 
----@type Neominimap.Map.Handler.Autocmd.Callback
-M.on_gitsigns_update = function(apply, args)
-    local logger = require("neominimap.logger")
-    logger.log.trace("GitSignsUpdate event triggered.")
-    vim.schedule(function()
-        logger.log.trace("Updating git signs.")
-        if not args.data or not args.data.buffer then
-            logger.log.warn("Buffer ID not found.")
-            return
-        end
-        local bufnr = tonumber(args.data.buffer) ---@cast bufnr integer
-        apply(bufnr)
-        logger.log.trace("Git signs updated.")
-    end)
-end
-
 return M
