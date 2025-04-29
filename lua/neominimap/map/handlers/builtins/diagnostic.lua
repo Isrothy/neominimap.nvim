@@ -62,14 +62,17 @@ local icon_list = {
 M.on_diagnostic_changed = function(apply, args)
     local logger = require("neominimap.logger")
     logger.log.trace("DiagnosticChanged event triggered.")
+    local bufnr = tonumber(args.buf)
+    if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+        return
+    end
+    local diagnostics = args.data.diagnostics
+    if config.diagnostic.use_event_diagnostics then
+        local var = require("neominimap.variables")
+        var.b[tonumber(bufnr)].diagnostics = diagnostics
+    end
     vim.schedule(function()
         logger.log.trace("Updating diagnostics.")
-        local bufnr = args.buf
-        local diagnostics = args.data.diagnostics
-        if config.diagnostic.use_event_diagnostics then
-            local var = require("neominimap.variables")
-            var.b[bufnr].diagnostics = diagnostics
-        end
         apply(bufnr)
         logger.log.trace("Diagnostics updated.")
     end)
