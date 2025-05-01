@@ -86,4 +86,13 @@ M.on_minimap_text_update = function(args)
     end)
 end
 
+M.on_colorscheme_changed = function(args)
+    local logger = require("neominimap.logger")
+    logger.log.trace("User Neominimap event triggered. pattern: Colorscheme")
+    vim.schedule(function()
+        require("neominimap.map.treesitter").clear_hl_cache()
+        require("neominimap.buffer.internal").refresh_all_minimap_buffers()
+    end)
+end
+
 return M
