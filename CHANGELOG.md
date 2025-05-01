@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.14.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.0...v3.14.1) (2025-05-01)
+
+
+### Bug Fixes
+
+* **treesitter:** Clear highlight cache when colorscheme changes ([0c0c096](https://github.com/Isrothy/neominimap.nvim/commit/0c0c096a13d0f9352cae749cdc8496292c2b560d))
+
 ## [3.14.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.13.0...v3.14.0) (2025-04-29)
 
 
