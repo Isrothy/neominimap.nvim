@@ -41,6 +41,10 @@ end
 ---@type table<string, string>
 local hl_cache = {}
 
+function M.clear_hl_cache()
+    hl_cache = {}
+end
+
 ---@param hl_group string
 ---@return string
 local get_or_create_hl_info = function(hl_group)
@@ -48,8 +52,8 @@ local get_or_create_hl_info = function(hl_group)
         return hl_cache[hl_group]
     end
     local hl_info = resolve_hl_link(hl_group)
-    local new_group = "Neominimap." .. hl_group
-    api.nvim_set_hl(0, new_group, { fg = hl_info.fg and string.format("#%06x", hl_info.fg), default = true })
+    local new_group = "_Neominimap." .. hl_group
+    api.nvim_set_hl(0, new_group, { fg = hl_info.fg and string.format("#%06x", hl_info.fg) })
     hl_cache[hl_group] = new_group
     return new_group
 end

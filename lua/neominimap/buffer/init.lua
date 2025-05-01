@@ -42,6 +42,13 @@ M.create_autocmds = function(group) -- To lazy load
             require("neominimap.buffer.autocmds").on_minimap_text_update(args)
         end,
     })
+
+    api.nvim_create_autocmd("Colorscheme", {
+        group = group,
+        callback = function()
+            require("neominimap.buffer.autocmds").on_colorscheme_changed()
+        end,
+    })
 end
 
 --- Return the minimap buffer number attached to the given buffer
