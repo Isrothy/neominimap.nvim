@@ -70,10 +70,6 @@ end
 ---@param bufnr integer
 ---@return Neominimap.BufferHighlight[]
 local get_buffer_highlights_co = function(bufnr)
-    local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
-    if not ok or not ts_utils then
-        return {}
-    end
     local co = require("neominimap.cooperative")
     local co_api = require("neominimap.cooperative.api")
     local highlights = {} ---@type Neominimap.BufferHighlight[]
@@ -90,9 +86,6 @@ local get_buffer_highlights_co = function(bufnr)
             end
         end)()
 
-        -- local logger = require("neominimap.logger")
-        -- logger.notify("Traversing " .. trees, vim.log.levels.DEBUG)
-
         co.for_in_co(pairs(trees))(100, function(_, tree) ---@cast tree TSTree
             local root = tree:root()
             local query = treesitter.query.get(parser:lang(), "highlights")
@@ -102,12 +95,11 @@ local get_buffer_highlights_co = function(bufnr)
             local iter = query:iter_captures(root, bufnr)
             co.for_in_co(iter)(5000, function(capture_id, node)
                 local hl_group = query.captures[capture_id]
-                local start_row, start_col, end_row, end_col =
-                    ts_utils.get_vim_range({ treesitter.get_node_range(node) }, bufnr)
+                local start_row, start_col, end_row, end_col = node:range()
                 highlights[#highlights + 1] = {
-                    start_row = start_row,
+                    start_row = start_row + 1,
                     start_col = start_col,
-                    end_row = end_row,
+                    end_row = end_row + 1,
                     end_col = end_col,
                     group = hl_group,
                     level = level,
