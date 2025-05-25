@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.14.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.1...v3.14.2) (2025-05-25)
+
+
+### Bug Fixes
+
+* ts_util not available on main branch of treesitter ([8eafa33](https://github.com/Isrothy/neominimap.nvim/commit/8eafa334a91125fb3b72e33a7e675962fa6c4047))
+* ts_util not available on main branch of treesitter ([c7a797f](https://github.com/Isrothy/neominimap.nvim/commit/c7a797fbe2d5e099f421bce79fa7172cb8db15ba))
+
 ## [3.14.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.0...v3.14.1) (2025-05-01)
 
 
