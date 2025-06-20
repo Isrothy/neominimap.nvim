@@ -75,10 +75,11 @@ body:
 
         require("lazy.minit").repro({
             spec = {
-            {
-                -- Add anything you need here (configuration, other plugins, etc)
-                "Isrothy/neominimap.nvim",
-            },
+                {
+                    -- Add anything you need here (configuration, other plugins, etc)
+                    "Isrothy/neominimap.nvim",
+                },
+            }
         })
       render: lua
     validations:
