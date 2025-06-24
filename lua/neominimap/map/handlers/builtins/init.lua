@@ -64,8 +64,8 @@ return {
                 event = "DiagnosticChanged",
                 opts = {
                     desc = "Update diagnostic annotations when diagnostics are changed",
-                    callback = function(apply, args)
-                        require("neominimap.map.handlers.builtins.diagnostic").on_diagnostic_changed(apply, args)
+                    get_buffers = function(args)
+                        return tonumber(args.buf)
                     end,
                 },
             },
