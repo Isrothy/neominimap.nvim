@@ -38,7 +38,7 @@ local check_treesitter = function(health)
         health.info("TreeSitter integration is enabled")
         if lualib_available("nvim-treesitter") then
             health.ok("TreeSitter is installed")
-            local parsers = require("nvim-treesitter.parsers").available_parsers()
+            local parsers = require("nvim-treesitter").get_available()
             if #parsers > 0 then
                 health.ok("TreeSitter parsers are installed: " .. table.concat(parsers, ", "))
             else
