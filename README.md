@@ -299,14 +299,6 @@ vim.g.neominimap = {
   diagnostic = {
     enabled = true, ---@type boolean
 
-    -- When enabled, diagnostics will be sourced directly from the DiagnosticChanged event,
-    -- meaning they will follow the settings from vim.diagnostic.config.
-    -- In this mode, the `severity` filter is ignored.
-    use_event_diagnostics = false, ---@type boolean
-
-    -- The `severity` option specifies which diagnostics to include based on their severity.
-    -- Note: This option is ignored when `use_event_diagnostics` is enabled.
-    --
     -- Allowed formats for the `severity` filter:
     -- 1. A single severity level:
     --      eg: severity = vim.diagnostic.severity.WARN

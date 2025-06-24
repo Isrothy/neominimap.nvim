@@ -51,7 +51,6 @@ local M = {}
 ---@class (exact) Neominimap.DiagnosticConfig
 ---@field enabled? boolean
 ---@field mode? Neominimap.Handler.Annotation.Mode
----@field use_event_diagnostics? boolean
 ---@field severity? vim.diagnostic.SeverityFilter
 ---@field priority? {ERROR?: integer, WARN?: integer, INFO?: integer, HINT?: integer}
 ---@field icon? {ERROR?: string, WARN?: string, INFO?: string, HINT?: string}
