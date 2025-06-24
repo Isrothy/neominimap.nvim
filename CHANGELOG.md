@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.14.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.2...v3.14.3) (2025-06-24)
+
+
+### Bug Fixes
+
+* Only show diagnostic from one source ([3d54bb6](https://github.com/Isrothy/neominimap.nvim/commit/3d54bb6d61d71db2d29ec75f77f8e774fe7f32c7))
+* Only show diagnostic from one source ([ee8978b](https://github.com/Isrothy/neominimap.nvim/commit/ee8978bc9abd8e5334941312590c0651c99fd624))
+
 ## [3.14.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.1...v3.14.2) (2025-05-25)
 
 
