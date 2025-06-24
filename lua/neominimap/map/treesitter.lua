@@ -149,8 +149,11 @@ M.extract_highlights_co = function(bufnr)
         return text.codepoints_pos(str, tabwidth)
     end, lines)
 
-    ---@type fun(row:integer, char_idx:integer):integer
+    ---@type fun(row:integer, char_idx:integer):integer?
     local char_idx_to_codepoint_idx = function(row, char_idx)
+        if code_point_list[row] == nil then
+            return nil
+        end
         local utf8_idx = text.byte_index_to_utf8_index(char_idx, utf8_pos_list[row])
         local code_point_idx = code_point_list[row][utf8_idx]
         return code_point_idx
@@ -179,10 +182,10 @@ M.extract_highlights_co = function(bufnr)
             if not hide then
                 local from = row == h.start_row and h.start_col or 1
                 local to = row == h.end_row and h.end_col or string.len(lines[row])
-                from = char_idx_to_codepoint_idx(row, from)
-                to = char_idx_to_codepoint_idx(row, to)
-                if from ~= nil and to ~= nil then
-                    for col = from, to do
+                local from_codepint = char_idx_to_codepoint_idx(row, from)
+                local to_codepint = char_idx_to_codepoint_idx(row, to)
+                if from_codepint ~= nil and to_codepint ~= nil then
+                    for col = from_codepint, to_codepint do
                         local mrow, mcol = coord.codepoint_to_mcodepoint(vrow, col)
                         if mcol > minimap_width then
                             break
