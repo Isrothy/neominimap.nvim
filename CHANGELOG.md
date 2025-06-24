@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.14.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.3...v3.14.4) (2025-06-24)
+
+
+### Bug Fixes
+
+* Breaking changes in treesitter api ([021b45d](https://github.com/Isrothy/neominimap.nvim/commit/021b45de94934efd4e4671927e553385e3ebdaef))
+* Breaking changes in treesitter api ([4314fc1](https://github.com/Isrothy/neominimap.nvim/commit/4314fc1075282e05f5a7c371a528c49ced67da4c))
+* NPE in line index ([42b8b63](https://github.com/Isrothy/neominimap.nvim/commit/42b8b63838b016db87c60192dd3a5610603fc292))
+
 ## [3.14.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.2...v3.14.3) (2025-06-24)
 
 
