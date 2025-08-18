@@ -85,13 +85,13 @@ local function set_current_line_by_percentage(winid, row)
     local win_h = M.win_get_true_height(winid)
     local bufnr = api.nvim_win_get_buf(winid)
     local line_cnt = api.nvim_buf_line_count(bufnr)
-    local topline = math.floor(row - (row * win_h) / line_cnt)
+    local topline = math.floor(row - (row * win_h) / line_cnt) + 1
     row = math.max(1, math.min(row, line_cnt))
     topline = math.max(1, math.min(topline, line_cnt))
     return function()
         local view = vim.fn.winsaveview()
         view.topline = topline
-        view.lnum = row - 1
+        view.lnum = row
         vim.fn.winrestview(view)
     end
 end
