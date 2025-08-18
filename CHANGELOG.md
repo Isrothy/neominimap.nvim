@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.15.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.4...v3.15.0) (2025-08-18)
+
+
+### Features
+
+* add percent-based current-line positioning ([b2e0d0c](https://github.com/Isrothy/neominimap.nvim/commit/b2e0d0ccbaa00831c11356cddf0e6338031f1b9c))
+
 ## [3.14.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.3...v3.14.4) (2025-06-24)
 
 
