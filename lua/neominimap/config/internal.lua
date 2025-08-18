@@ -53,6 +53,14 @@ local M = {
     -- How many rows a dot should span
     y_multiplier = 1, ---@type integer
 
+    ---@alias Neominimap.Config.CurrentLinePosition "center" | "percent"
+
+    --- How the minimap places the current line vertically.
+    --- `"center"`  -> pins the line to the viewport middle (window-relative).
+    --- `"percent"` -> maps line index / total lines to minimap height (file-relative).
+    --- Note: here "center" means the middle of the **minimap window**, not "center of the file".
+    current_line_position = "center", ---@type Neominimap.Config.CurrentLinePosition
+
     buffer = {
         -- When true, the minimap will be recreated when you delete the buffer.
         -- When false, the minimap will be disabled for the current buffer when you delete the minimap buffer.

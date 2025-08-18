@@ -60,7 +60,7 @@ local default_winopt = {
     signcolumn = "auto",
     number = false,
     relativenumber = false,
-    scrolloff = 0,
+    scrolloff = config.current_line_position == "center" and 99999 or 0,
     sidescrolloff = 0,
     winblend = 0,
     cursorline = true,
@@ -80,8 +80,8 @@ M.set_winopt = function(opt, winid)
 end
 
 ---@param winid integer
----@param row   integer
-local function set_line(winid, row)
+---@param row integer
+local function set_current_line_by_percentage(winid, row)
     local win_h = M.win_get_true_height(winid)
     local bufnr = api.nvim_win_get_buf(winid)
     local line_cnt = api.nvim_buf_line_count(bufnr)
@@ -90,7 +90,7 @@ local function set_line(winid, row)
     topline = math.max(1, math.min(topline, line_cnt))
     return function()
         local view = vim.fn.winsaveview()
-        view.topline = topline 
+        view.topline = topline
         view.lnum = row - 1
         vim.fn.winrestview(view)
     end
@@ -156,7 +156,13 @@ M.sync_to_source = function(swinid, mwinid)
     if row <= line_cnt then
         local util = require("neominimap.util")
         vim.schedule(function()
-            local ok = util.noautocmd(pcall)(api.nvim_win_call, mwinid, set_line(mwinid, row))
+            local ok = util.noautocmd(pcall)((function()
+                if config.current_line_position == "center" then
+                    return vim.api.nvim_win_set_cursor, mwinid, { row, 0 }
+                else
+                    return api.nvim_win_call, mwinid, set_current_line_by_percentage(mwinid, row)
+                end
+            end)())
             if not ok then
                 logger.log.error("Failed to set cursor")
             end
