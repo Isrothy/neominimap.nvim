@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.15.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.0...v3.15.1) (2025-08-18)
+
+
+### Bug Fixes
+
+* neominimap boundary line issue ([0d7d546](https://github.com/Isrothy/neominimap.nvim/commit/0d7d54696de301808fc92dc94d33dce047b4525b))
+* neominimap boundary line issue ([42e9e73](https://github.com/Isrothy/neominimap.nvim/commit/42e9e738827083a1052b18f6c026234a9eea774f))
+
 ## [3.15.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.14.4...v3.15.0) (2025-08-18)
 
 
