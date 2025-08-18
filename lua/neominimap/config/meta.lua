@@ -13,6 +13,7 @@ local M = {}
 ---@field x_multiplier? integer
 ---@field y_multiplier? integer
 ---@field sync_cursor? boolean
+---@field current_line_position?  Neominimap.Config.CurrentLinePosition
 ---@field buffer? Neominimap.BufferConfig
 ---@field layout? Neominimap.Config.LayoutType
 ---@field float? Neominimap.FloatConfig

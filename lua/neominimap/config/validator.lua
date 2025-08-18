@@ -93,6 +93,7 @@ M.validate_config = function(cfg)
         tab_filter = { cfg.tab_filter, "function" },
         x_multiplier = { cfg.x_multiplier, "number" },
         y_multiplier = { cfg.y_multiplier, "number" },
+        current_line_position = { cfg.current_line_position, "string" },
         sync_cursor = { cfg.sync_cursor, "boolean" },
         delay = { cfg.delay, "number" },
 
