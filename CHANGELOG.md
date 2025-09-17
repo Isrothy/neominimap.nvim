@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.15.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.1...v3.15.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* Safely warp set_current_line_by_percentage ([9a40328](https://github.com/Isrothy/neominimap.nvim/commit/9a40328226f01842770f09e1cb48bc092e006a38))
+
 ## [3.15.1](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.0...v3.15.1) (2025-08-18)
 
 
