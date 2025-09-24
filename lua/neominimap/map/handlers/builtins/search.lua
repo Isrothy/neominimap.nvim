@@ -75,6 +75,7 @@ local get_matches = function(bufnr)
         for lnum, line in ipairs(lines) do
             local ok, col = pcall(fn.match, line, pattern, 0)
             if ok and col ~= -1 then
+                lnum = lnum + (lnum % 4 == 0 and 0 or 1)
                 matches[#matches + 1] = lnum
             end
         end
@@ -97,8 +98,8 @@ M.get_annotations = function(bufnr)
     return vim.tbl_map(function(lnum)
         ---@type Neominimap.Map.Handler.Annotation[]
         return {
-            lnum = lnum + 1,
-            end_lnum = lnum + 1,
+            lnum = lnum,
+            end_lnum = lnum,
             priority = config.search.priority,
             id = 1,
             icon = config.search.icon,
