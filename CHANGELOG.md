@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.15.3](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.2...v3.15.3) (2025-09-24)
+
+
+### Bug Fixes
+
+* Incorrect line number of search decorators ([a7aaf0a](https://github.com/Isrothy/neominimap.nvim/commit/a7aaf0ad30e204838cd649f45447514f5bfbe282))
+
 ## [3.15.2](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.1...v3.15.2) (2025-09-17)
 
 
