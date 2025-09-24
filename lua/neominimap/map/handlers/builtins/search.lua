@@ -97,8 +97,8 @@ M.get_annotations = function(bufnr)
     return vim.tbl_map(function(lnum)
         ---@type Neominimap.Map.Handler.Annotation[]
         return {
-            lnum = lnum + 1,
-            end_lnum = lnum + 1,
+            lnum = lnum,
+            end_lnum = lnum,
             priority = config.search.priority,
             id = 1,
             icon = config.search.icon,
