@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.15.5](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.4...v3.15.5) (2026-02-21)
+
+
+### Bug Fixes
+
+* safe check winborder when its none or empty list ([d2ca5b9](https://github.com/Isrothy/neominimap.nvim/commit/d2ca5b94150611ea37ac1bbcd0b41069901e915b))
+* safe check winborder when its none or empty list ([4be57a6](https://github.com/Isrothy/neominimap.nvim/commit/4be57a6c9180aa059a5d311fd5d651cf496f5817))
+
 ## [3.15.4](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.3...v3.15.4) (2025-10-14)
 
 
