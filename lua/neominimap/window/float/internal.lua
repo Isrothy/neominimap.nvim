@@ -16,7 +16,7 @@ local get_minimap_height = function(winid)
     end
     local border = config.float.window_border
     if type(border) == "string" then
-        if border == "none" then
+        if border == "none" or border == "" then
             return minimap_window_height
         elseif border == "shadow" then
             return minimap_window_height - 1
@@ -24,6 +24,9 @@ local get_minimap_height = function(winid)
             return minimap_window_height - 2
         end
     else
+        if #border == 0 then
+            return minimap_window_height
+        end
         local char = function(n)
             local b = border[n]
             return type(b) == "string" and b or b[1]
