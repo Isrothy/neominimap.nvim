@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.15.6](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.5...v3.15.6) (2026-03-31)
+
+
+### Bug Fixes
+
+* **config:** border cannot be empty table ([4bafdc5](https://github.com/Isrothy/neominimap.nvim/commit/4bafdc543c9993686420374e31d6b4afdb5ad607))
+
 ## [3.15.5](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.4...v3.15.5) (2026-02-21)
 
 
