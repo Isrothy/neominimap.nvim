@@ -43,7 +43,7 @@ M.create_autocmds = function(group) -- To lazy load
         end,
     })
 
-    api.nvim_create_autocmd("Colorscheme", {
+    api.nvim_create_autocmd("ColorScheme", {
         group = group,
         callback = function()
             require("neominimap.buffer.autocmds").on_colorscheme_changed()

@@ -43,7 +43,7 @@ vim.on_key(function(key)
     end
 end)
 
-api.nvim_create_autocmd({ "CmdlineEnter", "CmdLineChanged", "CmdlineLeave" }, {
+api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineChanged", "CmdlineLeave" }, {
     group = api.nvim_create_augroup("NeominimapSearch", {}),
     callback = function()
         if require("neominimap.util").is_search_mode() then

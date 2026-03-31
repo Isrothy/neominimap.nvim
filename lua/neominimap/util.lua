@@ -110,15 +110,15 @@ end
 --- @param delay number
 --- @return F
 M.debounce = function(f, delay)
-    local timer = nil
+    local timer = vim.uv.new_timer()
+    assert(timer, "Failed to create uv timer")
     return function(...)
         local args = { ... }
-        if timer then
-            vim.uv.timer_stop(timer)
-        end
-        timer = vim.uv.new_timer()
-        vim.uv.timer_start(timer, delay, 0, function()
-            f(unpack(args))
+        timer:stop()
+        timer:start(delay, 0, function()
+            vim.schedule(function()
+                f(unpack(args))
+            end)
         end)
     end
 end
