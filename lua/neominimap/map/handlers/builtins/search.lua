@@ -38,8 +38,7 @@ local function get_pattern()
     if require("neominimap.util").is_search_mode() then
         return vim.fn.getcmdline()
     end
-    return vim.v.hlsearch == 1 and fn.getreg("/") --[[@as string]]
-        or ""
+    return vim.v.hlsearch == 1 and fn.getreg("/") or ""
 end
 
 --- @class Neominimap.Handlers.Search.CacheElem
