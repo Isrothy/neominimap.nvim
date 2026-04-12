@@ -1,0 +1,3 @@
+[*.{lua,sh,bash,zsh}]
+indent_style = space
+indent_size = 4
