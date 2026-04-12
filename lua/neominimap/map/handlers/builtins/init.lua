@@ -147,6 +147,15 @@ local mark_handler = {
                 end,
             },
         },
+        {
+            event = { "TextYankPost", "TextChanged", "TextChanged", "ModeChanged", "InsertLeave", "CursorMoved" },
+            opts = {
+                desc = "Update marks annotations when inplicit marks are set",
+                get_buffers = function(_)
+                    return require("neominimap.util").get_visible_buffers()
+                end,
+            },
+        },
     },
     get_annotations = function(bufnr)
         return require("neominimap.map.handlers.builtins.mark").get_annotation(bufnr)
