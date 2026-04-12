@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.16.0](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.6...v3.16.0) (2026-04-12)
+
+
+### Features
+
+* support events when inplicit marks are set ([7eb8976](https://github.com/Isrothy/neominimap.nvim/commit/7eb89769602a054917e41cff8d7c1a6d2b3b4577))
+* use neovim0.12 mark event ([e6481f8](https://github.com/Isrothy/neominimap.nvim/commit/e6481f8bf9306b6e50bb2da9e1c723fe3c9988ea))
+
 ## [3.15.6](https://github.com/Isrothy/neominimap.nvim/compare/v3.15.5...v3.15.6) (2026-03-31)
 
 
