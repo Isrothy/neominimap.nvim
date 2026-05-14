@@ -162,6 +162,11 @@ M.validate_config = function(cfg)
         fold = { cfg.fold, "table" },
         ["fold.enabled"] = { cfg.fold.enabled, "boolean" },
 
+        viewport = { cfg.viewport, "table" },
+        ["viewport.enabled"] = { cfg.viewport.enabled, "boolean" },
+        ["viewport.priority"] = { cfg.viewport.priority, "number" },
+        ["viewport.hl_group"] = { cfg.viewport.hl_group, "string" },
+
         winopt = { cfg.winopt, { "table", "function" } },
         bufopt = { cfg.bufopt, { "table", "function" } },
 

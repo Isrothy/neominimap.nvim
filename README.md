@@ -395,6 +395,14 @@ vim.g.neominimap = {
         enabled = true, ---@type boolean
     },
 
+    viewport = {
+        -- Highlight the visible source range on the minimap.
+        -- Only supported when layout == "float".
+        enabled = false, ---@type boolean
+        priority = 5, ---@type integer
+        hl_group = "NeominimapViewport", ---@type string
+    },
+
     --- Override the default window options
     ---@param opt vim.wo
     ---@param winid integer the window id of the source window, NOT the minimap window
@@ -989,6 +997,7 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
 | `NeominimapCursorLineNr`   | To replace `CursorLineNr` in minimaps.     |
 | `NeominimapCursorLineSign` | To replace `CursorLineSign` in minimaps.   |
 | `NeominimapCursorLineFold` | To replace `CursorLineFold` in minimaps.   |
+| `NeominimapViewport`       | Visible source range overlay on the minimap. (float only) |
 
 ### Highlight Groups of Diagnostic Annotations
 
@@ -1086,11 +1095,10 @@ Checkout the wiki page for more details. [wiki](https://github.com/Isrothy/neomi
   Use [satellite.nvim](https://github.com/lewis6991/satellite.nvim),
   [nvim-scrollview](https://github.com/dstein64/nvim-scrollview)
   or other plugins.
-- Display screen bounds like
-  [codewindow.nvim](https://github.com/gorbit99/codewindow.nvim).
-  For performance, this plugin creates a minimap buffer for each buffer.
-  Since a screen bound is a windowwise thing,
-  it's not impossible to display them by highlights.
+- Display screen bounds in split layout.
+  Viewport overlay is supported in float layout.
+  For split layout, the minimap is shared across all windows in a tab,
+  making window-wise viewport display infeasible.
 
 ## Limitations
 
