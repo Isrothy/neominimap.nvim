@@ -8,6 +8,7 @@ api.nvim_set_hl(0, "NeominimapCursorLine", { link = "CursorLine", default = true
 api.nvim_set_hl(0, "NeominimapCursorLineSign", { link = "CursorLineSign", default = true })
 api.nvim_set_hl(0, "NeominimapCursorLineNr", { link = "CursorLineSign", default = true })
 api.nvim_set_hl(0, "NeominimapCursorLineFold", { link = "CursorLineSign", default = true })
+api.nvim_set_hl(0, "NeominimapViewport", { link = "Visual", default = true })
 
 ---@class Neominimap.Window
 ---@field create_autocmds fun(group: string | integer)

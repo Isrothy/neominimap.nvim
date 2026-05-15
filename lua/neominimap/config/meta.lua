@@ -27,6 +27,7 @@ local M = {}
 ---@field search? Neominimap.SearchConfig
 ---@field mark? Neominimap.MarkConfig
 ---@field fold? Neominimap.FoldConfig
+---@field viewport? Neominimap.ViewportConfig
 ---@field winopt? fun(opt: vim.wo, winid: integer)
 ---@field bufopt? fun(opt: vim.bo, bufnr: integer)
 ---@field handler? Neominimap.Map.Handler[]
@@ -91,6 +92,11 @@ local M = {}
 
 ---@class (exact) Neominimap.FoldConfig
 ---@field enabled? boolean
+
+---@class (exact) Neominimap.ViewportConfig
+---@field enabled? boolean
+---@field priority? integer
+---@field hl_group? string
 
 ---@type Neominimap.UserConfig | fun():Neominimap.UserConfig | nil
 vim.g.neominimap = vim.g.neominimap

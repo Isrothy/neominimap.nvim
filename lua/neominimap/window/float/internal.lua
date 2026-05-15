@@ -184,6 +184,7 @@ M.close_minimap_window = function(winid)
     logger.log.trace("Attempting to close minimap for window %d", winid)
     if mwinid and api.nvim_win_is_valid(mwinid) then
         logger.log.trace("Deleting minimap window %d", mwinid)
+        require("neominimap.window.viewport").clear(mwinid)
         local util = require("neominimap.util")
         util.noautocmd(api.nvim_win_close)(mwinid, true)
         return mwinid
@@ -242,6 +243,8 @@ M.refresh_minimap_window = function(winid)
 
     M.reset_mwindow_cursor_line(winid)
 
+    require("neominimap.window.viewport").refresh(winid, mwinid)
+
     logger.log.trace("Minimap for window %d refreshed", winid)
     return mwinid
 end
@@ -294,6 +297,23 @@ M.reset_mwindow_cursor_line = function(winid)
     require("neominimap.window.util").sync_to_source(winid, mwinid)
     logger.log.trace("Cursor line reset for minimap of window %d", winid)
     return true
+end
+
+--- Called when minimap buffer text is updated.
+--- Refreshes cursor line and viewport overlay without reconfiguring the window.
+---@param winid integer
+M.on_minimap_buffer_text_changed = function(winid)
+    local logger = require("neominimap.logger")
+    local window_map = require("neominimap.window.float.window_map")
+    logger.log.trace("Handling minimap buffer text change for window %d", winid)
+    local mwinid = window_map.get_minimap_winid(winid)
+    if not mwinid or not api.nvim_win_is_valid(mwinid) then
+        logger.log.trace("Minimap window is not valid for %d", winid)
+        return
+    end
+    require("neominimap.window.util").sync_to_source(winid, mwinid)
+    require("neominimap.window.viewport").refresh(winid, mwinid)
+    logger.log.trace("Minimap buffer text change handled for window %d", winid)
 end
 
 ---@param mwinid integer

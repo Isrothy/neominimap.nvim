@@ -205,6 +205,12 @@ local M = {
         enabled = true, ---@type boolean
     },
 
+    viewport = {
+        enabled = false, ---@type boolean
+        priority = 5, ---@type integer
+        hl_group = "NeominimapViewport", ---@type string
+    },
+
     --- Override the default window options
     ---@param opt vim.wo
     ---@param winid integer the window id of the source window, NOT the minimap window

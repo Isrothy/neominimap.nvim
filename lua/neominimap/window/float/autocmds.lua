@@ -46,12 +46,16 @@ M.on_win_closed = function(args)
         return
     end
     local window_map = require("neominimap.window.float.window_map")
-    if window_map.is_minimap_window(winid) and not config.float.persist then
-        logger.log.trace("This is a minimap window. Close minimap for current window")
-        local var = require("neominimap.variables")
-        local swinid = window_map.get_parent_winid(winid)
-        if swinid then
-            var.w[swinid].enabled = false
+    if window_map.is_minimap_window(winid) then
+        logger.log.trace("This is a minimap window. Clearing viewport for %d", winid)
+        require("neominimap.window.viewport").clear(winid)
+        if not config.float.persist then
+            logger.log.trace("Close minimap for current window")
+            local var = require("neominimap.variables")
+            local swinid = window_map.get_parent_winid(winid)
+            if swinid then
+                var.w[swinid].enabled = false
+            end
         end
     end
     vim.schedule(function()
@@ -149,9 +153,9 @@ M.on_minimap_buffer_text_changed = function(args)
     local win_list = require("neominimap.util").get_attached_window(bufnr)
     vim.schedule(function()
         for _, winid in ipairs(win_list) do
-            logger.log.trace("Resetting cursor line for window %d.", winid)
-            require("neominimap.window.float.internal").reset_mwindow_cursor_line(winid)
-            logger.log.trace("Cursor line reset for window %d.", winid)
+            logger.log.trace("Handling minimap buffer text change for window %d.", winid)
+            require("neominimap.window.float.internal").on_minimap_buffer_text_changed(winid)
+            logger.log.trace("Minimap buffer text change handled for window %d.", winid)
         end
     end)
 end
